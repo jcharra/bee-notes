@@ -1,0 +1,7 @@
+{
+  "name": "beetracker-ionic",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
