@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Swarms
+      Volk
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,14 +9,14 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Swarms</ion-title>
+      <ion-title size="large">Volk {{ (swarm$ | async).name }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
     <ion-list>
-      <ion-item *ngFor="let swarm of swarms$ | async">
-        <ion-label [routerLink]="['/swarms/' + swarm.id]">{{ swarm.name }}</ion-label>
+      <ion-item *ngFor="let entry of journalEntries">
+        <ion-label [routerLink]="['journal', entry.id]">Eintrag vom {{ entry.date }}</ion-label>
       </ion-item>
     </ion-list>
   </div>
