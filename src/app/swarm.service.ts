@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import {Observable, of, empty} from "rxjs";
+import { Injectable } from "@angular/core";
+import { Observable, of, empty } from "rxjs";
 
 export interface Swarm {
   id: string,
@@ -30,7 +30,7 @@ export class SwarmService {
   }
 
   getSwarm(id: string): Observable<Swarm> {
-    let swarms = this.swarms.filter(s => s.id === id);
+    const swarms = this.swarms.filter(s => s.id === id);
     return swarms.length === 1 ? of(swarms[0]) : empty();
   }
 }

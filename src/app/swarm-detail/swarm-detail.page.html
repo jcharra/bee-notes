@@ -1,9 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>swarm-detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Volk "{{ (swarm$ | async).name }}"</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-item *ngFor="let entry of journalEntries$ | async">
+      <ion-label [routerLink]="['journal', entry.id]">Eintrag vom {{ entry.date }}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

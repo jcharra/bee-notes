@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Observable, of} from "rxjs";
+import { Observable, of } from 'rxjs';
 
 export interface JournalEntry {
-  id: string,
-  title: string,
-  text: string,
-  date: Date
+  id: string;
+  title: string;
+  text: string;
+  date: Date;
 }
 
 @Injectable({
