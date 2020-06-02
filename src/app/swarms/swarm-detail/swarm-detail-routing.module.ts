@@ -1,5 +1,3 @@
-import { JournalPageRoutingModule } from './../journal/journal-routing.module';
-import { JournalPage } from './../journal/journal.page';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -9,14 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: SwarmDetailPage
-  }, {
+  },
+  {
     path: 'journal',
-    loadChildren: () => import('../journal/journal.module').then(m => m.JournalPageModule)
+    loadChildren: () =>
+      import('./swarm-journal/swarm-journal.module').then(
+        m => m.SwarmJournalPageModule
+      )
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class SwarmDetailPageRoutingModule { }
+export class SwarmDetailPageRoutingModule {}

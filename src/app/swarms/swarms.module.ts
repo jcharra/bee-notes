@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { JournalPageRoutingModule } from './journal-routing.module';
+import { SwarmsPageRoutingModule } from './swarms-routing.module';
 
-import { JournalPage } from './journal.page';
+import { SwarmsPage } from './swarms.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    JournalPageRoutingModule
+    SwarmsPageRoutingModule
   ],
-  declarations: [JournalPage]
+  declarations: [SwarmsPage]
 })
-export class JournalPageModule {}
+export class SwarmsPageModule {}

@@ -10,9 +10,13 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let entry of journalEntries$ | async">
-      <ion-label [routerLink]="['journal', entry.id]">Eintrag vom {{ entry.date }}</ion-label>
+      <ion-label [routerLink]="['journal', entry.id]"
+        >Eintrag vom {{ entry.date }}</ion-label
+      >
     </ion-item>
   </ion-list>
 
-  <ion-button color="primary" [routerLink]="['journal', 'create']">+ Neuer Eintrag</ion-button>
+  <ion-button color="primary" [routerLink]="['journal', 'create']"
+    >+ Neuer Eintrag</ion-button
+  >
 </ion-content>

@@ -1,16 +1,15 @@
-import { NgModule } from "@angular/core";
-import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-  }, {
-    path: 'swarm-detail/:id',
-    loadChildren: () => import('./swarm-detail/swarm-detail.module').then(m => m.SwarmDetailPageModule)
-  }, {
+    path: 'swarms',
+    loadChildren: () =>
+      import('./swarms/swarms.module').then(m => m.SwarmsPageModule)
+  },
+  {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'swarms',
     pathMatch: 'full'
   }
 ];
@@ -21,5 +20,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

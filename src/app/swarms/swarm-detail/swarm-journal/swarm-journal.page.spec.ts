@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { JournalEditComponent } from './journal-edit.component';
+import { SwarmJournalPage } from './swarm-journal.page';
 
-describe('JournalEditComponent', () => {
-  let component: JournalEditComponent;
-  let fixture: ComponentFixture<JournalEditComponent>;
+describe('SwarmJournalPage', () => {
+  let component: SwarmJournalPage;
+  let fixture: ComponentFixture<SwarmJournalPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ JournalEditComponent ],
+      declarations: [ SwarmJournalPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(JournalEditComponent);
+    fixture = TestBed.createComponent(SwarmJournalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
