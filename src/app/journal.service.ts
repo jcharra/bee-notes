@@ -1,8 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface JournalEntry {
-  id: string;
+  id?: string;
+  swarmId: string;
   title: string;
   text: string;
   date: Date;
@@ -13,24 +16,30 @@ export interface JournalEntry {
 })
 export class JournalService {
 
-  entries: JournalEntry[] = [
-    {
-      id: '1',
-      title: 'Königin gecheckt',
-      text: 'Heut die Königin gesichtet',
-      date: new Date(2020, 1, 1)
-    }, {
-      id: '2',
-      title: 'Viel Honig drin',
-      text: '10 Waben voll ... bald schleudern!',
-      date: new Date(2020, 4, 1)
-    }
-  ];
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
+  getEntries(swarmId: string): Observable<JournalEntry[]> {
+    return this.http
+      .get<{ [key: string]: any }>('https://beetracker-6865b.firebaseio.com/journal.json')
+      .pipe(map(data => { 
+        const entries = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key) && data[key].swarmId === swarmId) { 
+            entries.push({
+              id: key,
+              swarmId: data[key].swarmId,
+              title: data[key].title,
+              text: data[key].text,
+              date: new Date(data[key].date)
+            });
+          }
+        }
+        return entries;
+      }));
+  }
 
-
-  getEntries(id: string): Observable<JournalEntry[]> {
-    return of(this.entries);
+  saveEntry(entry: JournalEntry): Observable<any> { 
+    return this.http
+      .post('https://beetracker-6865b.firebaseio.com/journal.json', entry);
   }
 }

@@ -3,20 +3,23 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Volk "{{ (swarm$ | async)?.name }}"</ion-title>
+    <ion-title>Volk "{{ swarm?.name }}"</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  Letzte Aktivität:
   <ion-list>
-    <ion-item *ngFor="let entry of journalEntries$ | async">
-      <ion-label [routerLink]="['journal', entry.id]"
-        >Eintrag vom {{ entry.date }}</ion-label
-      >
+    <ion-item *ngFor="let entry of journalEntries">
+      <ion-label>{{ entry.date | date:'dd.MM.'}} {{ entry.title }}</ion-label>
     </ion-item>
   </ion-list>
 
-  <ion-button color="primary" [routerLink]="['journal', 'create']"
+  <ion-button color="secondary" routerLink="journal">
+    Journal anzeigen
+  </ion-button>
+
+  <ion-button color="primary" (click)="createEntry()"
     >+ Neuer Eintrag</ion-button
   >
 </ion-content>
