@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Swarm, SwarmService } from '../swarm.service';
 import { AlertController } from '@ionic/angular';
 
@@ -9,7 +9,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./swarms.page.scss']
 })
 export class SwarmsPage implements OnInit {
-  swarms$: Observable<Swarm[]>;
+  swarms: Swarm[];
 
   constructor(
     private swarmService: SwarmService,
@@ -17,7 +17,11 @@ export class SwarmsPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.swarms$ = this.swarmService.getSwarms();
+    this.swarmService
+      .getSwarms()
+      .subscribe((s: Swarm[]) => { 
+        this.swarms = s;
+      });
   }
 
   async createSwarm() {
@@ -41,7 +45,18 @@ export class SwarmsPage implements OnInit {
           text: 'Anlegen',
           handler: value => {
             if (value.name.trim()) {
-              this.swarmService.createSwarm(value.name);
+
+              let newSwarm: Swarm = {
+                name: value.name.trim(),
+                created: new Date()
+              };
+
+              this.swarmService
+                .createSwarm(newSwarm)
+                .subscribe((result: { name: string }) => { 
+                  newSwarm.id = result.name;
+                  this.swarms.push(newSwarm);
+                });
             }
           }
         }

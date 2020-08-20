@@ -15,7 +15,7 @@
 
   <div id="container">
     <ion-list>
-      <ion-item *ngFor="let swarm of swarms$ | async">
+      <ion-item *ngFor="let swarm of swarms">
         <ion-label [routerLink]="['view', swarm.id]">{{
           swarm.name
         }}</ion-label>
