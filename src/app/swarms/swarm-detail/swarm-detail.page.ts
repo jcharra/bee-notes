@@ -17,8 +17,7 @@ export class SwarmDetailPage implements OnInit {
   constructor(
     private swarmService: SwarmService,
     private journalService: JournalService,
-    private route: ActivatedRoute,
-    private alertCtrl: AlertController
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -30,57 +29,9 @@ export class SwarmDetailPage implements OnInit {
       });
     
     this.journalService
-      .getEntries(id)
+      .getEntries(id, 3)
       .subscribe((entries: JournalEntry[]) => { 
         this.journalEntries = entries;
       });
-  }
-
-  async createEntry() {
-    const alert = await this.alertCtrl.create({
-      header: 'Neuer Eintrag',
-      message: 'Was hast Du heute für dieses Volk gemacht?',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Kurzfassung'
-        }, {
-          name: 'text',
-          type: 'text',
-          placeholder: 'Beschreibung'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Abbrechen',
-          role: 'cancel',
-          cssClass: 'secondary'
-        },
-        {
-          text: 'Anlegen',
-          handler: value => {
-            if (value.title.trim()) {
-
-              let newEntry: JournalEntry = {
-                swarmId: this.swarm.id,
-                title: value.title.trim(),
-                text: value.text.trim(),
-                date: new Date()
-              };
-
-              this.journalService
-                .saveEntry(newEntry)
-                .subscribe((result: { name: string }) => { 
-                  newEntry.id = result.name;
-                  this.journalEntries.push(newEntry);
-                });
-            }
-          }
-        }
-      ]
-    });
-
-    await alert.present();
   }
 }

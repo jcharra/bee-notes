@@ -12,9 +12,21 @@
     <ion-item *ngFor="let entry of journalEntries">
       <ion-label>
         {{ entry.date | date:'dd.MM.'}} {{ entry.title }}
-        <br>
+        <br />
         {{ entry.text }}
       </ion-label>
+      <ion-buttons slot="end">
+      <ion-button (click)="editEntry(entry)">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteEntry(entry)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     </ion-item>
   </ion-list>
+
+  <ion-button color="primary" (click)="editEntry()">
+    + Neuer Eintrag
+  </ion-button>
 </ion-content>
