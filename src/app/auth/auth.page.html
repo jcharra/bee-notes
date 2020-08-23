@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isSignup ? 'Sign up' : 'Login' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="loginForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating">E-Mail</ion-label>
+              <ion-input formControlName="email"
+                type="email"
+                placeholder="Your email address"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Password</ion-label>
+              <ion-input formControlName="password"
+                type="password"
+                placeholder="Your password"
+              ></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button [disabled]="!loginForm.valid" color="primary" expand="full" (click)="onLogin()"
+            >{{ isSignup ? 'Sign up' : 'Login'}}</ion-button
+          >
+
+          <ion-button
+            color="primary"
+            fill="clear"
+            expand="full"
+            (click)="isSignup = !isSignup"
+          >
+            Switch to {{ isSignup ? 'Login' : 'Signup' }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
