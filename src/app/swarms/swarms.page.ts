@@ -1,5 +1,5 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 import { Swarm, SwarmService } from '../swarm.service';
 import { AlertController } from '@ionic/angular';
 
@@ -10,13 +10,15 @@ import { AlertController } from '@ionic/angular';
 })
 export class SwarmsPage implements OnInit {
   swarms: Swarm[];
+  userId: string;
 
   constructor(
     private swarmService: SwarmService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.swarmService
       .getSwarms()
       .subscribe((s: Swarm[]) => { 

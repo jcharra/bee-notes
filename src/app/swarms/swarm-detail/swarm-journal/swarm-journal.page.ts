@@ -64,7 +64,6 @@ export class SwarmJournalPage implements OnInit {
             if (value.title.trim()) {
 
               let _entry: JournalEntry = {
-                swarmId: this.swarmId,
                 title: value.title.trim(),
                 text: value.text.trim(),
                 date: parse(value.date, 'yyyy-MM-dd', new Date())

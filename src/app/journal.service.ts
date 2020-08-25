@@ -1,11 +1,11 @@
+import { AuthService } from './auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 export interface JournalEntry {
   id?: string;
-  swarmId: string;
   title: string;
   text: string;
   date: Date;
@@ -15,43 +15,75 @@ export interface JournalEntry {
   providedIn: 'root'
 })
 export class JournalService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private authService: AuthService) { }
 
   getEntries(swarmId: string, limit: number = -1): Observable<JournalEntry[]> {
-    return this.http
-      .get<{ [key: string]: any }>('https://beetracker-6865b.firebaseio.com/journal.json')
-      .pipe(map(data => { 
-        const entries: JournalEntry[] = [];
-        for (const key in data) {
-          if (data.hasOwnProperty(key) && data[key].swarmId === swarmId) { 
-            entries.push({
-              id: key,
-              swarmId: data[key].swarmId,
-              title: data[key].title,
-              text: data[key].text,
-              date: new Date(data[key].date)
-            });
-          }
+    return this.authService
+      .user
+      .pipe(switchMap(user => {
+        if (!user) {
+          throw new Error('No user found');
         }
 
-        entries.sort((a, b) => { return a.date > b.date ? 1 : -1});
+        return this.http
+          .get<{ [key: string]: any }>(`https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal.json?auth=${user.token}`)
+          .pipe(map(data => {
+            const entries: JournalEntry[] = [];
+            for (const key in data) {
+              if (data.hasOwnProperty(key)) {
+                entries.push({
+                  id: key,
+                  title: data[key].title,
+                  text: data[key].text,
+                  date: new Date(data[key].date)
+                });
+              }
+            }
 
-        return limit > -1 ? entries.splice(0, limit) : entries;
+            entries.sort((a, b) => { return a.date > b.date ? 1 : -1 });
+
+            return limit > -1 ? entries.splice(0, limit) : entries;
+          }));
       }));
   }
 
-  createEntry(entry: JournalEntry): Observable<any> { 
-    return this.http
-      .post('https://beetracker-6865b.firebaseio.com/journal.json', entry);
+  createEntry(entry: JournalEntry): Observable<any> {
+    return this.authService
+      .user
+      .pipe(switchMap(user => {
+        if (!user) {
+          throw new Error('No user found');
+        }
+
+        return this.http
+          .post(`https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal.json?auth=${user.token}`, entry);
+      }));
   }
 
   updateEntry(entry: JournalEntry) {
-    return this.http
-      .put('https://beetracker-6865b.firebaseio.com/journal/' + entry.id + '.json', entry);
+    return this.authService
+      .user
+      .pipe(switchMap(user => {
+        if (!user) {
+          throw new Error('No user found');
+        }
+
+        return this.http
+          .put(`https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal/${entry.id}.json?auth=${user.token}`, entry);
+      }));
   }
 
   deleteEntry(id: string) {
-    return this.http
-      .delete('https://beetracker-6865b.firebaseio.com/journal/' + id + '.json');
+    return this.authService
+      .user
+      .pipe(switchMap(user => {
+        if (!user) {
+          throw new Error('No user found');
+        }
+
+        return this.http
+          .delete(`https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal/${id}.json?auth=${user.token}`);
+      }));
   }
 }

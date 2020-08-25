@@ -1,3 +1,4 @@
+import { UserResolver } from './../auth/auth.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -10,6 +11,9 @@ const routes: Routes = [
   },
   {
     path: 'view/:id',
+    resolve: {
+      userId: UserResolver
+    },
     loadChildren: () =>
       import('./swarm-detail/swarm-detail.module').then(
         m => m.SwarmDetailPageModule

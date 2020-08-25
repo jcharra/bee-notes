@@ -13,6 +13,7 @@ import { AlertController } from '@ionic/angular';
 export class SwarmDetailPage implements OnInit {
   swarm: Swarm;
   journalEntries: JournalEntry[];
+  userId: string;
 
   constructor(
     private swarmService: SwarmService,
@@ -22,6 +23,8 @@ export class SwarmDetailPage implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
+    this.userId = this.route.snapshot.data.userId;
+
     this.swarmService
       .getSwarm(id)
       .subscribe((s: Swarm) => { 
