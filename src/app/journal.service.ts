@@ -48,7 +48,7 @@ export class JournalService {
       }));
   }
 
-  createEntry(entry: JournalEntry): Observable<any> {
+  createEntry(swarmId: string, entry: JournalEntry): Observable<any> {
     return this.authService
       .user
       .pipe(switchMap(user => {
@@ -61,7 +61,7 @@ export class JournalService {
       }));
   }
 
-  updateEntry(entry: JournalEntry) {
+  updateEntry(swarmId: string, entry: JournalEntry) {
     return this.authService
       .user
       .pipe(switchMap(user => {
@@ -74,7 +74,7 @@ export class JournalService {
       }));
   }
 
-  deleteEntry(id: string) {
+  deleteEntry(swarmId: string, id: string) {
     return this.authService
       .user
       .pipe(switchMap(user => {

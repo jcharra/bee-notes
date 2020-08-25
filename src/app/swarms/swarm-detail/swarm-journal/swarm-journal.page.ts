@@ -71,7 +71,7 @@ export class SwarmJournalPage implements OnInit {
 
               if (!entry) {
                 this.journalService
-                  .createEntry(_entry)
+                  .createEntry(this.swarmId, _entry)
                   .subscribe((result: { name: string }) => { 
                     _entry.id = result.name;
                     this.journalEntries.push(_entry);
@@ -79,7 +79,7 @@ export class SwarmJournalPage implements OnInit {
               } else {
                 _entry.id = entry.id;
                 this.journalService
-                  .updateEntry(_entry)
+                  .updateEntry(this.swarmId, _entry)
                   .subscribe(() => { 
                     this.loadEntries();
                   });
@@ -108,7 +108,7 @@ export class SwarmJournalPage implements OnInit {
           cssClass: 'danger',
           handler: () => { 
             this.journalService
-              .deleteEntry(entry.id)
+              .deleteEntry(this.swarmId, entry.id)
               .subscribe(() => { 
                 this.loadEntries();
               });

@@ -11,9 +11,6 @@ const routes: Routes = [
   },
   {
     path: 'view/:id',
-    resolve: {
-      userId: UserResolver
-    },
     loadChildren: () =>
       import('./swarm-detail/swarm-detail.module').then(
         m => m.SwarmDetailPageModule
