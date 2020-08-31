@@ -14,10 +14,13 @@
       <ion-select placeholder="Action type">
         <ion-select-option
           *ngFor="let option of typeOptions"
+          name="actionType"
           [value]="option"
           >{{ option }}</ion-select-option
         >
       </ion-select>
-    </ion-item>    
+    </ion-item>
   </ion-list>
+
+  <ion-button (click)="showValue()"> OK </ion-button>
 </ion-content>
