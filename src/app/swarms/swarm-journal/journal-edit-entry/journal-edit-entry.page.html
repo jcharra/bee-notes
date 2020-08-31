@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ entryId ? 'Edit' : 'New' }} entry</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Action type</ion-label>
+      <ion-select placeholder="Action type">
+        <ion-select-option
+          *ngFor="let option of typeOptions"
+          [value]="option"
+          >{{ option }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>    
+  </ion-list>
+</ion-content>

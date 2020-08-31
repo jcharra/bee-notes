@@ -16,7 +16,7 @@
         {{ entry.text }}
       </ion-label>
       <ion-buttons slot="end">
-      <ion-button (click)="editEntry(entry)">
+      <ion-button routerLink="edit" [queryParams]="{entryId: entry.id}">
         <ion-icon name="create-outline"></ion-icon>
       </ion-button>
       <ion-button (click)="deleteEntry(entry)">
@@ -26,7 +26,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button color="primary" (click)="editEntry()">
+  <ion-button color="primary" routerLink="edit">
     + Neuer Eintrag
   </ion-button>
 </ion-content>

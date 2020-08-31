@@ -7,6 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: SwarmJournalPage
+  }, {
+    path: 'edit',
+    loadChildren: () =>
+      import('./journal-edit-entry/journal-edit-entry.module').then(
+        m => m.JournalEditEntryPageModule
+      )
   }
 ];
 

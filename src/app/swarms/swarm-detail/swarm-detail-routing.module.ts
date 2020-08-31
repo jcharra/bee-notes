@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'journal',
     loadChildren: () =>
-      import('./swarm-journal/swarm-journal.module').then(
+      import('../swarm-journal/swarm-journal.module').then(
         m => m.SwarmJournalPageModule
       )
   }

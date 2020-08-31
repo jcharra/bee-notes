@@ -4,11 +4,29 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
+export enum EntryType {
+  VARROA_CHECK_START = 'Varroa check start',
+  VARROA_CHECK_END = 'Varroa check end',
+  VARROA_TREATMENT = 'Varroa treatment',
+  HARVEST = 'Harvest',
+  QUEEN_SPOTTED = 'Queen spotted',
+  QUEEN_ADDED = 'Queen added',
+  QUEEN_DECEASED = 'Queen deceased',
+  EGGS_SPOTTED = 'Eggs spotted',
+  DRONE_FRAME_ADDED = 'Drone frames added',
+  DRONE_FRAME_REMOVED = 'Drone frames removed',
+  CENTER_PANELS_ADDED = 'Center panels added',
+  FRAMES_REMOVED = 'Frames removed',
+  BROOD_COUNT = 'Brood count'
+}
+
 export interface JournalEntry {
   id?: string;
   title: string;
   text: string;
   date: Date;
+  type?: EntryType;
+  metadata?: any;
 }
 
 @Injectable({

@@ -8,18 +8,29 @@
 </ion-header>
 
 <ion-content>
-  Letzte Aktivität:
+  <ion-label class="ion-padding">
+    Letzte Aktivität:
+  </ion-label>
   <ion-list>
     <ion-item *ngFor="let entry of journalEntries">
       <ion-label>{{ entry.date | date:'dd.MM.'}} {{ entry.title }}</ion-label>
     </ion-item>
   </ion-list>
 
-<ion-button class="imgbutton">
-  <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
-</ion-button>
-
   <ion-button color="secondary" routerLink="journal">
-    Journal anzeigen
+    Ganzes Journal anzeigen
   </ion-button>
+
+  <br>
+
+  <ion-button class="imgbutton" routerLink="journal/edit" [queryParams]="{type: 'varroa'}">
+    <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
+  </ion-button>
+  <ion-button class="imgbutton" routerLink="journal/edit" [queryParams]="{type: 'queen'}">
+    <ion-img src="assets/img/crown.jpeg"></ion-img>
+  </ion-button>
+  <ion-button class="imgbutton" routerLink="journal/edit" [queryParams]="{type: 'frames'}">
+    <ion-img src="assets/img/wabe.jpeg"></ion-img>
+  </ion-button>
+  
 </ion-content>
