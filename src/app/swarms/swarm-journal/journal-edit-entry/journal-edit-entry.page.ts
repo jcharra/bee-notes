@@ -1,6 +1,7 @@
 import { EntryType } from './../../../journal.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-journal-edit-entry',
@@ -12,17 +13,29 @@ export class JournalEditEntryPage implements OnInit {
   type: string;
   typeOptions: EntryType[];
   actionType: EntryType;
+  entryForm: FormGroup;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+    private formBuilder: FormBuilder) {
+    this.entryForm = this.formBuilder.group({
+      actionType: [null, Validators.required]
+    });
+  }
+
+  logForm() {
+    console.log(this.entryForm.value);
+  }
 
   ngOnInit() {
     this.entryId = this.route.snapshot.queryParams.entryId;
     this.type = this.route.snapshot.queryParams.type;
 
     const options: EntryType[] = [];
-    for (const k: string of Object.keys(EntryType)) {
+    for (const k of Object.keys(EntryType)) {
       const et = EntryType[k];
-      options.push(et);
+      if (!this.type || et.toString().toLowerCase().indexOf(this.type) > -1) {
+        options.push(et);
+      }      
     }
     this.typeOptions = options;
   }
