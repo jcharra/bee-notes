@@ -18,11 +18,13 @@ export class JournalEditEntryPage implements OnInit {
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
     this.entryForm = this.formBuilder.group({
-      actionType: [null, Validators.required]
+      actionType: [null, Validators.required],
+      date: [null, Validators.required],
+      comment: ['null']
     });
   }
 
-  logForm() {
+  save() {
     console.log(this.entryForm.value);
   }
 

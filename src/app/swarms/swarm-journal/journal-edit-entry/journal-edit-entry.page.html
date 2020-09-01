@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="entryForm" (ngSubmit)="logForm()">
+  <form [formGroup]="entryForm">
     <ion-list>
       <ion-item>
         <ion-label>Action type</ion-label>
@@ -22,8 +22,25 @@
           >
         </ion-select>
       </ion-item>
+      <ion-item>
+        <ion-label>
+          Date
+        </ion-label>  
+        <ion-datetime 
+          formControlName="date"
+          displayFormat="DD.MMM YYYY" 
+          placeholder="Select Date">
+        </ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Comment</ion-label>
+        <ion-textarea 
+          formControlName="comment"
+          placeholder="Optional comment">
+        </ion-textarea>
+      </ion-item>
     </ion-list>
 
-    <ion-button type="submit" (click)="logForm()"> OK </ion-button>
+    <ion-button type="submit" (click)="save()"> Save </ion-button>
   </form>
 </ion-content>
