@@ -19,7 +19,7 @@ export class SwarmJournalPage implements OnInit {
     private alertCtrl: AlertController) { }
 
   ngOnInit() {
-    this.swarmId = this.route.snapshot.params.id;
+    this.swarmId = this.route.snapshot.params.swarmId;
     this.loadEntries();
   }
 

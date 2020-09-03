@@ -11,7 +11,7 @@
   <ion-list>
     <ion-item *ngFor="let entry of journalEntries">
       <ion-label>
-        {{ entry.date | date:'dd.MM.'}} {{ entry.title }}
+        {{ entry.date | date:'dd.MM.'}} {{ entry.type }} (Legacy title: {{ entry.title }})
         <br />
         {{ entry.text }}
       </ion-label>

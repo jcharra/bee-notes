@@ -22,17 +22,17 @@ export class SwarmDetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.params.id;
+    const swarmId = this.route.snapshot.params.swarmId;
     this.userId = this.route.snapshot.data.userId;
 
     this.swarmService
-      .getSwarm(id)
+      .getSwarm(swarmId)
       .subscribe((s: Swarm) => { 
         this.swarm = s;
       });
     
     this.journalService
-      .getEntries(id, 3)
+      .getEntries(swarmId, 3)
       .subscribe((entries: JournalEntry[]) => { 
         this.journalEntries = entries;
       });

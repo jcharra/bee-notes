@@ -10,7 +10,7 @@ const routes: Routes = [
     component: SwarmsPage
   },
   {
-    path: 'view/:id',
+    path: 'view/:swarmId',
     loadChildren: () =>
       import('./swarm-detail/swarm-detail.module').then(
         m => m.SwarmDetailPageModule

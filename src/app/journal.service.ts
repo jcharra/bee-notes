@@ -18,11 +18,12 @@ export enum EntryType {
   CENTER_PANELS_ADDED = 'Center panels added',
   FRAMES_REMOVED = 'Frames removed',
   BROOD_COUNT = 'Brood count',
+  FOOD_ADDED = 'Food added'
 }
 
 export interface JournalEntry {
   id?: string;
-  title: string;
+  title?: string;
   text: string;
   date: Date;
   type?: EntryType;
@@ -35,6 +36,29 @@ export interface JournalEntry {
 export class JournalService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
+  getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
+    return this.authService.user.pipe(
+      switchMap((user) => {
+        if (!user) {
+          throw new Error('No user found');
+        }
+
+        return this.http
+          .get<{ [key: string]: any }>(
+            `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal/${entryId}.json?auth=${user.token}`
+          )
+          .pipe(map(entry => { 
+            return {
+              id: entry.id,
+              title: entry.title,
+              text: entry.text,
+              type: entry.type,
+              date: new Date(entry.date),
+            }
+          }));
+      }));  
+  }
+  
   getEntries(swarmId: string, limit: number = -1): Observable<JournalEntry[]> {
     return this.authService.user.pipe(
       switchMap((user) => {
@@ -55,13 +79,14 @@ export class JournalService {
                     id: key,
                     title: data[key].title,
                     text: data[key].text,
+                    type: data[key].type,
                     date: new Date(data[key].date),
                   });
                 }
               }
 
               entries.sort((a, b) => {
-                return a.date > b.date ? 1 : -1;
+                return a.date < b.date ? 1 : -1;
               });
 
               return limit > -1 ? entries.splice(0, limit) : entries;
