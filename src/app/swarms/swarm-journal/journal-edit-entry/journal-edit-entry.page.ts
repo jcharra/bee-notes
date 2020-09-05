@@ -61,7 +61,7 @@ export class JournalEditEntryPage implements OnInit {
     this.entryForm = this.formBuilder.group({
       actionType: [null, Validators.required],
       date: [null, Validators.required],
-      text: ['null']
+      text: [null]
     });
 
     if (this.entryId) {
@@ -70,7 +70,7 @@ export class JournalEditEntryPage implements OnInit {
         .subscribe((entry: JournalEntry) => { 
           this.entryForm.controls.actionType.setValue(entry.type ? entry.type.toString() : null);
           this.entryForm.controls.date.setValue(entry.date);
-          this.entryForm.controls.text.setValue(entry.text);
+          this.entryForm.controls.text.setValue(entry.text || '');
         });
     }
   }

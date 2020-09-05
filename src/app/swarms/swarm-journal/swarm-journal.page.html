@@ -3,19 +3,20 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+    <ion-fab-button color="primary" routerLink="edit">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+</ion-buttons>
     <ion-title>Journal</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button color="primary" routerLink="edit">
-    + Neuer Eintrag
-  </ion-button>
-
   <ion-list>
-    <ion-item *ngFor="let entry of journalEntries">
-      <ion-label>
-        {{ entry.date | date:'dd.MM.'}} {{ entry.type }} (Legacy title: {{ entry.title }})
+    <ion-item *ngFor="let entry of journalEntries; let idx = index">
+      <ion-label [ngClass]="{'lastEntry': idx === 0}">
+        {{ entry.date | date:'dd.MM.'}} {{ entry.type }}
         <br />
         {{ entry.text }}
       </ion-label>
