@@ -20,6 +20,9 @@ export class SwarmJournalPage implements OnInit {
 
   ngOnInit() {
     this.swarmId = this.route.snapshot.params.swarmId;
+  }
+
+  ionViewDidEnter() {
     this.loadEntries();
   }
 

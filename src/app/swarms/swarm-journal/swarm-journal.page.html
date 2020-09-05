@@ -8,6 +8,10 @@
 </ion-header>
 
 <ion-content>
+  <ion-button color="primary" routerLink="edit">
+    + Neuer Eintrag
+  </ion-button>
+
   <ion-list>
     <ion-item *ngFor="let entry of journalEntries">
       <ion-label>
@@ -25,8 +29,4 @@
     </ion-buttons>
     </ion-item>
   </ion-list>
-
-  <ion-button color="primary" routerLink="edit">
-    + Neuer Eintrag
-  </ion-button>
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { JournalEntry, JournalService } from 'src/app/journal.service';
 import { EntryType } from './../../../journal.service';
 
@@ -19,19 +20,28 @@ export class JournalEditEntryPage implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private journalService: JournalService) {
+    private journalService: JournalService,
+    private navCtrl: NavController) {
     
   }
 
   save() {
-    console.log(this.entryForm.value);
-    this.journalService
-      .createEntry(this.swarmId, {
-        type: this.entryForm.get('actionType').value,
-        date: this.entryForm.get('date').value,
-        text: this.entryForm.get('comment').value
-      })
-      .subscribe(() => console.log('Saved'));
+    const entry: JournalEntry = {
+      type: this.entryForm.get('actionType').value,
+      date: this.entryForm.get('date').value,
+      text: this.entryForm.get('text').value
+    };
+
+    if (this.entryId) {
+      entry.id = this.entryId;
+      this.journalService
+        .updateEntry(this.swarmId, entry)
+        .subscribe(this.onSuccessfullySaved.bind(this));
+    } else {
+      this.journalService
+        .createEntry(this.swarmId, entry)
+        .subscribe(this.onSuccessfullySaved.bind(this));
+    }    
   }
 
   ngOnInit() {
@@ -63,5 +73,9 @@ export class JournalEditEntryPage implements OnInit {
           this.entryForm.controls.text.setValue(entry.text);
         });
     }
+  }
+
+  onSuccessfullySaved() {
+    this.navCtrl.back();
   }
 }
