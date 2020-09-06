@@ -1,7 +1,6 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Swarm, SwarmService } from '../swarm.service';
 import { AlertController } from '@ionic/angular';
+import { Swarm, SwarmService } from '../swarm.service';
 
 @Component({
   selector: 'app-swarms',
@@ -14,14 +13,13 @@ export class SwarmsPage implements OnInit {
 
   constructor(
     private swarmService: SwarmService,
-    private alertCtrl: AlertController,
-    private route: ActivatedRoute
-  ) {}
+    private alertCtrl: AlertController
+  ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.swarmService
       .getSwarms()
-      .subscribe((s: Swarm[]) => { 
+      .subscribe((s: Swarm[]) => {
         this.swarms = s;
       });
   }
@@ -55,7 +53,7 @@ export class SwarmsPage implements OnInit {
 
               this.swarmService
                 .createSwarm(newSwarm)
-                .subscribe((result: { name: string }) => { 
+                .subscribe((result: { name: string }) => {
                   newSwarm.id = result.name;
                   this.swarms.push(newSwarm);
                 });

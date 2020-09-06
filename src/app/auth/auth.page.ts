@@ -1,6 +1,8 @@
+import { parse } from 'date-fns';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 import { LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AuthService, AuthResponseData } from './auth.service';
@@ -26,6 +28,16 @@ export class AuthPage implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
     });
+
+    // Prepopulate email field if possible
+    Plugins.Storage
+      .get({ key: 'authData' })
+      .then((data: any) => { 
+        if (data && data.value) {
+          const parsedData = JSON.parse(data.value);
+          this.loginForm.get('email').setValue(parsedData.email);
+        }
+      })    
   }
 
   onLogin() {
