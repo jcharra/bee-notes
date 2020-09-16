@@ -23,12 +23,10 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label>
-          Date
-        </ion-label>
+        <ion-label> Date </ion-label>
         <ion-datetime
           formControlName="date"
-          displayFormat="DD.MMM YYYY"
+          displayFormat="DD. MMM YYYY"
           placeholder="Select Date"
         >
         </ion-datetime>
@@ -40,6 +38,8 @@
       </ion-item>
     </ion-list>
 
-    <ion-button [disabled]="!entryForm.valid" type="submit" (click)="save()"> Save </ion-button>
+    <ion-button [disabled]="!entryForm.valid" type="submit" (click)="save()">
+      Save
+    </ion-button>
   </form>
 </ion-content>

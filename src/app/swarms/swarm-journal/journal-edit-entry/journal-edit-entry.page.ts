@@ -22,7 +22,7 @@ export class JournalEditEntryPage implements OnInit {
     private formBuilder: FormBuilder,
     private journalService: JournalService,
     private navCtrl: NavController) {
-    
+
   }
 
   save() {
@@ -41,7 +41,7 @@ export class JournalEditEntryPage implements OnInit {
       this.journalService
         .createEntry(this.swarmId, entry)
         .subscribe(this.onSuccessfullySaved.bind(this));
-    }    
+    }
   }
 
   ngOnInit() {
@@ -60,17 +60,19 @@ export class JournalEditEntryPage implements OnInit {
 
     this.entryForm = this.formBuilder.group({
       actionType: [null, Validators.required],
-      date: [null, Validators.required],
-      text: [null]
+      date: [new Date().toISOString(), Validators.required],
+      text: ['']
     });
 
     if (this.entryId) {
       this.journalService
         .getEntry(this.swarmId, this.entryId)
-        .subscribe((entry: JournalEntry) => { 
+        .subscribe((entry: JournalEntry) => {
           this.entryForm.controls.actionType.setValue(entry.type ? entry.type.toString() : null);
-          this.entryForm.controls.date.setValue(entry.date);
           this.entryForm.controls.text.setValue(entry.text || '');
+          if (entry.date) {
+            this.entryForm.controls.date.setValue(new Date(entry.date).toISOString());
+          }
         });
     }
   }

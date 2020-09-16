@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Swarm, SwarmService } from '../swarm.service';
 
 @Component({
@@ -13,15 +13,27 @@ export class SwarmsPage implements OnInit {
 
   constructor(
     private swarmService: SwarmService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    public loadingController: LoadingController
   ) { }
 
-  ngOnInit(): void {
+  async loadSwarms() {
+    const loading = await this.loadingController.create({
+      message: 'Loading swarms...',
+      showBackdrop: true
+    });
+    await loading.present();
+
     this.swarmService
       .getSwarms()
       .subscribe((s: Swarm[]) => {
         this.swarms = s;
+        loading.dismiss();
       });
+  }
+
+  ngOnInit(): void {
+    this.loadSwarms();
   }
 
   async createSwarm() {

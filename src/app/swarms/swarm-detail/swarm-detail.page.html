@@ -8,29 +8,41 @@
 </ion-header>
 
 <ion-content>
-  <ion-label class="ion-padding">
-    Letzte Aktivität:
-  </ion-label>
+  <ion-button
+    class="imgbutton"
+    routerLink="journal/edit"
+    [queryParams]="{type: 'varroa'}"
+  >
+    <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
+  </ion-button>
+  <ion-button
+    class="imgbutton"
+    routerLink="journal/edit"
+    [queryParams]="{type: 'queen'}"
+  >
+    <ion-img src="assets/img/crown.jpeg"></ion-img>
+  </ion-button>
+  <ion-button
+    class="imgbutton"
+    routerLink="journal/edit"
+    [queryParams]="{type: 'frames'}"
+  >
+    <ion-img src="assets/img/wabe.jpeg"></ion-img>
+  </ion-button>
+
+  <ion-label class="ion-padding"> Letzte Aktivität: </ion-label>
   <ion-list>
     <ion-item *ngFor="let entry of journalEntries">
       <ion-label>{{ entry.date | date:'dd.MM.'}} {{ entry.type }}</ion-label>
     </ion-item>
   </ion-list>
 
-  <ion-button color="secondary" routerLink="journal">
-    Ganzes Journal anzeigen
-  </ion-button>
-
-  <br>
-
-  <ion-button class="imgbutton" routerLink="journal/edit" [queryParams]="{type: 'varroa'}">
-    <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
-  </ion-button>
-  <ion-button class="imgbutton" routerLink="journal/edit" [queryParams]="{type: 'queen'}">
-    <ion-img src="assets/img/crown.jpeg"></ion-img>
-  </ion-button>
-  <ion-button class="imgbutton" routerLink="journal/edit" [queryParams]="{type: 'frames'}">
-    <ion-img src="assets/img/wabe.jpeg"></ion-img>
-  </ion-button>
-  
+  <ion-buttons>
+    <ion-fab-button slot="start" color="primary" routerLink="journal">
+      <ion-icon name="list-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button slot="end" color="primary" routerLink="journal/edit">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-buttons>
 </ion-content>
