@@ -1,6 +1,8 @@
+import { JournalService, JournalEntry } from 'src/app/journal.service';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Swarm, SwarmService } from '../swarm.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-swarms',
@@ -10,9 +12,11 @@ import { Swarm, SwarmService } from '../swarm.service';
 export class SwarmsPage implements OnInit {
   swarms: Swarm[];
   userId: string;
+  lastAction: Map<string, JournalEntry> = new Map();
 
   constructor(
     private swarmService: SwarmService,
+    private journalService: JournalService,
     private alertCtrl: AlertController,
     public loadingController: LoadingController
   ) { }
@@ -24,12 +28,27 @@ export class SwarmsPage implements OnInit {
     });
     await loading.present();
 
+    this.swarms = [];
+
     this.swarmService
       .getSwarms()
-      .subscribe((s: Swarm[]) => {
+      .pipe(map((s: Swarm[]) => {
         this.swarms = s;
+
+        this.swarms
+          .forEach(sw => {
+            this.journalService
+              .getEntries(sw.id, 1)
+              .subscribe((e: JournalEntry[]) => {
+                if (e && e.length > 0) {
+                  this.lastAction.set(sw.id, e[0]);
+                } 
+              });
+          });
+        
         loading.dismiss();
-      });
+      }))
+      .subscribe();
   }
 
   ngOnInit(): void {

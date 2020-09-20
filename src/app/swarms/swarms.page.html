@@ -18,7 +18,12 @@
       <ion-item *ngFor="let swarm of swarms">
         <ion-label [routerLink]="['view', swarm.id]">{{
           swarm.name
-        }}</ion-label>
+        }}
+        <span class="small-preview" *ngIf="lastAction.get(swarm.id) as action">
+          <br>
+          {{ action.type + (action.text ? ' (' + action.text + ')' : '') }}
+        </span>
+      </ion-label>
       </ion-item>
     </ion-list>
 
