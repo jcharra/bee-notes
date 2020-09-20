@@ -1,6 +1,6 @@
 import { JournalService, JournalEntry } from 'src/app/journal.service';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { Swarm, SwarmService } from '../swarm.service';
 import { map } from 'rxjs/operators';
 
@@ -18,18 +18,20 @@ export class SwarmsPage implements OnInit {
     private swarmService: SwarmService,
     private journalService: JournalService,
     private alertCtrl: AlertController,
-    public loadingController: LoadingController
+    private loadingController: LoadingController,
+    private navController: NavController
   ) { }
 
-  async loadSwarms() {
+  async loadSwarms(withSpinner: boolean = true) {
     const loading = await this.loadingController.create({
       message: 'Loading swarms...',
       showBackdrop: true
     });
-    await loading.present();
 
-    this.swarms = [];
-
+    if (withSpinner) {
+      await loading.present();
+    }
+    
     this.swarmService
       .getSwarms()
       .pipe(map((s: Swarm[]) => {
@@ -46,7 +48,7 @@ export class SwarmsPage implements OnInit {
               });
           });
         
-        loading.dismiss();
+        withSpinner && loading.dismiss();
       }))
       .subscribe();
   }
@@ -56,28 +58,32 @@ export class SwarmsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadSwarms();
+    this.loadSwarms(!this.swarms || this.swarms.length === 0);
+  }
+
+  openSwarmDetail(swarmId: string) {
+    this.navController.navigateForward('/swarms/view/' + swarmId);
   }
 
   async createSwarm() {
     const alert = await this.alertCtrl.create({
-      header: 'Neues Volk',
-      message: 'Wie soll das Volk heißen?',
+      header: 'New swarm',
+      message: 'Give your swarm a name',
       inputs: [
         {
           name: 'name',
           type: 'text',
-          placeholder: 'Wähle einen Namen'
+          placeholder: 'Choose name'
         }
       ],
       buttons: [
         {
-          text: 'Abbrechen',
+          text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary'
         },
         {
-          text: 'Anlegen',
+          text: 'Add swarm',
           handler: value => {
             if (value.name.trim()) {
 

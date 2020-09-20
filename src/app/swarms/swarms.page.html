@@ -14,7 +14,7 @@
   <div id="container">
     <ion-list>
       <ng-container *ngFor="let swarm of swarms">
-        <ion-item [routerLink]="['view', swarm.id]">
+        <ion-item (tap)="openSwarmDetail(swarm.id)" (click)="openSwarmDetail(swarm.id)">
           <ion-label>
             {{ swarm.name }}
             <span
@@ -31,7 +31,7 @@
 
     <ion-button class="ion-float-right" (click)="createSwarm()">
       <ion-icon name="add-outline" slot="start"></ion-icon>
-      Neues Volk anlegen
+      Add new swarm
     </ion-button>
   </div>
 </ion-content>
