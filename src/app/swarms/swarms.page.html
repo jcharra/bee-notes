@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title>
-      Swarms
-    </ion-title>
+    <ion-title> Swarms </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -15,16 +13,20 @@
 
   <div id="container">
     <ion-list>
-      <ion-item *ngFor="let swarm of swarms">
-        <ion-label [routerLink]="['view', swarm.id]">{{
-          swarm.name
-        }}
-        <span class="small-preview" *ngIf="lastAction.get(swarm.id) as action">
-          <br>
-          {{ action.type + (action.text ? ' (' + action.text + ')' : '') }}
-        </span>
-      </ion-label>
-      </ion-item>
+      <ng-container *ngFor="let swarm of swarms">
+        <ion-item [routerLink]="['view', swarm.id]">
+          <ion-label>
+            {{ swarm.name }}
+            <span
+              class="small-preview"
+              *ngIf="lastAction.get(swarm.id) as action"
+            >
+              <br />
+              {{ action.type + (action.text ? ' (' + action.text + ')' : '') }}
+            </span>
+          </ion-label>
+        </ion-item>
+      </ng-container>
     </ion-list>
 
     <ion-button class="ion-float-right" (click)="createSwarm()">

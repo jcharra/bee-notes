@@ -52,6 +52,10 @@ export class SwarmsPage implements OnInit {
   }
 
   ngOnInit(): void {
+    
+  }
+
+  ionViewDidEnter() {
     this.loadSwarms();
   }
 
