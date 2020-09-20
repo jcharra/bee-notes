@@ -28,3 +28,28 @@
 .ion-invalid.ion-touched ion-label {
     color: --ion-color-danger;
 }
+
+:root {
+    --ion-color-primary: #ffce57;
+    --ion-color-primary-rgb: 0,102,0;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255,255,255;
+    --ion-color-primary-shade: #005a00;
+    --ion-color-primary-tint: #1a751a;
+  }
+
+ion-content {
+    --background: none;
+}
+
+body {
+    background: url(/assets/img/honey-bees.jpg) no-repeat center/cover fixed;
+}
+
+ion-header {
+    opacity: 0.8;
+}
+
+ion-content {
+    opacity: 0.9;
+}
