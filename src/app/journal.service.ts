@@ -1,3 +1,4 @@
+import { JournalEntry } from 'src/app/journal.service';
 import { AuthService } from './auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -45,7 +46,7 @@ export class JournalService {
 
         return this.http
           .get<{ [key: string]: any }>(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/${entryId}.json?auth=${user.token}`
+            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${entryId}.json?auth=${user.token}`
           )
           .pipe(map(entry => { 
             return {
@@ -59,7 +60,7 @@ export class JournalService {
       }));  
   }
   
-  getEntries(swarmId: string, limit: number = -1): Observable<JournalEntry[]> {
+  getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
     return this.authService.user.pipe(
       switchMap((user) => {
         if (!user) {
@@ -68,14 +69,15 @@ export class JournalService {
 
         return this.http
           .get<{ [key: string]: any }>(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}.json?auth=${user.token}`
+            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries.json?auth=${user.token}&limitToLast=${limit}&orderBy="date"`
           )
           .pipe(
             map((data) => {
               const entries: JournalEntry[] = [];
               for (const key in data) {
                 if (data.hasOwnProperty(key)) {
-                  entries.push({
+                  // use unshift, since entries are returned in inversed order
+                  entries.unshift({
                     id: key,
                     title: data[key].title,
                     text: data[key].text,
@@ -104,7 +106,7 @@ export class JournalService {
         }
 
         return this.http.post(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}.json?auth=${user.token}`,
+          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries.json?auth=${user.token}`,
           entry
         );
       })
@@ -119,7 +121,7 @@ export class JournalService {
         }
 
         return this.http.put(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/${entry.id}.json?auth=${user.token}`,
+          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${entry.id}.json?auth=${user.token}`,
           entry
         );
       })
@@ -134,9 +136,25 @@ export class JournalService {
         }
 
         return this.http.delete(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/${id}.json?auth=${user.token}`
+          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${id}.json?auth=${user.token}`
         );
       })
     );
+  }
+
+  migrateToEntries(swarmId: string, entries: JournalEntry[]) {
+    this.authService.user.subscribe(
+      user => {
+        if (!user) {
+          throw new Error('No user found');
+        }
+
+        entries.forEach(e => { 
+          return this.http.put(
+            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${e.id}.json?auth=${user.token}`,
+            e
+          ).subscribe();
+        });        
+      });
   }
 }
