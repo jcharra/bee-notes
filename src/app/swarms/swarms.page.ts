@@ -31,7 +31,7 @@ export class SwarmsPage implements OnInit {
     if (withSpinner) {
       await loading.present();
     }
-    
+
     this.swarmService
       .getSwarms()
       .pipe(map((s: Swarm[]) => {
@@ -40,21 +40,26 @@ export class SwarmsPage implements OnInit {
         this.swarms
           .forEach(sw => {
             this.journalService
-              .getEntries(sw.id, 1)
+              .getEntries(sw.id, 100)
               .subscribe((e: JournalEntry[]) => {
                 if (e && e.length > 0) {
                   this.lastAction.set(sw.id, e[0]);
-                } 
+                }
               });
           });
-        
+
         withSpinner && loading.dismiss();
       }))
       .subscribe();
   }
 
   ngOnInit(): void {
-    
+
+  }
+
+  migrateJournal() {
+    // put migrations here
+    console.log('no migration');
   }
 
   ionViewDidEnter() {
@@ -67,8 +72,8 @@ export class SwarmsPage implements OnInit {
 
   async createSwarm() {
     const alert = await this.alertCtrl.create({
-      header: 'New swarm',
-      message: 'Give your swarm a name',
+      header: 'New colony',
+      message: 'Give your colony a name',
       inputs: [
         {
           name: 'name',
@@ -83,7 +88,7 @@ export class SwarmsPage implements OnInit {
           cssClass: 'secondary'
         },
         {
-          text: 'Add swarm',
+          text: 'Add colony',
           handler: value => {
             if (value.name.trim()) {
 

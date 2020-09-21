@@ -45,7 +45,7 @@ export class JournalService {
 
         return this.http
           .get<{ [key: string]: any }>(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal/${entryId}.json?auth=${user.token}`
+            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/${entryId}.json?auth=${user.token}`
           )
           .pipe(map(entry => { 
             return {
@@ -68,7 +68,7 @@ export class JournalService {
 
         return this.http
           .get<{ [key: string]: any }>(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal.json?auth=${user.token}`
+            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}.json?auth=${user.token}`
           )
           .pipe(
             map((data) => {
@@ -104,7 +104,7 @@ export class JournalService {
         }
 
         return this.http.post(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal.json?auth=${user.token}`,
+          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}.json?auth=${user.token}`,
           entry
         );
       })
@@ -119,7 +119,7 @@ export class JournalService {
         }
 
         return this.http.put(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal/${entry.id}.json?auth=${user.token}`,
+          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/${entry.id}.json?auth=${user.token}`,
           entry
         );
       })
@@ -134,7 +134,7 @@ export class JournalService {
         }
 
         return this.http.delete(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${swarmId}/journal/${id}.json?auth=${user.token}`
+          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/${id}.json?auth=${user.token}`
         );
       })
     );
