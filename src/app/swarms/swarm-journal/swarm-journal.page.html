@@ -4,10 +4,10 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-    <ion-fab-button color="primary" routerLink="edit">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-</ion-buttons>
+      <ion-fab-button color="primary" routerLink="edit">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-buttons>
     <ion-title>Journal</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,19 +15,28 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let entry of journalEntries; let idx = index">
-      <ion-label [ngClass]="{'lastEntry': idx === 0}">
-        {{ entry.date | date:'dd.MM.'}} {{ entry.type }}
-        <br />
-        {{ entry.text }}
+      <ion-label>
+        <div class="ion-float-left ion-text-center calendar-sheet">
+          {{ entry.date | date:'MMM'}}
+          <br>
+          {{ entry.date | date:'dd'}}
+        </div>
+        <div class="ion-float-left ion-margin-start">
+          <i>{{ entry.type }}</i>
+          <div class="journalText">
+            {{ entry.text }}
+          </div>
+        </div> 
+        
       </ion-label>
       <ion-buttons slot="end">
-      <ion-button routerLink="edit" [queryParams]="{entryId: entry.id}">
-        <ion-icon name="create-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="deleteEntry(entry)">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+        <ion-button routerLink="edit" [queryParams]="{entryId: entry.id}">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteEntry(entry)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
 </ion-content>

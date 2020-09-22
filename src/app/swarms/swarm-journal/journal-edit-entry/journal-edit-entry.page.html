@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -12,7 +12,7 @@
     <ion-list>
       <ion-item>
         <ion-label>Action type</ion-label>
-        <ion-select
+        <ion-select #actionSelect
           placeholder="Action type"
           name="actionType"
           formControlName="actionType"

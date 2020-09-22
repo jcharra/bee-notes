@@ -1,11 +1,10 @@
-import { parse } from 'date-fns';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { AuthService, AuthResponseData } from './auth.service';
+import { AuthResponseData, AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -16,7 +15,7 @@ export class AuthPage implements OnInit {
   isSignup = false;
   isLoading = false;
   loginForm: FormGroup;
-
+ø
   constructor(private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController) {

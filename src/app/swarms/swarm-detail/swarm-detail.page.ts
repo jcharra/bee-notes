@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Swarm, SwarmService } from '../../swarm.service';
-import { JournalEntry, JournalService } from '../../journal.service';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
+import { JournalEntry } from 'src/app/journal.service';
+import { JournalService } from '../../journal.service';
+import { Swarm, SwarmService } from '../../swarm.service';
+
+const JOURNAL_PLACEHOLDER = Array(3).fill({ text: '', date: new Date() });
 
 @Component({
   selector: 'app-swarm-detail',
@@ -13,7 +15,7 @@ import { AlertController, LoadingController } from '@ionic/angular';
 export class SwarmDetailPage implements OnInit {
   swarmId: string;
   swarm: Swarm;
-  journalEntries: JournalEntry[];
+  journalEntries: JournalEntry[] = JOURNAL_PLACEHOLDER;
   userId: string;
 
   constructor(
@@ -47,7 +49,7 @@ export class SwarmDetailPage implements OnInit {
       });
 
     this.journalService
-      .getEntries(this.swarmId, 3)
+      .getEntries(this.swarmId, JOURNAL_PLACEHOLDER.length)
       .subscribe((entries: JournalEntry[]) => {
         this.journalEntries = entries;
         withSpinner && loading.dismiss();

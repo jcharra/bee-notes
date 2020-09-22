@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { IonSelect, NavController } from '@ionic/angular';
 import { JournalEntry, JournalService } from 'src/app/journal.service';
 import { EntryType } from './../../../journal.service';
 
@@ -10,13 +10,14 @@ import { EntryType } from './../../../journal.service';
   templateUrl: './journal-edit-entry.page.html',
   styleUrls: ['./journal-edit-entry.page.scss'],
 })
-export class JournalEditEntryPage implements OnInit {
+export class JournalEditEntryPage implements OnInit, AfterViewInit {
   swarmId: string;
   entryId: string;
   type: string;
   typeOptions: EntryType[];
   actionType: EntryType;
   entryForm: FormGroup;
+  @ViewChild('actionSelect', { static: false }) selectRef: IonSelect;
 
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -79,5 +80,11 @@ export class JournalEditEntryPage implements OnInit {
 
   onSuccessfullySaved() {
     this.navCtrl.back();
+  }
+
+  ngAfterViewInit() {
+    if (this.selectRef && !this.entryId) {
+      this.selectRef.open();
+    }
   }
 }

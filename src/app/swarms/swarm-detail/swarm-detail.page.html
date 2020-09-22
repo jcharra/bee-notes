@@ -15,7 +15,7 @@
       </ion-label>
     </ion-item>
     <ion-item *ngFor="let entry of journalEntries">
-      <ion-label>
+      <ion-label *ngIf="entry.type">
         <strong>{{ entry.date | date:'dd. MMM'}}:</strong>
         {{ entry.type + (entry.text ? ' (' + entry.text + ')' : '') }}
       </ion-label>
