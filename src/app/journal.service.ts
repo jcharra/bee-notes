@@ -1,4 +1,3 @@
-import { JournalEntry } from 'src/app/journal.service';
 import { AuthService } from './auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
