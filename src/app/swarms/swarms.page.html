@@ -11,13 +11,14 @@
         (tap)="openSwarmDetail(swarm.id)"
         (click)="openSwarmDetail(swarm.id)"
       >
-        <ion-label slot="start">
+        <ion-label>
           {{ swarm.name }}
           <span
             class="small-preview"
             *ngIf="lastAction.get(swarm.id) as action"
           >
             <br />
+            <strong>{{ action.date | date:'dd. MMM'}}:</strong>
             {{ action.type + (action.text ? ' (' + action.text + ')' : '') }}
           </span>
         </ion-label>
