@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -8,37 +8,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-button
-    class="imgbutton"
-    routerLink="journal/edit"
-    [queryParams]="{type: 'varroa'}"
-  >
-    <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
-  </ion-button>
-  <ion-button
-    class="imgbutton"
-    routerLink="journal/edit"
-    [queryParams]="{type: 'queen'}"
-  >
-    <ion-img src="assets/img/crown.jpeg"></ion-img>
-  </ion-button>
-  <ion-button
-    class="imgbutton"
-    routerLink="journal/edit"
-    [queryParams]="{type: 'frames'}"
-  >
-    <ion-img src="assets/img/wabe.jpeg"></ion-img>
-  </ion-button>
-
-  <br>
-  <ion-label class="ion-padding"> Latest activity: </ion-label>
   <ion-list>
     <ion-item *ngFor="let entry of journalEntries">
       <ion-label>
-        {{ entry.date | date:'dd.MM.'}} {{ entry.type }} 
-        <span *ngIf="entry.text">
-          <br>{{ entry.text }}
-        </span>
+        {{ entry.date | date:'dd.MM.'}} {{ entry.type }}
+        <span *ngIf="entry.text"> <br />{{ entry.text }} </span>
       </ion-label>
     </ion-item>
   </ion-list>
@@ -46,6 +20,27 @@
   <ion-buttons>
     <ion-fab-button slot="start" color="primary" routerLink="journal">
       <ion-icon name="list-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button
+      class="imgbutton"
+      routerLink="journal/edit"
+      [queryParams]="{type: 'varroa'}"
+    >
+      <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
+    </ion-fab-button>
+    <ion-fab-button
+      class="imgbutton"
+      routerLink="journal/edit"
+      [queryParams]="{type: 'queen'}"
+    >
+      <ion-img src="assets/img/crown.jpeg"></ion-img>
+    </ion-fab-button>
+    <ion-fab-button
+      class="imgbutton"
+      routerLink="journal/edit"
+      [queryParams]="{type: 'frames'}"
+    >
+      <ion-img src="assets/img/wabe.jpeg"></ion-img>
     </ion-fab-button>
     <ion-fab-button slot="end" color="primary" routerLink="journal/edit">
       <ion-icon name="add"></ion-icon>

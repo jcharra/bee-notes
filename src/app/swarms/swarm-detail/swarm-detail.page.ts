@@ -29,16 +29,16 @@ export class SwarmDetailPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadData();
+    this.loadData(!this.journalEntries || this.journalEntries.length === 0);
   }
 
-  async loadData() {
+  async loadData(withSpinner: boolean = true) {
     const loading = await this.loadingCtrl.create({
       message: 'Loading journal...',
       showBackdrop: true
     });
 
-    await loading.present();
+    withSpinner && await loading.present();
 
     this.swarmService
       .getSwarm(this.swarmId)
@@ -50,7 +50,7 @@ export class SwarmDetailPage implements OnInit {
       .getEntries(this.swarmId, 3)
       .subscribe((entries: JournalEntry[]) => {
         this.journalEntries = entries;
-        loading.dismiss();
+        withSpinner && loading.dismiss();
       });
   }
 }

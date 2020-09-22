@@ -43,13 +43,9 @@ ion-content {
 }
 
 body {
-    background: url(/assets/img/honey-bees.jpg) no-repeat center/cover fixed;
+    background: url(/assets/img/honey-bees.jpg) no-repeat;
 }
 
-ion-header {
-    opacity: 0.8;
-}
-
-ion-content {
+ion-list {
     opacity: 0.9;
 }
