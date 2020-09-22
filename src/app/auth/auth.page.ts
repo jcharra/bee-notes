@@ -31,11 +31,10 @@ export class AuthPage implements OnInit {
 
     // Prepopulate email field if possible
     Plugins.Storage
-      .get({ key: 'authData' })
+      .get({ key: 'lastEmailAddress' })
       .then((data: any) => { 
         if (data && data.value) {
-          const parsedData = JSON.parse(data.value);
-          this.loginForm.get('email').setValue(parsedData.email);
+          this.loginForm.get('email').setValue(data.value);
         }
       })    
   }
@@ -45,6 +44,9 @@ export class AuthPage implements OnInit {
       return;
     }
 
+    Plugins.Storage
+      .set({ key: 'lastEmailAddress', value: this.loginForm.value.email })
+    
     this.isLoading = true;
     this.loadingCtrl.create({
       keyboardClose: true,
