@@ -59,16 +59,6 @@ export class SwarmsPage implements OnInit {
 
   migrateJournal() {
     // put migrations here
-    this.swarms
-    .forEach(sw => {
-      this.journalService
-        .getEntries(sw.id, 1000)
-        .subscribe((e: JournalEntry[]) => {
-          if (e && e.length > 0) {
-            this.journalService.migrateToEntries(sw.id, e);
-          }
-        });
-    });
     console.log('no migration');
   }
 
