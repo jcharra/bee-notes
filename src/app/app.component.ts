@@ -1,7 +1,7 @@
 import { AuthService } from './auth/auth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
@@ -23,7 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private menu: MenuController
   ) {
     this.initializeApp();
   }
@@ -55,7 +56,18 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
+    this.menu.close();
     this.authService.logout();
+  }
+
+  openFinance() {
+    this.menu.close();
+    this.router.navigateByUrl('/finance');
+  }
+
+  openSwarms() {
+    this.menu.close();
+    this.router.navigateByUrl('/swarms');
   }
 
   private checkAuthOnResume(state: AppState) {

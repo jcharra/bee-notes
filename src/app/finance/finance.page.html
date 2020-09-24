@@ -1,0 +1,16 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-menu-button menu="first"></ion-menu-button>
+    </ion-buttons>    
+    <ion-title> Finance </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list [inset]="true">
+    <ng-container *ngFor="let item of items">
+      <ion-item>{{ item }}</ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>

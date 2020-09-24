@@ -10,6 +10,12 @@ const routes: Routes = [
       import('./swarms/swarms.module').then(m => m.SwarmsPageModule)
   },
   {
+    path: 'finance',
+    canLoad: [AuthGuard],
+    loadChildren: () =>
+      import('./finance/finance.module').then(m => m.FinancePageModule)
+  },
+  {
     path: '',
     redirectTo: 'swarms',
     pathMatch: 'full'
