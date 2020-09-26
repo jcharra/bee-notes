@@ -23,6 +23,9 @@
         {{ entry.type + (entry.text ? ' (' + entry.text + ')' : '') }}
       </ion-label>
     </ion-item>
+    <ion-item *ngIf="journalEntries && journalEntries.length === 0">
+      <i>No tracked activity yet.</i>
+    </ion-item>    
     <ion-item routerLink="journal">
       <ion-label>
         View journal

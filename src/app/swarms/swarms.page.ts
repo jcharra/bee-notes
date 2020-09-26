@@ -37,7 +37,7 @@ export class SwarmsPage implements OnInit {
     this.swarmService
       .getSwarms()
       .pipe(map((s: Swarm[]) => {
-        this.swarms = s;
+        this.swarms = s || [];
 
         this.swarms
           .forEach(sw => {
@@ -56,16 +56,18 @@ export class SwarmsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.push.hasPermission()
-    .then((res: any) => {
-  
-      if (res.isEnabled) {
-        console.log('We have permission to send push notifications');
-      } else {
-        console.log('We do not have permission to send push notifications');
-      }
-  
-    });
+    this.push
+      .hasPermission()
+      .then((res: any) => {
+
+        if (res.isEnabled) {
+          console.log('We have permission to send push notifications');
+        } else {
+          console.log('We do not have permission to send push notifications');
+        }
+
+      })
+      .catch(console.error);
   }
 
   migrateJournal() {

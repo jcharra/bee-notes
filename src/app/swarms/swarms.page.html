@@ -15,7 +15,7 @@
         (click)="openSwarmDetail(swarm.id)"
       >
         <ion-label>
-          {{ swarm.name }}
+          🐝 &nbsp; {{ swarm.name }}
           <span
             class="small-preview"
             *ngIf="lastAction.get(swarm.id) as action"
@@ -27,9 +27,14 @@
         </ion-label>
       </ion-item>
     </ng-container>
+    <ion-item *ngIf="swarms && swarms.length === 0">
+      No buzz yet - time to add your first colony. 🐝
+    </ion-item>
   </ion-list>
 
-  <ion-button (click)="migrateJournal()">Migrate</ion-button>
+  <!--
+    <ion-button (click)="migrateJournal()">Migrate</ion-button>
+  -->
 
   <ion-button class="ion-float-right" (click)="createSwarm()">
     <ion-icon name="add-outline" slot="start"></ion-icon>

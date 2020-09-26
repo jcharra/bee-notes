@@ -36,6 +36,13 @@
     --ion-color-primary-contrast-rgb: 255,255,255;
     --ion-color-primary-shade: #ffac24;
     --ion-color-primary-tint: #ffac24;
+
+    --ion-color-secondary: #ff7200;
+    --ion-color-secondary-rgb: 255,114,0;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255,255,255;
+    --ion-color-secondary-shade: #b26b31;
+    --ion-color-secondary-tint: #b26b31;
   }
 
 ion-content {
@@ -44,6 +51,18 @@ ion-content {
 
 body {
     background: url(/assets/img/honey-bees.jpg) no-repeat center/cover fixed;
+}
+
+body:before {
+    content: "";
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 ion-list {

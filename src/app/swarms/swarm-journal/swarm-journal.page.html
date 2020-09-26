@@ -38,5 +38,11 @@
         </ion-button>
       </ion-buttons>
     </ion-item>
+
+    <ion-item *ngIf="journalEntries && journalEntries.length === 0">
+      <ion-label>
+        No tracked activity yet.
+      </ion-label>      
+    </ion-item>
   </ion-list>
 </ion-content>

@@ -30,7 +30,7 @@ export class SwarmJournalPage implements OnInit {
     this.journalService
       .getEntries(this.swarmId)
       .subscribe((entries: JournalEntry[]) => { 
-        this.journalEntries = entries;
+        this.journalEntries = entries || [];
       });
   }
 

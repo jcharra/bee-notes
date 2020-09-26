@@ -34,7 +34,7 @@ export interface JournalEntry {
   providedIn: 'root',
 })
 export class JournalService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
     return this.authService.user.pipe(
@@ -47,7 +47,7 @@ export class JournalService {
           .get<{ [key: string]: any }>(
             `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${entryId}.json?auth=${user.token}`
           )
-          .pipe(map(entry => { 
+          .pipe(map(entry => {
             return {
               id: entry.id,
               title: entry.title,
@@ -56,9 +56,9 @@ export class JournalService {
               date: new Date(entry.date),
             }
           }));
-      }));  
+      }));
   }
-  
+
   getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
     return this.authService.user.pipe(
       switchMap((user) => {
@@ -72,6 +72,10 @@ export class JournalService {
           )
           .pipe(
             map((data) => {
+              if (!data) {
+                return [];
+              }
+
               const entries: JournalEntry[] = [];
               for (const key in data) {
                 if (data.hasOwnProperty(key)) {
@@ -148,12 +152,12 @@ export class JournalService {
           throw new Error('No user found');
         }
 
-        entries.forEach(e => { 
+        entries.forEach(e => {
           return this.http.put(
             `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${e.id}.json?auth=${user.token}`,
             e
           ).subscribe();
-        });        
+        });
       });
   }
 }
