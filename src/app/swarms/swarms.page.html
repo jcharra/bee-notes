@@ -9,8 +9,8 @@
 
 <ion-content>
   <ion-list [inset]="true">
-    <ng-container *ngFor="let swarm of swarms">
       <ion-item
+        *ngFor="let swarm of swarms"
         (tap)="openSwarmDetail(swarm.id)"
         (click)="openSwarmDetail(swarm.id)"
       >
@@ -26,7 +26,6 @@
           </span>
         </ion-label>
       </ion-item>
-    </ng-container>
     <ion-item *ngIf="swarms && swarms.length === 0">
       No buzz yet - time to add your first colony. 🐝
     </ion-item>
