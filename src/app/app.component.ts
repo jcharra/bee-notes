@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AppState, Plugins } from '@capacitor/core';
 import { take } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private statusBar: StatusBar,
     private authService: AuthService,
     private router: Router,
-    private menu: MenuController
+    private menu: MenuController,
+    private translate: TranslateService
   ) {
     this.initializeApp();
   }
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.translate.setDefaultLang('de'); 
     });
   }
 
