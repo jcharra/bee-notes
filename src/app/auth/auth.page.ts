@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AuthResponseData, AuthService } from './auth.service';
 
@@ -18,7 +18,8 @@ export class AuthPage implements OnInit {
 ø
   constructor(private authService: AuthService,
     private router: Router,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController,
+  private alertController: AlertController) {
 
   }
 
@@ -71,8 +72,18 @@ export class AuthPage implements OnInit {
         const code = err.error.error.message;
         this.isLoading = false;
         loadingEl.dismiss();
-        console.error('Could not login', code);
+        this.onLoginFailed();
       });
     });
+  }
+
+  async onLoginFailed() {
+    const alert = await this.alertController.create({
+      header: 'Login failed',
+      message: 'Username and password do not match.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }
