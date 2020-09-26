@@ -2,14 +2,14 @@
   <ion-menu side="end" menuId="first" contentId="main">
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Start Menu</ion-title>
+        <ion-title>{{ 'START_MENU' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item (click)="openSwarms()">Colonies</ion-item>
-        <ion-item (click)="openFinance()">Finance</ion-item>
-        <ion-item (click)="onLogout()">Logout</ion-item>
+        <ion-item (click)="openSwarms()">{{ 'COLONIES' | translate }}</ion-item>
+        <ion-item (click)="openFinance()">{{ 'FINANCE' | translate }}</ion-item>
+        <ion-item (click)="onLogout()">{{ 'LOGOUT' | translate }}</ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>

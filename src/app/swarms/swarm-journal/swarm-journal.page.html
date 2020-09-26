@@ -8,7 +8,7 @@
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-buttons>
-    <ion-title>Journal</ion-title>
+    <ion-title>{{ 'JOURNAL' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -41,7 +41,7 @@
 
     <ion-item *ngIf="journalEntries && journalEntries.length === 0">
       <ion-label>
-        No tracked activity yet.
+        {{ 'NO_TRACKED_ACTIVITY' | translate }}
       </ion-label>      
     </ion-item>
   </ion-list>

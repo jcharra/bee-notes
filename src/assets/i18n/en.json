@@ -1,3 +1,15 @@
 {
-  "COLONIES": "Colonies"
+  "COLONIES": "Colonies",
+  "NO_COLONIES_YET": "No buzz yet - time to add your first colony.",
+  "ADD_COLONY": "Add colony",
+  "START_MENU": "Start menu",
+  "FINANCE": "Finances",
+  "LOGOUT": "Log out",
+  "JOURNAL": "Journal",
+  "NO_TRACKED_ACTIVITY": "No tracked activity yet.",
+  "EDIT_ENTRY": "Edit entry",
+  "NEW_ENTRY": "New entry",
+  "ACTION_TYPE": "Action type",
+  "DATE": "Date",
+  "SAVE": "Save"
 }

@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.translate.setDefaultLang('de'); 
+      this.translate.setDefaultLang('en'); 
     });
   }
 

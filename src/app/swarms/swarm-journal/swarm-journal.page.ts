@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { format, parse } from 'date-fns';
+import { TranslateService } from '@ngx-translate/core';
 import { JournalEntry, JournalService } from 'src/app/journal.service';
 
 @Component({
@@ -12,11 +12,12 @@ import { JournalEntry, JournalService } from 'src/app/journal.service';
 export class SwarmJournalPage implements OnInit {
   journalEntries: JournalEntry[];
   swarmId: string;
-  
+
   constructor(
     private journalService: JournalService,
     private route: ActivatedRoute,
-    private alertCtrl: AlertController) { }
+    private alertCtrl: AlertController,
+    private translateService: TranslateService) { }
 
   ngOnInit() {
     this.swarmId = this.route.snapshot.params.swarmId;
@@ -29,71 +30,9 @@ export class SwarmJournalPage implements OnInit {
   loadEntries() {
     this.journalService
       .getEntries(this.swarmId)
-      .subscribe((entries: JournalEntry[]) => { 
+      .subscribe((entries: JournalEntry[]) => {
         this.journalEntries = entries || [];
       });
-  }
-
-  async editEntry(entry: JournalEntry = null) {
-    const alert = await this.alertCtrl.create({
-      header: entry ? 'Eintrag bearbeiten' : 'Neuer Eintrag',
-      message: entry ? '' : 'Was hast Du für dieses Volk gemacht?',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Kurzfassung',
-          value: entry?.title
-        }, {
-          name: 'text',
-          type: 'text',
-          placeholder: 'Beschreibung',
-          value: entry?.text
-        }, {
-          name: 'date',
-          type: 'date',
-          value: format(entry?.date || new Date(), 'yyyy-MM-dd'),
-        }
-      ],
-      buttons: [
-        {
-          text: 'Abbrechen',
-          role: 'cancel',
-          cssClass: 'secondary'
-        },
-        {
-          text: entry ? 'Aktualisieren' : 'Anlegen',
-          handler: value => {
-            if (value.title.trim()) {
-
-              let _entry: JournalEntry = {
-                title: value.title.trim(),
-                text: value.text.trim(),
-                date: parse(value.date, 'yyyy-MM-dd', new Date())
-              };
-
-              if (!entry) {
-                this.journalService
-                  .createEntry(this.swarmId, _entry)
-                  .subscribe((result: { name: string }) => { 
-                    _entry.id = result.name;
-                    this.journalEntries.push(_entry);
-                  });
-              } else {
-                _entry.id = entry.id;
-                this.journalService
-                  .updateEntry(this.swarmId, _entry)
-                  .subscribe(() => { 
-                    this.loadEntries();
-                  });
-              }              
-            }
-          }
-        }
-      ]
-    });
-
-    await alert.present();
   }
 
   async deleteEntry(entry: JournalEntry) {
@@ -109,10 +48,10 @@ export class SwarmJournalPage implements OnInit {
         {
           text: 'Löschen',
           cssClass: 'danger',
-          handler: () => { 
+          handler: () => {
             this.journalService
               .deleteEntry(this.swarmId, entry.id)
-              .subscribe(() => { 
+              .subscribe(() => {
                 this.loadEntries();
               });
           }

@@ -27,7 +27,7 @@
         </ion-label>
       </ion-item>
     <ion-item *ngIf="swarms && swarms.length === 0">
-      No buzz yet - time to add your first colony. 🐝
+      {{ 'NO_COLONIES_YET' | translate }} 🐝
     </ion-item>
   </ion-list>
 
@@ -37,6 +37,6 @@
 
   <ion-button class="ion-float-right" (click)="createSwarm()">
     <ion-icon name="add-outline" slot="start"></ion-icon>
-    Add new colony
+    {{ 'ADD_COLONY' | translate }}
   </ion-button>
 </ion-content>
