@@ -17,6 +17,7 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
   typeOptions: EntryType[];
   actionType: EntryType;
   entryForm: FormGroup;
+  saving = false;
   @ViewChild('actionSelect', { static: false }) selectRef: IonSelect;
 
   constructor(private route: ActivatedRoute,
@@ -27,6 +28,11 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
   }
 
   save() {
+    if (this.saving) {
+      return;
+    }
+    
+    this.saving = true;
     const entry: JournalEntry = {
       type: this.entryForm.get('actionType').value,
       date: this.entryForm.get('date').value,
