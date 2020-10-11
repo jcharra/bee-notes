@@ -11,10 +11,11 @@
   <form [formGroup]="entryForm">
     <ion-list>
       <ion-item>
-        <ion-label>{{ 'ACTION_TYPE' | translate }}</ion-label>
+        <ion-label position="stacked">{{ 'ACTION_TYPE' | translate }}</ion-label>
         <ion-select #actionSelect
           name="actionType"
           formControlName="actionType"
+          (ionChange)="onActionTypeChange()"
         >
           <ion-select-option *ngFor="let option of typeOptions" [value]="option"
             >{{ option }}</ion-select-option
@@ -22,7 +23,7 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label> {{ 'DATE' | translate }} </ion-label>
+        <ion-label position="stacked"> {{ 'DATE' | translate }} </ion-label>
         <ion-datetime
           formControlName="date"
           displayFormat="DD. MMM YYYY"
@@ -30,14 +31,19 @@
         >
         </ion-datetime>
       </ion-item>
+      <ion-item [ngClass]="{'ion-hide': !hasCountableContent}">
+        <ion-label position="stacked"> {{ 'AMOUNT' | translate }} </ion-label>
+        <ion-input formControlName="amount" (tap)="openAmountPicker()" (click)="openAmountPicker()" value="0">
+        </ion-input>
+      </ion-item>
       <ion-item>
-        <ion-label>{{ 'Comment' | translate }}</ion-label>
+        <ion-label position="stacked">{{ 'Comment' | translate }}</ion-label>
         <ion-textarea formControlName="text" placeholder="Optional comment">
         </ion-textarea>
       </ion-item>
     </ion-list>
 
-    <ion-button [disabled]="!entryForm.valid" type="submit" (click)="save()">
+    <ion-button [disabled]="!entryForm.valid || saving" type="submit" (click)="save()">
       {{ 'SAVE' | translate }}
     </ion-button>
   </form>

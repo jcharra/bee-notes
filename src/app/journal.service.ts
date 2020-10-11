@@ -27,7 +27,7 @@ export interface JournalEntry {
   text: string;
   date: Date;
   type?: EntryType;
-  metadata?: any;
+  amount?: number;
 }
 
 @Injectable({

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { IonSelect, NavController } from '@ionic/angular';
+import { IonSelect, NavController, PickerController } from '@ionic/angular';
 import { JournalEntry, JournalService } from 'src/app/journal.service';
 import { EntryType } from './../../../journal.service';
 
@@ -18,13 +18,51 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
   actionType: EntryType;
   entryForm: FormGroup;
   saving = false;
+  hasCountableContent = false;
   @ViewChild('actionSelect', { static: false }) selectRef: IonSelect;
 
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private journalService: JournalService,
-    private navCtrl: NavController) {
+    private navCtrl: NavController,
+    private pickerController: PickerController) {
 
+  }
+
+  ngOnInit() {
+    this.swarmId = this.route.snapshot.params.swarmId;
+    this.entryId = this.route.snapshot.queryParams.entryId;
+    this.type = this.route.snapshot.queryParams.type;
+
+    const options: EntryType[] = [];
+    for (const k of Object.keys(EntryType)) {
+      const et = EntryType[k];
+      if (!this.type || et.toString().toLowerCase().indexOf(this.type) > -1) {
+        options.push(et);
+      }
+    }
+    this.typeOptions = options;
+
+    this.entryForm = this.formBuilder.group({
+      actionType: [null, Validators.required],
+      date: [new Date().toISOString(), Validators.required],
+      amount: [0],
+      text: ['']
+    });
+
+    if (this.entryId) {
+      this.journalService
+        .getEntry(this.swarmId, this.entryId)
+        .subscribe((entry: JournalEntry) => {
+          this.entryForm.controls.actionType.setValue(entry.type ? entry.type.toString() : null);
+          this.entryForm.controls.text.setValue(entry.text || '');
+          this.entryForm.controls.amount.setValue(entry.amount || '');
+          if (entry.date) {
+            this.entryForm.controls.date.setValue(new Date(entry.date).toISOString());
+          }
+          this.onActionTypeChange();
+        });
+    }
   }
 
   save() {
@@ -51,39 +89,6 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit() {
-    this.swarmId = this.route.snapshot.params.swarmId;
-    this.entryId = this.route.snapshot.queryParams.entryId;
-    this.type = this.route.snapshot.queryParams.type;
-
-    const options: EntryType[] = [];
-    for (const k of Object.keys(EntryType)) {
-      const et = EntryType[k];
-      if (!this.type || et.toString().toLowerCase().indexOf(this.type) > -1) {
-        options.push(et);
-      }
-    }
-    this.typeOptions = options;
-
-    this.entryForm = this.formBuilder.group({
-      actionType: [null, Validators.required],
-      date: [new Date().toISOString(), Validators.required],
-      text: ['']
-    });
-
-    if (this.entryId) {
-      this.journalService
-        .getEntry(this.swarmId, this.entryId)
-        .subscribe((entry: JournalEntry) => {
-          this.entryForm.controls.actionType.setValue(entry.type ? entry.type.toString() : null);
-          this.entryForm.controls.text.setValue(entry.text || '');
-          if (entry.date) {
-            this.entryForm.controls.date.setValue(new Date(entry.date).toISOString());
-          }
-        });
-    }
-  }
-
   onSuccessfullySaved() {
     this.navCtrl.back();
   }
@@ -92,5 +97,63 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     if (this.selectRef && !this.entryId) {
       this.selectRef.open();
     }
+  }
+
+  async openAmountPicker() {
+    const picker = await this.pickerController.create({
+      columns: this.getAmountOptions(),
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirm',
+          handler: (value) => {
+            this.entryForm.controls.amount.setValue(+value.amount.value || 0);
+          }
+        }
+      ]
+    });
+
+    await picker.present();
+  }
+
+  getAmountOptions() {
+    const options = [];
+    let lower, upper, step: number;
+    let unit: string;
+
+    switch (this.entryForm.controls.actionType.value) {
+      case EntryType.VARROA_CHECK_END:
+        lower = 1;
+        upper = 200;
+        step = 1;
+        unit = 'mites';
+        break;
+      case EntryType.FOOD_ADDED:
+        lower = 0.5;
+        upper = 20;
+        step = 0.5;
+        unit = 'kg';
+        break;
+    }
+
+    for (let i = lower; i <= upper; i += step) {
+      options.push({ text: i + ' ' + unit, value: i});
+    }
+
+    return [{ name: 'amount', options }];
+  }
+
+  onActionTypeChange() {
+    const e = this.entryForm.controls.actionType.value as EntryType;
+    this.hasCountableContent = [
+      EntryType.VARROA_CHECK_END,
+      EntryType.BROOD_COUNT,
+      EntryType.FOOD_ADDED,
+      EntryType.HARVEST,
+      EntryType.CENTER_PANELS_ADDED
+    ].indexOf(e) > -1;
   }
 }
