@@ -24,6 +24,7 @@
         <div class="ion-float-left ion-margin-start">
           <i>{{ entry.type }}</i>
           <div class="journalText">
+            <span *ngIf="entry.amount">Amount: {{entry.amount}} <br></span>
             {{ entry.text }}
           </div>
         </div> 
