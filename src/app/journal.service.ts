@@ -1,8 +1,8 @@
-import { AuthService } from './auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { AuthService } from './auth/auth.service';
 
 export enum EntryType {
   VARROA_CHECK_START = 'Varroa check start',
