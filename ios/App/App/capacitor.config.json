@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "beetracker-ionic",
+  "appName": "Bee aware",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
