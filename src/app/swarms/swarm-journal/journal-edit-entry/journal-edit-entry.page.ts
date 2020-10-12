@@ -1,3 +1,4 @@
+import { Countable, CountableForEntryType } from './amount';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +19,7 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
   actionType: EntryType;
   entryForm: FormGroup;
   saving = false;
-  hasCountableContent = false;
+  countable: Countable;
   @ViewChild('actionSelect', { static: false }) selectRef: IonSelect;
 
   constructor(private route: ActivatedRoute,
@@ -121,26 +122,13 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
 
   getAmountOptions() {
     const options = [];
-    let lower, upper, step: number;
-    let unit: string;
-
-    switch (this.entryForm.controls.actionType.value) {
-      case EntryType.VARROA_CHECK_END:
-        lower = 1;
-        upper = 200;
-        step = 1;
-        unit = 'mites';
-        break;
-      case EntryType.FOOD_ADDED:
-        lower = 0.5;
-        upper = 20;
-        step = 0.5;
-        unit = 'kg';
-        break;
+  
+    if (!this.countable) {
+      return options;
     }
 
-    for (let i = lower; i <= upper; i += step) {
-      options.push({ text: i + ' ' + unit, value: i});
+    for (let i = this.countable.lowerBound; i <= this.countable.upperBound; i += this.countable.stepWidth) {
+      options.push({ text: i + ' ' + (i === 1 ? this.countable.unitSingular : this.countable.unit), value: i});
     }
 
     return [{ name: 'amount', options }];
@@ -148,12 +136,6 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
 
   onActionTypeChange() {
     const e = this.entryForm.controls.actionType.value as EntryType;
-    this.hasCountableContent = [
-      EntryType.VARROA_CHECK_END,
-      EntryType.BROOD_COUNT,
-      EntryType.FOOD_ADDED,
-      EntryType.HARVEST,
-      EntryType.CENTER_PANELS_ADDED
-    ].indexOf(e) > -1;
+    this.countable = CountableForEntryType.get(e);
   }
 }

@@ -31,7 +31,7 @@
         >
         </ion-datetime>
       </ion-item>
-      <ion-item [ngClass]="{'ion-hide': !hasCountableContent}">
+      <ion-item [ngClass]="{'ion-hide': !countable}">
         <ion-label position="stacked"> {{ 'AMOUNT' | translate }} </ion-label>
         <ion-input formControlName="amount" (tap)="openAmountPicker()" (click)="openAmountPicker()" value="0">
         </ion-input>
