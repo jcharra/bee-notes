@@ -54,6 +54,7 @@ export class JournalService {
               text: entry.text,
               type: entry.type,
               date: new Date(entry.date),
+              amount: entry.amount
             }
           }));
       }));
@@ -86,6 +87,7 @@ export class JournalService {
                     text: data[key].text,
                     type: data[key].type,
                     date: new Date(data[key].date),
+                    amount: data[key].amount
                   });
                 }
               }

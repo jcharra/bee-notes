@@ -75,7 +75,8 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     const entry: JournalEntry = {
       type: this.entryForm.get('actionType').value,
       date: this.entryForm.get('date').value,
-      text: this.entryForm.get('text').value
+      text: this.entryForm.get('text').value,
+      amount: this.entryForm.get('amount').value
     };
 
     if (this.entryId) {
