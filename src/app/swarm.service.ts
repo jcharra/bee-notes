@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { AuthService } from './auth/auth.service';
 
 export interface Swarm {
@@ -18,6 +18,7 @@ export class SwarmService {
 
   getSwarms(force: boolean = false): Observable<Swarm[]> {
     return this.authService.user.pipe(
+      take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
@@ -49,6 +50,7 @@ export class SwarmService {
 
   getSwarm(id: string): Observable<Swarm> {
     return this.authService.user.pipe(
+      take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
@@ -73,6 +75,7 @@ export class SwarmService {
 
   createSwarm(s: Swarm): Observable<Swarm> {
     return this.authService.user.pipe(
+      take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');

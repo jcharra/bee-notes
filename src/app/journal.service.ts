@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { AuthService } from './auth/auth.service';
 
 export enum EntryType {
@@ -38,6 +38,7 @@ export class JournalService {
 
   getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
     return this.authService.user.pipe(
+      take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
@@ -62,6 +63,7 @@ export class JournalService {
 
   getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
     return this.authService.user.pipe(
+      take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
@@ -105,6 +107,7 @@ export class JournalService {
 
   createEntry(swarmId: string, entry: JournalEntry): Observable<any> {
     return this.authService.user.pipe(
+      take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
@@ -120,6 +123,7 @@ export class JournalService {
 
   updateEntry(swarmId: string, entry: JournalEntry) {
     return this.authService.user.pipe(
+      take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
@@ -135,6 +139,7 @@ export class JournalService {
 
   deleteEntry(swarmId: string, id: string) {
     return this.authService.user.pipe(
+      take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
