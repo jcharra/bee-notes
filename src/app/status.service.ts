@@ -22,9 +22,9 @@ export class StatusService {
           +varroaEnd.amount / differenceInDays(varroaEnd.date, entry.date) :
           0;
         
-        if (varroaAvg > 20) {
+        if (varroaAvg > 10) {
           return ColonyStatus.VARROA_CRITICAL
-        } else if (varroaAvg > 10) {
+        } else if (varroaAvg > 5) {
           return ColonyStatus.VARROA_MEDIUM;
         }
       }
