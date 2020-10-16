@@ -18,8 +18,7 @@
           🐝 &nbsp; {{ swarm.name }}
           <span
             class="small-preview"
-            *ngIf="lastAction.get(swarm.id) as entry"
-          >
+            *ngIf="swarm.lastAction as entry">
             <br />
             <strong>{{ entry.date | date:'dd. MMM'}}: </strong>
             <app-journal-entry-short [entry]="entry"></app-journal-entry-short>

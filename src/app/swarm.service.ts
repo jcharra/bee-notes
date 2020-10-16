@@ -4,12 +4,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { AuthService } from './auth/auth.service';
+import { JournalEntry } from './journal.service';
 
 export interface Swarm {
   id?: string;
   name: string;
   created: Date;
   status?: ColonyStatus;
+  lastAction?: JournalEntry;
 }
 
 @Injectable({

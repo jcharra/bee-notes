@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { JournalEntry, JournalService } from '../journal.service';
-import { ColonyStatus, StatusService } from '../status.service';
+import { StatusService } from '../status.service';
 import { Swarm, SwarmService } from '../swarm.service';
 
 
@@ -14,7 +14,6 @@ import { Swarm, SwarmService } from '../swarm.service';
 export class SwarmsPage implements OnInit {
   swarms: Swarm[];
   userId: string;
-  lastAction: Map<string, JournalEntry> = new Map();
 
   constructor(
     private swarmService: SwarmService,
@@ -47,7 +46,7 @@ export class SwarmsPage implements OnInit {
               .getEntries(sw.id, 6)
               .subscribe((e: JournalEntry[]) => {
                 if (e && e.length > 0) {
-                  this.lastAction.set(sw.id, e[0]);
+                  sw.lastAction = e[0];
                   sw.status = this.statusService.getColonyStatus(e);
                 }
               });
