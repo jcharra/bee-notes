@@ -1,9 +1,9 @@
-import { JournalService, JournalEntry } from 'src/app/journal.service';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
-import { Swarm, SwarmService } from '../swarm.service';
 import { map } from 'rxjs/operators';
-import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
+import { JournalEntry, JournalService } from '../journal.service';
+import { Swarm, SwarmService } from '../swarm.service';
+
 
 @Component({
   selector: 'app-swarms',
@@ -20,8 +20,7 @@ export class SwarmsPage implements OnInit {
     private journalService: JournalService,
     private alertCtrl: AlertController,
     private loadingController: LoadingController,
-    private navController: NavController,
-    private push: Push
+    private navController: NavController
   ) { }
 
   async loadSwarms(withSpinner: boolean = true) {
@@ -56,18 +55,7 @@ export class SwarmsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.push
-      .hasPermission()
-      .then((res: any) => {
-
-        if (res.isEnabled) {
-          console.log('We have permission to send push notifications');
-        } else {
-          console.log('We do not have permission to send push notifications');
-        }
-
-      })
-      .catch(console.error);
+    
   }
 
   migrateJournal() {
