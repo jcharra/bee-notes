@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { JournalEntry, JournalService } from '../journal.service';
+import { ColonyStatus, StatusService } from '../status.service';
 import { Swarm, SwarmService } from '../swarm.service';
 
 
@@ -20,7 +21,9 @@ export class SwarmsPage implements OnInit {
     private journalService: JournalService,
     private alertCtrl: AlertController,
     private loadingController: LoadingController,
-    private navController: NavController
+    private navController: NavController,
+    private alertController: AlertController,
+    private statusService: StatusService
   ) { }
 
   async loadSwarms(withSpinner: boolean = true) {
@@ -39,12 +42,13 @@ export class SwarmsPage implements OnInit {
         this.swarms = s || [];
 
         this.swarms
-          .forEach(sw => {
+          .forEach((sw: Swarm) => {
             this.journalService
-              .getEntries(sw.id, 1)
+              .getEntries(sw.id, 6)
               .subscribe((e: JournalEntry[]) => {
                 if (e && e.length > 0) {
                   this.lastAction.set(sw.id, e[0]);
+                  sw.status = this.statusService.getColonyStatus(e);
                 }
               });
           });
@@ -91,7 +95,8 @@ export class SwarmsPage implements OnInit {
         {
           text: 'Add colony',
           handler: value => {
-            if (value.name.trim()) {
+            const name = value.name.trim();
+            if (name) {
 
               let newSwarm: Swarm = {
                 name: value.name.trim(),
@@ -103,11 +108,25 @@ export class SwarmsPage implements OnInit {
                 .subscribe((result: { name: string }) => {
                   newSwarm.id = result.name;
                   this.swarms.push(newSwarm);
+                }, err => {
+                    this.onCreationFailure(err);
                 });
+            } else {
+              this.onCreationFailure('Please choose a valid name');
             }
           }
         }
       ]
+    });
+
+    await alert.present();
+  }
+
+  async onCreationFailure(msg: string) {
+    const alert = await this.alertController.create({
+      header: 'Creation failed',
+      message: msg,
+      buttons: ['OK']
     });
 
     await alert.present();

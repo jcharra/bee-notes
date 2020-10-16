@@ -1,3 +1,4 @@
+import { ColonyStatus } from './status.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -8,6 +9,7 @@ export interface Swarm {
   id?: string;
   name: string;
   created: Date;
+  status?: ColonyStatus;
 }
 
 @Injectable({

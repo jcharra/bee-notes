@@ -48,5 +48,13 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
       unit: 'frames',
       unitSingular: 'frame'
     }
+  ], [EntryType.FRAMES_REMOVED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: 'frames',
+      unitSingular: 'frame'
+    }
   ]
 ]);
