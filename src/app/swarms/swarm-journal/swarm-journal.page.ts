@@ -37,16 +37,16 @@ export class SwarmJournalPage implements OnInit {
 
   async deleteEntry(entry: JournalEntry) {
     const alert = await this.alertCtrl.create({
-      header: 'Eintrag löschen?',
-      message: 'Soll der Eintrag wirklich gelöscht werden?',
+      header: 'Delete entry?',
+      message: 'Do you really want to delete this entry?',
       buttons: [
         {
-          text: 'Abbrechen',
+          text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary'
         },
         {
-          text: 'Löschen',
+          text: 'Delete',
           cssClass: 'danger',
           handler: () => {
             this.journalService

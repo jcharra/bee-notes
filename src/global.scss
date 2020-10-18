@@ -50,7 +50,7 @@ ion-content {
 }
 
 body {
-    background: url(/assets/img/honey-bees.jpg) no-repeat center/cover fixed;
+    background: url(/assets/img/loginBg.jpg) no-repeat center/cover fixed;
 }
 
 body:before {
@@ -62,7 +62,7 @@ body:before {
     left: 0;
     top: 0;
     z-index: -1;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.0);
 }
 
 ion-list {

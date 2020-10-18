@@ -1,0 +1,17 @@
+ion-list {
+    padding-top: 0px;
+    padding-bottom: 4px;
+    border-radius: 5px;
+}
+
+input[type="password"] {
+    background-color: white;
+}
+
+input[type="password"]:focus {
+    outline: 0;
+}
+
+:host {
+    
+}

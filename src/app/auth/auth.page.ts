@@ -19,7 +19,7 @@ export class AuthPage implements OnInit {
   constructor(private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
-  private alertController: AlertController) {
+    private alertController: AlertController) {
 
   }
 
