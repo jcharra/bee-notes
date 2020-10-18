@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from './auth/auth.service';
 
 export enum EntryType {
@@ -34,6 +34,8 @@ export interface JournalEntry {
   providedIn: 'root',
 })
 export class JournalService {
+  private entryCacheForColony = new Map<string, JournalEntry[]>();
+
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
@@ -62,6 +64,7 @@ export class JournalService {
   }
 
   getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
+    const cacheKey = `${swarmId}_${limit}`; 
     return this.authService.user.pipe(
       take(1),
       switchMap((user) => {
@@ -69,7 +72,13 @@ export class JournalService {
           throw new Error('No user found');
         }
 
-        return this.http
+        const cached = this.entryCacheForColony.get(cacheKey);
+        
+        if (cached) {
+          return of(cached);
+        }
+
+        const entries = this.http
           .get<{ [key: string]: any }>(
             `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries.json?auth=${user.token}&limitToLast=${limit}&orderBy="date"`
           )
@@ -100,7 +109,11 @@ export class JournalService {
 
               return limit > -1 ? entries.splice(0, limit) : entries;
             })
-          );
+        );
+        return entries;
+      }),
+      tap((entries: JournalEntry[]) => { 
+        this.entryCacheForColony.set(cacheKey, entries);
       })
     );
   }
@@ -112,6 +125,8 @@ export class JournalService {
         if (!user) {
           throw new Error('No user found');
         }
+
+        this.clearCacheForColony(swarmId);
 
         return this.http.post(
           `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries.json?auth=${user.token}`,
@@ -129,6 +144,8 @@ export class JournalService {
           throw new Error('No user found');
         }
 
+        this.clearCacheForColony(swarmId);
+
         return this.http.put(
           `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${entry.id}.json?auth=${user.token}`,
           entry
@@ -145,12 +162,24 @@ export class JournalService {
           throw new Error('No user found');
         }
 
+        this.clearCacheForColony(swarmId);
+
         return this.http.delete(
           `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${id}.json?auth=${user.token}`
         );
       })
     );
   }
+
+  private clearCacheForColony(colonyId: string) {
+    const deletable = [];
+    for (let k of this.entryCacheForColony.keys()) {
+      if (k.startsWith(colonyId)) {
+        deletable.push(k);
+      }
+    }
+    deletable.forEach(d => this.entryCacheForColony.delete(d));
+}
 
   migrateToEntries(swarmId: string, entries: JournalEntry[]) {
     this.authService.user.subscribe(
