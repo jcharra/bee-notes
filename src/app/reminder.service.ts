@@ -64,6 +64,17 @@ export class ReminderService {
   }
 
   deleteReminder(swarmId: string, reminderId: string) {
+    return this.authService.user.pipe(
+      take(1),
+      switchMap((user) => {
+        if (!user) {
+          throw new Error('No user found');
+        }
 
+        return this.http
+          .delete(
+            `https://beetracker-6865b.firebaseio.com/users/${user.id}/reminders/${swarmId}/reminders/${reminderId}.json?auth=${user.token}`
+          );
+      }));
   }
 }

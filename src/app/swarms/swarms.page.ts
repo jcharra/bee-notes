@@ -1,3 +1,4 @@
+import { ReminderService } from './../reminder.service';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { map } from 'rxjs/operators';

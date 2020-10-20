@@ -1,12 +1,11 @@
-import { ReminderService } from './../../reminder.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController, AlertController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { addDays, format, startOfDay } from 'date-fns';
 import { JournalEntry } from 'src/app/journal.service';
 import { JournalService } from '../../journal.service';
 import { Swarm, SwarmService } from '../../swarm.service';
-import { NodeWithI18n } from '@angular/compiler';
-import { addDays, format, startOfDay } from 'date-fns';
+import { Reminder, ReminderService } from './../../reminder.service';
 
 const JOURNAL_PLACEHOLDER = Array(3).fill({ text: '', date: new Date() });
 
@@ -20,6 +19,7 @@ export class SwarmDetailPage implements OnInit {
   swarm: Swarm;
   journalEntries: JournalEntry[] = JOURNAL_PLACEHOLDER;
   userId: string;
+  reminders: Reminder[];
 
   constructor(
     private swarmService: SwarmService,
@@ -60,6 +60,8 @@ export class SwarmDetailPage implements OnInit {
         this.journalEntries = entries;
         withSpinner && loading.dismiss();
       });
+    
+    this.loadReminders();
   }
 
   async addReminder() {
@@ -111,6 +113,14 @@ export class SwarmDetailPage implements OnInit {
     await alert.present();
   }
 
+  loadReminders() {
+    this.reminderService
+    .getReminders(this.swarmId)
+    .subscribe((reminders: Reminder[]) => { 
+      this.reminders = reminders;
+    });
+  }
+
   async onMissingValues() {
     const alert = await this.alertCtrl.create({
       header: 'Error',
@@ -121,11 +131,30 @@ export class SwarmDetailPage implements OnInit {
     await alert.present();
   }
 
+  deleteReminder(reminderId: string) {
+    this.reminderService
+      .deleteReminder(this.swarmId, reminderId)
+      .subscribe(() => { 
+        this.onReminderDismissed();
+      });
+  }
+
   async onReminderSaved(date: Date) {
     const toast = await this.toastController.create({
       message: 'You will be reminded on ' + format(date, 'yyyy-MM-dd'),
       duration: 2000
     });
     toast.present();
+    this.loadReminders();
   }
+
+  async onReminderDismissed() {
+    const toast = await this.toastController.create({
+      message: 'Reminder dismissed',
+      duration: 2000
+    });
+
+    toast.present();
+    this.loadReminders();
+  }  
 }

@@ -62,4 +62,21 @@
       <ion-icon name="alarm"></ion-icon>
     </ion-fab-button>
   </ion-buttons>
+
+  <ion-list *ngIf="reminders?.length > 0" [inset]="true">
+    <ion-item class="ion-text-center">
+      <ion-label>
+        <strong>Reminders</strong>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngFor="let reminder of reminders">
+      <strong>{{ reminder.date | date:'dd. MMM'}}: </strong> 
+      &nbsp;{{ reminder.text }}
+      <ion-buttons slot="end">
+        <ion-button (click)="deleteReminder(reminder.id)">
+          <ion-icon name="checkbox-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
 </ion-content>
