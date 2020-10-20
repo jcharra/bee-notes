@@ -46,7 +46,7 @@
       routerLink="journal/edit"
       [queryParams]="{type: 'queen'}"
     >
-      <ion-img src="assets/img/crown.jpeg"></ion-img>
+      <ion-img src="assets/img/queenSmall.png"></ion-img>
     </ion-fab-button>
     <ion-fab-button
       class="imgbutton"
@@ -57,6 +57,9 @@
     </ion-fab-button>
     <ion-fab-button slot="end" color="primary" routerLink="journal/edit">
       <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button slot="end" color="primary" (click)="addReminder()">
+      <ion-icon name="alarm"></ion-icon>
     </ion-fab-button>
   </ion-buttons>
 </ion-content>
