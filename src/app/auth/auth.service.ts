@@ -7,6 +7,7 @@ import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from './user.model';
 import { Plugins } from '@capacitor/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 export interface AuthResponseData {
   kind: string;
@@ -47,7 +48,8 @@ export class AuthService implements OnDestroy {
     return this._user.asObservable();
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private auth: AngularFireAuth) { }
 
   autoLogin() {
     return from(Plugins.Storage.get({ key: 'authData' }))
@@ -77,25 +79,26 @@ export class AuthService implements OnDestroy {
   }
 
   signup(email: string, password: string) {
-    return this.http
-      .post<AuthResponseData>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.FIREBASE_API_KEY}`,
-        {
-          email,
-          password,
-          returnSecureToken: true
-        })
-      .pipe(tap(this.setUserData.bind(this)));
+    return this.auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        this.auth.user
+          .subscribe(user => {
+            return user.sendEmailVerification();
+          })
+      });
   }
 
   login(email: string, password: string) {
-    return this.http
-      .post<AuthResponseData>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.FIREBASE_API_KEY}`,
-        {
-          email,
-          password,
-          returnSecureToken: true
-        })
-      .pipe(tap(this.setUserData.bind(this)));
+    return this.auth
+      .signInWithEmailAndPassword(email, password)
+      .then((userCreds: firebase.auth.UserCredential) => { 
+        if (!userCreds.user || !userCreds.user.emailVerified) {
+          throw 'User not yet verified';
+        }
+
+        this.setUserData(userCreds);
+      });
   }
 
   logout() {
@@ -123,13 +126,15 @@ export class AuthService implements OnDestroy {
     }, duration);
   }
 
-  private setUserData(res: AuthResponseData) {
-    if (res.idToken && res.localId) {
-      const expirationDate = addSeconds(new Date(), +res.expiresIn);
-      const user = new User(res.localId, res.email, res.idToken, expirationDate);
-      this._user.next(user);
-      this.autoLogout(user.tokenDuration);
-      this.storeAuthData(res.localId, res.email, res.idToken, expirationDate.toISOString());
+  private async setUserData(res: firebase.auth.UserCredential) {
+    if (res.user) {
+      const user = res.user;
+      const idTokenResult = await user.getIdTokenResult();
+
+      const localUser = new User(user.uid, user.email, idTokenResult.token, new Date(idTokenResult.expirationTime));
+      this._user.next(localUser);
+      this.autoLogout(localUser.tokenDuration);
+      this.storeAuthData(user.uid, localUser.email, localUser.token, idTokenResult.expirationTime);
     }
   }
 

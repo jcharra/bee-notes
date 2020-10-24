@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
-import { LoadingController, AlertController } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { AuthResponseData, AuthService } from './auth.service';
+import { AlertController, LoadingController } from '@ionic/angular';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +14,7 @@ export class AuthPage implements OnInit {
   isSignup = false;
   isLoading = false;
   loginForm: FormGroup;
-ø
+
   constructor(private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
@@ -56,31 +55,59 @@ export class AuthPage implements OnInit {
 
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
-
-      let authObs: Observable<AuthResponseData>;      
       
       if (this.isSignup) {
-        authObs = this.authService.signup(email, password);          
+        this.authService
+          .signup(email, password)
+          .then(() => { 
+            loadingEl.dismiss();
+            this.onSignupSuccess();
+            this.isSignup = false;
+          })
+          .catch(err => {
+            loadingEl.dismiss();
+            this.onSignupFailed(err);
+          });
       } else {
-        authObs = this.authService.login(email, password);          
-      }
-
-      authObs.subscribe(res => {
-        loadingEl.dismiss();
-        this.router.navigateByUrl('/swarms');
-      }, err => {
-        const code = err.error.error.message;
-        this.isLoading = false;
-        loadingEl.dismiss();
-        this.onLoginFailed();
-      });
+        this.authService
+          .login(email, password)
+          .then(() => {
+            loadingEl.dismiss();
+            this.router.navigateByUrl('/swarms');
+          })
+            .catch(err => {
+            this.isLoading = false;
+            loadingEl.dismiss();
+            this.onLoginFailed(err);
+          });
+      }      
     });
   }
 
-  async onLoginFailed() {
+  async onLoginFailed(msg: string = null) {
     const alert = await this.alertController.create({
       header: 'Login failed',
-      message: 'Username and password do not match.',
+      message: msg || 'Username and password do not match.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  async onSignupFailed(msg: string) {
+    const alert = await this.alertController.create({
+      header: 'Signup failed',
+      message: msg,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  async onSignupSuccess() {
+    const alert = await this.alertController.create({
+      header: 'Signup successful',
+      message: 'We just sent you an email with a validation link.',
       buttons: ['OK']
     });
 
