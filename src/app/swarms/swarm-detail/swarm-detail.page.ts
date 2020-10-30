@@ -100,10 +100,10 @@ export class SwarmDetailPage implements OnInit {
               };
 
               this.reminderService
-              .createReminder(this.swarmId, reminder)
-              .subscribe(() => {
-                this.onReminderSaved(date);
-              });
+                .createReminder(this.swarmId, reminder)
+                .subscribe(() => {
+                  this.onReminderSaved(date);
+                });
             }            
           }
         }
@@ -145,7 +145,6 @@ export class SwarmDetailPage implements OnInit {
       duration: 2000
     });
     toast.present();
-    this.loadReminders();
   }
 
   async onReminderDismissed() {
@@ -155,6 +154,5 @@ export class SwarmDetailPage implements OnInit {
     });
 
     toast.present();
-    this.loadReminders();
   }  
 }

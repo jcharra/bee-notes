@@ -29,7 +29,6 @@ export class ReminderService {
           .list(`/users/${user.uid}/reminders/${swarmId}/reminders`)
           .snapshotChanges()
           .pipe(map(reminders => {
-
             const entries: Reminder[] = [];
             for (let i = 0; i < reminders.length; i++) {
               const item: any = reminders[i];
@@ -42,6 +41,8 @@ export class ReminderService {
                 date: new Date(value.date)
               });
             }
+
+            entries.sort((a, b) => a.date < b.date ? -1 : 1);
 
             return entries;
           }));
