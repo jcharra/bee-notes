@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { AuthService } from './auth/auth.service';
 
 export enum EntryType {
   VARROA_CHECK_START = 'Varroa check start',
@@ -36,21 +36,21 @@ export interface JournalEntry {
 export class JournalService {
   private entryCacheForColony = new Map<string, JournalEntry[]>();
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private db: AngularFireDatabase,
+              private auth: AngularFireAuth) { }
 
   getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
         }
 
-        return this.http
-          .get<{ [key: string]: any }>(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${entryId}.json?auth=${user.token}`
-          )
-          .pipe(map(entry => {
+        return this.db
+          .object(`/users/${user.uid}/journals/${swarmId}/entries/${entryId}`)
+          .valueChanges()
+          .pipe(map((entry: any) => {
             return {
               id: entry.id,
               title: entry.title,
@@ -65,7 +65,7 @@ export class JournalService {
 
   getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
     const cacheKey = `${swarmId}_${limit}`; 
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
@@ -78,29 +78,28 @@ export class JournalService {
           return of(cached);
         }
 
-        const entries = this.http
-          .get<{ [key: string]: any }>(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries.json?auth=${user.token}&limitToLast=${limit}&orderBy="date"`
-          )
+        const entries = this.db
+          .list(`/users/${user.uid}/journals/${swarmId}/entries`)
+          .snapshotChanges()
           .pipe(
-            map((data) => {
+            map((data: any[]) => {
               if (!data) {
                 return [];
               }
-
+              
               const entries: JournalEntry[] = [];
-              for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                  // use unshift, since entries are returned in inversed order
-                  entries.unshift({
-                    id: key,
-                    title: data[key].title,
-                    text: data[key].text,
-                    type: data[key].type,
-                    date: new Date(data[key].date),
-                    amount: data[key].amount
-                  });
-                }
+              for (let i = 0; i < data.length; i++) {
+                const item: any = data[i];
+                const key = item.key;
+                const value: any = item.payload.val();
+                entries.unshift({
+                  id: key,
+                  title: value.title,
+                  text: value.text,
+                  type: value.type,
+                  date: new Date(value.date),
+                  amount: value.amount
+                });
               }
 
               entries.sort((a, b) => {
@@ -119,7 +118,7 @@ export class JournalService {
   }
 
   createEntry(swarmId: string, entry: JournalEntry): Observable<any> {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
@@ -128,16 +127,15 @@ export class JournalService {
 
         this.clearCacheForColony(swarmId);
 
-        return this.http.post(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries.json?auth=${user.token}`,
-          entry
-        );
+        return this.db
+          .list(`/users/${user.uid}/journals/${swarmId}/entries`)
+          .push(entry);
       })
     );
   }
 
   updateEntry(swarmId: string, entry: JournalEntry) {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
@@ -146,16 +144,15 @@ export class JournalService {
 
         this.clearCacheForColony(swarmId);
 
-        return this.http.put(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${entry.id}.json?auth=${user.token}`,
-          entry
-        );
+        return this.db
+          .object(`/users/${user.uid}/journals/${swarmId}/entries/${entry.id}`)
+          .update(entry);
       })
     );
   }
 
   deleteEntry(swarmId: string, id: string) {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
@@ -164,9 +161,9 @@ export class JournalService {
 
         this.clearCacheForColony(swarmId);
 
-        return this.http.delete(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${id}.json?auth=${user.token}`
-        );
+        return this.db
+          .object(`/users/${user.uid}/journals/${swarmId}/entries/${id}`)
+          .remove();
       })
     );
   }
@@ -182,17 +179,15 @@ export class JournalService {
 }
 
   migrateToEntries(swarmId: string, entries: JournalEntry[]) {
-    this.authService.user.subscribe(
+    this.auth.user.subscribe(
       user => {
         if (!user) {
           throw new Error('No user found');
         }
 
         entries.forEach(e => {
-          return this.http.put(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/journals/${swarmId}/entries/${e.id}.json?auth=${user.token}`,
-            e
-          ).subscribe();
+          // Put migrations here
+          console.log('Migration done for ', e);
         });
       });
   }

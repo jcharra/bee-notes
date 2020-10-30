@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take, switchMap, map } from 'rxjs/operators';
-import { AuthService } from './auth/auth.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { map, switchMap, take } from 'rxjs/operators';
 
 export interface Reminder {
   id?: string;
@@ -14,32 +14,33 @@ export interface Reminder {
 })
 export class ReminderService {
 
-  constructor(private http: HttpClient,
-              private authService: AuthService) { }
+  constructor(private db: AngularFireDatabase,
+              private auth: AngularFireAuth) { }
 
   getReminders(swarmId: string) {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
         }
 
-        return this.http
-          .get<{ [key: string]: any }>(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/reminders/${swarmId}/reminders.json?auth=${user.token}`
-          )
+        return this.db
+          .list(`/users/${user.uid}/reminders/${swarmId}/reminders`)
+          .snapshotChanges()
           .pipe(map(reminders => {
 
             const entries: Reminder[] = [];
-            for (const key in reminders) {
-              if (reminders.hasOwnProperty(key)) {
-                entries.push({
-                  id: key,
-                  text: reminders[key].text,
-                  date: new Date(reminders[key].date)
-                });
-              }
+            for (let i = 0; i < reminders.length; i++) {
+              const item: any = reminders[i];
+              const key = item.key;
+              const value = item.payload.val();
+
+              entries.push({
+                id: key,
+                text: value.text,
+                date: new Date(value.date)
+              });
             }
 
             return entries;
@@ -48,33 +49,33 @@ export class ReminderService {
   }
 
   createReminder(swarmId: string, reminder: Reminder) {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
         }
 
-        return this.http
-          .post(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/reminders/${swarmId}/reminders.json?auth=${user.token}`,
-            reminder
-          );
+        return this.db
+          .list(`/users/${user.uid}/reminders/${swarmId}/reminders`)
+          .push({
+            text: reminder.text,
+            date: reminder.date.toISOString()
+          });
       }));
   }
 
   deleteReminder(swarmId: string, reminderId: string) {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
         }
 
-        return this.http
-          .delete(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/reminders/${swarmId}/reminders/${reminderId}.json?auth=${user.token}`
-          );
+        return this.db
+          .object(`/users/${user.uid}/reminders/${swarmId}/reminders/${reminderId}`)
+          .remove();
       }));
   }
 }

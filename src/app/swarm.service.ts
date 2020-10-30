@@ -1,10 +1,10 @@
-import { ColonyStatus } from './status.service';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
-import { AuthService } from './auth/auth.service';
 import { JournalEntry } from './journal.service';
+import { ColonyStatus } from './status.service';
 
 export interface Swarm {
   id?: string;
@@ -18,20 +18,19 @@ export interface Swarm {
   providedIn: 'root',
 })
 export class SwarmService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private db: AngularFireDatabase,
+              private auth: AngularFireAuth) { }
 
   getSwarms(force: boolean = false): Observable<Swarm[]> {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
         }
 
-        return this.http
-          .get<{ [key: string]: Swarm }>(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms.json?auth=${user.token}`
-          )
+        return this.db.object(`users/${user.uid}/swarms`)
+          .valueChanges()
           .pipe(
             catchError((err) => []),
             map((swarmData) => {
@@ -53,17 +52,11 @@ export class SwarmService {
   }
 
   getSwarm(id: string): Observable<Swarm> {
-    return this.authService.user.pipe(
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
-
-        return this.http
-          .get(
-            `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms/${id}.json?auth=${user.token}`
-          )
+        return this.db.object(`users/${user.uid}/swarms/${id}`)
+          .valueChanges()
           .pipe(
             map((s: any) => {
               return {
@@ -77,18 +70,17 @@ export class SwarmService {
     );
   }
 
-  createSwarm(s: Swarm): Observable<Swarm> {
-    return this.authService.user.pipe(
+  createSwarm(s: Swarm): Observable<any> {
+    return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
         if (!user) {
           throw new Error('No user found');
         }
 
-        return this.http.post<Swarm>(
-          `https://beetracker-6865b.firebaseio.com/users/${user.id}/swarms.json?auth=${user.token}`,
-          s
-        );
+        return this.db
+          .list(`/users/${user.uid}/swarms`)
+          .push(s);        
       })
     );
   }

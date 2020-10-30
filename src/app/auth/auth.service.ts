@@ -1,13 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { addSeconds } from 'date-fns';
+import { Plugins } from '@capacitor/core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { User } from './user.model';
-import { Plugins } from '@capacitor/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 
 export interface AuthResponseData {
   kind: string;
@@ -48,8 +45,7 @@ export class AuthService implements OnDestroy {
     return this._user.asObservable();
   }
 
-  constructor(private http: HttpClient,
-              private auth: AngularFireAuth) { }
+  constructor(private auth: AngularFireAuth) { }
 
   autoLogin() {
     return from(Plugins.Storage.get({ key: 'authData' }))

@@ -28,7 +28,7 @@ export class SwarmsPage implements OnInit {
 
   async loadSwarms(withSpinner: boolean = true) {
     const loading = await this.loadingController.create({
-      message: 'Loading swarms...',
+      message: 'Loading colonies ...',
       showBackdrop: true
     });
 
@@ -105,9 +105,8 @@ export class SwarmsPage implements OnInit {
 
               this.swarmService
                 .createSwarm(newSwarm)
-                .subscribe((result: { name: string }) => {
-                  newSwarm.id = result.name;
-                  this.swarms.push(newSwarm);
+                .subscribe(() => { 
+
                 }, err => {
                     this.onCreationFailure(err);
                 });
