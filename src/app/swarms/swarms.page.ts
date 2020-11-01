@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { JournalEntry, JournalService } from '../journal.service';
 import { StatusService } from '../status.service';
 import { Swarm, SwarmService } from '../swarm.service';
@@ -12,8 +11,8 @@ import { Swarm, SwarmService } from '../swarm.service';
   templateUrl: './swarms.page.html',
   styleUrls: ['./swarms.page.scss']
 })
-export class SwarmsPage implements OnInit {
-  swarms$: Observable<Swarm[]>;
+export class SwarmsPage {
+  swarms: Swarm[];
   userId: string;
 
   constructor(
@@ -26,20 +25,23 @@ export class SwarmsPage implements OnInit {
     private statusService: StatusService
   ) { }
   
-  async loadSwarms(withSpinner: boolean = true) {
+  async loadSwarms() {
+    const showSpinner = !this.swarms;
     const loading = await this.loadingController.create({
       message: 'Loading colonies ...',
       showBackdrop: true
     });
 
-    if (withSpinner) {
+    if (showSpinner) {
       await loading.present();
     }
 
-    this.swarms$ = this.swarmService
+    this.swarmService
       .getSwarms()
       .pipe(
+        take(1),
         tap((s: Swarm[]) => {
+          this.swarms = s || [];
           s.forEach((sw: Swarm) => {
             this.journalService
               .getEntries(sw.id, 6)
@@ -51,12 +53,9 @@ export class SwarmsPage implements OnInit {
               });
           });
 
-        withSpinner && loading.dismiss();
-      }));
-  }
-
-  ngOnInit(): void {
-    
+          showSpinner && loading.dismiss();
+        }))
+      .subscribe();
   }
 
   migrateJournal() {
@@ -65,7 +64,7 @@ export class SwarmsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadSwarms(false);
+    this.loadSwarms();
   }
 
   openSwarmDetail(swarmId: string) {

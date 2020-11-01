@@ -1,3 +1,4 @@
+import { JournalEntry } from './../../journal.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -10,7 +11,7 @@ import { JournalEntry, JournalService } from 'src/app/journal.service';
   styleUrls: ['./swarm-journal.page.scss'],
 })
 export class SwarmJournalPage implements OnInit {
-  journalEntries$: Observable<JournalEntry[]>;
+  journalEntries: JournalEntry[];
   swarmId: string;
 
   constructor(
@@ -27,8 +28,11 @@ export class SwarmJournalPage implements OnInit {
   }
 
   loadEntries() {
-    this.journalEntries$ = this.journalService
-      .getEntries(this.swarmId);
+    this.journalService
+      .getEntries(this.swarmId)
+      .subscribe((es: JournalEntry[]) => { 
+        this.journalEntries = es || [];
+      });
   }
 
   async deleteEntry(entry: JournalEntry) {
