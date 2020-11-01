@@ -58,9 +58,8 @@ export class SwarmsPage {
       .subscribe();
   }
 
-  migrateJournal() {
+  migrate() {
     // put migrations here
-    console.log('no migration');
   }
 
   ionViewDidEnter() {

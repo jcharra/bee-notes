@@ -37,7 +37,7 @@ export class JournalService {
   private entryCacheForColony = new Map<string, JournalEntry[]>();
 
   constructor(private db: AngularFireDatabase,
-    private auth: AngularFireAuth) { }
+              private auth: AngularFireAuth) { }
 
   getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
     return this.auth.user.pipe(
@@ -177,19 +177,5 @@ export class JournalService {
       }
     }
     deletable.forEach(d => this.entryCacheForColony.delete(d));
-  }
-
-  migrateToEntries(swarmId: string, entries: JournalEntry[]) {
-    this.auth.user.subscribe(
-      user => {
-        if (!user) {
-          throw new Error('No user found');
-        }
-
-        entries.forEach(e => {
-          // Put migrations here
-          console.log('Migration done for ', e);
-        });
-      });
   }
 }

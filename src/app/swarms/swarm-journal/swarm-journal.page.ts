@@ -1,9 +1,8 @@
-import { JournalEntry } from './../../journal.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { JournalEntry, JournalService } from 'src/app/journal.service';
+import { JournalService } from 'src/app/journal.service';
+import { JournalEntry } from './../../journal.service';
 
 @Component({
   selector: 'app-swarm-journal',
