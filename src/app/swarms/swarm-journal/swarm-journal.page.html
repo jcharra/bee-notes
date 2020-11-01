@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="journalEntries$ | async as journalEntries">
     <ion-item *ngFor="let entry of journalEntries; let idx = index">
       <ion-label>
         <div class="ion-float-left ion-text-center calendar-sheet">

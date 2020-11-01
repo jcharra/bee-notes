@@ -1,17 +1,21 @@
-import { AuthGuard } from './auth/auth.guard';
 import { NgModule } from '@angular/core';
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['auth']);
 
 const routes: Routes = [
   {
     path: 'swarms',
-    canLoad: [AuthGuard],
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () =>
       import('./swarms/swarms.module').then(m => m.SwarmsPageModule)
   },
   {
     path: 'finance',
-    canLoad: [AuthGuard],
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () =>
       import('./finance/finance.module').then(m => m.FinancePageModule)
   },

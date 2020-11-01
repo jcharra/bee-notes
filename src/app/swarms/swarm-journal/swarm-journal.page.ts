@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { JournalEntry, JournalService } from 'src/app/journal.service';
 
 @Component({
@@ -10,14 +10,13 @@ import { JournalEntry, JournalService } from 'src/app/journal.service';
   styleUrls: ['./swarm-journal.page.scss'],
 })
 export class SwarmJournalPage implements OnInit {
-  journalEntries: JournalEntry[];
+  journalEntries$: Observable<JournalEntry[]>;
   swarmId: string;
 
   constructor(
     private journalService: JournalService,
     private route: ActivatedRoute,
-    private alertCtrl: AlertController,
-    private translateService: TranslateService) { }
+    private alertCtrl: AlertController) { }
 
   ngOnInit() {
     this.swarmId = this.route.snapshot.params.swarmId;
@@ -28,11 +27,8 @@ export class SwarmJournalPage implements OnInit {
   }
 
   loadEntries() {
-    this.journalService
-      .getEntries(this.swarmId)
-      .subscribe((entries: JournalEntry[]) => {
-        this.journalEntries = entries || [];
-      });
+    this.journalEntries$ = this.journalService
+      .getEntries(this.swarmId);
   }
 
   async deleteEntry(entry: JournalEntry) {

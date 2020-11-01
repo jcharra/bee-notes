@@ -1,7 +1,7 @@
-import { ReminderService } from './../reminder.service';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { JournalEntry, JournalService } from '../journal.service';
 import { StatusService } from '../status.service';
 import { Swarm, SwarmService } from '../swarm.service';
@@ -13,7 +13,7 @@ import { Swarm, SwarmService } from '../swarm.service';
   styleUrls: ['./swarms.page.scss']
 })
 export class SwarmsPage implements OnInit {
-  swarms: Swarm[];
+  swarms$: Observable<Swarm[]>;
   userId: string;
 
   constructor(
@@ -25,7 +25,7 @@ export class SwarmsPage implements OnInit {
     private alertController: AlertController,
     private statusService: StatusService
   ) { }
-
+  
   async loadSwarms(withSpinner: boolean = true) {
     const loading = await this.loadingController.create({
       message: 'Loading colonies ...',
@@ -36,13 +36,11 @@ export class SwarmsPage implements OnInit {
       await loading.present();
     }
 
-    this.swarmService
+    this.swarms$ = this.swarmService
       .getSwarms()
-      .pipe(map((s: Swarm[]) => {
-        this.swarms = s || [];
-
-        this.swarms
-          .forEach((sw: Swarm) => {
+      .pipe(
+        tap((s: Swarm[]) => {
+          s.forEach((sw: Swarm) => {
             this.journalService
               .getEntries(sw.id, 6)
               .subscribe((e: JournalEntry[]) => {
@@ -54,8 +52,7 @@ export class SwarmsPage implements OnInit {
           });
 
         withSpinner && loading.dismiss();
-      }))
-      .subscribe();
+      }));
   }
 
   ngOnInit(): void {
@@ -68,7 +65,7 @@ export class SwarmsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadSwarms(!this.swarms || this.swarms.length === 0);
+    this.loadSwarms(false);
   }
 
   openSwarmDetail(swarmId: string) {

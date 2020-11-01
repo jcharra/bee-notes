@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list [inset]="true">
+  <ion-list [inset]="true" *ngIf="swarms$ | async as swarms">
       <ion-item
         *ngFor="let swarm of swarms"
         (tap)="openSwarmDetail(swarm.id)"

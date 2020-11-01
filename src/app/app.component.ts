@@ -1,23 +1,18 @@
-import { AuthService } from './auth/auth.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
-import { MenuController, Platform } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { AppState, Plugins } from '@capacitor/core';
-import { take } from 'rxjs/operators';
+import { MenuController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from './auth/auth.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
-  private authSub: Subscription;
-  private previousAuthState = false;
+export class AppComponent {
 
   constructor(
     private platform: Platform,
@@ -39,28 +34,10 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
-    this.authSub = this.authService.userIsAuthenticated.subscribe(
-      isAuthenticated => {
-        if (!isAuthenticated && this.previousAuthState != isAuthenticated) {
-          this.router.navigateByUrl('/auth');
-        }
-        this.previousAuthState = isAuthenticated;
-      }
-    );
-
-    Plugins.App.addListener('appStateChange', this.checkAuthOnResume.bind(this));
-  }
-
-  ngOnDestroy() {
-    if (this.authSub) {
-      this.authSub.unsubscribe();
-    }
-  }
-
   onLogout() {
     this.menu.close();
     this.authService.logout();
+    this.router.navigateByUrl('/auth');
   }
 
   openFinance() {
@@ -71,18 +48,5 @@ export class AppComponent implements OnInit, OnDestroy {
   openSwarms() {
     this.menu.close();
     this.router.navigateByUrl('/swarms');
-  }
-
-  private checkAuthOnResume(state: AppState) {
-    if (state.isActive) {
-      this.authService
-        .autoLogin()
-        .pipe(take(1))
-        .subscribe(success => {
-          if (!success) {
-            this.onLogout();
-          }
-        });
-    }
   }
 }

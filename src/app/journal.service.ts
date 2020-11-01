@@ -37,7 +37,7 @@ export class JournalService {
   private entryCacheForColony = new Map<string, JournalEntry[]>();
 
   constructor(private db: AngularFireDatabase,
-              private auth: AngularFireAuth) { }
+    private auth: AngularFireAuth) { }
 
   getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
     return this.auth.user.pipe(
@@ -64,7 +64,7 @@ export class JournalService {
   }
 
   getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
-    const cacheKey = `${swarmId}_${limit}`; 
+    const cacheKey = `${swarmId}_${limit}`;
     return this.auth.user.pipe(
       take(1),
       switchMap((user) => {
@@ -73,7 +73,7 @@ export class JournalService {
         }
 
         const cached = this.entryCacheForColony.get(cacheKey);
-        
+
         if (cached) {
           return of(cached);
         }
@@ -82,11 +82,12 @@ export class JournalService {
           .list(`/users/${user.uid}/journals/${swarmId}/entries`)
           .snapshotChanges()
           .pipe(
+            take(1),
             map((data: any[]) => {
               if (!data) {
                 return [];
               }
-              
+
               const entries: JournalEntry[] = [];
               for (let i = 0; i < data.length; i++) {
                 const item: any = data[i];
@@ -108,10 +109,10 @@ export class JournalService {
 
               return limit > -1 ? entries.splice(0, limit) : entries;
             })
-        );
+          );
         return entries;
       }),
-      tap((entries: JournalEntry[]) => { 
+      tap((entries: JournalEntry[]) => {
         this.entryCacheForColony.set(cacheKey, entries);
       })
     );
@@ -176,7 +177,7 @@ export class JournalService {
       }
     }
     deletable.forEach(d => this.entryCacheForColony.delete(d));
-}
+  }
 
   migrateToEntries(swarmId: string, entries: JournalEntry[]) {
     this.auth.user.subscribe(
