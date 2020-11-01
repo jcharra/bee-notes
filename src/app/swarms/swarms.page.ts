@@ -42,7 +42,7 @@ export class SwarmsPage {
         take(1),
         tap((s: Swarm[]) => {
           this.swarms = s || [];
-          s.forEach((sw: Swarm) => {
+          this.swarms.forEach((sw: Swarm) => {
             this.journalService
               .getEntries(sw.id, 6)
               .subscribe((e: JournalEntry[]) => {
@@ -60,6 +60,7 @@ export class SwarmsPage {
 
   migrate() {
     // put migrations here
+
   }
 
   ionViewDidEnter() {
@@ -101,7 +102,7 @@ export class SwarmsPage {
               this.swarmService
                 .createSwarm(newSwarm)
                 .subscribe(() => { 
-
+                  this.loadSwarms();
                 }, err => {
                     this.onCreationFailure(err);
                 });

@@ -27,7 +27,7 @@
         <ion-icon *ngIf="swarm.status === 'VARROA_MEDIUM'" color="warning" name="bug-outline" slot="end"></ion-icon>
         <ion-icon *ngIf="swarm.status === 'VARROA_CRITICAL'" color="danger" name="bug-outline" slot="end"></ion-icon>
       </ion-item>
-    <ion-item *ngIf="swarms && swarms.length === 0">
+    <ion-item *ngIf="swarms && swarms.length === 0" class="ion-padding">
       {{ 'NO_COLONIES_YET' | translate }} 🐝
     </ion-item>
   </ion-list>
