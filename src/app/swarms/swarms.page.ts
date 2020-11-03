@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
-import { take, tap } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { JournalEntry, JournalService } from '../journal.service';
 import { StatusService } from '../status.service';
 import { Swarm, SwarmService } from '../swarm.service';
@@ -39,9 +39,11 @@ export class SwarmsPage {
     this.swarmService
       .getSwarms()
       .pipe(
-        take(1),
+        first(),
         tap((s: Swarm[]) => {
-          this.swarms = s || [];
+          // only reassign if length has changed (avoids flickering)
+          this.swarms = this.swarms && this.swarms.length === s.length ? this.swarms : s;
+
           this.swarms.forEach((sw: Swarm) => {
             this.journalService
               .getEntries(sw.id, 6)
@@ -54,7 +56,8 @@ export class SwarmsPage {
           });
 
           showSpinner && loading.dismiss();
-        }))
+        })
+      )
       .subscribe();
   }
 

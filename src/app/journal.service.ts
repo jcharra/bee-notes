@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
+import { AuthService } from './auth/auth.service';
 
 export enum EntryType {
   VARROA_CHECK_START = 'Varroa check start',
@@ -37,16 +37,12 @@ export class JournalService {
   private entryCacheForColony = new Map<string, JournalEntry[]>();
 
   constructor(private db: AngularFireDatabase,
-              private auth: AngularFireAuth) { }
+              private authService: AuthService) { }
 
   getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
-
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
         return this.db
           .object(`/users/${user.uid}/journals/${swarmId}/entries/${entryId}`)
           .valueChanges()
@@ -65,13 +61,9 @@ export class JournalService {
 
   getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
     const cacheKey = `${swarmId}_${limit}`;
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
-
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
         const cached = this.entryCacheForColony.get(cacheKey);
 
         if (cached) {
@@ -119,12 +111,9 @@ export class JournalService {
   }
 
   createEntry(swarmId: string, entry: JournalEntry): Observable<any> {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
 
         this.clearCacheForColony(swarmId);
 
@@ -136,12 +125,9 @@ export class JournalService {
   }
 
   updateEntry(swarmId: string, entry: JournalEntry) {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
 
         this.clearCacheForColony(swarmId);
 
@@ -153,12 +139,9 @@ export class JournalService {
   }
 
   deleteEntry(swarmId: string, id: string) {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
 
         this.clearCacheForColony(swarmId);
 

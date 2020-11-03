@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+import { AuthService } from './auth/auth.service';
 import { JournalEntry } from './journal.service';
 import { ColonyStatus } from './status.service';
 
@@ -19,15 +19,12 @@ export interface Swarm {
 })
 export class SwarmService {
   constructor(private db: AngularFireDatabase,
-              private auth: AngularFireAuth) { }
+              private authService: AuthService) { }
 
-  getSwarms(force: boolean = false): Observable<Swarm[]> {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
+  getSwarms(): Observable<Swarm[]> {
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
 
         return this.db
           .list(`users/${user.uid}/swarms`)
@@ -56,9 +53,9 @@ export class SwarmService {
   }
 
   getSwarm(id: string): Observable<Swarm> {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
         return this.db.object(`users/${user.uid}/swarms/${id}`)
           .valueChanges()
           .pipe(
@@ -76,12 +73,9 @@ export class SwarmService {
   }
 
   createSwarm(s: Swarm): Observable<any> {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
 
         return this.db
           .list(`/users/${user.uid}/swarms`)

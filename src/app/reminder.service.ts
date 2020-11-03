@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { map, switchMap, take } from 'rxjs/operators';
+import { AuthService } from './auth/auth.service';
 
 export interface Reminder {
   id?: string;
@@ -15,15 +15,12 @@ export interface Reminder {
 export class ReminderService {
 
   constructor(private db: AngularFireDatabase,
-              private auth: AngularFireAuth) { }
+              private authService: AuthService) { }
 
   getReminders(swarmId: string) {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
 
         return this.db
           .list(`/users/${user.uid}/reminders/${swarmId}/reminders`)
@@ -51,13 +48,9 @@ export class ReminderService {
   }
 
   createReminder(swarmId: string, reminder: Reminder) {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
-
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
         return this.db
           .list(`/users/${user.uid}/reminders/${swarmId}/reminders`)
           .push({
@@ -68,13 +61,9 @@ export class ReminderService {
   }
 
   deleteReminder(swarmId: string, reminderId: string) {
-    return this.auth.user.pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user) {
-          throw new Error('No user found');
-        }
-
+    return this.authService
+      .getUser()
+      .pipe(switchMap(user => {
         return this.db
           .object(`/users/${user.uid}/reminders/${swarmId}/reminders/${reminderId}`)
           .remove();
