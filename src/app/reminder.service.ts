@@ -25,7 +25,7 @@ export class ReminderService {
         return this.db
           .list(`/users/${user.uid}/reminders/${swarmId}/reminders`)
           .snapshotChanges()
-          .pipe(take(1),
+          .pipe(
             map(reminders => {
             const entries: Reminder[] = [];
             for (let i = 0; i < reminders.length; i++) {
