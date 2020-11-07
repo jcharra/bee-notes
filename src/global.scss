@@ -49,6 +49,10 @@ ion-content {
     --background: url(/assets/img/loginBg.jpg) no-repeat center/cover fixed;
 }
 
+ion-content.nobackground {
+    --background: none;
+}
+
 body:before {
     content: "";
     display: block;
