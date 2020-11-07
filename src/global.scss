@@ -46,11 +46,7 @@
   }
 
 ion-content {
-    --background: none;
-}
-
-body {
-    background: url(/assets/img/loginBg.jpg) no-repeat center/cover fixed;
+    --background: url(/assets/img/loginBg.jpg) no-repeat center/cover fixed;
 }
 
 body:before {
