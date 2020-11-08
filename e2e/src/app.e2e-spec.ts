@@ -1,14 +1,14 @@
-import { AppPage } from './app.po';
+import { AuthPage } from './app.po';
 
 describe('new App', () => {
-  let page: AppPage;
+  let page: AuthPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new AuthPage();
   });
 
   it('should be blank', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toContain('Start with Ionic UI Components');
+    expect(page.getTitleText()).toEqual('Welcome to Bee Aware');
   });
 });

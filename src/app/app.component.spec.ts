@@ -1,3 +1,4 @@
+import { AngularFireAuth } from '@angular/fire/auth';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 
@@ -5,7 +6,12 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { AngularAuthMock } from './testutils/firebaseMocks';
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { AppComponent } from './app.component';
+import { TranslateService } from '@ngx-translate/core';
+import { MockTranslatePipe, TranslateServiceMock } from './testutils/translateMock';
 
 describe('AppComponent', () => {
 
@@ -18,12 +24,15 @@ describe('AppComponent', () => {
     platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
 
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      imports: [RouterTestingModule],
+      declarations: [AppComponent, MockTranslatePipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: StatusBar, useValue: statusBarSpy },
         { provide: SplashScreen, useValue: splashScreenSpy },
         { provide: Platform, useValue: platformSpy },
+        { provide: AngularFireAuth, useValue: AngularAuthMock },
+        { provide: TranslateService, useValue: TranslateServiceMock }
       ],
     }).compileComponents();
   }));
