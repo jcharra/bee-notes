@@ -23,9 +23,11 @@ export class StatusService {
       if (entry.type === EntryType.VARROA_CHECK_END) {
         varroaEnd = entry;
       } else if (entry.type === EntryType.VARROA_CHECK_START && varroaEnd) {
-        const varroaAvg = varroaEnd.amount ?
+        let varroaAvg = varroaEnd.amount ?
           +varroaEnd.amount / (differenceInDays(varroaEnd.date, entry.date) || 1) :
           0;
+        
+        varroaAvg = Math.round(varroaAvg * 10) / 10
         
         if (varroaAvg > 10) {
           return {
