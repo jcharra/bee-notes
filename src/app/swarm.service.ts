@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AuthService } from './auth/auth.service';
 import { JournalEntry } from './journal.service';
-import { ColonyStatus } from './status.service';
+import { ColonyStatusInfo } from './status.service';
 
 export interface Swarm {
   id?: string;
   name: string;
   created: Date;
-  status?: ColonyStatus;
+  statusInfo?: ColonyStatusInfo;
   lastAction?: JournalEntry;
 }
 

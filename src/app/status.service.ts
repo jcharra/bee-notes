@@ -8,11 +8,16 @@ export enum ColonyStatus {
   SWARMING = 'SWARMING'
 }
 
+export interface ColonyStatusInfo {
+  colonyStatus: ColonyStatus;
+  avgCount: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class StatusService {
-  getColonyStatus(entries: JournalEntry[]): ColonyStatus {
+  getColonyStatus(entries: JournalEntry[]): ColonyStatusInfo {
     let varroaEnd;
     for (let entry of entries) {
       if (entry.type === EntryType.VARROA_CHECK_END) {
@@ -23,9 +28,15 @@ export class StatusService {
           0;
         
         if (varroaAvg > 10) {
-          return ColonyStatus.VARROA_CRITICAL
+          return {
+            colonyStatus: ColonyStatus.VARROA_CRITICAL,
+            avgCount: varroaAvg
+          }
         } else if (varroaAvg > 5) {
-          return ColonyStatus.VARROA_MEDIUM;
+          return {
+            colonyStatus: ColonyStatus.VARROA_MEDIUM,
+            avgCount: varroaAvg
+          }
         }
       }
     }

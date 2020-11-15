@@ -50,7 +50,7 @@ export class SwarmsPage {
               .subscribe((e: JournalEntry[]) => {
                 if (e && e.length > 0) {
                   sw.lastAction = e[0];
-                  sw.status = this.statusService.getColonyStatus(e);
+                  sw.statusInfo = this.statusService.getColonyStatus(e);
                 }
               });
           });
