@@ -24,17 +24,17 @@ export class StatusService {
         varroaEnd = entry;
       } else if (entry.type === EntryType.VARROA_CHECK_START && varroaEnd) {
         let varroaAvg = varroaEnd.amount ?
-          +varroaEnd.amount / (differenceInDays(varroaEnd.date, entry.date) || 1) :
+          +varroaEnd.amount / (Math.ceil(differenceInDays(varroaEnd.date, entry.date) + 0.01)) :
           0;
         
-        varroaAvg = Math.round(varroaAvg * 10) / 10
+        varroaAvg = Math.round(varroaAvg);
         
-        if (varroaAvg > 10) {
+        if (varroaAvg >= 10) {
           return {
             colonyStatus: ColonyStatus.VARROA_CRITICAL,
             avgCount: varroaAvg
           }
-        } else if (varroaAvg > 5) {
+        } else if (varroaAvg >= 5) {
           return {
             colonyStatus: ColonyStatus.VARROA_MEDIUM,
             avgCount: varroaAvg

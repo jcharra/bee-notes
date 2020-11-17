@@ -8,6 +8,11 @@ ion-label {
 }
 
 .statusInfoLabel {
-    flex: 0 0 90px;
+    text-align: center;
+    flex: 0 0 68px;
     font-size: 14px;
+}
+
+.statusInfoLabel ion-icon {
+    margin-bottom: -2px;
 }

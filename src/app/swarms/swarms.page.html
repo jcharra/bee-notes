@@ -24,10 +24,13 @@
             <app-journal-entry-short [entry]="entry"></app-journal-entry-short>
           </span>
         </ion-label>
-        <ion-label slot="end" *ngIf="swarm.statusInfo?.colonyStatus" class="statusInfoLabel">
-          <ion-icon *ngIf="swarm.statusInfo?.colonyStatus === 'VARROA_MEDIUM'" color="warning" name="bug-outline" slot="end"></ion-icon>
-          <ion-icon *ngIf="swarm.statusInfo?.colonyStatus === 'VARROA_CRITICAL'" color="danger" name="bug-outline" slot="end"></ion-icon>
-          {{ swarm.statusInfo.avgCount }} / d
+        <ion-label 
+          slot="end" 
+          [color]="swarm.statusInfo?.colonyStatus === 'VARROA_CRITICAL' ? 'danger' : 'warning'"
+          *ngIf="swarm.statusInfo?.colonyStatus" 
+          class="statusInfoLabel">
+          {{ swarm.statusInfo.avgCount }} <ion-icon name="bug-outline" slot="end"></ion-icon>
+          <br>per day
         </ion-label>       
       </ion-item>
     <ion-item *ngIf="swarms && swarms.length === 0" class="ion-padding">
