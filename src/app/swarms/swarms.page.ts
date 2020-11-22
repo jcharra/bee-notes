@@ -1,3 +1,4 @@
+import { ColonyStatus, ColonyStatusInfo } from './../status.service';
 import { Component } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { first, tap } from 'rxjs/operators';
@@ -24,7 +25,7 @@ export class SwarmsPage {
     private alertController: AlertController,
     private statusService: StatusService
   ) { }
-  
+
   async loadSwarms() {
     const showSpinner = !this.swarms;
     const loading = await this.loadingController.create({
@@ -104,10 +105,10 @@ export class SwarmsPage {
 
               this.swarmService
                 .createSwarm(newSwarm)
-                .subscribe(() => { 
+                .subscribe(() => {
                   this.loadSwarms();
                 }, err => {
-                    this.onCreationFailure(err);
+                  this.onCreationFailure(err);
                 });
             } else {
               this.onCreationFailure('Please choose a valid name');

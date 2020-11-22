@@ -26,7 +26,8 @@
         </ion-label>
         <ion-label 
           slot="end" 
-          [color]="swarm.statusInfo?.colonyStatus === 'VARROA_CRITICAL' ? 'danger' : 'warning'"
+          [color]="swarm.statusInfo?.colonyStatus === 'VARROA_OK' ? 'success' : 
+          (swarm.statusInfo?.colonyStatus === 'VARROA_MEDIUM' ? 'warning' : 'danger')"
           *ngIf="swarm.statusInfo?.colonyStatus" 
           class="statusInfoLabel">
           {{ swarm.statusInfo.avgCount }} <ion-icon name="bug-outline" slot="end"></ion-icon>
