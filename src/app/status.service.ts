@@ -5,6 +5,7 @@ import { EntryType, JournalEntry } from './journal.service';
 export enum ColonyStatus {
   VARROA_MEDIUM = 'VARROA_MEDIUM',
   VARROA_CRITICAL = 'VARROA_CRITICAL',
+  VARROA_OK = 'VARROA_OK',
   SWARMING = 'SWARMING'
 }
 
@@ -24,21 +25,23 @@ export class StatusService {
         varroaEnd = entry;
       } else if (entry.type === EntryType.VARROA_CHECK_START && varroaEnd) {
         let varroaAvg = varroaEnd.amount ?
-          +varroaEnd.amount / (Math.ceil(differenceInDays(varroaEnd.date, entry.date) + 0.01)) :
+          +varroaEnd.amount / (differenceInDays(varroaEnd.date, entry.date) || 1) :
           0;
         
         varroaAvg = Math.round(varroaAvg);
         
+        let status: ColonyStatus;
         if (varroaAvg >= 10) {
-          return {
-            colonyStatus: ColonyStatus.VARROA_CRITICAL,
-            avgCount: varroaAvg
-          }
+          status = ColonyStatus.VARROA_CRITICAL;          
         } else if (varroaAvg >= 5) {
-          return {
-            colonyStatus: ColonyStatus.VARROA_MEDIUM,
-            avgCount: varroaAvg
-          }
+          status = ColonyStatus.VARROA_MEDIUM;
+        } else {
+          status = ColonyStatus.VARROA_OK;
+        }
+
+        return {
+          colonyStatus: status,
+          avgCount: varroaAvg
         }
       }
     }
