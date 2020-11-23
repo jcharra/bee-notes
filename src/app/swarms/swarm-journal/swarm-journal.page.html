@@ -15,21 +15,20 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let entry of journalEntries; let idx = index">
+      <div class="ion-float-left ion-text-center calendar-sheet">
+        {{ entry.date | date:'MMM'}}
+        <br>
+        {{ entry.date | date:'dd'}}
+      </div>
       <ion-label>
-        <div class="ion-float-left ion-text-center calendar-sheet">
-          {{ entry.date | date:'MMM'}}
-          <br>
-          {{ entry.date | date:'dd'}}
-        </div>
-        <div class="ion-float-left ion-margin-start">
-          <i>{{ entry.type }}</i>
+        <div class="ion-float-left ion-margin-start ion-text-wrap">
+          <app-journal-entry-short [entry]="entry"></app-journal-entry-short>
           <div class="journalText">
-            <span *ngIf="entry.amount">Amount: {{entry.amount}} <br></span>
             {{ entry.text }}
           </div>
-        </div> 
-        
+        </div>         
       </ion-label>
+
       <ion-buttons slot="end">
         <ion-button routerLink="edit" [queryParams]="{entryId: entry.id}">
           <ion-icon name="create-outline"></ion-icon>

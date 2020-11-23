@@ -4,7 +4,8 @@ import { CountableForEntryType } from '../swarms/swarm-journal/journal-edit-entr
 
 @Component({
   selector: 'app-journal-entry-short',
-  template: `{{ entry.type + (amountWithUnit ? ' (' + amountWithUnit + ')' : '') }}`
+  templateUrl: './journal-entry-short.component.html',
+  styleUrls: ['./journal-entry-short.component.css']
 })
 export class JournalEntryShortComponent implements OnInit {
 
@@ -15,7 +16,7 @@ export class JournalEntryShortComponent implements OnInit {
 
   ngOnInit() {
     const c = CountableForEntryType.get(this.entry.type);
-    if (c) {
+    if (c && (this.entry.amount || this.entry.amount === 0)) {
       this.amountWithUnit = this.entry.amount === 1 ?
         `1 ${c.unitSingular}` :
         `${this.entry.amount} ${c.unit}`;

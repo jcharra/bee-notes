@@ -8,6 +8,7 @@ import { SwarmJournalPageRoutingModule } from './swarm-journal-routing.module';
 
 import { SwarmJournalPage } from './swarm-journal.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     SwarmJournalPageRoutingModule,
+    SharedModule,
     TranslateModule.forChild()
   ],
   declarations: [SwarmJournalPage]

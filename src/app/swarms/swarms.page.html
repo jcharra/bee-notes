@@ -21,7 +21,7 @@
             *ngIf="swarm.lastAction as entry">
             <br />
             <strong>{{ entry.date | date:'dd. MMM'}}: </strong>
-            <app-journal-entry-short [entry]="entry"></app-journal-entry-short>
+            {{ entry.type }}
           </span>
         </ion-label>
         <ion-label 

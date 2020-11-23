@@ -1,0 +1,13 @@
+:host {
+    font-size: smaller;
+}
+
+.type {
+    margin-right: 5px;
+    display: inline;
+}
+
+.amount {
+    display: inline;
+    white-space: nowrap;
+}
