@@ -14,8 +14,10 @@
         <ion-label position="stacked">{{ 'ACTION_TYPE' | translate }}</ion-label>
         <ion-select #actionSelect
           name="actionType"
+          interface="action-sheet"
           formControlName="actionType"
           (ionChange)="onActionTypeChange()"
+          (ionCancel)="onCancel()"
         >
           <ion-select-option *ngFor="let option of typeOptions" [value]="option"
             >{{ option }}</ion-select-option

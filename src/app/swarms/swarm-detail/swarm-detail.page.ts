@@ -115,7 +115,12 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
       ]
     });
 
-    await alert.present();
+    await alert
+      .present()
+      .then(() => { 
+        const el: any = document.querySelector('ion-alert input');
+        el.focus();
+      });
   }
 
   loadReminders() {

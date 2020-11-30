@@ -118,7 +118,12 @@ export class SwarmsPage {
       ]
     });
 
-    await alert.present();
+    await alert
+      .present()
+      .then(() => { 
+        const el: any = document.querySelector('ion-alert input');
+        el.focus();
+      });
   }
 
   async onCreationFailure(msg: string) {

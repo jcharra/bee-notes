@@ -139,4 +139,8 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     const e = this.entryForm.controls.actionType.value as EntryType;
     this.countable = CountableForEntryType.get(e);
   }
+
+  onCancel() {
+    this.navCtrl.back();
+  }
 }
