@@ -67,7 +67,6 @@ export class JournalService {
         const cached = this.entryCacheForColony.get(cacheKey);
 
         if (cached) {
-          console.log('From Cache!!');
           return of(cached);
         }
 
