@@ -1,31 +1,39 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
-import { AuthService } from './auth/auth.service';
-import { JournalEntry } from './journal.service';
-import { ColonyStatusInfo } from './status.service';
+import { Position } from "@angular/compiler";
+import { Injectable } from "@angular/core";
+import { AngularFireDatabase } from "@angular/fire/database";
+import { Observable } from "rxjs";
+import { map, switchMap, take } from "rxjs/operators";
+import { AuthService } from "./auth/auth.service";
+import { JournalEntry } from "./journal.service";
+import { ColonyStatusInfo } from "./status.service";
+
+export interface GeoPosition {
+  displayName?: string;
+  lat: number;
+  lng: number;
+}
 
 export interface Swarm {
   id?: string;
   name: string;
   created: Date;
+  position?: GeoPosition;
   statusInfo?: ColonyStatusInfo;
   lastAction?: JournalEntry;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class SwarmService {
-  constructor(private db: AngularFireDatabase,
-              private authService: AuthService) { }
+  constructor(
+    private db: AngularFireDatabase,
+    private authService: AuthService
+  ) {}
 
   getSwarms(): Observable<Swarm[]> {
-    return this.authService
-      .getUser()
-      .pipe(switchMap(user => {
-
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
         return this.db
           .list(`users/${user.uid}/swarms`)
           .snapshotChanges()
@@ -42,6 +50,7 @@ export class SwarmService {
                 swarms.push({
                   id: key,
                   name: value.name,
+                  position: value.position,
                   created: new Date(value.created),
                 });
               }
@@ -53,10 +62,10 @@ export class SwarmService {
   }
 
   getSwarm(id: string): Observable<Swarm> {
-    return this.authService
-      .getUser()
-      .pipe(switchMap(user => {
-        return this.db.object(`users/${user.uid}/swarms/${id}`)
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
+        return this.db
+          .object(`users/${user.uid}/swarms/${id}`)
           .valueChanges()
           .pipe(
             take(1),
@@ -73,13 +82,9 @@ export class SwarmService {
   }
 
   createSwarm(s: Swarm): Observable<any> {
-    return this.authService
-      .getUser()
-      .pipe(switchMap(user => {
-
-        return this.db
-          .list(`/users/${user.uid}/swarms`)
-          .push(s);        
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
+        return this.db.list(`/users/${user.uid}/swarms`).push(s);
       })
     );
   }

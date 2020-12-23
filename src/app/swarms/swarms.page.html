@@ -2,41 +2,47 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="end">
       <ion-menu-button menu="first"></ion-menu-button>
-    </ion-buttons>    
+    </ion-buttons>
     <ion-title> {{ 'COLONIES' | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list [inset]="true">
+    <ng-container *ngFor="let swarmGroup of swarmGroups">
+      <ion-item class="ion-text-center groupHeading">
+        <ion-label>
+          <strong> {{ swarmGroup.position.displayName }} </strong>
+        </ion-label>
+      </ion-item>
       <ion-item
-        *ngFor="let swarm of swarms"
+        *ngFor="let swarm of swarmGroup.swarms"
         (tap)="openSwarmDetail(swarm.id)"
         (click)="openSwarmDetail(swarm.id)"
       >
         <ion-label>
           🐝 &nbsp; {{ swarm.name }}
-          <span
-            class="small-preview"
-            *ngIf="swarm.lastAction as entry">
+          <span class="small-preview" *ngIf="swarm.lastAction as entry">
             <br />
             <strong>{{ entry.date | date:'dd. MMM'}}: </strong>
             {{ entry.type }}
           </span>
         </ion-label>
-        <ion-label 
-          slot="end" 
+        <ion-label
+          slot="end"
           [color]="swarm.statusInfo?.colonyStatus === 'VARROA_OK' ? 'success' : 
-          (swarm.statusInfo?.colonyStatus === 'VARROA_MEDIUM' ? 'warning' : 'danger')"
-          *ngIf="swarm.statusInfo?.colonyStatus" 
-          class="statusInfoLabel">
-          {{ swarm.statusInfo.avgCount }} <ion-icon name="bug-outline" slot="end"></ion-icon>
-          <br>per day
-        </ion-label>       
+        (swarm.statusInfo?.colonyStatus === 'VARROA_MEDIUM' ? 'warning' : 'danger')"
+          *ngIf="swarm.statusInfo?.colonyStatus"
+          class="statusInfoLabel"
+        >
+          {{ swarm.statusInfo.avgCount }}
+          <ion-icon name="bug-outline" slot="end"></ion-icon> <br />per day
+        </ion-label>
       </ion-item>
-    <ion-item *ngIf="swarms && swarms.length === 0" class="ion-padding">
-      {{ 'NO_COLONIES_YET' | translate }} 🐝
-    </ion-item>
+      <ion-item *ngIf="swarms && swarms.length === 0" class="ion-padding">
+        {{ 'NO_COLONIES_YET' | translate }} 🐝
+      </ion-item>
+    </ng-container>
   </ion-list>
 
   <!--

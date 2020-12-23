@@ -1,18 +1,22 @@
 .small-preview {
-    font-size: smaller !important;
-    color: #aaa;
+  font-size: smaller !important;
+  color: #aaa;
 }
 
 ion-label {
-    padding: 3px 0;
+  padding: 3px 0;
 }
 
 .statusInfoLabel {
-    text-align: center;
-    flex: 0 0 68px;
-    font-size: 14px;
+  text-align: center;
+  flex: 0 0 68px;
+  font-size: 14px;
 }
 
 .statusInfoLabel ion-icon {
-    margin-bottom: -2px;
+  margin-bottom: -2px;
+}
+
+.groupHeading {
+  --ion-item-background: #efe;
 }
