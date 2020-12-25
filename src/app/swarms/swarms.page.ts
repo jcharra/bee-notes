@@ -93,7 +93,8 @@ export class SwarmsPage {
           name: g.name,
           swarms: [],
         };
-        g.swarmIds.forEach((sid) => {
+
+        (g.swarmIds || []).forEach((sid) => {
           const swarm = swarmsNotAppearingInGroup.get(sid);
           if (swarm) {
             displayGroup.swarms.push(swarm);
@@ -133,15 +134,57 @@ export class SwarmsPage {
     this.navController.navigateForward("/swarms/view/" + swarmId);
   }
 
-  async createSwarm() {
+  async createSwarmGroup() {
     const alert = await this.alertCtrl.create({
-      header: "New colony",
-      message: "Give your colony a name",
+      header: "New colony group",
       inputs: [
         {
           name: "name",
           type: "text",
-          placeholder: "Choose name",
+          placeholder: "Pick a name",
+        },
+      ],
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+        },
+        {
+          text: "Create group",
+          handler: (value) => {
+            const name = value.name.trim();
+            if (name) {
+              this.swarmGroupService.createGroup(name).subscribe(
+                () => {
+                  this.loadSwarms();
+                },
+                (err) => {
+                  this.onCreationFailure(err);
+                }
+              );
+            } else {
+              this.onCreationFailure("Please choose a valid name");
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present().then(() => {
+      const el: any = document.querySelector("ion-alert input");
+      el.focus();
+    });
+  }
+
+  async createSwarm() {
+    const alert = await this.alertCtrl.create({
+      header: "New colony",
+      inputs: [
+        {
+          name: "name",
+          type: "text",
+          placeholder: "Pick a name",
         },
       ],
       buttons: [

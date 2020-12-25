@@ -49,11 +49,7 @@ export class SwarmService {
                 swarms.push({
                   id: key,
                   name: value.name,
-                  position: value.position || {
-                    lat: Math.floor(i / 4) * 10,
-                    lng: 7,
-                    displayName: "Gruppe " + Math.floor(i / 4),
-                  },
+                  position: value.position,
                   created: new Date(value.created),
                 });
               }
