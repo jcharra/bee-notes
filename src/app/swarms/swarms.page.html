@@ -16,11 +16,11 @@
           (click)="group.id && editSwarmGroup(group)"
         >
           <ion-label>
-            <strong> {{ group.name }} </strong>
+            <strong> {{ group.name }} </strong><br />
+            <span *ngIf="group.swarms.length === 0" class="small-preview">
+              Drag colonies here by their bee icon
+            </span>
           </ion-label>
-        </ion-item>
-        <ion-item *ngIf="group.swarms.length === 0" class="small-preview">
-          <ion-label> Drag colonies here by their bee icon </ion-label>
         </ion-item>
         <ion-item
           *ngFor="let swarm of group.swarms"
