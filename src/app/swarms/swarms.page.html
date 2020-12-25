@@ -11,7 +11,10 @@
   <ion-list [inset]="true">
     <ion-reorder-group disabled="false" (ionItemReorder)="doReorder($event)">
       <ng-container *ngFor="let swarmGroup of swarmGroups">
-        <ion-item class="ion-text-center groupHeading">
+        <ion-item
+          class="ion-text-center groupHeading"
+          (click)="swarmGroup.id && editSwarmGroup(swarmGroup)"
+        >
           <ion-label>
             <strong> {{ swarmGroup.name }} </strong>
           </ion-label>

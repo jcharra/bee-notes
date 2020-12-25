@@ -14,6 +14,7 @@ import { Swarm, SwarmService } from "../swarm.service";
 
 const UNASSIGNED_GROUP = "foo";
 interface DisplayGroup {
+  id?: string;
   name: string;
   swarms: Swarm[];
 }
@@ -90,6 +91,7 @@ export class SwarmsPage {
 
       groups.forEach((g) => {
         let displayGroup: DisplayGroup = {
+          id: g.id,
           name: g.name,
           swarms: [],
         };
@@ -134,13 +136,14 @@ export class SwarmsPage {
     this.navController.navigateForward("/swarms/view/" + swarmId);
   }
 
-  async createSwarmGroup() {
+  async editSwarmGroup(existing: DisplayGroup) {
     const alert = await this.alertCtrl.create({
-      header: "New colony group",
+      header: existing ? "Edit colony group" : "New colony group",
       inputs: [
         {
           name: "name",
           type: "text",
+          value: existing?.name,
           placeholder: "Pick a name",
         },
       ],
@@ -151,11 +154,23 @@ export class SwarmsPage {
           cssClass: "secondary",
         },
         {
-          text: "Create group",
+          text: existing ? "Save changes" : "Create group",
           handler: (value) => {
             const name = value.name.trim();
             if (name) {
-              this.swarmGroupService.createGroup(name).subscribe(
+              let action;
+              if (existing) {
+                existing.name = name;
+                action = this.swarmGroupService.updateGroup({
+                  id: existing.id,
+                  name: existing.name,
+                  swarmIds: existing.swarms.map((s) => s.id),
+                });
+              } else {
+                action = this.swarmGroupService.createGroup(name);
+              }
+
+              action.subscribe(
                 () => {
                   this.loadSwarms();
                 },
