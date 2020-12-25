@@ -1,20 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
-import { addDays, format, startOfDay } from 'date-fns';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { JournalEntry } from 'src/app/journal.service';
-import { JournalService } from '../../journal.service';
-import { Swarm, SwarmService } from '../../swarm.service';
-import { Reminder, ReminderService } from './../../reminder.service';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import {
+  AlertController,
+  LoadingController,
+  ToastController,
+} from "@ionic/angular";
+import { addDays, format, startOfDay } from "date-fns";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { JournalEntry } from "src/app/journal.service";
+import { JournalService } from "../../journal.service";
+import { Swarm, SwarmService } from "../../swarm.service";
+import { Reminder, ReminderService } from "./../../reminder.service";
 
-const JOURNAL_PLACEHOLDER = Array(3).fill({ text: '', date: new Date() });
+const JOURNAL_PLACEHOLDER = Array(3).fill({ text: "", date: new Date() });
 
 @Component({
-  selector: 'app-swarm-detail',
-  templateUrl: './swarm-detail.page.html',
-  styleUrls: ['./swarm-detail.page.scss']
+  selector: "app-swarm-detail",
+  templateUrl: "./swarm-detail.page.html",
+  styleUrls: ["./swarm-detail.page.scss"],
 })
 export class SwarmDetailPage implements OnInit, OnDestroy {
   swarmId: string;
@@ -32,8 +36,8 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
     private reminderService: ReminderService,
     private toastController: ToastController
-  ) { }
-  
+  ) {}
+
   ngOnInit() {
     this.swarmId = this.route.snapshot.params.swarmId;
     this.userId = this.route.snapshot.data.userId;
@@ -45,11 +49,11 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async loadData(withSpinner: boolean = true) {
     const loading = await this.loadingCtrl.create({
-      message: 'Loading journal...',
-      showBackdrop: true
+      message: "Loading journal...",
+      showBackdrop: true,
     });
 
-    withSpinner && await loading.present();
+    withSpinner && (await loading.present());
 
     this.swarmService
       .getSwarm(this.swarmId)
@@ -65,43 +69,44 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
         this.journalEntries = entries;
         withSpinner && loading.dismiss();
       });
-    
+
     this.loadReminders();
   }
 
   async addReminder() {
     const alert = await this.alertCtrl.create({
-      header: 'Add reminder',
+      header: "Add reminder",
       inputs: [
         {
-          name: 'text',
-          type: 'text',
-          placeholder: 'Reminder text'
-        }, {
-          name: 'days',
-          type: 'number',
-          placeholder: 'Number of days'
-        }
+          name: "text",
+          type: "text",
+          placeholder: "Reminder text",
+        },
+        {
+          name: "days",
+          type: "number",
+          placeholder: "Number of days",
+        },
       ],
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary'
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
         },
         {
-          text: 'Create reminder',
-          cssClass: 'primary',
-          handler: value => {
+          text: "Create reminder",
+          cssClass: "primary",
+          handler: (value) => {
             const text = value.text.trim();
             const days = parseInt(value.days.trim());
             if (!text || !days) {
               this.onMissingValues();
             } else {
-              const date = startOfDay(addDays(new Date, days));
+              const date = startOfDay(addDays(new Date(), days));
               const reminder = {
                 text,
-                date
+                date,
               };
 
               this.reminderService
@@ -109,34 +114,32 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
                 .subscribe(() => {
                   this.onReminderSaved(date);
                 });
-            }            
-          }
-        }
-      ]
+            }
+          },
+        },
+      ],
     });
 
-    await alert
-      .present()
-      .then(() => { 
-        const el: any = document.querySelector('ion-alert input');
-        el.focus();
-      });
+    await alert.present().then(() => {
+      const el: any = document.querySelector("ion-alert input");
+      el.focus();
+    });
   }
 
   loadReminders() {
     this.reminderService
       .getReminders(this.swarmId)
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((reminders: Reminder[]) => { 
+      .subscribe((reminders: Reminder[]) => {
         this.reminders = reminders;
       });
   }
 
   async onMissingValues() {
     const alert = await this.alertCtrl.create({
-      header: 'Error',
-      message: 'Invalid input. Please enter a description and an integer.',
-      buttons: ['OK']
+      header: "Error",
+      message: "Invalid input. Please enter a description and an integer.",
+      buttons: ["OK"],
     });
 
     await alert.present();
@@ -145,27 +148,42 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
   deleteReminder(reminderId: string) {
     this.reminderService
       .deleteReminder(this.swarmId, reminderId)
-      .subscribe(() => { 
+      .subscribe(() => {
         this.onReminderDismissed();
       });
   }
 
   async onReminderSaved(date: Date) {
     const toast = await this.toastController.create({
-      message: 'You will be reminded on ' + format(date, 'yyyy-MM-dd'),
-      duration: 2000
+      message: "You will be reminded on " + format(date, "yyyy-MM-dd"),
+      duration: 2000,
     });
     toast.present();
   }
 
   async onReminderDismissed() {
     const toast = await this.toastController.create({
-      message: 'Reminder dismissed',
-      duration: 2000
+      message: "Reminder dismissed",
+      duration: 2000,
     });
 
     toast.present();
-  } 
+  }
+
+  async changeLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        console.log("POS", pos);
+      },
+      (err) => {
+        console.log("DENIED", err);
+      }
+    );
+  }
+
+  async takePicture() {
+    console.log("Picture");
+  }
 
   ngOnDestroy() {
     this.destroyed$.next(true);

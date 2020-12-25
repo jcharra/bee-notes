@@ -1,4 +1,3 @@
-import { Position } from "@angular/compiler";
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { Observable } from "rxjs";
@@ -50,7 +49,11 @@ export class SwarmService {
                 swarms.push({
                   id: key,
                   name: value.name,
-                  position: value.position,
+                  position: value.position || {
+                    lat: Math.floor(i / 4) * 10,
+                    lng: 7,
+                    displayName: "Gruppe " + Math.floor(i / 4),
+                  },
                   created: new Date(value.created),
                 });
               }

@@ -1,17 +1,20 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import {
   AlertController,
+  IonReorderGroup,
   LoadingController,
   NavController,
 } from "@ionic/angular";
-import { formatDistance } from "date-fns";
+import { ItemReorderEventDetail } from "@ionic/core";
 import { first, tap } from "rxjs/operators";
 import { JournalEntry, JournalService } from "../journal.service";
 import { StatusService } from "../status.service";
-import { Swarm, SwarmService, GeoPosition } from "../swarm.service";
+import { SwarmGroup, SwarmGroupService } from "../swarm-group.service";
+import { Swarm, SwarmService } from "../swarm.service";
 
-export interface SwarmGroup {
-  position: GeoPosition;
+const UNASSIGNED_GROUP = "foo";
+interface DisplayGroup {
+  name: string;
   swarms: Swarm[];
 }
 
@@ -21,9 +24,10 @@ export interface SwarmGroup {
   styleUrls: ["./swarms.page.scss"],
 })
 export class SwarmsPage {
-  swarmGroups: SwarmGroup[] = [];
+  swarmGroups: DisplayGroup[] = [];
   swarms: Swarm[];
   userId: string;
+  @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
 
   constructor(
     private swarmService: SwarmService,
@@ -32,7 +36,8 @@ export class SwarmsPage {
     private loadingController: LoadingController,
     private navController: NavController,
     private alertController: AlertController,
-    private statusService: StatusService
+    private statusService: StatusService,
+    private swarmGroupService: SwarmGroupService
   ) {}
 
   async loadSwarms() {
@@ -64,9 +69,9 @@ export class SwarmsPage {
                   sw.statusInfo = this.statusService.getColonyStatus(e);
                 }
               });
-
-            this.groupSwarms();
           });
+
+          this.groupSwarms();
 
           showSpinner && loading.dismiss();
         })
@@ -75,53 +80,45 @@ export class SwarmsPage {
   }
 
   groupSwarms() {
-    let groups: SwarmGroup[] = [];
-    let groupWithUnknownPosition: SwarmGroup = {
-      position: {
-        lat: 0,
-        lng: 0,
-        displayName: "Unknown location",
-      },
-      swarms: [],
-    };
+    this.swarmGroupService.getGroups().subscribe((groups: SwarmGroup[]) => {
+      let swarmsNotAppearingInGroup = new Map<string, Swarm>();
+      this.swarms.forEach((s) => {
+        swarmsNotAppearingInGroup.set(s.id, s);
+      });
 
-    this.swarms.forEach((s) => {
-      if (!s.position) {
-        groupWithUnknownPosition.swarms.push(s);
-      } else {
-        let inserted = false;
-        groups.forEach((g) => {
-          if (this._distance(g.position, s.position) < 0.2) {
-            g.swarms.push(s);
-            inserted = true;
+      let displayGroups: DisplayGroup[] = [];
+
+      groups.forEach((g) => {
+        let displayGroup: DisplayGroup = {
+          name: g.name,
+          swarms: [],
+        };
+        g.swarmIds.forEach((sid) => {
+          const swarm = swarmsNotAppearingInGroup.get(sid);
+          if (swarm) {
+            displayGroup.swarms.push(swarm);
+            swarmsNotAppearingInGroup.delete(sid);
           }
         });
 
-        if (!inserted) {
-          const groupPosition = s.position;
-          groupPosition.displayName = s.position.displayName
-            ? s.position.displayName
-            : `Lat ${s.position.lat} Lng ${s.position.lng}`;
+        displayGroups.push(displayGroup);
+      });
 
-          groups.push({
-            position: s.position,
-            swarms: [s],
-          });
+      if (swarmsNotAppearingInGroup.size > 0) {
+        const ungrouped = {
+          name: "Unknown location",
+          swarms: [],
+        };
+
+        for (let entry of swarmsNotAppearingInGroup.values()) {
+          ungrouped.swarms.push(entry);
         }
+
+        displayGroups.push(ungrouped);
       }
+
+      this.swarmGroups = displayGroups;
     });
-
-    if (groupWithUnknownPosition.swarms.length > 0) {
-      groups.push(groupWithUnknownPosition);
-    }
-
-    this.swarmGroups = groups;
-  }
-
-  _distance(p1: GeoPosition, p2: GeoPosition) {
-    return Math.sqrt(
-      Math.pow(p1.lat - p2.lat, 2) + Math.pow(p1.lng - p2.lng, 2)
-    );
   }
 
   migrate() {
@@ -193,5 +190,16 @@ export class SwarmsPage {
     });
 
     await alert.present();
+  }
+
+  doReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+    // The `from` and `to` properties contain the index of the item
+    // when the drag started and ended, respectively
+    console.log("Dragged from index", ev.detail.from, "to", ev.detail.to);
+
+    // Finish the reorder and position the item in the DOM based on
+    // where the gesture ended. This method can also be called directly
+    // by the reorder group
+    ev.detail.complete();
   }
 }

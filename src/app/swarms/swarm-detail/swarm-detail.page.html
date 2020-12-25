@@ -6,7 +6,7 @@
     <ion-title><strong>{{ swarm?.name }}</strong></ion-title>
     <ion-buttons slot="end">
       <ion-menu-button menu="first"></ion-menu-button>
-    </ion-buttons>    
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -25,11 +25,9 @@
     </ion-item>
     <ion-item *ngIf="journalEntries && journalEntries.length === 0">
       <i>No tracked activity yet.</i>
-    </ion-item>    
+    </ion-item>
     <ion-item routerLink="journal">
-      <ion-label>
-        View journal
-      </ion-label>
+      <ion-label> View journal </ion-label>
     </ion-item>
   </ion-list>
 
@@ -58,8 +56,16 @@
     <ion-fab-button slot="end" color="primary" routerLink="journal/edit">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
+  </ion-buttons>
+  <ion-buttons class="ion-padding-horizontal">
+    <ion-fab-button slot="end" color="primary" (click)="takePicture()">
+      <ion-icon name="camera-outline"></ion-icon>
+    </ion-fab-button>
     <ion-fab-button slot="end" color="primary" (click)="addReminder()">
       <ion-icon name="alarm"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button slot="end" color="primary" (click)="changeLocation()">
+      <ion-icon name="navigate-outline"></ion-icon>
     </ion-fab-button>
   </ion-buttons>
 
@@ -70,7 +76,7 @@
       </ion-label>
     </ion-item>
     <ion-item *ngFor="let reminder of reminders">
-      <strong>{{ reminder.date | date:'dd. MMM'}}: </strong> 
+      <strong>{{ reminder.date | date:'dd. MMM'}}: </strong>
       &nbsp;{{ reminder.text }}
       <ion-buttons slot="end">
         <ion-button (click)="deleteReminder(reminder.id)">
