@@ -13,8 +13,10 @@ import { SwarmGroup, SwarmGroupService } from "../swarm-group.service";
 import { Swarm, SwarmService } from "../swarm.service";
 
 const UNASSIGNED_GROUP = "foo";
-interface DisplayGroup {
-  id?: string;
+const DEFAULT_SORT_INDEX = 0;
+
+interface UISwarmGroup {
+  id: string;
   name: string;
   swarms: Swarm[];
 }
@@ -25,7 +27,7 @@ interface DisplayGroup {
   styleUrls: ["./swarms.page.scss"],
 })
 export class SwarmsPage {
-  swarmGroups: DisplayGroup[] = [];
+  sortedSwarmGroups: UISwarmGroup[] = [];
   swarms: Swarm[];
   userId: string;
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
@@ -87,10 +89,10 @@ export class SwarmsPage {
         swarmsNotAppearingInGroup.set(s.id, s);
       });
 
-      let displayGroups: DisplayGroup[] = [];
+      let displayGroups: UISwarmGroup[] = [];
 
       groups.forEach((g) => {
-        let displayGroup: DisplayGroup = {
+        let displayGroup: UISwarmGroup = {
           id: g.id,
           name: g.name,
           swarms: [],
@@ -104,23 +106,28 @@ export class SwarmsPage {
           }
         });
 
+        displayGroup.swarms.sort(this._sortByIndex);
+
         displayGroups.push(displayGroup);
       });
 
       if (swarmsNotAppearingInGroup.size > 0) {
-        const ungrouped = {
+        const ungrouped: UISwarmGroup = {
+          id: UNASSIGNED_GROUP,
           name: "Unknown location",
           swarms: [],
         };
 
-        for (let entry of swarmsNotAppearingInGroup.values()) {
-          ungrouped.swarms.push(entry);
+        for (let swarm of swarmsNotAppearingInGroup.values()) {
+          ungrouped.swarms.push(swarm);
         }
+
+        ungrouped.swarms.sort(this._sortByIndex);
 
         displayGroups.push(ungrouped);
       }
 
-      this.swarmGroups = displayGroups;
+      this.sortedSwarmGroups = displayGroups;
     });
   }
 
@@ -136,9 +143,9 @@ export class SwarmsPage {
     this.navController.navigateForward("/swarms/view/" + swarmId);
   }
 
-  async editSwarmGroup(existing: DisplayGroup) {
+  async editSwarmGroup(existing: UISwarmGroup) {
     const alert = await this.alertCtrl.create({
-      header: existing ? "Edit colony group" : "New colony group",
+      header: existing ? "Edit group name" : "New colony group",
       inputs: [
         {
           name: "name",
@@ -154,16 +161,15 @@ export class SwarmsPage {
           cssClass: "secondary",
         },
         {
-          text: existing ? "Save changes" : "Create group",
+          text: existing ? "Save" : "Create group",
           handler: (value) => {
             const name = value.name.trim();
             if (name) {
               let action;
               if (existing) {
-                existing.name = name;
                 action = this.swarmGroupService.updateGroup({
                   id: existing.id,
-                  name: existing.name,
+                  name,
                   swarmIds: existing.swarms.map((s) => s.id),
                 });
               } else {
@@ -259,5 +265,18 @@ export class SwarmsPage {
     // where the gesture ended. This method can also be called directly
     // by the reorder group
     ev.detail.complete();
+  }
+
+  _sortByIndex(a: Swarm, b: Swarm) {
+    const ka = a.sortIndex || DEFAULT_SORT_INDEX;
+    const kb = b.sortIndex || DEFAULT_SORT_INDEX;
+
+    if (ka < kb) {
+      return -1;
+    } else if (ka > kb) {
+      return 1;
+    }
+
+    return 0;
   }
 }

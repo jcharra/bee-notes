@@ -19,6 +19,7 @@ export interface Swarm {
   position?: GeoPosition;
   statusInfo?: ColonyStatusInfo;
   lastAction?: JournalEntry;
+  sortIndex?: number;
 }
 
 @Injectable({
@@ -51,6 +52,7 @@ export class SwarmService {
                   name: value.name,
                   position: value.position,
                   created: new Date(value.created),
+                  sortIndex: value.sortIndex,
                 });
               }
               return swarms;
@@ -73,6 +75,8 @@ export class SwarmService {
                 id,
                 name: s.name,
                 created: new Date(s.created),
+                position: s.position,
+                sortIndex: s.sortIndex,
               };
             })
           );

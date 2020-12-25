@@ -10,17 +10,20 @@
 <ion-content>
   <ion-list [inset]="true">
     <ion-reorder-group disabled="false" (ionItemReorder)="doReorder($event)">
-      <ng-container *ngFor="let swarmGroup of swarmGroups">
+      <ng-container *ngFor="let group of sortedSwarmGroups">
         <ion-item
           class="ion-text-center groupHeading"
-          (click)="swarmGroup.id && editSwarmGroup(swarmGroup)"
+          (click)="group.id && editSwarmGroup(group)"
         >
           <ion-label>
-            <strong> {{ swarmGroup.name }} </strong>
+            <strong> {{ group.name }} </strong>
           </ion-label>
         </ion-item>
+        <ion-item *ngIf="group.swarms.length === 0" class="small-preview">
+          <ion-label> Drag colonies here by their bee icon </ion-label>
+        </ion-item>
         <ion-item
-          *ngFor="let swarm of swarmGroup.swarms"
+          *ngFor="let swarm of group.swarms"
           (tap)="openSwarmDetail(swarm.id)"
           (click)="openSwarmDetail(swarm.id)"
         >
@@ -51,7 +54,11 @@
             <ion-icon name="bug-outline" slot="end"></ion-icon> <br />per day
           </ion-label>
         </ion-item>
-        <ion-item *ngIf="swarms && swarms.length === 0" class="ion-padding">
+
+        <ion-item
+          *ngIf="sortedSwarmGroups && sortedSwarmGroups.length === 0"
+          class="ion-padding"
+        >
           {{ 'NO_COLONIES_YET' | translate }} 🐝
         </ion-item>
       </ng-container>
@@ -66,7 +73,7 @@
     <ion-fab-button slot="end" color="primary" (click)="createSwarm()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button slot="end" color="primary" (click)="createSwarmGroup()">
+    <ion-fab-button slot="end" color="primary" (click)="editSwarmGroup()">
       <ion-icon name="duplicate-outline"></ion-icon>
     </ion-fab-button>
   </ion-buttons>
