@@ -7,7 +7,7 @@ import {
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { formatRelativeWithOptions } from "date-fns/fp";
-import { from } from "rxjs";
+import { forkJoin, from } from "rxjs";
 import { first, tap } from "rxjs/operators";
 import { JournalEntry, JournalService } from "../journal.service";
 import { StatusService } from "../status.service";
@@ -15,7 +15,6 @@ import { SwarmGroup, SwarmGroupService } from "../swarm-group.service";
 import { Swarm, SwarmService } from "../swarm.service";
 
 const UNASSIGNED_GROUP = "foo";
-const DEFAULT_SORT_INDEX = 0;
 
 interface UISwarmGroup {
   id: string;
@@ -258,26 +257,24 @@ export class SwarmsPage {
     await alert.present();
   }
 
-  doReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    console.log("Dragged from index", ev.detail.from, "to", ev.detail.to);
+  async doReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+    const fromIdx = ev.detail.from;
+    const toIdx = ev.detail.to;
+
+    // Moving to idx 1 is not allowed (above first heading)
+    if (toIdx === 0) {
+      ev.detail.complete();
+      this.loadSwarms();
+      return;
+    }
 
     let flatItems = [];
-
     this.sortedSwarmGroups.forEach((g) => {
       flatItems.push(g);
       g.swarms.forEach((s) => {
         flatItems.push(s);
       });
     });
-
-    const fromIdx = ev.detail.from;
-    const toIdx = ev.detail.to;
-    console.log(
-      "Moved item is ",
-      flatItems[fromIdx],
-      " taking place of ",
-      flatItems[toIdx]
-    );
 
     const draggedItem = flatItems[fromIdx];
 
@@ -297,71 +294,84 @@ export class SwarmsPage {
       }
     }
 
-    console.log(
-      "Moved from group with name ",
-      fromGroup.name,
-      " to group ",
-      toGroup.name
-    );
-
+    let requests = [];
     if (fromGroup.id !== toGroup.id) {
       this.sortedSwarmGroups.forEach((g) => {
         if (g.id === fromGroup.id) {
           g.swarms = g.swarms.filter((s) => s.id !== draggedItem.id);
 
           if (g.id !== UNASSIGNED_GROUP) {
-            this.swarmGroupService
-              .updateGroup({
+            requests.push(
+              this.swarmGroupService.updateGroup({
                 id: g.id,
                 name: g.name,
                 swarmIds: g.swarms.map((s) => s.id),
               })
-              .subscribe();
+            );
           }
         } else if (g.id === toGroup.id) {
           g.swarms.push(draggedItem);
 
           if (g.id !== UNASSIGNED_GROUP) {
-            this.swarmGroupService
-              .updateGroup({
+            requests.push(
+              this.swarmGroupService.updateGroup({
                 id: g.id,
                 name: g.name,
                 swarmIds: g.swarms.map((s) => s.id),
               })
-              .subscribe(() => {
-                this.loadSwarms();
-              });
+            );
           }
         }
       });
     }
 
     // Iterate forward and backward to get all items in group
-    const itemsInFinalGroup = [];
-    for (let f = toIdx; f > 0; f--) {
-      if (flatItems[f].swarms) {
-        break;
-      }
-      itemsInFinalGroup.push(flatItems[f]);
-    }
-
-    for (let t = toIdx; t < flatItems.length; t++) {
+    const successorsInFinalGroup: Swarm[] = [];
+    for (let t = toIdx + (toIdx > fromIdx ? 1 : 0); t < flatItems.length; t++) {
       if (flatItems[t].swarms) {
         break;
       }
-      itemsInFinalGroup.push(flatItems[t]);
+      successorsInFinalGroup.push(flatItems[t]);
     }
 
-    console.log("Found ", itemsInFinalGroup.length);
+    if (successorsInFinalGroup.length === 0) {
+      const maxIndex = Math.max(...toGroup.swarms.map((s) => s.sortIndex));
+      draggedItem.sortIndex = maxIndex + 1000;
+      requests.push(this.swarmService.updateSwarm(draggedItem));
+    } else {
+      const newIndex = successorsInFinalGroup[0].sortIndex;
+      draggedItem.sortIndex = newIndex;
+      requests.push(this.swarmService.updateSwarm(draggedItem));
+
+      if (successorsInFinalGroup.length === 1) {
+        successorsInFinalGroup[0].sortIndex = newIndex + 1000;
+      } else {
+        successorsInFinalGroup[0].sortIndex = Math.ceil(
+          (newIndex + successorsInFinalGroup[1].sortIndex) / 2
+        );
+      }
+      requests.push(this.swarmService.updateSwarm(successorsInFinalGroup[0]));
+    }
 
     ev.detail.complete();
 
-    this.loadSwarms();
+    const loading = await this.loadingController.create({
+      message: "Updating ...",
+      showBackdrop: true,
+    });
+
+    loading.present();
+
+    forkJoin(requests).subscribe(() => {
+      this.loadSwarms().then(() => {
+        loading.dismiss();
+      });
+    });
   }
 
   _sortByIndex(a: Swarm, b: Swarm) {
-    const ka = a.sortIndex || DEFAULT_SORT_INDEX;
-    const kb = b.sortIndex || DEFAULT_SORT_INDEX;
+    const ka = a.sortIndex;
+    const kb = b.sortIndex;
 
     if (ka < kb) {
       return -1;
