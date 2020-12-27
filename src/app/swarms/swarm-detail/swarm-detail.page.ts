@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
   AlertController,
   LoadingController,
@@ -35,7 +35,8 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private reminderService: ReminderService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -183,6 +184,31 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async takePicture() {
     console.log("Picture");
+  }
+
+  async markAsDeceased() {
+    const alert = await this.alertCtrl.create({
+      header: "Colony deceased",
+      message: "Do you really want to mark this colony as deceased?",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+        },
+        {
+          text: "Yes 😢",
+          cssClass: "danger",
+          handler: () => {
+            this.swarmService.markAsDeceased(this.swarm).subscribe(() => {
+              this.router.navigateByUrl("/");
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   ngOnDestroy() {

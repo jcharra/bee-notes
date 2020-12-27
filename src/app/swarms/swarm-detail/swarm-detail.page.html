@@ -67,6 +67,9 @@
     <ion-fab-button slot="end" color="primary" (click)="changeLocation()">
       <ion-icon name="navigate-outline"></ion-icon>
     </ion-fab-button>
+    <ion-fab-button slot="end" color="danger" (click)="markAsDeceased()">
+      <ion-icon name="heart-dislike-outline"></ion-icon>
+    </ion-fab-button>
   </ion-buttons>
 
   <ion-list *ngIf="reminders?.length > 0" [inset]="true">

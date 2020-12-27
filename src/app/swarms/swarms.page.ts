@@ -6,8 +6,7 @@ import {
   NavController,
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
-import { formatRelativeWithOptions } from "date-fns/fp";
-import { forkJoin, from } from "rxjs";
+import { forkJoin } from "rxjs";
 import { first, tap } from "rxjs/operators";
 import { JournalEntry, JournalService } from "../journal.service";
 import { StatusService } from "../status.service";
@@ -223,6 +222,7 @@ export class SwarmsPage {
               let newSwarm: Swarm = {
                 name: value.name.trim(),
                 created: new Date(),
+                sortIndex: 0,
               };
 
               this.swarmService.createSwarm(newSwarm).subscribe(

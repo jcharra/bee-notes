@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, ɵɵCopyDefinitionFeature } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
@@ -18,10 +18,11 @@ export interface Swarm {
   id?: string;
   name: string;
   created: Date;
+  sortIndex: number;
   position?: GeoPosition;
   statusInfo?: ColonyStatusInfo;
   lastAction?: JournalEntry;
-  sortIndex?: number;
+  deceased?: Date;
 }
 
 @Injectable({
@@ -48,6 +49,10 @@ export class SwarmService {
                 const item: any = swarmData[i];
                 const key = item.key;
                 const value: any = item.payload.val();
+
+                if (value.deceased) {
+                  continue;
+                }
 
                 swarms.push({
                   id: key,
@@ -97,15 +102,22 @@ export class SwarmService {
   updateSwarm(s: Swarm) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        console.log(
-          "Updating swarm " + s.name + " to sortIndex " + s.sortIndex
-        );
         return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
           id: s.id,
           name: s.name,
           created: s.created,
           position: s.position,
           sortIndex: s.sortIndex,
+        });
+      })
+    );
+  }
+
+  markAsDeceased(s: Swarm): Observable<any> {
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
+        return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
+          deceased: new Date(),
         });
       })
     );
