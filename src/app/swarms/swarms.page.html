@@ -11,17 +11,26 @@
   <ion-list [inset]="true">
     <ion-reorder-group disabled="false" (ionItemReorder)="doReorder($event)">
       <ng-container *ngFor="let group of sortedSwarmGroups">
-        <ion-item
-          class="ion-text-center groupHeading"
-          (click)="group.id && editSwarmGroup(group)"
-        >
-          <ion-label>
-            <strong> {{ group.name }} </strong><br />
-            <span *ngIf="group.swarms.length === 0" class="small-preview">
-              Drag colonies here by their bee icon
-            </span>
-          </ion-label>
-        </ion-item>
+        <ion-item-sliding>
+          <ion-item
+            class="ion-text-center groupHeading"
+            (click)="group.id && editSwarmGroup(group)"
+          >
+            <ion-label>
+              <strong> {{ group.name }} </strong><br />
+              <span *ngIf="group.swarms.length === 0" class="small-preview">
+                Drag colonies here by their bee icon<br />
+                Delete group by swiping
+              </span>
+            </ion-label>
+          </ion-item>
+          <ion-item-options *ngIf="group.swarms.length === 0">
+            <ion-item-option color="secondary" (click)="deleteGroup(group.id)">
+              <ion-icon slot="end" name="trash-outline"></ion-icon>
+              Delete
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
         <ion-item
           *ngFor="let swarm of group.swarms"
           (tap)="openSwarmDetail(swarm.id)"

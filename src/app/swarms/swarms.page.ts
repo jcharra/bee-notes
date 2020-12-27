@@ -369,6 +369,12 @@ export class SwarmsPage {
     });
   }
 
+  deleteGroup(gid: string) {
+    this.swarmGroupService.deleteGroup(gid).subscribe(() => {
+      this.loadSwarms();
+    });
+  }
+
   _sortByIndex(a: Swarm, b: Swarm) {
     const ka = a.sortIndex;
     const kb = b.sortIndex;
