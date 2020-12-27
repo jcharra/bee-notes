@@ -58,15 +58,17 @@
     </ion-fab-button>
   </ion-buttons>
   <ion-buttons class="ion-padding-horizontal">
-    <ion-fab-button slot="end" color="primary" (click)="takePicture()">
-      <ion-icon name="camera-outline"></ion-icon>
-    </ion-fab-button>
     <ion-fab-button slot="end" color="primary" (click)="addReminder()">
       <ion-icon name="alarm"></ion-icon>
     </ion-fab-button>
     <ion-fab-button slot="end" color="primary" (click)="changeLocation()">
       <ion-icon name="navigate-outline"></ion-icon>
     </ion-fab-button>
+
+    <ion-fab-button slot="end" color="primary" (click)="markAsSold()">
+      <ion-icon name="cash-outline"></ion-icon>
+    </ion-fab-button>
+
     <ion-fab-button slot="end" color="danger" (click)="markAsDeceased()">
       <ion-icon name="heart-dislike-outline"></ion-icon>
     </ion-fab-button>

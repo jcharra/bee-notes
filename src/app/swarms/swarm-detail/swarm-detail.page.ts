@@ -182,10 +182,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     );
   }
 
-  async takePicture() {
-    console.log("Picture");
-  }
-
   async markAsDeceased() {
     const alert = await this.alertCtrl.create({
       header: "Colony deceased",
@@ -201,6 +197,31 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
           cssClass: "danger",
           handler: () => {
             this.swarmService.markAsDeceased(this.swarm).subscribe(() => {
+              this.router.navigateByUrl("/");
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async markAsSold() {
+    const alert = await this.alertCtrl.create({
+      header: "Colony sold",
+      message: "Did you sell this colony?",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+        },
+        {
+          text: "Mark as sold",
+          cssClass: "danger",
+          handler: () => {
+            this.swarmService.markAsSold(this.swarm).subscribe(() => {
               this.router.navigateByUrl("/");
             });
           },

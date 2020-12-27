@@ -1,4 +1,4 @@
-import { Injectable, ɵɵCopyDefinitionFeature } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
@@ -14,6 +14,12 @@ export interface GeoPosition {
   lng: number;
 }
 
+enum ActivityStatus {
+  ACTIVE = "ACTIVE",
+  DECEASED = "DECEASED",
+  SOLD = "SOLD",
+}
+
 export interface Swarm {
   id?: string;
   name: string;
@@ -22,7 +28,7 @@ export interface Swarm {
   position?: GeoPosition;
   statusInfo?: ColonyStatusInfo;
   lastAction?: JournalEntry;
-  deceased?: Date;
+  activityStatus?: ActivityStatus;
 }
 
 @Injectable({
@@ -50,7 +56,10 @@ export class SwarmService {
                 const key = item.key;
                 const value: any = item.payload.val();
 
-                if (value.deceased) {
+                if (
+                  value.activityStatus === ActivityStatus.SOLD ||
+                  value.activityStatus === ActivityStatus.DECEASED
+                ) {
                   continue;
                 }
 
@@ -94,7 +103,13 @@ export class SwarmService {
   createSwarm(s: Swarm): Observable<any> {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return this.db.list(`/users/${user.uid}/swarms`).push(s);
+        return this.db
+          .list(`/users/${user.uid}/swarms`)
+          .push(s)
+          .then((res: any) => {
+            const pathParts = res.path.pieces_;
+            return pathParts[pathParts.length - 1];
+          });
       })
     );
   }
@@ -114,10 +129,18 @@ export class SwarmService {
   }
 
   markAsDeceased(s: Swarm): Observable<any> {
+    return this.deactivate(s, ActivityStatus.DECEASED);
+  }
+
+  markAsSold(s: Swarm) {
+    return this.deactivate(s, ActivityStatus.SOLD);
+  }
+
+  private deactivate(s: Swarm, status: ActivityStatus) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
-          deceased: new Date(),
+          activityStatus: status,
         });
       })
     );

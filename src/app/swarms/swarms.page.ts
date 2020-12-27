@@ -6,14 +6,13 @@ import {
   NavController,
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
-import { forkJoin } from "rxjs";
-import { first, tap } from "rxjs/operators";
+import { from, Observable } from "rxjs";
+import { forkJoin, of } from "rxjs";
+import { first, switchMap, tap } from "rxjs/operators";
 import { JournalEntry, JournalService } from "../journal.service";
 import { StatusService } from "../status.service";
 import { SwarmGroup, SwarmGroupService } from "../swarm-group.service";
 import { Swarm, SwarmService } from "../swarm.service";
-
-const UNASSIGNED_GROUP = "foo";
 
 interface UISwarmGroup {
   id: string;
@@ -31,6 +30,7 @@ export class SwarmsPage {
   swarms: Swarm[];
   userId: string;
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
+  DEFAULT_GROUP_NAME = "Unnamed group";
 
   constructor(
     private swarmService: SwarmService,
@@ -84,9 +84,9 @@ export class SwarmsPage {
 
   groupSwarms() {
     this.swarmGroupService.getGroups().subscribe((groups: SwarmGroup[]) => {
-      let swarmsNotAppearingInGroup = new Map<string, Swarm>();
+      let swarmsById = new Map<string, Swarm>();
       this.swarms.forEach((s) => {
-        swarmsNotAppearingInGroup.set(s.id, s);
+        swarmsById.set(s.id, s);
       });
 
       let displayGroups: UISwarmGroup[] = [];
@@ -99,33 +99,16 @@ export class SwarmsPage {
         };
 
         (g.swarmIds || []).forEach((sid) => {
-          const swarm = swarmsNotAppearingInGroup.get(sid);
+          const swarm = swarmsById.get(sid);
           if (swarm) {
             displayGroup.swarms.push(swarm);
-            swarmsNotAppearingInGroup.delete(sid);
+            swarmsById.delete(sid);
           }
         });
 
         displayGroup.swarms.sort(this._sortByIndex);
-
         displayGroups.push(displayGroup);
       });
-
-      if (swarmsNotAppearingInGroup.size > 0) {
-        const ungrouped: UISwarmGroup = {
-          id: UNASSIGNED_GROUP,
-          name: "Unknown location",
-          swarms: [],
-        };
-
-        for (let swarm of swarmsNotAppearingInGroup.values()) {
-          ungrouped.swarms.push(swarm);
-        }
-
-        ungrouped.swarms.sort(this._sortByIndex);
-
-        displayGroups.push(ungrouped);
-      }
 
       this.sortedSwarmGroups = displayGroups;
     });
@@ -225,14 +208,37 @@ export class SwarmsPage {
                 sortIndex: 0,
               };
 
-              this.swarmService.createSwarm(newSwarm).subscribe(
-                () => {
-                  this.loadSwarms();
-                },
-                (err) => {
-                  this.onCreationFailure(err);
-                }
-              );
+              this.swarmService
+                .createSwarm(newSwarm)
+                .pipe(
+                  switchMap((swarmId) => {
+                    if (this.sortedSwarmGroups.length === 0) {
+                      return this.swarmGroupService.createGroup(
+                        this.DEFAULT_GROUP_NAME,
+                        [swarmId]
+                      );
+                    } else {
+                      const lastGroup = this.sortedSwarmGroups[
+                        this.sortedSwarmGroups.length - 1
+                      ];
+                      const swarmIds = lastGroup.swarms.map((s) => s.id);
+                      swarmIds.push(swarmId);
+                      return this.swarmGroupService.updateGroup({
+                        id: lastGroup.id,
+                        name: lastGroup.name,
+                        swarmIds,
+                      });
+                    }
+                  })
+                )
+                .subscribe(
+                  () => {
+                    this.loadSwarms();
+                  },
+                  (err) => {
+                    this.onCreationFailure(err);
+                  }
+                );
             } else {
               this.onCreationFailure("Please choose a valid name");
             }
@@ -300,27 +306,23 @@ export class SwarmsPage {
         if (g.id === fromGroup.id) {
           g.swarms = g.swarms.filter((s) => s.id !== draggedItem.id);
 
-          if (g.id !== UNASSIGNED_GROUP) {
-            requests.push(
-              this.swarmGroupService.updateGroup({
-                id: g.id,
-                name: g.name,
-                swarmIds: g.swarms.map((s) => s.id),
-              })
-            );
-          }
+          requests.push(
+            this.swarmGroupService.updateGroup({
+              id: g.id,
+              name: g.name,
+              swarmIds: g.swarms.map((s) => s.id),
+            })
+          );
         } else if (g.id === toGroup.id) {
           g.swarms.push(draggedItem);
 
-          if (g.id !== UNASSIGNED_GROUP) {
-            requests.push(
-              this.swarmGroupService.updateGroup({
-                id: g.id,
-                name: g.name,
-                swarmIds: g.swarms.map((s) => s.id),
-              })
-            );
-          }
+          requests.push(
+            this.swarmGroupService.updateGroup({
+              id: g.id,
+              name: g.name,
+              swarmIds: g.swarms.map((s) => s.id),
+            })
+          );
         }
       });
     }
