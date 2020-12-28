@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -26,45 +26,45 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 .ion-invalid.ion-touched ion-label {
-    color: --ion-color-danger;
+  color: --ion-color-danger;
 }
 
 :root {
-    --ion-color-primary: #ffce57;
-    --ion-color-primary-rgb: 0,102,0;
-    --ion-color-primary-contrast: #ffffff;
-    --ion-color-primary-contrast-rgb: 255,255,255;
-    --ion-color-primary-shade: #ffac24;
-    --ion-color-primary-tint: #ffac24;
+  --ion-color-primary: #ffce57;
+  --ion-color-primary-rgb: 255, 206, 87;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #ffac24;
+  --ion-color-primary-tint: #ffac24;
 
-    --ion-color-secondary: #ff7200;
-    --ion-color-secondary-rgb: 255,114,0;
-    --ion-color-secondary-contrast: #ffffff;
-    --ion-color-secondary-contrast-rgb: 255,255,255;
-    --ion-color-secondary-shade: #b26b31;
-    --ion-color-secondary-tint: #b26b31;
-  }
+  --ion-color-secondary: #ff7200;
+  --ion-color-secondary-rgb: 255, 114, 0;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #b26b31;
+  --ion-color-secondary-tint: #b26b31;
+}
 
 ion-content {
-    --background: url(/assets/img/loginBg.jpg) no-repeat center/cover fixed;
+  --background: url(/assets/img/loginBg.jpg) no-repeat center/cover fixed;
 }
 
 ion-content.nobackground {
-    --background: none;
+  --background: none;
 }
 
 body:before {
-    content: "";
-    display: block;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: -1;
-    background-color: rgba(255, 255, 255, 0.0);
+  content: "";
+  display: block;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 ion-list {
-    opacity: 0.9;
+  opacity: 0.9;
 }

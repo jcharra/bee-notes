@@ -12,7 +12,7 @@ import { first, switchMap, tap } from "rxjs/operators";
 import { JournalEntry, JournalService } from "../journal.service";
 import { StatusService } from "../status.service";
 import { SwarmGroup, SwarmGroupService } from "../swarm-group.service";
-import { Swarm, SwarmService } from "../swarm.service";
+import { ActivityStatus, Swarm, SwarmService } from "../swarm.service";
 
 interface UISwarmGroup {
   id: string;
@@ -26,7 +26,7 @@ interface UISwarmGroup {
   styleUrls: ["./swarms.page.scss"],
 })
 export class SwarmsPage {
-  sortedSwarmGroups: UISwarmGroup[] = [];
+  sortedSwarmGroups: UISwarmGroup[] = null;
   swarms: Swarm[];
   userId: string;
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
@@ -114,9 +114,14 @@ export class SwarmsPage {
     });
   }
 
+  /*
   migrate() {
-    // put migrations here
+    this.swarms.forEach((s) => {
+      s.activityStatus = ActivityStatus.ACTIVE;
+      this.swarmService.updateSwarm(s).subscribe();
+    });
   }
+  */
 
   ionViewDidEnter() {
     this.loadSwarms();
@@ -202,14 +207,8 @@ export class SwarmsPage {
           handler: (value) => {
             const name = value.name.trim();
             if (name) {
-              let newSwarm: Swarm = {
-                name: value.name.trim(),
-                created: new Date(),
-                sortIndex: 0,
-              };
-
               this.swarmService
-                .createSwarm(newSwarm)
+                .createSwarm(name)
                 .pipe(
                   switchMap((swarmId) => {
                     if (this.sortedSwarmGroups.length === 0) {

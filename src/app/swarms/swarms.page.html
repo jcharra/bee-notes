@@ -8,91 +8,94 @@
 </ion-header>
 
 <ion-content>
-  <ion-list [inset]="true">
-    <ion-reorder-group
-      *ngIf="sortedSwarmGroups.length > 0; else noBuzz"
-      disabled="false"
-      (ionItemReorder)="doReorder($event)"
-    >
-      <ng-container *ngFor="let group of sortedSwarmGroups">
-        <ion-item-sliding>
-          <ion-item
-            class="ion-text-center groupHeading"
-            (click)="group.id && editSwarmGroup(group)"
-          >
-            <ion-label>
-              <strong> {{ group.name }} </strong><br />
-              <span *ngIf="group.swarms.length === 0" class="small-preview">
-                Drag colonies here by their bee icon<br />
-                Delete group by swiping
-              </span>
-              <span
-                *ngIf="group.name === DEFAULT_GROUP_NAME"
-                class="small-preview"
+  <ng-container *ngIf="sortedSwarmGroups">
+    <ion-list [inset]="true" [lines]="full">
+      <ion-reorder-group
+        *ngIf="sortedSwarmGroups.length > 0; else noBuzz"
+        disabled="false"
+        (ionItemReorder)="doReorder($event)"
+      >
+        <ng-container *ngFor="let group of sortedSwarmGroups">
+          <ion-item-sliding>
+            <ion-item
+              class="ion-text-center groupHeading"
+              (click)="group.id && editSwarmGroup(group)"
+            >
+              <ion-label>
+                <strong> {{ group.name }} </strong><br />
+                <span *ngIf="group.swarms.length === 0" class="small-preview">
+                  Drag colonies here by their bee icon<br />
+                  Delete group by swiping
+                </span>
+                <span
+                  *ngIf="group.name === DEFAULT_GROUP_NAME && group.swarms.length > 0"
+                  class="small-preview"
+                >
+                  Change group name by tapping
+                </span>
+              </ion-label>
+            </ion-item>
+            <ion-item-options *ngIf="group.swarms.length === 0">
+              <ion-item-option
+                color="secondary"
+                (click)="deleteGroup(group.id)"
               >
-                Change group name by tapping
+                <ion-icon slot="end" name="trash-outline"></ion-icon>
+                Delete
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+          <ion-item
+            *ngFor="let swarm of group.swarms"
+            (tap)="openSwarmDetail(swarm.id)"
+            (click)="openSwarmDetail(swarm.id)"
+          >
+            <ion-reorder slot="start"> 🐝 </ion-reorder>
+            <ion-label>
+              {{ swarm.name }}
+              <span
+                class="small-preview"
+                *ngIf="swarm.lastAction as entry; else noActionYet"
+              >
+                <br />
+                <strong>{{ entry.date | date:'dd. MMM'}}: </strong>
+                {{ entry.type }}
               </span>
+              <ng-template #noActionYet>
+                <br />
+                <span class="small-preview">No activity yet</span>
+              </ng-template>
+            </ion-label>
+            <ion-label
+              slot="end"
+              [color]="swarm.statusInfo?.colonyStatus === 'VARROA_OK' ? 'success' : 
+        (swarm.statusInfo?.colonyStatus === 'VARROA_MEDIUM' ? 'warning' : 'danger')"
+              *ngIf="swarm.statusInfo?.colonyStatus"
+              class="statusInfoLabel"
+            >
+              {{ swarm.statusInfo.avgCount }}
+              <ion-icon name="bug-outline" slot="end"></ion-icon> <br />per day
             </ion-label>
           </ion-item>
-          <ion-item-options *ngIf="group.swarms.length === 0">
-            <ion-item-option color="secondary" (click)="deleteGroup(group.id)">
-              <ion-icon slot="end" name="trash-outline"></ion-icon>
-              Delete
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-        <ion-item
-          *ngFor="let swarm of group.swarms"
-          (tap)="openSwarmDetail(swarm.id)"
-          (click)="openSwarmDetail(swarm.id)"
-        >
-          <ion-reorder slot="start"> 🐝 </ion-reorder>
-          <ion-label>
-            {{ swarm.name }}
-            <span
-              class="small-preview"
-              *ngIf="swarm.lastAction as entry; else noActionYet"
-            >
-              <br />
-              <strong>{{ entry.date | date:'dd. MMM'}}: </strong>
-              {{ entry.type }}
-            </span>
-            <ng-template #noActionYet>
-              <br />
-              <span class="small-preview">No activity yet</span>
-            </ng-template>
-          </ion-label>
-          <ion-label
-            slot="end"
-            [color]="swarm.statusInfo?.colonyStatus === 'VARROA_OK' ? 'success' : 
-        (swarm.statusInfo?.colonyStatus === 'VARROA_MEDIUM' ? 'warning' : 'danger')"
-            *ngIf="swarm.statusInfo?.colonyStatus"
-            class="statusInfoLabel"
-          >
-            {{ swarm.statusInfo.avgCount }}
-            <ion-icon name="bug-outline" slot="end"></ion-icon> <br />per day
-          </ion-label>
+        </ng-container>
+      </ion-reorder-group>
+
+      <ng-template #noBuzz>
+        <ion-item class="ion-padding">
+          {{ 'NO_COLONIES_YET' | translate }} 🐝
         </ion-item>
-      </ng-container>
-    </ion-reorder-group>
+      </ng-template>
+    </ion-list>
 
-    <ng-template #noBuzz>
-      <ion-item class="ion-padding">
-        {{ 'NO_COLONIES_YET' | translate }} 🐝
-      </ion-item>
-    </ng-template>
-  </ion-list>
+    <ion-button *ngIf="migrate" (click)="migrate()">Migrate</ion-button>
 
-  <!--
-    <ion-button (click)="migrateJournal()">Migrate</ion-button>
-  -->
-
-  <ion-buttons class="ion-padding-horizontal">
-    <ion-fab-button slot="end" color="primary" (click)="createSwarm()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button slot="end" color="primary" (click)="editSwarmGroup()">
-      <ion-icon name="duplicate-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-buttons>
+    <ion-buttons class="ion-padding-horizontal">
+      <ion-fab-button slot="end" color="primary" (click)="createSwarm()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button slot="end" color="primary" (click)="editSwarmGroup()">
+        <ion-icon name="duplicate-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-buttons>
+  </ng-container>
 </ion-content>

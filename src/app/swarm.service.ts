@@ -14,7 +14,7 @@ export interface GeoPosition {
   lng: number;
 }
 
-enum ActivityStatus {
+export enum ActivityStatus {
   ACTIVE = "ACTIVE",
   DECEASED = "DECEASED",
   SOLD = "SOLD",
@@ -40,7 +40,12 @@ export class SwarmService {
     private authService: AuthService
   ) {}
 
-  getSwarms(): Observable<Swarm[]> {
+  getSwarms(
+    ignoreStatuses: ActivityStatus[] = [
+      ActivityStatus.SOLD,
+      ActivityStatus.DECEASED,
+    ]
+  ): Observable<Swarm[]> {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         return this.db
@@ -56,10 +61,7 @@ export class SwarmService {
                 const key = item.key;
                 const value: any = item.payload.val();
 
-                if (
-                  value.activityStatus === ActivityStatus.SOLD ||
-                  value.activityStatus === ActivityStatus.DECEASED
-                ) {
+                if (ignoreStatuses.indexOf(value.activityStatus) > -1) {
                   continue;
                 }
 
@@ -100,12 +102,19 @@ export class SwarmService {
     );
   }
 
-  createSwarm(s: Swarm): Observable<any> {
+  createSwarm(name: string): Observable<any> {
     return this.authService.getUser().pipe(
       switchMap((user) => {
+        const swarm = {
+          name,
+          created: new Date(),
+          sortIndex: 0,
+          activityStatus: ActivityStatus.ACTIVE,
+        };
+
         return this.db
           .list(`/users/${user.uid}/swarms`)
-          .push(s)
+          .push(swarm)
           .then((res: any) => {
             const pathParts = res.path.pieces_;
             return pathParts[pathParts.length - 1];
@@ -134,6 +143,20 @@ export class SwarmService {
 
   markAsSold(s: Swarm) {
     return this.deactivate(s, ActivityStatus.SOLD);
+  }
+
+  getFormerSwarms(): Observable<Swarm[]> {
+    return this.getSwarms([ActivityStatus.ACTIVE]);
+  }
+
+  reactivate(s: Swarm) {
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
+        return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
+          activityStatus: ActivityStatus.ACTIVE,
+        });
+      })
+    );
   }
 
   private deactivate(s: Swarm, status: ActivityStatus) {
