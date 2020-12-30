@@ -15,8 +15,8 @@
         disabled="false"
         (ionItemReorder)="doReorder($event)"
       >
-        <ng-container *ngFor="let group of sortedSwarmGroups">
-          <ion-item-sliding>
+        <ng-container *ngFor="let group of sortedSwarmGroups; let idx = index">
+          <ion-item-sliding [ngClass]="{'top-buffer': idx > 0}">
             <ion-item
               class="ion-text-center groupHeading"
               (click)="group.id && editSwarmGroup(group)"
@@ -53,6 +53,7 @@
             <ion-reorder slot="start"> 🐝 </ion-reorder>
             <ion-label>
               {{ swarm.name }}
+              <!--{{ swarm.sortIndex }}-->
               <span
                 class="small-preview"
                 *ngIf="swarm.lastAction as entry; else noActionYet"

@@ -6,13 +6,12 @@ import {
   NavController,
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
-import { from, Observable } from "rxjs";
-import { forkJoin, of } from "rxjs";
+import { forkJoin } from "rxjs";
 import { first, switchMap, tap } from "rxjs/operators";
 import { JournalEntry, JournalService } from "../journal.service";
 import { StatusService } from "../status.service";
 import { SwarmGroup, SwarmGroupService } from "../swarm-group.service";
-import { ActivityStatus, Swarm, SwarmService } from "../swarm.service";
+import { Swarm, SwarmService } from "../swarm.service";
 
 interface UISwarmGroup {
   id: string;
