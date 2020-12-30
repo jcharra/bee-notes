@@ -200,12 +200,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
               this.router.navigateByUrl("/");
             });
 
-            const toast = await this.toastController.create({
-              message:
-                'You can still find (and even reactivate) your colony under the menu "Former colonies"',
-              duration: 6000,
-            });
-            toast.present();
+            this.showWhereToFindHint();
           },
         },
       ],
@@ -231,12 +226,22 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
             this.swarmService.markAsSold(this.swarm).subscribe(() => {
               this.router.navigateByUrl("/");
             });
+            this.showWhereToFindHint();
           },
         },
       ],
     });
 
     await alert.present();
+  }
+
+  async showWhereToFindHint() {
+    const toast = await this.toastController.create({
+      message:
+        'You can still find (and even reactivate) your colony under the menu "Former colonies"',
+      duration: 6000,
+    });
+    toast.present();
   }
 
   ngOnDestroy() {
