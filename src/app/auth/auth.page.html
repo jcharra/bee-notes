@@ -36,14 +36,23 @@
             <ion-button color="primary" expand="block" (click)="onLogin()">
               {{ isSignup ? 'Sign up' : 'Login'}}</ion-button
             >
-            <ion-label
-              *ngIf="!isSignup"
-              color="secondary"
-              class="ion-float-right ion-padding"
-              (click)="isSignup = !isSignup"
-            >
-              Not registered yet? Sign up!
-            </ion-label>
+
+            <ng-container *ngIf="!isSignup">
+              <ion-label
+                color="secondary"
+                class="ion-float-left ion-padding"
+                (click)="isSignup = !isSignup"
+              >
+                Sign up
+              </ion-label>
+              <ion-label
+                color="secondary"
+                class="ion-float-right ion-padding"
+                (click)="resetPassword()"
+              >
+                Reset password
+              </ion-label>
+            </ng-container>
 
             <ion-label
               *ngIf="isSignup"

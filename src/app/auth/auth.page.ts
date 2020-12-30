@@ -1,41 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Plugins } from '@capacitor/core';
-import { AlertController, LoadingController } from '@ionic/angular';
-import { AuthService } from './auth.service';
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { Plugins } from "@capacitor/core";
+import { AlertController, LoadingController } from "@ionic/angular";
+import { AuthService } from "./auth.service";
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.page.html',
-  styleUrls: ['./auth.page.scss'],
+  selector: "app-auth",
+  templateUrl: "./auth.page.html",
+  styleUrls: ["./auth.page.scss"],
 })
 export class AuthPage implements OnInit {
   isSignup = false;
   isLoading = false;
   loginForm: FormGroup;
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private alertController: AlertController) {
-
-  }
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required])
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [Validators.required]),
     });
 
     // Prepopulate email field if possible
-    Plugins.Storage
-      .get({ key: 'lastEmailAddress' })
-      .then((data: any) => { 
-        if (data && data.value) {
-          this.loginForm.get('email').setValue(data.value);
-        }
-      })    
+    Plugins.Storage.get({ key: "lastEmailAddress" }).then((data: any) => {
+      if (data && data.value) {
+        this.loginForm.get("email").setValue(data.value);
+      }
+    });
   }
 
   onLogin() {
@@ -43,52 +41,81 @@ export class AuthPage implements OnInit {
       return;
     }
 
-    Plugins.Storage
-      .set({ key: 'lastEmailAddress', value: this.loginForm.value.email })
-    
-    this.isLoading = true;
-    this.loadingCtrl.create({
-      keyboardClose: true,
-      message: 'Logging in ...'
-    }).then(loadingEl => {
-      loadingEl.present();
-
-      const email = this.loginForm.value.email;
-      const password = this.loginForm.value.password;
-      
-      if (this.isSignup) {
-        this.authService
-          .signup(email, password)
-          .then(() => { 
-            loadingEl.dismiss();
-            this.onSignupSuccess();
-            this.isSignup = false;
-          })
-          .catch(err => {
-            loadingEl.dismiss();
-            this.onSignupFailed(err);
-          });
-      } else {
-        this.authService
-          .login(email, password)
-          .then(() => {
-            loadingEl.dismiss();
-            this.router.navigateByUrl('/swarms');
-          })
-            .catch(err => {
-            this.isLoading = false;
-            loadingEl.dismiss();
-            this.onLoginFailed(err);
-          });
-      }      
+    Plugins.Storage.set({
+      key: "lastEmailAddress",
+      value: this.loginForm.value.email,
     });
+
+    this.isLoading = true;
+    this.loadingCtrl
+      .create({
+        keyboardClose: true,
+        message: "Logging in ...",
+      })
+      .then((loadingEl) => {
+        loadingEl.present();
+
+        const email = this.loginForm.value.email;
+        const password = this.loginForm.value.password;
+
+        if (this.isSignup) {
+          this.authService
+            .signup(email, password)
+            .then(() => {
+              loadingEl.dismiss();
+              this.onSignupSuccess();
+              this.isSignup = false;
+            })
+            .catch((err) => {
+              loadingEl.dismiss();
+              this.onSignupFailed(err);
+            });
+        } else {
+          this.authService
+            .login(email, password)
+            .then(() => {
+              loadingEl.dismiss();
+              this.router.navigateByUrl("/swarms");
+            })
+            .catch((err) => {
+              this.isLoading = false;
+              loadingEl.dismiss();
+              this.onLoginFailed(err);
+            });
+        }
+      });
+  }
+
+  async resetPassword() {
+    const address = this.loginForm.controls.email.value.trim();
+
+    const alert = await this.alertController.create({
+      header: "Reset password",
+      message: 'Do you want to reset the password for "' + address + '"',
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+        },
+        {
+          text: "Yes",
+          cssClass: "secondary",
+          handler: () => {
+            this.authService.resetPassword(address);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   async onLoginFailed(msg: string = null) {
     const alert = await this.alertController.create({
-      header: 'Login failed',
-      message: msg || 'Username and password do not match.',
-      buttons: ['OK']
+      header: "Login failed",
+      message: msg || "Username and password do not match.",
+      buttons: ["OK"],
     });
 
     await alert.present();
@@ -96,9 +123,9 @@ export class AuthPage implements OnInit {
 
   async onSignupFailed(msg: string) {
     const alert = await this.alertController.create({
-      header: 'Signup failed',
+      header: "Signup failed",
       message: msg,
-      buttons: ['OK']
+      buttons: ["OK"],
     });
 
     await alert.present();
@@ -106,9 +133,9 @@ export class AuthPage implements OnInit {
 
   async onSignupSuccess() {
     const alert = await this.alertController.create({
-      header: 'Signup successful',
-      message: 'We just sent you an email with a validation link.',
-      buttons: ['OK']
+      header: "Signup successful",
+      message: "We just sent you an email with a validation link.",
+      buttons: ["OK"],
     });
 
     await alert.present();

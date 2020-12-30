@@ -56,4 +56,8 @@ export class AuthService {
   logout() {
     this.auth.signOut();
   }
+
+  resetPassword(email: string) {
+    this.auth.sendPasswordResetEmail(email);
+  }
 }
