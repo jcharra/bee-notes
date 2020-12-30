@@ -89,6 +89,12 @@ export class AuthPage implements OnInit {
   async resetPassword() {
     const address = this.loginForm.controls.email.value.trim();
 
+    const mailAddressComplete = address.length > 4 && address.indexOf("@") > 0;
+    if (!mailAddressComplete) {
+      this.onMailAddressIncomplete();
+      return;
+    }
+
     const alert = await this.alertController.create({
       header: "Reset password",
       message: 'Do you want to reset the password for "' + address + '"',
@@ -102,7 +108,14 @@ export class AuthPage implements OnInit {
           text: "Yes",
           cssClass: "secondary",
           handler: () => {
-            this.authService.resetPassword(address);
+            this.authService
+              .resetPassword(address)
+              .then(() => {
+                this.onResetLinkSent();
+              })
+              .catch((err) => {
+                this.onResetLinkFailure(err);
+              });
           },
         },
       ],
@@ -135,6 +148,36 @@ export class AuthPage implements OnInit {
     const alert = await this.alertController.create({
       header: "Signup successful",
       message: "We just sent you an email with a validation link.",
+      buttons: ["OK"],
+    });
+
+    await alert.present();
+  }
+
+  async onMailAddressIncomplete() {
+    const alert = await this.alertController.create({
+      header: "No email address",
+      message: "Please insert your mail address first.",
+      buttons: ["OK"],
+    });
+
+    await alert.present();
+  }
+
+  async onResetLinkSent() {
+    const alert = await this.alertController.create({
+      header: "Rest link sent",
+      message: "We just sent you an email with a password reset link.",
+      buttons: ["OK"],
+    });
+
+    await alert.present();
+  }
+
+  async onResetLinkFailure(msg: string) {
+    const alert = await this.alertController.create({
+      header: "Password reset failed",
+      message: "There was a problem: " + msg,
       buttons: ["OK"],
     });
 

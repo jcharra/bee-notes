@@ -58,6 +58,6 @@ export class AuthService {
   }
 
   resetPassword(email: string) {
-    this.auth.sendPasswordResetEmail(email);
+    return this.auth.sendPasswordResetEmail(email);
   }
 }
