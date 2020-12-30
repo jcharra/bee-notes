@@ -12,6 +12,7 @@ import { JournalEntry } from "./../../journal.service";
 export class SwarmJournalPage implements OnInit {
   journalEntries: JournalEntry[];
   swarmId: string;
+  readonly: boolean;
 
   constructor(
     private journalService: JournalService,
@@ -21,6 +22,7 @@ export class SwarmJournalPage implements OnInit {
 
   ngOnInit() {
     this.swarmId = this.route.snapshot.params.swarmId;
+    this.readonly = this.route.snapshot.queryParams.readonly;
   }
 
   ionViewDidEnter() {

@@ -195,10 +195,17 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
         {
           text: "Yes 😢",
           cssClass: "danger",
-          handler: () => {
+          handler: async () => {
             this.swarmService.markAsDeceased(this.swarm).subscribe(() => {
               this.router.navigateByUrl("/");
             });
+
+            const toast = await this.toastController.create({
+              message:
+                'You can still find (and even reactivate) your colony under the menu "Former colonies"',
+              duration: 6000,
+            });
+            toast.present();
           },
         },
       ],

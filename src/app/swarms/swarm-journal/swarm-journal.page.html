@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref=".."></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="!readonly">
       <ion-fab-button color="primary" routerLink="edit">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
@@ -17,19 +17,17 @@
     <ion-item *ngFor="let entry of journalEntries; let idx = index">
       <div class="ion-float-left ion-text-center calendar-sheet">
         {{ entry.date | date:'MMM'}}
-        <br>
+        <br />
         {{ entry.date | date:'dd'}}
       </div>
       <ion-label>
         <div class="ion-float-left ion-margin-start ion-text-wrap">
           <app-journal-entry-short [entry]="entry"></app-journal-entry-short>
-          <div class="journalText">
-            {{ entry.text }}
-          </div>
-        </div>         
+          <div class="journalText">{{ entry.text }}</div>
+        </div>
       </ion-label>
 
-      <ion-buttons slot="end">
+      <ion-buttons slot="end" *ngIf="!readonly">
         <ion-button routerLink="edit" [queryParams]="{entryId: entry.id}">
           <ion-icon name="create-outline"></ion-icon>
         </ion-button>
@@ -40,9 +38,7 @@
     </ion-item>
 
     <ion-item *ngIf="journalEntries && journalEntries.length === 0">
-      <ion-label>
-        {{ 'NO_TRACKED_ACTIVITY' | translate }}
-      </ion-label>      
+      <ion-label> {{ 'NO_TRACKED_ACTIVITY' | translate }} </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
