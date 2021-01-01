@@ -49,7 +49,7 @@ export class SwarmsPage {
   async loadSwarms() {
     const showSpinner = !this.swarms;
     const loading = await this.loadingController.create({
-      message: this.translate.instant("LOADING_COLONIES"),
+      message: this.translate.instant("COLONIES_PAGE.loading"),
       showBackdrop: true,
     });
 
@@ -136,23 +136,29 @@ export class SwarmsPage {
 
   async editSwarmGroup(existing: UISwarmGroup) {
     const alert = await this.alertCtrl.create({
-      header: existing ? "Edit group name" : "New colony group",
+      header: this.translate.instant(
+        existing
+          ? "COLONIES_PAGE.editGroupName"
+          : "COLONIES_PAGE.newColonyGroup"
+      ),
       inputs: [
         {
           name: "name",
           type: "text",
           value: existing?.name,
-          placeholder: "Pick a name",
+          placeholder: this.translate.instant("COLONIES_PAGE.namePlaceholder"),
         },
       ],
       buttons: [
         {
-          text: "Cancel",
+          text: this.translate.instant("GENERAL.cancel"),
           role: "cancel",
           cssClass: "secondary",
         },
         {
-          text: existing ? "Save" : "Create group",
+          text: existing
+            ? this.translate.instant("GENERAL.save")
+            : this.translate.instant("COLONIES_PAGE.createGroup"),
           handler: (value) => {
             const name = value.name.trim();
             if (name) {
@@ -176,7 +182,9 @@ export class SwarmsPage {
                 }
               );
             } else {
-              this.onCreationFailure("Please choose a valid name");
+              this.onCreationFailure(
+                this.translate.instant("COLONIES_PAGE.chooseValidName")
+              );
             }
           },
         },
@@ -191,22 +199,22 @@ export class SwarmsPage {
 
   async createSwarm() {
     const alert = await this.alertCtrl.create({
-      header: "New colony",
+      header: this.translate.instant("COLONIES_PAGE.newColony"),
       inputs: [
         {
           name: "name",
           type: "text",
-          placeholder: "Pick a name",
+          placeholder: this.translate.instant("COLONIES_PAGE.namePlaceholder"),
         },
       ],
       buttons: [
         {
-          text: "Cancel",
+          text: this.translate.instant("GENERAL.cancel"),
           role: "cancel",
           cssClass: "secondary",
         },
         {
-          text: "Add colony",
+          text: this.translate.instant("COLONIES_PAGE.addColony"),
           handler: (value) => {
             const name = value.name.trim();
             if (name) {
@@ -242,7 +250,9 @@ export class SwarmsPage {
                   }
                 );
             } else {
-              this.onCreationFailure("Please choose a valid name");
+              this.onCreationFailure(
+                this.translate.instant("COLONIES_PAGE.chooseValidName")
+              );
             }
           },
         },
@@ -257,7 +267,7 @@ export class SwarmsPage {
 
   async onCreationFailure(msg: string) {
     const alert = await this.alertController.create({
-      header: "Creation failed",
+      header: this.translate.instant("COLONIES_PAGE.createGroupFailed"),
       message: msg,
       buttons: ["OK"],
     });
@@ -360,7 +370,7 @@ export class SwarmsPage {
     ev.detail.complete();
 
     const loading = await this.loadingController.create({
-      message: "Updating ...",
+      message: this.translate.instant("COLONIES_PAGE.updatingSpinner"),
       showBackdrop: true,
     });
 

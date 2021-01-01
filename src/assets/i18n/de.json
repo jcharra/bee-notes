@@ -22,12 +22,25 @@
     "resetLinkFailure": "Fehler",
     "resetLinkFailureText": "Es konnte keine Mail verschickt werden: ",
     "backToLogin": "Zurück zur Anmeldung",
-    "beeAwareDescription": "<strong>Bee aware</strong> can help you keep track of your activities with your bee colonies all year round. It's a quick and easy way to remember how much you harvested, how much food you gave to which colony ... and also how many Varroa mites you counted, when you made treatments etc. It's free to use, and you will never be asked to enter any personal data whatsoever apart from a valid email address."
+    "beeAwareDescription": "<strong>Bee aware</strong> kann Dir dabei helfen, all Deine Aktivitäten mit Deinen Bienenvölkern im Blick zu behalten - das ganze Jahr über. Es ist ein simples Hilfsprogramm, mit dem alle Handgriffe wie Ernten, Varroa-Checks, Behandlungen etc. schnell erfasst und bei Bedarf nachgesehen werden können. Es ist kostenlos und erfordert nicht mehr als eine gültige Mailadresse."
   },
   "COLONIES_PAGE": {
+    "loading": "Lade Völker ...",
     "pageTitle": "Völker",
     "colonies": "Völker",
-    "noColonies": "Hier summt noch nichts - leg' jetzt Dein erstes Volk an!"
+    "noColonies": "Hier summt ja noch gar nichts - leg' jetzt Dein erstes Volk an!",
+    "emptyGroupHint": "Ziehe Völker am Bienchen hierher<br />Durch Wischen kannst Du die Gruppe löschen.",
+    "changeGroupNameHint": "Durch Tippen Namen ändern",
+    "varroaCountUnit": "pro Tag",
+    "editGroupName": "Gruppe umbenennen",
+    "newColonyGroup": "Neue Gruppe anlegen",
+    "namePlaceholder": "Wähle einen Namen",
+    "createGroup": "Anlegen",
+    "createGroupFailed": "Anlegen fehlgeschlagen",
+    "chooseValidName": "Bitte wähle einen gültigen Namen",
+    "newColony": "Neues Volk",
+    "addColony": "Anlegen",
+    "updatingSpinner": "Aktualisiere ..."
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Noch keine Einträge.",
@@ -52,16 +65,8 @@
   },
   "GENERAL": {
     "cancel": "Abbrechen",
-    "yes": "Ja"
-  },
-  "ADD_COLONY": "Volk hinzufügen",
-  "LOGOUT": "Abmelden",
-  "JOURNAL": "Tagebuch",
-  "EDIT_ENTRY": "Eintrag ändern",
-  "NEW_ENTRY": "Neuer Eintrag",
-  "ACTION_TYPE": "Aktionstyp",
-  "DATE": "Datum",
-  "SAVE": "Speichern",
-  "AMOUNT": "Anzahl",
-  "LOADING_COLONIES": "Lade Völker ..."
+    "yes": "Ja",
+    "delete": "Löschen",
+    "save": "Speichern"
+  }
 }

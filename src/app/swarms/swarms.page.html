@@ -23,15 +23,17 @@
             >
               <ion-label>
                 <strong> {{ group.name }} </strong><br />
-                <span *ngIf="group.swarms.length === 0" class="small-preview">
-                  Drag colonies here by their bee icon<br />
-                  Delete group by swiping
+                <span
+                  *ngIf="group.swarms.length === 0"
+                  class="small-preview"
+                  [innerHTML]="'COLONIES_PAGE.emptyGroupHint' | translate"
+                >
                 </span>
                 <span
                   *ngIf="group.name === DEFAULT_GROUP_NAME && group.swarms.length > 0"
                   class="small-preview"
                 >
-                  Change group name by tapping
+                  {{"COLONIES_PAGE.changeGroupNameHint" | translate}}
                 </span>
               </ion-label>
             </ion-item>
@@ -41,7 +43,7 @@
                 (click)="deleteGroup(group.id)"
               >
                 <ion-icon slot="end" name="trash-outline"></ion-icon>
-                Delete
+                {{"GENERAL.delete" | translate}}
               </ion-item-option>
             </ion-item-options>
           </ion-item-sliding>
@@ -64,7 +66,9 @@
               </span>
               <ng-template #noActionYet>
                 <br />
-                <span class="small-preview">No activity yet</span>
+                <span class="small-preview"
+                  >{{"JOURNAL_PAGE.noTrackedActivity" | translate}}</span
+                >
               </ng-template>
             </ion-label>
             <ion-label
@@ -75,7 +79,8 @@
               class="statusInfoLabel"
             >
               {{ swarm.statusInfo.avgCount }}
-              <ion-icon name="bug-outline" slot="end"></ion-icon> <br />per day
+              <ion-icon name="bug-outline" slot="end"></ion-icon>
+              <br />{{"COLONIES_PAGE.varroaCountUnit" | translate}}
             </ion-label>
           </ion-item>
         </ng-container>
@@ -83,7 +88,7 @@
 
       <ng-template #noBuzz>
         <ion-item class="ion-padding">
-          {{ 'NO_COLONIES_YET' | translate }} 🐝
+          {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝
         </ion-item>
       </ng-template>
     </ion-list>

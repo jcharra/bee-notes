@@ -27,7 +27,20 @@
   "COLONIES_PAGE": {
     "pageTitle": "Your colonies",
     "colonies": "colonies",
-    "noColonies": "No buzz yet - time to add your first colony."
+    "noColonies": "No buzz yet - time to add your first colony.",
+    "emptyGroupHint": "Drag colonies here by their bee icon<br />Delete group by swiping",
+    "changeGroupNameHint": "Change group name by tapping",
+    "loading": "Loading colonies ...",
+    "varroaCountUnit": "per day",
+    "editGroupName": "Rename group",
+    "newColonyGroup": "Add new group",
+    "namePlaceholder": "Pick a name",
+    "createGroup": "Create",
+    "createGroupFailed": "Creation failed",
+    "chooseValidName": "Please choose a valid name",
+    "newColony": "New colony",
+    "addColony": "Create",
+    "updatingSpinner": "Updating ..."
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No tracked activity yet.",
@@ -50,7 +63,12 @@
     "colonies": "colonies",
     "logout": "Log out"
   },
-  "GENERAL": {},
+  "GENERAL": {
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "delete": "Delete",
+    "save": "Save"
+  },
   "ADD_COLONY": "Add colony",
   "EDIT_ENTRY": "Edit entry",
   "NEW_ENTRY": "New entry",
