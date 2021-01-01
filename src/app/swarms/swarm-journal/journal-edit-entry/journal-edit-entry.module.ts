@@ -1,13 +1,13 @@
-import { TranslateModule } from '@ngx-translate/core';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from "@ngx-translate/core";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from "@ionic/angular";
 
-import { JournalEditEntryPageRoutingModule } from './journal-edit-entry-routing.module';
+import { JournalEditEntryPageRoutingModule } from "./journal-edit-entry-routing.module";
 
-import { JournalEditEntryPage } from './journal-edit-entry.page';
+import { JournalEditEntryPage } from "./journal-edit-entry.page";
 
 @NgModule({
   imports: [
@@ -16,8 +16,8 @@ import { JournalEditEntryPage } from './journal-edit-entry.page';
     IonicModule,
     JournalEditEntryPageRoutingModule,
     ReactiveFormsModule,
-    TranslateModule.forChild()
+    TranslateModule,
   ],
-  declarations: [JournalEditEntryPage]
+  declarations: [JournalEditEntryPage],
 })
 export class JournalEditEntryPageModule {}

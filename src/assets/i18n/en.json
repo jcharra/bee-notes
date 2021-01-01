@@ -15,5 +15,6 @@
   "AMOUNT": "Amount",
   "FORMER_COLONIES": "Former colonies",
   "SETTINGS": "Settings",
-  "LANGUAGE": "Language"
+  "LANGUAGE": "Language",
+  "LOADING_COLONIES": "Loading colonies ..."
 }

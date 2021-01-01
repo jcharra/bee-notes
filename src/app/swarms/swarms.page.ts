@@ -6,6 +6,7 @@ import {
   NavController,
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
+import { TranslateService } from "@ngx-translate/core";
 import { forkJoin } from "rxjs";
 import { first, switchMap, tap } from "rxjs/operators";
 import { JournalEntry, JournalService } from "../journal.service";
@@ -29,6 +30,8 @@ export class SwarmsPage {
   swarms: Swarm[];
   userId: string;
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
+  translation: any;
+
   DEFAULT_GROUP_NAME = "Unnamed group";
 
   constructor(
@@ -39,13 +42,14 @@ export class SwarmsPage {
     private navController: NavController,
     private alertController: AlertController,
     private statusService: StatusService,
-    private swarmGroupService: SwarmGroupService
+    private swarmGroupService: SwarmGroupService,
+    private translate: TranslateService
   ) {}
 
   async loadSwarms() {
     const showSpinner = !this.swarms;
     const loading = await this.loadingController.create({
-      message: "Loading colonies ...",
+      message: this.translate.instant("LOADING_COLONIES"),
       showBackdrop: true,
     });
 

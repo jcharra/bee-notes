@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
-import { SharedModule } from '../shared/shared.module';
-import { SwarmsPageRoutingModule } from './swarms-routing.module';
-import { SwarmsPage } from './swarms.page';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { IonicModule } from "@ionic/angular";
+import { TranslateModule } from "@ngx-translate/core";
+import { SharedModule } from "../shared/shared.module";
+import { SwarmsPageRoutingModule } from "./swarms-routing.module";
+import { SwarmsPage } from "./swarms.page";
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { SwarmsPage } from './swarms.page';
     IonicModule,
     SwarmsPageRoutingModule,
     SharedModule,
-    TranslateModule.forChild()
+    TranslateModule,
   ],
-  declarations: [SwarmsPage]
+  declarations: [SwarmsPage],
 })
-export class SwarmsPageModule { }
+export class SwarmsPageModule {}
