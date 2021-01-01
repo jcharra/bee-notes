@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-menu-button menu="first"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ "SETTINGS" | translate }} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="settingsForm">
+    <ion-list [inset]="true">
+      <ion-item>
+        <ion-label> {{ "LANGUAGE" | translate }} </ion-label>
+        <ion-select
+          interface="action-sheet"
+          okText="Okay"
+          cancelText="Cancel"
+          formControlName="language"
+        >
+          <ion-select-option *ngFor="let lang of languages" [value]="lang"
+            >{{ lang.name }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-button
+      class="ion-padding-horizontal"
+      size="default"
+      expand="block"
+      (click)="submit()"
+    >
+      {{ "SAVE" | translate }}
+    </ion-button>
+  </form>
+</ion-content>

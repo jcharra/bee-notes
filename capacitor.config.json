@@ -1,5 +1,5 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "de.charra.beeaware",
   "appName": "Bee aware",
   "bundledWebRuntime": false,
   "npmClient": "npm",

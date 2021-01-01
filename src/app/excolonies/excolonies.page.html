@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-menu-button menu="first"></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Former colonies </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list [inset]="true" *ngIf="colonies">
+    <ng-container *ngIf="colonies.length > 0; else noFormerColonies">
+      <ion-item *ngFor="let colony of colonies">
+        <ion-label>{{ colony.name }}</ion-label>
+        <ion-buttons slot="end">
+          <ion-button (click)="viewJournal(colony)">
+            <ion-icon name="book-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="reactivate(colony)" color="success">
+            <ion-icon name="fitness-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ng-container>
+
+    <ng-template #noFormerColonies>
+      <ion-item>
+        <ion-label> No colonies deceased or sold yet. </ion-label>
+      </ion-item>
+    </ng-template>
+  </ion-list>
+</ion-content>
