@@ -32,6 +32,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: "settings",
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    loadChildren: () =>
+      import("./settings/settings.module").then((m) => m.SettingsPageModule),
+  },
+  {
     path: "",
     redirectTo: "swarms",
     pathMatch: "full",
@@ -47,6 +54,11 @@ const routes: Routes = [
       import("./excolonies/excolonies.module").then(
         (m) => m.ExcoloniesPageModule
       ),
+  },
+  {
+    path: "settings",
+    loadChildren: () =>
+      import("./settings/settings.module").then((m) => m.SettingsPageModule),
   },
 ];
 

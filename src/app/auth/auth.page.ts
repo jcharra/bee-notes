@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Plugins } from "@capacitor/core";
 import { AlertController, LoadingController } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "./auth.service";
 
 @Component({
@@ -19,7 +20,8 @@ export class AuthPage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {

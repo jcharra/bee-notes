@@ -1,3 +1,19 @@
 {
-  "COLONIES": "Völker"
+  "COLONIES": "Völker",
+  "NO_COLONIES_YET": "Hier summt noch nichts - leg' jetzt Dein erstes Volk an!",
+  "ADD_COLONY": "Volk hinzufügen",
+  "START_MENU": "Startmenü",
+  "FINANCE": "Finanzen",
+  "LOGOUT": "Abmelden",
+  "JOURNAL": "Tagebuch",
+  "NO_TRACKED_ACTIVITY": "Noch keine Einträge.",
+  "EDIT_ENTRY": "Eintrag ändern",
+  "NEW_ENTRY": "Neuer Eintrag",
+  "ACTION_TYPE": "Aktionstyp",
+  "DATE": "Datum",
+  "SAVE": "Speichern",
+  "AMOUNT": "Anzahl",
+  "FORMER_COLONIES": "Ehemalige Völker",
+  "SETTINGS": "Einstellungen",
+  "LANGUAGE": "Sprache"
 }

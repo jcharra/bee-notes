@@ -5,6 +5,7 @@ import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { MenuController, Platform } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "./auth/auth.service";
+import { Storage } from "@ionic/storage";
 
 @Component({
   selector: "app-root",
@@ -19,7 +20,8 @@ export class AppComponent {
     private authService: AuthService,
     private router: Router,
     private menu: MenuController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private storage: Storage
   ) {
     this.initializeApp();
   }
@@ -28,7 +30,10 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.translate.setDefaultLang("en");
+      this.storage.get("language").then((lang) => {
+        this.translate.setDefaultLang(lang || "en");
+        this.translate.use(lang || "en");
+      });
     });
   }
 
@@ -51,5 +56,10 @@ export class AppComponent {
   openSwarms() {
     this.menu.close();
     this.router.navigateByUrl("/swarms");
+  }
+
+  openSettings() {
+    this.menu.close();
+    this.router.navigateByUrl("/settings");
   }
 }
