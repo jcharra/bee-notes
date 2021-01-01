@@ -52,7 +52,7 @@ export class AuthPage implements OnInit {
     this.loadingCtrl
       .create({
         keyboardClose: true,
-        message: "Logging in ...",
+        message: this.translate.instant("AUTH_PAGE.loginSpinner"),
       })
       .then((loadingEl) => {
         loadingEl.present();
@@ -98,16 +98,18 @@ export class AuthPage implements OnInit {
     }
 
     const alert = await this.alertController.create({
-      header: "Reset password",
-      message: 'Do you want to reset the password for "' + address + '"',
+      header: this.translate.instant("AUTH_PAGE.passwordReset"),
+      message: this.translate.instant("AUTH_PAGE.passwordResetPrompt", {
+        address: address,
+      }),
       buttons: [
         {
-          text: "Cancel",
+          text: this.translate.instant("GENERAL.cancel"),
           role: "cancel",
           cssClass: "secondary",
         },
         {
-          text: "Yes",
+          text: this.translate.instant("GENERAL.yes"),
           cssClass: "secondary",
           handler: () => {
             this.authService
@@ -128,8 +130,8 @@ export class AuthPage implements OnInit {
 
   async onLoginFailed(msg: string = null) {
     const alert = await this.alertController.create({
-      header: "Login failed",
-      message: msg || "Username and password do not match.",
+      header: this.translate.instant("AUTH_PAGE.loginFailed"),
+      message: msg || this.translate.instant("AUTH_PAGE.credentialsFailed"),
       buttons: ["OK"],
     });
 
@@ -138,7 +140,7 @@ export class AuthPage implements OnInit {
 
   async onSignupFailed(msg: string) {
     const alert = await this.alertController.create({
-      header: "Signup failed",
+      header: this.translate.instant("AUTH_PAGE.signupFailed"),
       message: msg,
       buttons: ["OK"],
     });
@@ -148,8 +150,8 @@ export class AuthPage implements OnInit {
 
   async onSignupSuccess() {
     const alert = await this.alertController.create({
-      header: "Signup successful",
-      message: "We just sent you an email with a validation link.",
+      header: this.translate.instant("AUTH_PAGE.signupSuccess"),
+      message: this.translate.instant("AUTH_PAGE.signupSuccessText"),
       buttons: ["OK"],
     });
 
@@ -158,8 +160,8 @@ export class AuthPage implements OnInit {
 
   async onMailAddressIncomplete() {
     const alert = await this.alertController.create({
-      header: "No email address",
-      message: "Please insert your mail address first.",
+      header: this.translate.instant("AUTH_PAGE.noEmailAddress"),
+      message: this.translate.instant("AUTH_PAGE.noEmailAddressText"),
       buttons: ["OK"],
     });
 
@@ -168,8 +170,8 @@ export class AuthPage implements OnInit {
 
   async onResetLinkSent() {
     const alert = await this.alertController.create({
-      header: "Rest link sent",
-      message: "We just sent you an email with a password reset link.",
+      header: this.translate.instant("AUTH_PAGE.resetLinkSent"),
+      message: this.translate.instant("AUTH_PAGE.resetLinkSentText"),
       buttons: ["OK"],
     });
 
@@ -178,8 +180,8 @@ export class AuthPage implements OnInit {
 
   async onResetLinkFailure(msg: string) {
     const alert = await this.alertController.create({
-      header: "Password reset failed",
-      message: "There was a problem: " + msg,
+      header: this.translate.instant("AUTH_PAGE.resetLinkFailure"),
+      message: this.translate.instant("AUTH_PAGE.resetLinkFailureText") + msg,
       buttons: ["OK"],
     });
 

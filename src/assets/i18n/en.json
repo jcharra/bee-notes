@@ -1,12 +1,57 @@
 {
-  "COLONIES": "Your colonies",
-  "NO_COLONIES_YET": "No buzz yet - time to add your first colony.",
+  "AUTH_PAGE": {
+    "welcome": "Welcome to Bee Aware",
+    "signup": "Sign up",
+    "login": "Login",
+    "email": "e-mail",
+    "emailPlaceholder": "Your email address",
+    "password": "password",
+    "passwordPlaceholder": "Your password",
+    "passwordReset": "Reset password",
+    "passwordResetPrompt": "Do you want to reset the password for '{{ address }}'?",
+    "loginSpinner": "Logging in ...",
+    "loginFailed": "Login failed",
+    "credentialsFailed": "Username and password do not match.",
+    "signupFailed": "Signup failed",
+    "signupSuccess": "Signup successful.",
+    "signupSuccessText": "We just sent you an email with an account confirmation link.",
+    "noEmailAddress": "No mail address",
+    "noEmailAddressText": "Please enter a valid email address.",
+    "resetLinkSent": "Reset link sent",
+    "resetLinkSentText": "We just sent you an email with a password reset link.",
+    "resetLinkFailure": "Error",
+    "resetLinkFailureText": "Email could not be sent: ",
+    "backToLogin": "Back to login",
+    "beeAwareDescription": "<strong>Bee aware</strong> can help you keep track of your activities with your bee colonies all year round. It's a quick and easy way to remember how much you harvested, how much food you gave to which colony ... and also how many Varroa mites you counted, when you made treatments etc. It's free to use, and you will never be asked to enter any personal data whatsoever apart from a valid email address."
+  },
+  "COLONIES_PAGE": {
+    "pageTitle": "Your colonies",
+    "colonies": "colonies",
+    "noColonies": "No buzz yet - time to add your first colony."
+  },
+  "JOURNAL_PAGE": {
+    "noTrackedActivity": "No tracked activity yet.",
+    "pageTitle": "Journal"
+  },
+  "FINANCE_PAGE": {
+    "pageTitle": "Finances"
+  },
+  "FORMER_COLONIES_PAGE": {
+    "pageTitle": "Former colonies",
+    "noColonies": "No colonies deceased or sold yet."
+  },
+  "SETTINGS_PAGE": {
+    "pageTitle": "Settings",
+    "language": "Language",
+    "save": "Save"
+  },
+  "START_MENU": {
+    "menuTitle": "Start",
+    "colonies": "colonies",
+    "logout": "Log out"
+  },
+  "GENERAL": {},
   "ADD_COLONY": "Add colony",
-  "START_MENU": "Start menu",
-  "FINANCE": "Finances",
-  "LOGOUT": "Log out",
-  "JOURNAL": "Journal",
-  "NO_TRACKED_ACTIVITY": "No tracked activity yet.",
   "EDIT_ENTRY": "Edit entry",
   "NEW_ENTRY": "New entry",
   "ACTION_TYPE": "Action type",

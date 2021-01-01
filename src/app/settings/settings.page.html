@@ -3,7 +3,7 @@
     <ion-buttons slot="end">
       <ion-menu-button menu="first"></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ "SETTINGS" | translate }} </ion-title>
+    <ion-title>{{ "SETTINGS_PAGE.pageTitle" | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +11,7 @@
   <form [formGroup]="settingsForm">
     <ion-list [inset]="true">
       <ion-item>
-        <ion-label> {{ "LANGUAGE" | translate }} </ion-label>
+        <ion-label> {{ "SETTINGS_PAGE.language" | translate }} </ion-label>
         <ion-select
           interface="action-sheet"
           okText="Okay"
@@ -30,7 +30,7 @@
       expand="block"
       (click)="submit()"
     >
-      {{ "SAVE" | translate }}
+      {{ "SETTINGS_PAGE.save" | translate }}
     </ion-button>
   </form>
 </ion-content>

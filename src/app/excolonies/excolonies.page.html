@@ -3,7 +3,7 @@
     <ion-buttons slot="end">
       <ion-menu-button menu="first"></ion-menu-button>
     </ion-buttons>
-    <ion-title> Former colonies </ion-title>
+    <ion-title> {{ "FORMER_COLONIES_PAGE.pageTitle" | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -25,7 +25,9 @@
 
     <ng-template #noFormerColonies>
       <ion-item>
-        <ion-label> No colonies deceased or sold yet. </ion-label>
+        <ion-label class="ion-text-wrap"
+          >{{ "FORMER_COLONIES_PAGE.noColonies" | translate}}</ion-label
+        >
       </ion-item>
     </ng-template>
   </ion-list>

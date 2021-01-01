@@ -3,7 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ (entryId ? 'EDIT_ENTRY' : 'NEW_ENTRY') | translate }}</ion-title>
+    <ion-title
+      >{{ (entryId ? 'JOURNAL_PAGE.editEntry' : 'JOURNAL_PAGE.newEntry') |
+      translate }}</ion-title
+    >
   </ion-toolbar>
 </ion-header>
 
@@ -11,8 +14,11 @@
   <form [formGroup]="entryForm">
     <ion-list>
       <ion-item>
-        <ion-label position="stacked">{{ 'ACTION_TYPE' | translate }}</ion-label>
-        <ion-select #actionSelect
+        <ion-label position="stacked"
+          >{{ 'JOURNAL_PAGE.actionType' | translate }}</ion-label
+        >
+        <ion-select
+          #actionSelect
           name="actionType"
           interface="action-sheet"
           formControlName="actionType"
@@ -25,7 +31,9 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked"> {{ 'DATE' | translate }} </ion-label>
+        <ion-label position="stacked">
+          {{ 'JOURNAL_PAGE.date' | translate }}
+        </ion-label>
         <ion-datetime
           formControlName="date"
           displayFormat="DD. MMM YYYY"
@@ -35,20 +43,31 @@
       </ion-item>
       <ion-item [ngClass]="{'ion-hide': !countable}">
         <ion-label position="stacked">
-          {{ 'AMOUNT' | translate }} <span *ngIf="countable">({{ countable.unit }})</span>
+          {{ 'JOURNAL_PAGE.amount' | translate }}
+          <span *ngIf="countable">({{ countable.unit }})</span>
         </ion-label>
-        <ion-input formControlName="amount" (click)="openAmountPicker()" value="0">
+        <ion-input
+          formControlName="amount"
+          (click)="openAmountPicker()"
+          value="0"
+        >
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">{{ 'Comment' | translate }}</ion-label>
+        <ion-label position="stacked"
+          >{{ 'JOURNAL_PAGE.comment' | translate }}</ion-label
+        >
         <ion-textarea formControlName="text" placeholder="Optional comment">
         </ion-textarea>
       </ion-item>
     </ion-list>
 
-    <ion-button [disabled]="!entryForm.valid || saving" type="submit" (click)="save()">
-      {{ 'SAVE' | translate }}
+    <ion-button
+      [disabled]="!entryForm.valid || saving"
+      type="submit"
+      (click)="save()"
+    >
+      {{ 'JOURNAL_PAGE.save' | translate }}
     </ion-button>
   </form>
 </ion-content>

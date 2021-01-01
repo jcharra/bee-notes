@@ -1,20 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from "@ionic/angular";
 
-import { FinancePageRoutingModule } from './finance-routing.module';
+import { FinancePageRoutingModule } from "./finance-routing.module";
 
-import { FinancePage } from './finance.page';
+import { FinancePage } from "./finance.page";
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FinancePageRoutingModule
+    FinancePageRoutingModule,
+    TranslateModule,
   ],
-  declarations: [FinancePage]
+  declarations: [FinancePage],
 })
 export class FinancePageModule {}

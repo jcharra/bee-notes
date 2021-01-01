@@ -1,20 +1,67 @@
 {
-  "COLONIES": "Völker",
-  "NO_COLONIES_YET": "Hier summt noch nichts - leg' jetzt Dein erstes Volk an!",
+  "AUTH_PAGE": {
+    "welcome": "Willkommen bei Bee Aware",
+    "signup": "Registrieren",
+    "login": "Anmelden",
+    "email": "E-Mail",
+    "emailPlaceholder": "Deine E-Mail-Adresse",
+    "password": "Passwort",
+    "passwordPlaceholder": "Dein Password",
+    "passwordReset": "Passwort zurücksetzen",
+    "passwordResetPrompt": "Soll das Passwort für '{{ address }}' zurückgesetzt werden?",
+    "loginSpinner": "Anmeldung läuft ...",
+    "loginFailed": "Anmeldung fehlgeschlagen",
+    "credentialsFailed": "Benutzername und Passwort passen nicht zusammen.",
+    "signupFailed": "Registrierung fehlgeschlagen.",
+    "signupSuccess": "Registrierung erfolgreich.",
+    "signupSuccessText": "Wir haben Dir gerade eine E-Mail mit einem Bestätigungslink geschickt.",
+    "noEmailAddress": "Fehlende Mailadresse",
+    "noEmailAddressText": "Bitte gib eine gültige Mailadresse ein.",
+    "resetLinkSent": "E-Mail ist raus",
+    "resetLinkSentText": "Wir haben Dir gerade eine Mail zum Zurücksetzen des Passworts geschickt.",
+    "resetLinkFailure": "Fehler",
+    "resetLinkFailureText": "Es konnte keine Mail verschickt werden: ",
+    "backToLogin": "Zurück zur Anmeldung",
+    "beeAwareDescription": "<strong>Bee aware</strong> can help you keep track of your activities with your bee colonies all year round. It's a quick and easy way to remember how much you harvested, how much food you gave to which colony ... and also how many Varroa mites you counted, when you made treatments etc. It's free to use, and you will never be asked to enter any personal data whatsoever apart from a valid email address."
+  },
+  "COLONIES_PAGE": {
+    "pageTitle": "Völker",
+    "colonies": "Völker",
+    "noColonies": "Hier summt noch nichts - leg' jetzt Dein erstes Volk an!"
+  },
+  "JOURNAL_PAGE": {
+    "noTrackedActivity": "Noch keine Einträge.",
+    "pageTitle": "Tagebuch"
+  },
+  "FINANCE_PAGE": {
+    "pageTitle": "Finanzen"
+  },
+  "FORMER_COLONIES_PAGE": {
+    "pageTitle": "Ehemalige Völker",
+    "noColonies": "Bisher sind keine Völker gestorben oder verkauft worden."
+  },
+  "SETTINGS_PAGE": {
+    "pageTitle": "Einstellungen",
+    "language": "Sprache",
+    "save": "Speichern"
+  },
+  "START_MENU": {
+    "menuTitle": "Start",
+    "COLONIES": "Völker",
+    "logout": "Abmelden"
+  },
+  "GENERAL": {
+    "cancel": "Abbrechen",
+    "yes": "Ja"
+  },
   "ADD_COLONY": "Volk hinzufügen",
-  "START_MENU": "Startmenü",
-  "FINANCE": "Finanzen",
   "LOGOUT": "Abmelden",
   "JOURNAL": "Tagebuch",
-  "NO_TRACKED_ACTIVITY": "Noch keine Einträge.",
   "EDIT_ENTRY": "Eintrag ändern",
   "NEW_ENTRY": "Neuer Eintrag",
   "ACTION_TYPE": "Aktionstyp",
   "DATE": "Datum",
   "SAVE": "Speichern",
   "AMOUNT": "Anzahl",
-  "FORMER_COLONIES": "Ehemalige Völker",
-  "SETTINGS": "Einstellungen",
-  "LANGUAGE": "Sprache",
   "LOADING_COLONIES": "Lade Völker ..."
 }
