@@ -44,7 +44,9 @@
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Noch keine Einträge.",
-    "pageTitle": "Tagebuch"
+    "latestActivity": "Neuste Einträge",
+    "pageTitle": "Tagebuch",
+    "viewJournal": "Tagebuch anzeigen"
   },
   "FINANCE_PAGE": {
     "pageTitle": "Finanzen"
@@ -67,6 +69,7 @@
     "cancel": "Abbrechen",
     "yes": "Ja",
     "delete": "Löschen",
-    "save": "Speichern"
+    "save": "Speichern",
+    "backButtonCaption": "Zurück"
   }
 }

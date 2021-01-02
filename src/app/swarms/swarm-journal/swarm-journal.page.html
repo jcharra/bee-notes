@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref=".."></ion-back-button>
+      <ion-back-button
+        defaultHref=".."
+        [text]="'GENERAL.backButtonCaption' | translate"
+      ></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end" *ngIf="!readonly">
       <ion-fab-button color="primary" routerLink="edit">
