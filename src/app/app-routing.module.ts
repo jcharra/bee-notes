@@ -60,6 +60,10 @@ const routes: Routes = [
     loadChildren: () =>
       import("./settings/settings.module").then((m) => m.SettingsPageModule),
   },
+  {
+    path: 'queen-status',
+    loadChildren: () => import('./queen-status/queen-status.module').then( m => m.QueenStatusPageModule)
+  },
 ];
 
 @NgModule({

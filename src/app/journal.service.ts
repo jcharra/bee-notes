@@ -1,24 +1,24 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
-import { AuthService } from './auth/auth.service';
+import { Injectable } from "@angular/core";
+import { AngularFireDatabase } from "@angular/fire/database";
+import { Observable, of } from "rxjs";
+import { first, map, switchMap, take, tap } from "rxjs/operators";
+import { AuthService } from "./auth/auth.service";
 
 export enum EntryType {
-  VARROA_CHECK_START = 'Varroa check start',
-  VARROA_CHECK_END = 'Varroa check end',
-  VARROA_TREATMENT = 'Varroa treatment',
-  HARVEST = 'Harvest',
-  QUEEN_SPOTTED = 'Queen spotted',
-  QUEEN_ADDED = 'Queen added',
-  QUEEN_DECEASED = 'Queen deceased',
-  EGGS_SPOTTED = 'Eggs spotted',
-  DRONE_FRAME_ADDED = 'Drone frames added',
-  DRONE_FRAME_REMOVED = 'Drone frames removed',
-  CENTER_PANELS_ADDED = 'Center panels added',
-  FRAMES_REMOVED = 'Frames removed',
-  BROOD_COUNT = 'Brood count',
-  FOOD_ADDED = 'Food added'
+  VARROA_CHECK_START = "Varroa check start",
+  VARROA_CHECK_END = "Varroa check end",
+  VARROA_TREATMENT = "Varroa treatment",
+  HARVEST = "Harvest",
+  QUEEN_SPOTTED = "Queen spotted",
+  QUEEN_ADDED = "Queen added",
+  QUEEN_DECEASED = "Queen deceased",
+  EGGS_SPOTTED = "Eggs spotted",
+  DRONE_FRAME_ADDED = "Drone frames added",
+  DRONE_FRAME_REMOVED = "Drone frames removed",
+  CENTER_PANELS_ADDED = "Center panels added",
+  FRAMES_REMOVED = "Frames removed",
+  BROOD_COUNT = "Brood count",
+  FOOD_ADDED = "Food added",
 }
 
 export interface JournalEntry {
@@ -31,39 +31,43 @@ export interface JournalEntry {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class JournalService {
   private entryCacheForColony = new Map<string, JournalEntry[]>();
 
-  constructor(private db: AngularFireDatabase,
-              private authService: AuthService) { }
+  constructor(
+    private db: AngularFireDatabase,
+    private authService: AuthService
+  ) {}
 
   getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
-    return this.authService
-      .getUser()
-      .pipe(switchMap(user => {
+    return this.authService.getUser().pipe(
+      first(),
+      switchMap((user) => {
         return this.db
           .object(`/users/${user.uid}/journals/${swarmId}/entries/${entryId}`)
           .valueChanges()
-          .pipe(map((entry: any) => {
-            return {
-              id: entry.id,
-              title: entry.title,
-              text: entry.text,
-              type: entry.type,
-              date: new Date(entry.date),
-              amount: entry.amount
-            }
-          }));
-      }));
+          .pipe(
+            map((entry: any) => {
+              return {
+                id: entry.id,
+                title: entry.title,
+                text: entry.text,
+                type: entry.type,
+                date: new Date(entry.date),
+                amount: entry.amount,
+              };
+            })
+          );
+      })
+    );
   }
 
   getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
     const cacheKey = `${swarmId}_${limit}`;
-    return this.authService
-      .getUser()
-      .pipe(switchMap(user => {
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
         const cached = this.entryCacheForColony.get(cacheKey);
 
         if (cached) {
@@ -91,7 +95,7 @@ export class JournalService {
                   text: value.text,
                   type: value.type,
                   date: new Date(value.date),
-                  amount: value.amount
+                  amount: value.amount,
                 });
               }
 
@@ -111,10 +115,8 @@ export class JournalService {
   }
 
   createEntry(swarmId: string, entry: JournalEntry): Observable<any> {
-    return this.authService
-      .getUser()
-      .pipe(switchMap(user => {
-
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
         this.clearCacheForColony(swarmId);
 
         return this.db
@@ -125,10 +127,8 @@ export class JournalService {
   }
 
   updateEntry(swarmId: string, entry: JournalEntry) {
-    return this.authService
-      .getUser()
-      .pipe(switchMap(user => {
-
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
         this.clearCacheForColony(swarmId);
 
         return this.db
@@ -139,10 +139,8 @@ export class JournalService {
   }
 
   deleteEntry(swarmId: string, id: string) {
-    return this.authService
-      .getUser()
-      .pipe(switchMap(user => {
-
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
         this.clearCacheForColony(swarmId);
 
         return this.db
@@ -159,6 +157,6 @@ export class JournalService {
         deletable.push(k);
       }
     }
-    deletable.forEach(d => this.entryCacheForColony.delete(d));
+    deletable.forEach((d) => this.entryCacheForColony.delete(d));
   }
 }

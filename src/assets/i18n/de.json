@@ -46,7 +46,15 @@
     "noTrackedActivity": "Noch keine Einträge.",
     "latestActivity": "Neuste Einträge",
     "pageTitle": "Tagebuch",
-    "viewJournal": "Tagebuch anzeigen"
+    "viewJournal": "Tagebuch anzeigen",
+    "editEntry": "Eintrag bearbeiten",
+    "newEntry": "Neuer Eintrag",
+    "actionType": "Aktion",
+    "date": "Datum",
+    "comment": "Kommentar",
+    "amount": "Anzahl",
+    "selectDatePlaceholder": "Datum auswählen",
+    "optionalComment": "optionaler Kommentar"
   },
   "FINANCE_PAGE": {
     "pageTitle": "Finanzen"
@@ -64,6 +72,12 @@
     "menuTitle": "Start",
     "COLONIES": "Völker",
     "logout": "Abmelden"
+  },
+  "QUEEN": {
+    "pageTitle": "Königin",
+    "birthYear": "Jahrgang",
+    "lastSeen": "Zuletzt gesehen",
+    "lastSeenEggs": "Zuletzt Stifte gesehen"
   },
   "GENERAL": {
     "cancel": "Abbrechen",

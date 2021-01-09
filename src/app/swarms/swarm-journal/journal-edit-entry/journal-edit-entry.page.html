@@ -39,7 +39,7 @@
         <ion-datetime
           formControlName="date"
           displayFormat="DD. MMM YYYY"
-          placeholder="Select Date"
+          placeholder="'JOURNAL_PAGE.selectDatePlaceholder' | translate"
         >
         </ion-datetime>
       </ion-item>
@@ -59,7 +59,10 @@
         <ion-label position="stacked"
           >{{ 'JOURNAL_PAGE.comment' | translate }}</ion-label
         >
-        <ion-textarea formControlName="text" placeholder="Optional comment">
+        <ion-textarea
+          formControlName="text"
+          placeholder="{{'JOURNAL_PAGE.optionalComment' | translate}}"
+        >
         </ion-textarea>
       </ion-item>
     </ion-list>
@@ -69,7 +72,7 @@
       type="submit"
       (click)="save()"
     >
-      {{ 'JOURNAL_PAGE.save' | translate }}
+      {{ 'GENERAL.save' | translate }}
     </ion-button>
   </form>
 </ion-content>
