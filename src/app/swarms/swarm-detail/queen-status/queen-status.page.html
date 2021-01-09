@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/swarms"
+        [text]="'GENERAL.backButtonCaption' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title><strong>{{ 'QUEEN.pageTitle' | translate }}</strong></ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button menu="first"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-label class="ion-text-center"
+        >{{'QUEEN.birthYear' | translate}}</ion-label
+      >
+    </ion-item>
+    <ion-item>
+      <ion-icon
+        name="remove-circle-outline"
+        slot="start"
+        (click)="decrementBirthYear()"
+      ></ion-icon>
+      <ion-label class="ion-text-center"
+        >{{ queenStatus?.birthYear }}</ion-label
+      >
+      <ion-icon
+        name="add-circle-outline"
+        slot="end"
+        (click)="incrementBirthYear()"
+      ></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-label class="ion-text-center"
+        >{{'QUEEN.lastSeen' | translate}}</ion-label
+      >
+    </ion-item>
+    <ion-item class="ion-text-center"> Datum eingeben </ion-item>
+  </ion-list>
+
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-label class="ion-text-center"
+        >{{'QUEEN.lastSeenEggs' | translate}}</ion-label
+      >
+    </ion-item>
+    <ion-item class="ion-text-center"> Datum eingeben </ion-item>
+  </ion-list>
+</ion-content>
