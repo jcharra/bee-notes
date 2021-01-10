@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { getYear } from "date-fns";
+import { addYears, getYear } from "date-fns";
 import { QueenService, QueenStatus } from "src/app/queen.service";
 
 @Component({
@@ -9,8 +9,11 @@ import { QueenService, QueenStatus } from "src/app/queen.service";
   styleUrls: ["./queen-status.page.scss"],
 })
 export class QueenStatusPage implements OnInit {
-  queenStatus: QueenStatus;
+  currentStatus: QueenStatus;
+  newStatus: QueenStatus;
   colonyId: string;
+  maxYear = getYear(new Date());
+  minYear = getYear(addYears(new Date(), -4));
 
   constructor(
     private route: ActivatedRoute,
@@ -22,15 +25,22 @@ export class QueenStatusPage implements OnInit {
     this.queenService
       .getStatus(this.colonyId)
       .subscribe((status: QueenStatus) => {
-        console.log("STatus", status);
-        this.queenStatus = status || {
+        this.currentStatus = status || {
           birthYear: getYear(new Date()),
         };
-        console.log("STatus", this.queenStatus);
+        this.newStatus = this.currentStatus;
       });
   }
 
-  incrementBirthYear() {}
+  incrementBirthYear() {
+    if (this.newStatus.birthYear < this.maxYear) {
+      this.newStatus.birthYear += 1;
+    }
+  }
 
-  decrementBirthYear() {}
+  decrementBirthYear() {
+    if (this.newStatus.birthYear > this.minYear) {
+      this.newStatus.birthYear -= 1;
+    }
+  }
 }
