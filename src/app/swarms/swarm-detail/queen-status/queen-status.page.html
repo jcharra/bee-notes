@@ -46,7 +46,11 @@
           >{{'QUEEN.lastSeen' | translate}}</ion-label
         >
       </ion-item>
-      <ion-item class="ion-text-center"> Datum eingeben </ion-item>
+      <ion-datetime
+        [(ngModel)]="newStatus.lastSeen"
+        class="ion-text-center"
+        placeholder="{{'GENERAL.pickDate' | translate}}"
+      ></ion-datetime>
     </ion-list>
 
     <ion-list [inset]="true">
@@ -55,7 +59,16 @@
           >{{'QUEEN.lastSeenEggs' | translate}}</ion-label
         >
       </ion-item>
-      <ion-item class="ion-text-center"> Datum eingeben </ion-item>
+      <ion-datetime
+        [(ngModel)]="newStatus.eggsSeen"
+        class="ion-text-center"
+        placeholder="{{'GENERAL.pickDate' |
+      translate}}"
+      ></ion-datetime>
     </ion-list>
+
+    <ion-button class="ion-padding-horizontal" color="primary" (click)="save()"
+      >Speichern</ion-button
+    >
   </ng-container>
 </ion-content>

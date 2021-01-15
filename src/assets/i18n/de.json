@@ -84,6 +84,7 @@
     "yes": "Ja",
     "delete": "Löschen",
     "save": "Speichern",
-    "backButtonCaption": "Zurück"
+    "backButtonCaption": "Zurück",
+    "pickDate": "Datum auswählen"
   }
 }

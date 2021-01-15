@@ -2,12 +2,11 @@ import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { first, map, switchMap } from "rxjs/operators";
 import { AuthService } from "./auth/auth.service";
-import { JournalService } from "./journal.service";
 
 export interface QueenStatus {
   birthYear: number;
-  lastSeen?: Date;
-  eggsSeen?: Date;
+  lastSeen?: Date | string;
+  eggsSeen?: Date | string;
 }
 
 @Injectable({
@@ -15,7 +14,6 @@ export interface QueenStatus {
 })
 export class QueenService {
   constructor(
-    private journalService: JournalService,
     private db: AngularFireDatabase,
     private authService: AuthService
   ) {}
@@ -28,7 +26,7 @@ export class QueenService {
           .object(`/users/${user.uid}/queen/${colonyId}`)
           .valueChanges()
           .pipe(
-            map((status: QueenStatus) => {
+            map((status: any) => {
               if (!status) {
                 return null;
               }
@@ -48,9 +46,11 @@ export class QueenService {
     return this.authService.getUser().pipe(
       first(),
       switchMap((user) => {
-        return this.db
-          .object(`/users/${user.uid}/queen/${colonyId}`)
-          .update(status);
+        return this.db.object(`/users/${user.uid}/queen/${colonyId}`).update({
+          birthYear: status.birthYear,
+          lastSeen: status.lastSeen ? status.lastSeen.toISOString() : null,
+          eggsSeen: status.eggsSeen ? status.eggsSeen.toISOString() : null,
+        });
       })
     );
   }

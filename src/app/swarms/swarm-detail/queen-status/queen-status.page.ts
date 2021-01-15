@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { addYears, getYear } from "date-fns";
+import { NavController } from "@ionic/angular";
+import { addYears, format, getYear } from "date-fns";
+import { first } from "rxjs/operators";
+import { EntryType, JournalService } from "src/app/journal.service";
 import { QueenService, QueenStatus } from "src/app/queen.service";
 
 @Component({
@@ -17,18 +20,30 @@ export class QueenStatusPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private queenService: QueenService
+    private navCtrl: NavController,
+    private queenService: QueenService,
+    private journalService: JournalService
   ) {}
 
   ngOnInit() {
     this.colonyId = this.route.snapshot.params.swarmId;
     this.queenService
       .getStatus(this.colonyId)
+      .pipe(first())
       .subscribe((status: QueenStatus) => {
         this.currentStatus = status || {
           birthYear: getYear(new Date()),
         };
-        this.newStatus = this.currentStatus;
+
+        this.newStatus = {
+          birthYear: this.currentStatus.birthYear,
+          lastSeen: this.currentStatus.lastSeen
+            ? format(new Date(this.currentStatus.lastSeen), "yyyy-MM-dd")
+            : null,
+          eggsSeen: this.currentStatus.eggsSeen
+            ? format(new Date(this.currentStatus.eggsSeen), "yyyy-MM-dd")
+            : null,
+        };
       });
   }
 
@@ -42,5 +57,47 @@ export class QueenStatusPage implements OnInit {
     if (this.newStatus.birthYear > this.minYear) {
       this.newStatus.birthYear -= 1;
     }
+  }
+
+  save() {
+    this.queenService
+      .saveStatus(this.colonyId, {
+        birthYear: this.newStatus.birthYear,
+        lastSeen:
+          (this.newStatus.lastSeen && new Date(this.newStatus.lastSeen)) ||
+          null,
+        eggsSeen:
+          (this.newStatus.eggsSeen && new Date(this.newStatus.eggsSeen)) ||
+          null,
+      })
+      .subscribe(() => {
+        if (
+          this.newStatus.lastSeen &&
+          new Date(this.newStatus.lastSeen) !== this.currentStatus.lastSeen
+        ) {
+          this.journalService
+            .createEntry(this.colonyId, {
+              date: new Date(this.newStatus.lastSeen).toISOString(),
+              text: "",
+              type: EntryType.QUEEN_SPOTTED,
+            })
+            .subscribe();
+        }
+
+        if (
+          this.newStatus.eggsSeen &&
+          new Date(this.newStatus.eggsSeen) !== this.currentStatus.eggsSeen
+        ) {
+          this.journalService
+            .createEntry(this.colonyId, {
+              date: new Date(this.newStatus.eggsSeen).toISOString(),
+              text: "",
+              type: EntryType.EGGS_SPOTTED,
+            })
+            .subscribe();
+        }
+
+        this.navCtrl.back();
+      });
   }
 }
