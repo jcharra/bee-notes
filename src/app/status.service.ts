@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { differenceInDays } from 'date-fns';
-import { EntryType, JournalEntry } from './journal.service';
+import { Injectable } from "@angular/core";
+import { differenceInDays } from "date-fns";
+import { EntryType, JournalEntry } from "./journal.service";
 
 export enum ColonyStatus {
-  VARROA_MEDIUM = 'VARROA_MEDIUM',
-  VARROA_CRITICAL = 'VARROA_CRITICAL',
-  VARROA_OK = 'VARROA_OK',
-  SWARMING = 'SWARMING'
+  VARROA_MEDIUM = "VARROA_MEDIUM",
+  VARROA_CRITICAL = "VARROA_CRITICAL",
+  VARROA_OK = "VARROA_OK",
+  SWARMING = "SWARMING",
 }
 
 export interface ColonyStatusInfo {
@@ -15,7 +15,7 @@ export interface ColonyStatusInfo {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class StatusService {
   getColonyStatus(entries: JournalEntry[]): ColonyStatusInfo {
@@ -24,15 +24,16 @@ export class StatusService {
       if (entry.type === EntryType.VARROA_CHECK_END) {
         varroaEnd = entry;
       } else if (entry.type === EntryType.VARROA_CHECK_START && varroaEnd) {
-        let varroaAvg = varroaEnd.amount ?
-          +varroaEnd.amount / (differenceInDays(varroaEnd.date, entry.date) || 1) :
-          0;
-        
+        let varroaAvg = varroaEnd.amount
+          ? +varroaEnd.amount /
+            (differenceInDays(varroaEnd.date, new Date(entry.date)) || 1)
+          : 0;
+
         varroaAvg = Math.round(varroaAvg);
-        
+
         let status: ColonyStatus;
         if (varroaAvg >= 10) {
-          status = ColonyStatus.VARROA_CRITICAL;          
+          status = ColonyStatus.VARROA_CRITICAL;
         } else if (varroaAvg >= 5) {
           status = ColonyStatus.VARROA_MEDIUM;
         } else {
@@ -41,11 +42,11 @@ export class StatusService {
 
         return {
           colonyStatus: status,
-          avgCount: varroaAvg
-        }
+          avgCount: varroaAvg,
+        };
       }
     }
   }
 
-  constructor() { }
+  constructor() {}
 }

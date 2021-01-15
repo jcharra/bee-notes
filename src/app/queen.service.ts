@@ -48,8 +48,12 @@ export class QueenService {
       switchMap((user) => {
         return this.db.object(`/users/${user.uid}/queen/${colonyId}`).update({
           birthYear: status.birthYear,
-          lastSeen: status.lastSeen ? status.lastSeen.toISOString() : null,
-          eggsSeen: status.eggsSeen ? status.eggsSeen.toISOString() : null,
+          lastSeen: status.lastSeen
+            ? new Date(status.lastSeen).toISOString()
+            : null,
+          eggsSeen: status.eggsSeen
+            ? new Date(status.eggsSeen).toISOString()
+            : null,
         });
       })
     );
