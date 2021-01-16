@@ -50,6 +50,8 @@
         [(ngModel)]="newStatus.lastSeen"
         class="ion-text-center"
         placeholder="{{'GENERAL.pickDate' | translate}}"
+        max="{{ maxDate }}"
+        min="{{ minDate }}"
       ></ion-datetime>
     </ion-list>
 
@@ -64,6 +66,8 @@
         class="ion-text-center"
         placeholder="{{'GENERAL.pickDate' |
       translate}}"
+        max="{{ maxDate }}"
+        min="{{ minDate }}"
       ></ion-datetime>
     </ion-list>
 

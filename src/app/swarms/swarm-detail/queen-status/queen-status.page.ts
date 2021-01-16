@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NavController } from "@ionic/angular";
-import { addYears, format, getYear } from "date-fns";
+import { addYears, format, getYear, startOfYear } from "date-fns";
 import { first } from "rxjs/operators";
 import { EntryType, JournalService } from "src/app/journal.service";
 import { QueenService, QueenStatus } from "src/app/queen.service";
+
+const DAY_OF_YEAR = "yyyy-MM-dd";
 
 @Component({
   selector: "app-queen-status",
@@ -17,6 +19,8 @@ export class QueenStatusPage implements OnInit {
   colonyId: string;
   maxYear = getYear(new Date());
   minYear = getYear(addYears(new Date(), -4));
+  minDate = format(startOfYear(addYears(new Date(), -1)), DAY_OF_YEAR);
+  maxDate = format(new Date(), DAY_OF_YEAR);
 
   constructor(
     private route: ActivatedRoute,
@@ -38,10 +42,10 @@ export class QueenStatusPage implements OnInit {
         this.newStatus = {
           birthYear: this.currentStatus.birthYear,
           lastSeen: this.currentStatus.lastSeen
-            ? format(new Date(this.currentStatus.lastSeen), "yyyy-MM-dd")
+            ? format(new Date(this.currentStatus.lastSeen), DAY_OF_YEAR)
             : null,
           eggsSeen: this.currentStatus.eggsSeen
-            ? format(new Date(this.currentStatus.eggsSeen), "yyyy-MM-dd")
+            ? format(new Date(this.currentStatus.eggsSeen), DAY_OF_YEAR)
             : null,
         };
       });
