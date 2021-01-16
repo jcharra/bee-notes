@@ -80,7 +80,10 @@
     "lastSeenEggs": "Zuletzt Stifte gesehen",
     "noQueenYet": "Die Königin ist für dieses Volk noch nicht erfasst.",
     "initQueenData": "Daten erfassen",
-    "onUpdateSuccess": "Daten der Königin aktualisiert"
+    "onUpdateSuccess": "Daten der Königin aktualisiert",
+    "deceasedDialogTitle": "Königin verstorben",
+    "deceasedDialogBody": "Ist die Königin des Volks verstorben?",
+    "deceasedDialogConfirm": "Ja"
   },
   "GENERAL": {
     "cancel": "Abbrechen",

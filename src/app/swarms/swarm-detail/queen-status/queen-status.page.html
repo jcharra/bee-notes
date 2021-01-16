@@ -72,8 +72,15 @@
     </ion-list>
 
     <ion-button class="ion-padding-horizontal" color="primary" (click)="save()"
-      >Speichern</ion-button
+      >{{"GENERAL.save" | translate}}</ion-button
     >
+    <ion-fab-button
+      class="ion-float-right"
+      color="danger"
+      (click)="queenDeceased()"
+    >
+      <ion-icon name="heart-dislike-outline"></ion-icon>
+    </ion-fab-button>
   </ng-container>
 
   <ng-template #defaultStatus>

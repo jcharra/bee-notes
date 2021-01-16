@@ -58,4 +58,13 @@ export class QueenService {
       })
     );
   }
+
+  clearStatus(colonyId: string) {
+    return this.authService.getUser().pipe(
+      first(),
+      switchMap((user) => {
+        return this.db.object(`/users/${user.uid}/queen/${colonyId}`).remove();
+      })
+    );
+  }
 }

@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { NavController, ToastController } from "@ionic/angular";
+import {
+  AlertController,
+  NavController,
+  ToastController,
+} from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { addYears, format, getYear, startOfYear } from "date-fns";
 import { first } from "rxjs/operators";
@@ -29,7 +33,8 @@ export class QueenStatusPage implements OnInit {
     private queenService: QueenService,
     private journalService: JournalService,
     private toastController: ToastController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
@@ -111,6 +116,41 @@ export class QueenStatusPage implements OnInit {
         this.navCtrl.back();
         this._showSavedToast();
       });
+  }
+
+  async queenDeceased() {
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant("QUEEN.deceasedDialogTitle"),
+      message: this.translate.instant("QUEEN.deceasedDialogBody"),
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.cancel"),
+          role: "cancel",
+          cssClass: "secondary",
+        },
+        {
+          text: this.translate.instant("QUEEN.deceasedDialogConfirm"),
+          cssClass: "danger",
+          handler: async () => {
+            this.journalService
+              .createEntry(this.colonyId, {
+                date: new Date().toISOString(),
+                text: "",
+                type: EntryType.QUEEN_DECEASED,
+              })
+              .subscribe();
+
+            this.queenService.clearStatus(this.colonyId).subscribe(() => {
+              this.newStatus = {
+                birthYear: null,
+              };
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   async _showSavedToast() {
