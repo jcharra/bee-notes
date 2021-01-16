@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { NavController } from "@ionic/angular";
+import { NavController, ToastController } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
 import { addYears, format, getYear, startOfYear } from "date-fns";
 import { first } from "rxjs/operators";
 import { EntryType, JournalService } from "src/app/journal.service";
@@ -26,7 +27,9 @@ export class QueenStatusPage implements OnInit {
     private route: ActivatedRoute,
     private navCtrl: NavController,
     private queenService: QueenService,
-    private journalService: JournalService
+    private journalService: JournalService,
+    private toastController: ToastController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -36,7 +39,7 @@ export class QueenStatusPage implements OnInit {
       .pipe(first())
       .subscribe((status: QueenStatus) => {
         this.currentStatus = status || {
-          birthYear: getYear(new Date()),
+          birthYear: null,
         };
 
         this.newStatus = {
@@ -61,6 +64,10 @@ export class QueenStatusPage implements OnInit {
     if (this.newStatus.birthYear > this.minYear) {
       this.newStatus.birthYear -= 1;
     }
+  }
+
+  initQueenData() {
+    this.newStatus.birthYear = getYear(new Date());
   }
 
   save() {
@@ -102,6 +109,15 @@ export class QueenStatusPage implements OnInit {
         }
 
         this.navCtrl.back();
+        this._showSavedToast();
       });
+  }
+
+  async _showSavedToast() {
+    const toast = await this.toastController.create({
+      message: this.translate.instant("QUEEN.onUpdateSuccess"),
+      duration: 2000,
+    });
+    toast.present();
   }
 }

@@ -77,7 +77,10 @@
     "pageTitle": "Königin",
     "birthYear": "Jahrgang",
     "lastSeen": "Zuletzt gesehen",
-    "lastSeenEggs": "Zuletzt Stifte gesehen"
+    "lastSeenEggs": "Zuletzt Stifte gesehen",
+    "noQueenYet": "Die Königin ist für dieses Volk noch nicht erfasst.",
+    "initQueenData": "Daten erfassen",
+    "onUpdateSuccess": "Daten der Königin aktualisiert"
   },
   "GENERAL": {
     "cancel": "Abbrechen",

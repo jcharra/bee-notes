@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="newStatus">
+  <ng-container *ngIf="newStatus && newStatus?.birthYear; else defaultStatus">
     <ion-list [inset]="true">
       <ion-item>
         <ion-label class="ion-text-center"
@@ -29,7 +29,7 @@
           (click)="decrementBirthYear()"
         ></ion-icon>
         <ion-label class="ion-text-center"
-          >{{ newStatus?.birthYear }}</ion-label
+          ><strong>{{ newStatus?.birthYear }}</strong></ion-label
         >
         <ion-icon
           [color]="newStatus.birthYear < maxYear ? 'primary' : 'light'"
@@ -75,4 +75,23 @@
       >Speichern</ion-button
     >
   </ng-container>
+
+  <ng-template #defaultStatus>
+    <ng-container *ngIf="newStatus">
+      <ion-list [inset]="true">
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            {{ 'QUEEN.noQueenYet' | translate }}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-button
+        color="primary"
+        class="ion-padding-horizontal"
+        (click)="initQueenData()"
+      >
+        {{'QUEEN.initQueenData' | translate}}
+      </ion-button>
+    </ng-container>
+  </ng-template>
 </ion-content>
