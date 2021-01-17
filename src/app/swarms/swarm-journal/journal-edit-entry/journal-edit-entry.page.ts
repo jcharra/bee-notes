@@ -1,15 +1,19 @@
-import { Countable, CountableForEntryType } from './amount';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { IonSelect, NavController, PickerController } from '@ionic/angular';
-import { JournalEntry, JournalService } from 'src/app/journal.service';
-import { EntryType } from './../../../journal.service';
+import { Countable, CountableForEntryType } from "./amount";
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { IonSelect, NavController, PickerController } from "@ionic/angular";
+import {
+  actionsForType,
+  JournalEntry,
+  JournalService,
+} from "src/app/journal.service";
+import { EntryType } from "./../../../journal.service";
 
 @Component({
-  selector: 'app-journal-edit-entry',
-  templateUrl: './journal-edit-entry.page.html',
-  styleUrls: ['./journal-edit-entry.page.scss'],
+  selector: "app-journal-edit-entry",
+  templateUrl: "./journal-edit-entry.page.html",
+  styleUrls: ["./journal-edit-entry.page.scss"],
 })
 export class JournalEditEntryPage implements OnInit, AfterViewInit {
   swarmId: string;
@@ -20,46 +24,45 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
   entryForm: FormGroup;
   saving = false;
   countable: Countable;
-  @ViewChild('actionSelect', { static: false }) selectRef: IonSelect;
+  @ViewChild("actionSelect", { static: false }) selectRef: IonSelect;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private journalService: JournalService,
     private navCtrl: NavController,
-    private pickerController: PickerController) {
-
-  }
+    private pickerController: PickerController
+  ) {}
 
   ngOnInit() {
     this.swarmId = this.route.snapshot.params.swarmId;
     this.entryId = this.route.snapshot.queryParams.entryId;
     this.type = this.route.snapshot.queryParams.type;
 
-    const options: EntryType[] = [];
-    for (const k of Object.keys(EntryType)) {
-      const et = EntryType[k];
-      if (!this.type || et.toString().toLowerCase().indexOf(this.type) > -1) {
-        options.push(et);
-      }
-    }
-    this.typeOptions = options;
+    this.typeOptions = this.type
+      ? actionsForType[this.type]
+      : Object.values(EntryType);
 
     this.entryForm = this.formBuilder.group({
       actionType: [null, Validators.required],
       date: [new Date().toISOString(), Validators.required],
       amount: [0],
-      text: ['']
+      text: [""],
     });
 
     if (this.entryId) {
       this.journalService
         .getEntry(this.swarmId, this.entryId)
         .subscribe((entry: JournalEntry) => {
-          this.entryForm.controls.actionType.setValue(entry.type ? entry.type.toString() : null);
-          this.entryForm.controls.text.setValue(entry.text || '');
-          this.entryForm.controls.amount.setValue(entry.amount || '');
+          this.entryForm.controls.actionType.setValue(
+            entry.type ? entry.type.toString() : null
+          );
+          this.entryForm.controls.text.setValue(entry.text || "");
+          this.entryForm.controls.amount.setValue(entry.amount || "");
           if (entry.date) {
-            this.entryForm.controls.date.setValue(new Date(entry.date).toISOString());
+            this.entryForm.controls.date.setValue(
+              new Date(entry.date).toISOString()
+            );
           }
           this.onActionTypeChange();
         });
@@ -70,13 +73,13 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     if (this.saving) {
       return;
     }
-    
+
     this.saving = true;
     const entry: JournalEntry = {
-      type: this.entryForm.get('actionType').value,
-      date: this.entryForm.get('date').value,
-      text: this.entryForm.get('text').value,
-      amount: this.entryForm.get('amount').value
+      type: this.entryForm.get("actionType").value,
+      date: this.entryForm.get("date").value,
+      text: this.entryForm.get("text").value,
+      amount: this.entryForm.get("amount").value,
     };
 
     if (this.entryId) {
@@ -106,16 +109,16 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
       columns: this.getAmountOptions(),
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel'
+          text: "Cancel",
+          role: "cancel",
         },
         {
-          text: 'Confirm',
+          text: "Confirm",
           handler: (value) => {
             this.entryForm.controls.amount.setValue(+value.amount.value || 0);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await picker.present();
@@ -123,16 +126,26 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
 
   getAmountOptions() {
     const options = [];
-  
+
     if (!this.countable) {
       return options;
     }
 
-    for (let i = this.countable.lowerBound; i <= this.countable.upperBound; i += this.countable.stepWidth) {
-      options.push({ text: i + ' ' + (i === 1 ? this.countable.unitSingular : this.countable.unit), value: i});
+    for (
+      let i = this.countable.lowerBound;
+      i <= this.countable.upperBound;
+      i += this.countable.stepWidth
+    ) {
+      options.push({
+        text:
+          i +
+          " " +
+          (i === 1 ? this.countable.unitSingular : this.countable.unit),
+        value: i,
+      });
     }
 
-    return [{ name: 'amount', options }];
+    return [{ name: "amount", options }];
   }
 
   onActionTypeChange() {

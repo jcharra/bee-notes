@@ -50,10 +50,15 @@
       routerLink="journal/edit"
       [queryParams]="{type: 'frames'}"
     >
-      <ion-img src="assets/img/frames.png"></ion-img>
+      <ion-icon name="git-compare-outline"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button slot="end" color="primary" routerLink="journal/edit">
-      <ion-icon name="add"></ion-icon>
+    <ion-fab-button
+      slot="end"
+      color="primary"
+      routerLink="journal/edit"
+      [queryParams]="{type: 'food'}"
+    >
+      <ion-icon name="restaurant-outline"></ion-icon>
     </ion-fab-button>
   </ion-buttons>
   <ion-buttons class="ion-padding-horizontal">

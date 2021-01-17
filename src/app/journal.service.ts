@@ -5,21 +5,60 @@ import { first, map, switchMap, take, tap } from "rxjs/operators";
 import { AuthService } from "./auth/auth.service";
 
 export enum EntryType {
+  // all varroa actions
   VARROA_CHECK_START = "Varroa check start",
   VARROA_CHECK_END = "Varroa check end",
   VARROA_TREATMENT = "Varroa treatment",
-  HARVEST = "Harvest",
+
+  // all frame actions
+  FRAMES_HONEY_REMOVED = "Removed honey combs",
+  FRAMES_HONEY_INSERTED = "Inserted honey combs",
+  FRAMES_DRONE_REMOVED = "Removed drone combs",
+  FRAMES_DRONE_INSERTED = "Inserted drone combs",
+  FRAMES_EMPTY_PANEL_REMOVED = "Removed empty panels",
+  FRAMES_EMPTY_PANEL_INSERTED = "Inserted empty panels",
+  FRAMES_EMPTY_COMBS_REMOVED = "Removed empty combs",
+  FRAMES_EMPTY_COMBS_INSERTED = "Inserted empty combs",
+  FRAMES_BROOD_REMOVED = "Removed brood combs",
+  FRAMES_BROOD_INSERTED = "Inserted brood combs",
+  FRAMES_BROOD_COUNTED = "Count brood combs",
+
+  // all queen actions
   QUEEN_SPOTTED = "Queen spotted",
   QUEEN_ADDED = "Queen added",
   QUEEN_DECEASED = "Queen deceased",
-  EGGS_SPOTTED = "Eggs spotted",
-  DRONE_FRAME_ADDED = "Drone frames added",
-  DRONE_FRAME_REMOVED = "Drone frames removed",
-  CENTER_PANELS_ADDED = "Center panels added",
-  FRAMES_REMOVED = "Frames removed",
-  BROOD_COUNT = "Brood count",
+  QUEEN_EGGS_SPOTTED = "Eggs spotted",
+
+  // food actions
   FOOD_ADDED = "Food added",
 }
+
+export const actionsForType = {
+  queen: [
+    EntryType.QUEEN_SPOTTED,
+    EntryType.QUEEN_ADDED,
+    EntryType.QUEEN_DECEASED,
+    EntryType.QUEEN_EGGS_SPOTTED,
+  ],
+  varroa: [
+    EntryType.VARROA_CHECK_END,
+    EntryType.VARROA_CHECK_START,
+    EntryType.VARROA_TREATMENT,
+  ],
+  frames: [
+    EntryType.FRAMES_BROOD_INSERTED,
+    EntryType.FRAMES_BROOD_REMOVED,
+    EntryType.FRAMES_DRONE_INSERTED,
+    EntryType.FRAMES_DRONE_REMOVED,
+    EntryType.FRAMES_EMPTY_COMBS_INSERTED,
+    EntryType.FRAMES_EMPTY_COMBS_REMOVED,
+    EntryType.FRAMES_EMPTY_PANEL_INSERTED,
+    EntryType.FRAMES_EMPTY_PANEL_REMOVED,
+    EntryType.FRAMES_HONEY_INSERTED,
+    EntryType.FRAMES_HONEY_REMOVED,
+  ],
+  food: [EntryType.FOOD_ADDED],
+};
 
 export interface JournalEntry {
   id?: string;
