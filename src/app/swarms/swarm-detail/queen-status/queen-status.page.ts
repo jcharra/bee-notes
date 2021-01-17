@@ -108,7 +108,7 @@ export class QueenStatusPage implements OnInit {
             .createEntry(this.colonyId, {
               date: new Date(this.newStatus.eggsSeen).toISOString(),
               text: "",
-              type: EntryType.EGGS_SPOTTED,
+              type: EntryType.QUEEN_EGGS_SPOTTED,
             })
             .subscribe();
         }
