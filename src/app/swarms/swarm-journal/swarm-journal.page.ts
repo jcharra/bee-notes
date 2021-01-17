@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { AlertController } from "@ionic/angular";
+import { format } from "date-fns";
 import { JournalService } from "src/app/journal.service";
 import { JournalEntry } from "./../../journal.service";
 
@@ -62,5 +63,11 @@ export class SwarmJournalPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  datesDiffer(d1: Date, d2: Date) {
+    return (
+      format(new Date(d1), "yyyy-MM-dd") !== format(new Date(d2), "yyyy-MM-dd")
+    );
   }
 }

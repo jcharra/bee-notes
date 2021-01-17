@@ -17,33 +17,37 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let entry of journalEntries; let idx = index">
-      <div class="ion-float-left ion-text-center calendar-sheet">
-        {{ entry.date | date:'MMM'}}
-        <br />
-        {{ entry.date | date:'dd'}}
-      </div>
-      <ion-label>
-        <div class="ion-float-left ion-margin-start ion-text-wrap">
-          <app-journal-entry-short [entry]="entry"></app-journal-entry-short>
-          <div class="journalText">{{ entry.text }}</div>
-        </div>
-      </ion-label>
+    <ng-container *ngFor="let entry of journalEntries; let idx = index">
+      <ion-item
+        *ngIf="idx === 0 || datesDiffer(entry.date, journalEntries[idx - 1].date)"
+      >
+        <ion-label class="ion-text-center">
+          {{ entry.date | date:'MMM dd'}}
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <div class="ion-float-left ion-margin-start ion-text-wrap">
+            <app-journal-entry-short [entry]="entry"></app-journal-entry-short>
+            <div class="journalText">{{ entry.text }}</div>
+          </div>
+        </ion-label>
 
-      <ion-buttons slot="end" *ngIf="!readonly">
-        <ion-button routerLink="edit" [queryParams]="{entryId: entry.id}">
-          <ion-icon name="create-outline"></ion-icon>
-        </ion-button>
-        <ion-button (click)="deleteEntry(entry)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
+        <ion-buttons slot="end" *ngIf="!readonly">
+          <ion-button routerLink="edit" [queryParams]="{entryId: entry.id}">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="deleteEntry(entry)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
 
-    <ion-item *ngIf="journalEntries && journalEntries.length === 0">
-      <ion-label>
-        {{ 'JOURNAL_PAGE.noTrackedActivity' | translate }}
-      </ion-label>
-    </ion-item>
+      <ion-item *ngIf="journalEntries && journalEntries.length === 0">
+        <ion-label>
+          {{ 'JOURNAL_PAGE.noTrackedActivity' | translate }}
+        </ion-label>
+      </ion-item>
+    </ng-container>
   </ion-list>
 </ion-content>
