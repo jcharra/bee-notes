@@ -16,12 +16,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list lines="full">
     <ng-container *ngFor="let entry of journalEntries; let idx = index">
       <ion-item
         *ngIf="idx === 0 || datesDiffer(entry.date, journalEntries[idx - 1].date)"
       >
-        <ion-label class="ion-text-center">
+        <ion-label class="ion-text-center" color="primary">
           {{ entry.date | date:'MMM dd'}}
         </ion-label>
       </ion-item>
@@ -35,10 +35,10 @@
 
         <ion-buttons slot="end" *ngIf="!readonly">
           <ion-button routerLink="edit" [queryParams]="{entryId: entry.id}">
-            <ion-icon name="create-outline"></ion-icon>
+            <ion-icon name="create-outline" color="secondary"></ion-icon>
           </ion-button>
           <ion-button (click)="deleteEntry(entry)">
-            <ion-icon name="trash-outline"></ion-icon>
+            <ion-icon name="trash-outline" color="secondary"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-item>
