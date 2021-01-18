@@ -69,6 +69,12 @@ export interface JournalEntry {
   amount?: number;
 }
 
+export interface QueryConfig {
+  limit?: number;
+  startAt?: string;
+  endAt?: string;
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -103,8 +109,15 @@ export class JournalService {
     );
   }
 
-  getEntries(swarmId: string, limit: number = 100): Observable<JournalEntry[]> {
-    const cacheKey = `${swarmId}_${limit}`;
+  getEntries(
+    swarmId: string,
+    config: QueryConfig = {}
+  ): Observable<JournalEntry[]> {
+    const startAt = config.startAt || "2000-01-01";
+    const endAt = config.endAt || "2050-12-31";
+    const limit = config.limit || 1000;
+
+    const cacheKey = `${swarmId}_${startAt}_${endAt}_${limit}`;
     return this.authService.getUser().pipe(
       switchMap((user) => {
         const cached = this.entryCacheForColony.get(cacheKey);
@@ -114,7 +127,13 @@ export class JournalService {
         }
 
         const entries = this.db
-          .list(`/users/${user.uid}/journals/${swarmId}/entries`)
+          .list(`/users/${user.uid}/journals/${swarmId}/entries`, (ref) =>
+            ref
+              .orderByChild("date")
+              .startAt(startAt)
+              .endAt(endAt)
+              .limitToLast(limit)
+          )
           .snapshotChanges()
           .pipe(
             take(1),

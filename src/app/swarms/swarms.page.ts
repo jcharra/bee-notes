@@ -68,7 +68,7 @@ export class SwarmsPage {
 
           this.swarms.forEach((sw: Swarm) => {
             this.journalService
-              .getEntries(sw.id, 6)
+              .getEntries(sw.id, { limit: 6 })
               .subscribe((e: JournalEntry[]) => {
                 if (e && e.length > 0) {
                   sw.lastAction = e[0];

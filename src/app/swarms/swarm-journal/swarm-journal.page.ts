@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { AlertController } from "@ionic/angular";
-import { format } from "date-fns";
+import { format, getYear } from "date-fns";
 import { JournalService } from "src/app/journal.service";
 import { JournalEntry } from "./../../journal.service";
 
@@ -14,6 +14,9 @@ export class SwarmJournalPage implements OnInit {
   journalEntries: JournalEntry[];
   swarmId: string;
   readonly: boolean;
+  displayYear = getYear(new Date());
+  maxYear = getYear(new Date());
+  minYear = 2020;
 
   constructor(
     private journalService: JournalService,
@@ -31,8 +34,10 @@ export class SwarmJournalPage implements OnInit {
   }
 
   loadEntries() {
+    const startOfYear = this.displayYear + "-01-01";
+    const endOfYear = this.displayYear + "-12-31";
     this.journalService
-      .getEntries(this.swarmId)
+      .getEntries(this.swarmId, { startAt: startOfYear, endAt: endOfYear })
       .subscribe((es: JournalEntry[]) => {
         this.journalEntries = es || [];
       });
@@ -69,5 +74,15 @@ export class SwarmJournalPage implements OnInit {
     return (
       format(new Date(d1), "yyyy-MM-dd") !== format(new Date(d2), "yyyy-MM-dd")
     );
+  }
+
+  changeYear(amount) {
+    if (
+      this.displayYear + amount <= this.maxYear &&
+      this.displayYear + amount >= this.minYear
+    ) {
+      this.displayYear += amount;
+      this.loadEntries();
+    }
   }
 }

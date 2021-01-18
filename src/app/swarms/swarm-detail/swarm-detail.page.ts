@@ -64,7 +64,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
       });
 
     this.journalService
-      .getEntries(this.swarmId, JOURNAL_PLACEHOLDER.length)
+      .getEntries(this.swarmId, { limit: JOURNAL_PLACEHOLDER.length })
       .pipe(takeUntil(this.destroyed$))
       .subscribe((entries: JournalEntry[]) => {
         this.journalEntries = entries;
