@@ -30,9 +30,52 @@
       ></ion-icon>
     </ion-item>
 
-    <ng-container *ngFor="let entry of journalEntries; let idx = index">
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-fab-button
+              class="imgbutton"
+              [disabled]="filter && filter !== 'varroa'"
+              (click)="toggleFilter('varroa')"
+            >
+              <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
+            </ion-fab-button>
+          </ion-col>
+          <ion-col>
+            <ion-fab-button
+              class="imgbutton"
+              [disabled]="filter && filter !== 'queen'"
+              (click)="toggleFilter('queen')"
+            >
+              <ion-img src="assets/img/queenSmall.png"></ion-img>
+            </ion-fab-button>
+          </ion-col>
+          <ion-col>
+            <ion-fab-button
+              [disabled]="filter && filter !== 'frames'"
+              class="imgbutton"
+              (click)="toggleFilter('frames')"
+            >
+              <ion-icon name="git-compare-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-col>
+          <ion-col>
+            <ion-fab-button
+              color="primary"
+              [disabled]="filter && filter !== 'food'"
+              (click)="toggleFilter('food')"
+            >
+              <ion-icon name="restaurant-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <ng-container *ngFor="let entry of filteredJournalEntries; let idx = index">
       <ion-item
-        *ngIf="idx === 0 || datesDiffer(entry.date, journalEntries[idx - 1].date)"
+        *ngIf="idx === 0 || datesDiffer(entry.date, filteredJournalEntries[idx - 1].date)"
       >
         <ion-label class="ion-text-center" color="primary">
           {{ entry.date | date:'MMM dd'}}
@@ -57,7 +100,9 @@
       </ion-item>
     </ng-container>
 
-    <ion-item *ngIf="journalEntries && journalEntries.length === 0">
+    <ion-item
+      *ngIf="filteredJournalEntries && filteredJournalEntries.length === 0"
+    >
       <ion-label>
         {{ 'JOURNAL_PAGE.noTrackedActivity' | translate }}
       </ion-label>
