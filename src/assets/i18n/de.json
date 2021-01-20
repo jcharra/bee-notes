@@ -43,7 +43,7 @@
     "updatingSpinner": "Aktualisiere ..."
   },
   "JOURNAL_PAGE": {
-    "noTrackedActivity": "Noch keine Einträge.",
+    "noTrackedActivity": "Keine Einträge.",
     "latestActivity": "Neuste Einträge",
     "pageTitle": "Tagebuch",
     "viewJournal": "Tagebuch anzeigen",

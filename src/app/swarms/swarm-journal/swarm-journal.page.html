@@ -33,38 +33,34 @@
     <ion-item>
       <ion-grid>
         <ion-row>
-          <ion-col>
+          <ion-col (click)="toggleFilter('varroa')">
             <ion-fab-button
               class="imgbutton"
               [disabled]="filter && filter !== 'varroa'"
-              (click)="toggleFilter('varroa')"
             >
               <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
             </ion-fab-button>
           </ion-col>
-          <ion-col>
+          <ion-col (click)="toggleFilter('queen')">
             <ion-fab-button
               class="imgbutton"
               [disabled]="filter && filter !== 'queen'"
-              (click)="toggleFilter('queen')"
             >
               <ion-img src="assets/img/queenSmall.png"></ion-img>
             </ion-fab-button>
           </ion-col>
-          <ion-col>
+          <ion-col (click)="toggleFilter('frames')">
             <ion-fab-button
               [disabled]="filter && filter !== 'frames'"
               class="imgbutton"
-              (click)="toggleFilter('frames')"
             >
               <ion-icon name="git-compare-outline"></ion-icon>
             </ion-fab-button>
           </ion-col>
-          <ion-col>
+          <ion-col (click)="toggleFilter('food')">
             <ion-fab-button
               color="primary"
               [disabled]="filter && filter !== 'food'"
-              (click)="toggleFilter('food')"
             >
               <ion-icon name="restaurant-outline"></ion-icon>
             </ion-fab-button>
