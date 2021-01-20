@@ -25,7 +25,6 @@ export interface Swarm {
   name: string;
   created: Date;
   sortIndex: number;
-  position?: GeoPosition;
   statusInfo?: ColonyStatusInfo;
   lastAction?: JournalEntry;
   activityStatus?: ActivityStatus;
@@ -68,7 +67,6 @@ export class SwarmService {
                 swarms.push({
                   id: key,
                   name: value.name,
-                  position: value.position || null,
                   created: new Date(value.created),
                   sortIndex: value.sortIndex || DEFAULT_SORT_INDEX,
                 });
@@ -93,7 +91,6 @@ export class SwarmService {
                 id,
                 name: s.name,
                 created: new Date(s.created),
-                position: s.position,
                 sortIndex: s.sortIndex,
               };
             })
@@ -130,7 +127,6 @@ export class SwarmService {
           id: s.id,
           name: s.name,
           created: s.created,
-          position: s.position,
           sortIndex: s.sortIndex,
         });
       })

@@ -5,6 +5,7 @@ import {
   LoadingController,
   ToastController,
 } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
 import { addDays, format, startOfDay } from "date-fns";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -36,7 +37,8 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
     private reminderService: ReminderService,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -171,17 +173,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     toast.present();
   }
 
-  async changeLocation() {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        console.log("POS", pos);
-      },
-      (err) => {
-        console.log("DENIED", err);
-      }
-    );
-  }
-
   async markAsDeceased() {
     const alert = await this.alertCtrl.create({
       header: "Colony deceased",
@@ -242,6 +233,40 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
       duration: 6000,
     });
     toast.present();
+  }
+
+  async openRenameDialog() {
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant("COLONIES_PAGE.renameColonyTitle"),
+      inputs: [
+        {
+          name: "name",
+          type: "text",
+          value: this.swarm.name,
+        },
+      ],
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.cancel"),
+          role: "cancel",
+          cssClass: "secondary",
+        },
+        {
+          text: this.translate.instant("GENERAL.save"),
+          cssClass: "danger",
+          handler: (value) => {
+            const name = value.name && value.name.trim();
+
+            if (name) {
+              this.swarm.name = name;
+              this.swarmService.updateSwarm(this.swarm).subscribe();
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   ngOnDestroy() {

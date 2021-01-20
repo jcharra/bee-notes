@@ -40,7 +40,8 @@
     "chooseValidName": "Bitte wähle einen gültigen Namen",
     "newColony": "Neues Volk",
     "addColony": "Anlegen",
-    "updatingSpinner": "Aktualisiere ..."
+    "updatingSpinner": "Aktualisiere ...",
+    "renameColonyTitle": "Volk umbenennen"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

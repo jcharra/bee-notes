@@ -6,7 +6,9 @@
         [text]="'GENERAL.backButtonCaption' | translate"
       ></ion-back-button>
     </ion-buttons>
-    <ion-title><strong>{{ swarm?.name }}</strong></ion-title>
+    <ion-title (click)="openRenameDialog()"
+      ><strong>{{ swarm?.name }}</strong></ion-title
+    >
     <ion-buttons slot="end">
       <ion-menu-button menu="first"></ion-menu-button>
     </ion-buttons>
@@ -65,10 +67,6 @@
     <ion-fab-button slot="end" color="primary" (click)="addReminder()">
       <ion-icon name="alarm"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button slot="end" color="primary" (click)="changeLocation()">
-      <ion-icon name="navigate-outline"></ion-icon>
-    </ion-fab-button>
-
     <ion-fab-button slot="end" color="primary" (click)="markAsSold()">
       <ion-icon name="cash-outline"></ion-icon>
     </ion-fab-button>
