@@ -324,8 +324,6 @@ export class SwarmsPage {
     // ID at target index. If it is a group heading, set to null
     const targetId = flatItems[toIdx].swarms ? null : flatItems[toIdx].id;
 
-    console.log("TARGET ID", targetId);
-
     fromGroup.swarms = fromGroup.swarms.filter(
       (s: Swarm) => s.id !== draggedItem.id
     );
@@ -336,7 +334,6 @@ export class SwarmsPage {
         : toGroup.swarms.unshift(draggedItem);
     } else {
       const insertIdx = toGroup.swarms.map((s) => s.id).indexOf(targetId) || 0;
-      console.log("Insert at", insertIdx);
       toGroup.swarms.splice(insertIdx - oneOffset + 1, 0, draggedItem);
     }
 
