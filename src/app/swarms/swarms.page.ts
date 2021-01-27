@@ -105,11 +105,9 @@ export class SwarmsPage {
           const swarm = swarmsById.get(sid);
           if (swarm) {
             displayGroup.swarms.push(swarm);
-            swarmsById.delete(sid);
           }
         });
 
-        displayGroup.swarms.sort(this._sortByIndex);
         displayGroups.push(displayGroup);
       });
 
@@ -286,6 +284,7 @@ export class SwarmsPage {
       return;
     }
 
+    // A list of items that must correspond exactly to the UI list (including group headings!)
     let flatItems = [];
     this.sortedSwarmGroups.forEach((g) => {
       flatItems.push(g);
@@ -294,9 +293,9 @@ export class SwarmsPage {
       });
     });
 
-    const draggedItem = flatItems[fromIdx];
+    const draggedItem: Swarm = flatItems[fromIdx];
 
-    let fromGroup;
+    let fromGroup: UISwarmGroup;
     for (let i = fromIdx; i >= 0; i--) {
       if (flatItems[i].swarms) {
         fromGroup = flatItems[i];
@@ -304,82 +303,75 @@ export class SwarmsPage {
       }
     }
 
-    let toGroup;
-    for (let i = toIdx - (fromIdx > toIdx ? 1 : 0); i >= 0; i--) {
+    const oneOffset = fromIdx > toIdx ? 1 : 0;
+
+    let toGroup: UISwarmGroup;
+    for (let i = toIdx - oneOffset; i >= 0; i--) {
       if (flatItems[i].swarms) {
         toGroup = flatItems[i];
         break;
       }
     }
 
-    let requests = [];
-    if (fromGroup.id !== toGroup.id) {
-      this.sortedSwarmGroups.forEach((g) => {
-        if (g.id === fromGroup.id) {
-          g.swarms = g.swarms.filter((s) => s.id !== draggedItem.id);
-
-          requests.push(
-            this.swarmGroupService.updateGroup({
-              id: g.id,
-              name: g.name,
-              swarmIds: g.swarms.map((s) => s.id),
-            })
-          );
-        } else if (g.id === toGroup.id) {
-          g.swarms.push(draggedItem);
-
-          requests.push(
-            this.swarmGroupService.updateGroup({
-              id: g.id,
-              name: g.name,
-              swarmIds: g.swarms.map((s) => s.id),
-            })
-          );
-        }
-      });
-    }
-
-    // Iterate forward and backward to get all items in group
-    const successorsInFinalGroup: Swarm[] = [];
-    for (let t = toIdx + (toIdx > fromIdx ? 1 : 0); t < flatItems.length; t++) {
-      if (flatItems[t].swarms) {
-        break;
-      }
-      successorsInFinalGroup.push(flatItems[t]);
-    }
-
-    if (successorsInFinalGroup.length === 0) {
-      const maxIndex = Math.max(...toGroup.swarms.map((s) => s.sortIndex));
-      draggedItem.sortIndex = maxIndex + 1000;
-      requests.push(this.swarmService.updateSwarm(draggedItem));
-    } else {
-      const newIndex = successorsInFinalGroup[0].sortIndex;
-      draggedItem.sortIndex = newIndex;
-      requests.push(this.swarmService.updateSwarm(draggedItem));
-
-      if (successorsInFinalGroup.length === 1) {
-        successorsInFinalGroup[0].sortIndex = newIndex + 1000;
-      } else {
-        successorsInFinalGroup[0].sortIndex = Math.ceil(
-          (newIndex + successorsInFinalGroup[1].sortIndex) / 2
-        );
-      }
-      requests.push(this.swarmService.updateSwarm(successorsInFinalGroup[0]));
-    }
-
-    ev.detail.complete();
-
     const loading = await this.loadingController.create({
       message: this.translate.instant("COLONIES_PAGE.updatingSpinner"),
       showBackdrop: true,
     });
-
     loading.present();
 
-    forkJoin(requests).subscribe(() => {
+    ev.detail.complete();
+
+    // ID at target index. If it is a group heading, set to null
+    const targetId = flatItems[toIdx].swarms ? null : flatItems[toIdx].id;
+
+    console.log("TARGET ID", targetId);
+
+    fromGroup.swarms = fromGroup.swarms.filter(
+      (s: Swarm) => s.id !== draggedItem.id
+    );
+
+    if (!targetId) {
+      oneOffset
+        ? toGroup.swarms.push(draggedItem)
+        : toGroup.swarms.unshift(draggedItem);
+    } else {
+      const insertIdx = toGroup.swarms.map((s) => s.id).indexOf(targetId) || 0;
+      console.log("Insert at", insertIdx);
+      toGroup.swarms.splice(insertIdx - oneOffset + 1, 0, draggedItem);
+    }
+
+    const reindexRequests = [];
+
+    reindexRequests.push(
+      this.swarmGroupService.updateGroup({
+        id: toGroup.id,
+        name: toGroup.name,
+        swarmIds: toGroup.swarms.map((s) => s.id),
+      })
+    );
+
+    if (fromGroup !== toGroup) {
+      reindexRequests.push(
+        this.swarmGroupService.updateGroup({
+          id: fromGroup.id,
+          name: fromGroup.name,
+          swarmIds: fromGroup.swarms.map((s) => s.id),
+        })
+      );
+    }
+
+    forkJoin(reindexRequests).subscribe(() => {
       this.loadSwarms().then(() => {
         loading.dismiss();
       });
+    });
+  }
+
+  reindexGroup(group: UISwarmGroup) {
+    return this.swarmGroupService.updateGroup({
+      id: group.id,
+      name: group.name,
+      swarmIds: group.swarms.map((s) => s.id),
     });
   }
 
@@ -387,18 +379,5 @@ export class SwarmsPage {
     this.swarmGroupService.deleteGroup(gid).subscribe(() => {
       this.loadSwarms();
     });
-  }
-
-  _sortByIndex(a: Swarm, b: Swarm) {
-    const ka = a.sortIndex;
-    const kb = b.sortIndex;
-
-    if (ka < kb) {
-      return -1;
-    } else if (ka > kb) {
-      return 1;
-    }
-
-    return 0;
   }
 }
