@@ -22,7 +22,7 @@
     "resetLinkFailure": "Fehler",
     "resetLinkFailureText": "Es konnte keine Mail verschickt werden: ",
     "backToLogin": "Zurück zur Anmeldung",
-    "beeAwareDescription": "<strong>Bee aware</strong> kann Dir dabei helfen, all Deine Aktivitäten mit Deinen Bienenvölkern im Blick zu behalten - das ganze Jahr über. Es ist ein simples Hilfsprogramm, mit dem alle Handgriffe wie Ernten, Varroa-Checks, Behandlungen etc. schnell erfasst und bei Bedarf nachgesehen werden können. Es ist kostenlos und erfordert nicht mehr als eine gültige Mailadresse."
+    "beeAwareDescription": "<strong>Bee aware</strong> kann Dir dabei helfen, all Deine Aktivitäten mit Deinen Bienenvölkern im Blick zu behalten - das ganze Jahr über. Es ist ein simples Hilfsprogramm, mit dem alle Handgriffe wie Ernten, Varroa-Checks, Behandlungen etc. schnell erfasst und bei Bedarf nachgesehen werden können. Es ist kostenlos, frei von Werbung und erfordert nicht mehr als eine gültige Mailadresse."
   },
   "COLONIES_PAGE": {
     "loading": "Lade Völker ...",

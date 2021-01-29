@@ -27,6 +27,8 @@ export class AppComponent {
   }
 
   initializeApp() {
+    this.splashScreen.show();
+
     this.storage.get("language").then((lang) => {
       this.translate.setDefaultLang(lang || "de");
       this.translate.use(lang || "de");
