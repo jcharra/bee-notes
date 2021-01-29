@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
-import { Observable } from "rxjs";
+import { TranslateService } from "@ngx-translate/core";
 import { first } from "rxjs/operators";
 import { Swarm, SwarmService } from "../swarm.service";
 
@@ -15,7 +15,8 @@ export class ExcoloniesPage {
   constructor(
     private swarmService: SwarmService,
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private translate: TranslateService
   ) {}
 
   ionViewDidEnter() {
@@ -29,15 +30,15 @@ export class ExcoloniesPage {
 
   async reactivate(s: Swarm) {
     const alert = await this.alertCtrl.create({
-      header: "Would you like to reactivate this swarm?",
+      header: this.translate.instant("FORMER_COLONIES_PAGE.reactivationHint"),
       buttons: [
         {
-          text: "Cancel",
+          text: this.translate.instant("GENERAL.cancel"),
           role: "cancel",
           cssClass: "secondary",
         },
         {
-          text: "Yes",
+          text: this.translate.instant("GENERAL.yes"),
           handler: () => this._onReactivate(s),
         },
       ],

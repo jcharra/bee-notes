@@ -32,7 +32,7 @@ export class SwarmsPage {
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
   translation: any;
 
-  DEFAULT_GROUP_NAME = "Unnamed group";
+  DEFAULT_GROUP_NAME = "";
 
   constructor(
     private swarmService: SwarmService,
@@ -44,7 +44,11 @@ export class SwarmsPage {
     private statusService: StatusService,
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService
-  ) {}
+  ) {
+    this.DEFAULT_GROUP_NAME = this.translate.instant(
+      "COLONIES_PAGE.defaultGroupName"
+    );
+  }
 
   async loadSwarms() {
     const showSpinner = !this.swarms;

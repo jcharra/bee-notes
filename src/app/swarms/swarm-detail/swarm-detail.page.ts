@@ -52,7 +52,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async loadData(withSpinner: boolean = true) {
     const loading = await this.loadingCtrl.create({
-      message: "Loading journal...",
+      message: this.translate.instant("JOURNAL_PAGE.loading"),
       showBackdrop: true,
     });
 
@@ -78,27 +78,31 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async addReminder() {
     const alert = await this.alertCtrl.create({
-      header: "Add reminder",
+      header: this.translate.instant("JOURNAL_PAGE.addReminder"),
       inputs: [
         {
           name: "text",
           type: "text",
-          placeholder: "Reminder text",
+          placeholder: this.translate.instant(
+            "JOURNAL_PAGE.reminderTextPlaceholder"
+          ),
         },
         {
           name: "days",
           type: "number",
-          placeholder: "Number of days",
+          placeholder: this.translate.instant("JOURNAL_PAGE.reminderNumDays"),
         },
       ],
       buttons: [
         {
-          text: "Cancel",
+          text: this.translate.instant("GENERAL.cancel"),
           role: "cancel",
           cssClass: "secondary",
         },
         {
-          text: "Create reminder",
+          text: this.translate.instant(
+            "JOURNAL_PAGE.createReminderButtonCaption"
+          ),
           cssClass: "primary",
           handler: (value) => {
             const text = value.text.trim();
@@ -141,7 +145,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
   async onMissingValues() {
     const alert = await this.alertCtrl.create({
       header: "Error",
-      message: "Invalid input. Please enter a description and an integer.",
+      message: this.translate.instant("JOURNAL_PAGE.invalidReminderInput"),
       buttons: ["OK"],
     });
 
@@ -158,7 +162,9 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async onReminderSaved(date: Date) {
     const toast = await this.toastController.create({
-      message: "You will be reminded on " + format(date, "yyyy-MM-dd"),
+      message: this.translate.instant("JOURNAL_PAGE.onReminderSuccess", {
+        date: format(date, "yyyy-MM-dd"),
+      }),
       duration: 2000,
     });
     toast.present();
@@ -166,7 +172,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async onReminderDismissed() {
     const toast = await this.toastController.create({
-      message: "Reminder dismissed",
+      message: this.translate.instant("JOURNAL_PAGE.onReminderDismissal"),
       duration: 2000,
     });
 
@@ -175,50 +181,32 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async markAsDeceased() {
     const alert = await this.alertCtrl.create({
-      header: "Colony deceased",
-      message: "Do you really want to mark this colony as deceased?",
+      header: this.translate.instant("COLONIES_PAGE.closeColonyHeader"),
+      message: this.translate.instant("COLONIES_PAGE.closeColonyBody"),
       buttons: [
         {
-          text: "Cancel",
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: "Yes 😢",
+          text: this.translate.instant("COLONIES_PAGE.markAsDeceased"),
           cssClass: "danger",
           handler: async () => {
             this.swarmService.markAsDeceased(this.swarm).subscribe(() => {
               this.router.navigateByUrl("/");
             });
-
             this.showWhereToFindHint();
           },
         },
-      ],
-    });
-
-    await alert.present();
-  }
-
-  async markAsSold() {
-    const alert = await this.alertCtrl.create({
-      header: "Colony sold",
-      message: "Did you sell this colony?",
-      buttons: [
         {
-          text: "Cancel",
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: "Mark as sold",
+          text: this.translate.instant("COLONIES_PAGE.markAsSold"),
           cssClass: "danger",
-          handler: () => {
+          handler: async () => {
             this.swarmService.markAsSold(this.swarm).subscribe(() => {
               this.router.navigateByUrl("/");
             });
             this.showWhereToFindHint();
           },
+        },
+        {
+          text: this.translate.instant("GENERAL.cancel"),
+          role: "cancel",
         },
       ],
     });
@@ -228,8 +216,9 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async showWhereToFindHint() {
     const toast = await this.toastController.create({
-      message:
-        'You can still find (and even reactivate) your colony under the menu "Former colonies"',
+      message: this.translate.instant(
+        "COLONIES_PAGE.whereToFindExColoniesHint"
+      ),
       duration: 6000,
     });
     toast.present();

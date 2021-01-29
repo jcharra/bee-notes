@@ -41,7 +41,13 @@
     "newColony": "Neues Volk",
     "addColony": "Anlegen",
     "updatingSpinner": "Aktualisiere ...",
-    "renameColonyTitle": "Volk umbenennen"
+    "renameColonyTitle": "Volk umbenennen",
+    "markAsDeceased": "Volk verstorben 😢",
+    "markAsSold": "Volk verkauft",
+    "closeColonyHeader": "Volk entfernen",
+    "closeColonyBody": "Warum wird das Volk entfernt?",
+    "whereToFindExColoniesHint": "Du kannst ehemalige Völker unter dem Menü 'Ehemalige Völker' finden und auch reaktivieren.",
+    "defaultGroupName": "Unbenannte Gruppe"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",
@@ -55,14 +61,26 @@
     "comment": "Kommentar",
     "amount": "Anzahl",
     "selectDatePlaceholder": "Datum auswählen",
-    "optionalComment": "optionaler Kommentar"
+    "optionalComment": "optionaler Kommentar",
+    "loading": "Lade Völker ...",
+    "addReminder": "Erinnerung hinzufügen",
+    "reminderTextPlaceholder": "Text einfügen",
+    "reminderNumDays": "Nach ... Tagen",
+    "createReminderButtonCaption": "Anlegen",
+    "invalidReminderInput": "Ungültige Eingabe",
+    "onReminderSuccess": "Sie werden am {{date}} erinnert.",
+    "onReminderDismissal": "Erinnerung verworfen",
+    "deleteEntryHeading": "Eintrag löschen",
+    "deleteEntryMsg": "Soll der Eintrag wirklich gelöscht werden?",
+    "deleteEntryConfirm": "Löschen"
   },
   "FINANCE_PAGE": {
     "pageTitle": "Finanzen"
   },
   "FORMER_COLONIES_PAGE": {
     "pageTitle": "Ehemalige Völker",
-    "noColonies": "Bisher sind keine Völker gestorben oder verkauft worden."
+    "noColonies": "Bisher sind keine Völker gestorben oder verkauft worden.",
+    "reactivationHint": "Möchtest Du dieses Volk wieder aktivieren?"
   },
   "SETTINGS_PAGE": {
     "pageTitle": "Einstellungen",
@@ -85,6 +103,9 @@
     "deceasedDialogTitle": "Königin verstorben",
     "deceasedDialogBody": "Ist die Königin des Volks verstorben?",
     "deceasedDialogConfirm": "Ja"
+  },
+  "ABOUT_PAGE": {
+    "pageTitle": "Über BeeAware"
   },
   "GENERAL": {
     "cancel": "Abbrechen",

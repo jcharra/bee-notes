@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { AlertController } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
 import { format, getYear } from "date-fns";
 import { actionsForType, JournalService } from "src/app/journal.service";
 import { JournalEntry } from "./../../journal.service";
@@ -23,7 +24,8 @@ export class SwarmJournalPage implements OnInit {
   constructor(
     private journalService: JournalService,
     private route: ActivatedRoute,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -58,16 +60,16 @@ export class SwarmJournalPage implements OnInit {
 
   async deleteEntry(entry: JournalEntry) {
     const alert = await this.alertCtrl.create({
-      header: "Delete entry?",
-      message: "Do you really want to delete this entry?",
+      header: this.translate.instant("JOURNAL_PAGE.deleteEntryHeading"),
+      message: this.translate.instant("JOURNAL_PAGE.deleteEntryMsg"),
       buttons: [
         {
-          text: "Cancel",
+          text: this.translate.instant("GENERAL.cancel"),
           role: "cancel",
           cssClass: "secondary",
         },
         {
-          text: "Delete",
+          text: this.translate.instant("JOURNAL_PAGE.deleteEntryConfirm"),
           cssClass: "danger",
           handler: () => {
             this.journalService

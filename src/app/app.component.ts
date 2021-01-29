@@ -28,8 +28,8 @@ export class AppComponent {
 
   initializeApp() {
     this.storage.get("language").then((lang) => {
-      this.translate.setDefaultLang(lang || "en");
-      this.translate.use(lang || "en");
+      this.translate.setDefaultLang(lang || "de");
+      this.translate.use(lang || "de");
     });
 
     this.platform.ready().then(() => {
@@ -62,5 +62,10 @@ export class AppComponent {
   openSettings() {
     this.menu.close();
     this.router.navigateByUrl("/settings");
+  }
+
+  openAbout() {
+    this.menu.close();
+    this.router.navigateByUrl("/about");
   }
 }
