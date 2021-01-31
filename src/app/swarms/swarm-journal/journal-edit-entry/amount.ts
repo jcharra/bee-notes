@@ -29,6 +29,16 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
     },
   ],
   [
+    EntryType.WEIGHT_TRACKED,
+    {
+      lowerBound: 10.0,
+      upperBound: 80,
+      stepWidth: 1,
+      unit: "kg",
+      unitSingular: "kg",
+    },
+  ],
+  [
     EntryType.FRAMES_BROOD_COUNTED,
     {
       lowerBound: 0.5,

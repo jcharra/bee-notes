@@ -47,7 +47,9 @@
     "closeColonyHeader": "Volk entfernen",
     "closeColonyBody": "Warum wird das Volk entfernt?",
     "whereToFindExColoniesHint": "Du kannst ehemalige Völker unter dem Menü 'Ehemalige Völker' finden und auch reaktivieren.",
-    "defaultGroupName": "Unbenannte Gruppe"
+    "defaultGroupName": "Unbenannte Gruppe",
+    "weightDialogHeader": "Gewicht erfassen",
+    "weightDialogMsg": "Wie viel kg wiegt das Volk?"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

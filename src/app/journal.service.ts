@@ -31,6 +31,7 @@ export enum EntryType {
 
   // food actions
   FOOD_ADDED = "Food added",
+  WEIGHT_TRACKED = "Weight",
 }
 
 export const actionsForType = {
@@ -176,7 +177,6 @@ export class JournalService {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         this.clearCacheForColony(swarmId);
-
         return this.db
           .list(`/users/${user.uid}/journals/${swarmId}/entries`)
           .push(entry);

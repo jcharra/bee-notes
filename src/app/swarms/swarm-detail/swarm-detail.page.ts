@@ -9,7 +9,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { addDays, format, startOfDay } from "date-fns";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { JournalEntry } from "src/app/journal.service";
+import { EntryType, JournalEntry } from "src/app/journal.service";
 import { JournalService } from "../../journal.service";
 import { Swarm, SwarmService } from "../../swarm.service";
 import { Reminder, ReminderService } from "./../../reminder.service";
@@ -249,6 +249,49 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
             if (name) {
               this.swarm.name = name;
               this.swarmService.updateSwarm(this.swarm).subscribe();
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async trackWeight() {
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant("COLONIES_PAGE.weightDialogHeader"),
+      message: this.translate.instant("COLONIES_PAGE.weightDialogMsg"),
+      inputs: [
+        {
+          name: "name",
+          type: "text",
+          value: 0,
+        },
+      ],
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.cancel"),
+          role: "cancel",
+          cssClass: "secondary",
+        },
+        {
+          text: this.translate.instant("GENERAL.save"),
+          cssClass: "danger",
+          handler: (value) => {
+            const weight = value.name && +value.name.trim();
+
+            if (weight) {
+              this.journalService
+                .createEntry(this.swarmId, {
+                  date: new Date().toISOString(),
+                  text: "",
+                  amount: weight,
+                  type: EntryType.WEIGHT_TRACKED,
+                })
+                .subscribe(() => {
+                  this.loadData(true);
+                });
             }
           },
         },
