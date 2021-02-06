@@ -85,7 +85,7 @@ export class SwarmJournalPage implements OnInit {
     await alert.present();
   }
 
-  datesDiffer(d1: Date, d2: Date) {
+  datesDiffer(d1: Date | string, d2: Date | string) {
     return (
       format(new Date(d1), "yyyy-MM-dd") !== format(new Date(d2), "yyyy-MM-dd")
     );

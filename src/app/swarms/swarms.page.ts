@@ -119,15 +119,6 @@ export class SwarmsPage {
     });
   }
 
-  /*
-  migrate() {
-    this.swarms.forEach((s) => {
-      s.activityStatus = ActivityStatus.ACTIVE;
-      this.swarmService.updateSwarm(s).subscribe();
-    });
-  }
-  */
-
   ionViewDidEnter() {
     this.loadSwarms();
   }
@@ -136,7 +127,7 @@ export class SwarmsPage {
     this.navController.navigateForward("/swarms/view/" + swarmId);
   }
 
-  async editSwarmGroup(existing: UISwarmGroup) {
+  async editSwarmGroup(existing?: UISwarmGroup) {
     const alert = await this.alertCtrl.create({
       header: this.translate.instant(
         existing
