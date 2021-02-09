@@ -1,4 +1,5 @@
-import { EntryType } from "./../../../journal.service";
+import { EntryType } from "src/app/model/EntryType";
+
 export interface Countable {
   unit: string;
   unitSingular: string;
@@ -29,7 +30,7 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
     },
   ],
   [
-    EntryType.WEIGHT_TRACKED,
+    EntryType.WEIGHT_MEASURED,
     {
       lowerBound: 10.0,
       upperBound: 80,

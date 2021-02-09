@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { differenceInDays } from "date-fns";
-import { EntryType, JournalEntry } from "./journal.service";
+import { EntryType } from "./model/EntryType";
+import { JournalEntry } from "./model/JournalEntry";
 
 export enum ColonyStatus {
   VARROA_MEDIUM = "VARROA_MEDIUM",

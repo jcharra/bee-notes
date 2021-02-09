@@ -3,74 +3,9 @@ import { AngularFireDatabase } from "@angular/fire/database";
 import { Observable, of } from "rxjs";
 import { first, map, switchMap, take, tap } from "rxjs/operators";
 import { AuthService } from "./auth/auth.service";
+import { JournalEntry } from "./model/JournalEntry";
 
-export enum EntryType {
-  // all varroa actions
-  VARROA_CHECK_START = "Varroa check start",
-  VARROA_CHECK_END = "Varroa check end",
-  VARROA_TREATMENT = "Varroa treatment",
-
-  // all frame actions
-  FRAMES_HONEY_REMOVED = "Removed honey combs",
-  FRAMES_HONEY_INSERTED = "Inserted honey combs",
-  FRAMES_DRONE_REMOVED = "Removed drone combs",
-  FRAMES_DRONE_INSERTED = "Inserted drone combs",
-  FRAMES_EMPTY_PANEL_REMOVED = "Removed empty panels",
-  FRAMES_EMPTY_PANEL_INSERTED = "Inserted empty panels",
-  FRAMES_EMPTY_COMBS_REMOVED = "Removed empty combs",
-  FRAMES_EMPTY_COMBS_INSERTED = "Inserted empty combs",
-  FRAMES_BROOD_REMOVED = "Removed brood combs",
-  FRAMES_BROOD_INSERTED = "Inserted brood combs",
-  FRAMES_BROOD_COUNTED = "Count brood combs",
-
-  // all queen actions
-  QUEEN_SPOTTED = "Queen spotted",
-  QUEEN_ADDED = "Queen added",
-  QUEEN_DECEASED = "Queen deceased",
-  QUEEN_EGGS_SPOTTED = "Eggs spotted",
-
-  // food actions
-  FOOD_ADDED = "Food added",
-  WEIGHT_TRACKED = "Weight",
-}
-
-export const actionsForType = {
-  queen: [
-    EntryType.QUEEN_SPOTTED,
-    EntryType.QUEEN_ADDED,
-    EntryType.QUEEN_DECEASED,
-    EntryType.QUEEN_EGGS_SPOTTED,
-  ],
-  varroa: [
-    EntryType.VARROA_CHECK_END,
-    EntryType.VARROA_CHECK_START,
-    EntryType.VARROA_TREATMENT,
-  ],
-  frames: [
-    EntryType.FRAMES_BROOD_INSERTED,
-    EntryType.FRAMES_BROOD_REMOVED,
-    EntryType.FRAMES_DRONE_INSERTED,
-    EntryType.FRAMES_DRONE_REMOVED,
-    EntryType.FRAMES_EMPTY_COMBS_INSERTED,
-    EntryType.FRAMES_EMPTY_COMBS_REMOVED,
-    EntryType.FRAMES_EMPTY_PANEL_INSERTED,
-    EntryType.FRAMES_EMPTY_PANEL_REMOVED,
-    EntryType.FRAMES_HONEY_INSERTED,
-    EntryType.FRAMES_HONEY_REMOVED,
-  ],
-  food: [EntryType.FOOD_ADDED],
-};
-
-export interface JournalEntry {
-  id?: string;
-  title?: string;
-  text: string;
-  date: Date | string;
-  type?: EntryType;
-  amount?: number;
-}
-
-export interface QueryConfig {
+interface QueryConfig {
   limit?: number;
   startAt?: string;
   endAt?: string;

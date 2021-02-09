@@ -61,7 +61,7 @@
               >
                 <br />
                 <strong>{{ entry.date | date:'dd. MMM'}}: </strong>
-                {{ entry.type }}
+                {{ 'ACTIONS.' + entry.type | translate }}
               </span>
               <ng-template #noActionYet>
                 <br />

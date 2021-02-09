@@ -3,10 +3,8 @@ import { AngularFireDatabase } from "@angular/fire/database";
 import { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { AuthService } from "./auth/auth.service";
-import { JournalEntry } from "./journal.service";
+import { JournalEntry } from "./model/JournalEntry";
 import { ColonyStatusInfo } from "./status.service";
-
-const DEFAULT_SORT_INDEX = 0;
 
 export interface GeoPosition {
   displayName?: string;

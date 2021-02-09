@@ -109,6 +109,28 @@
   "ABOUT_PAGE": {
     "pageTitle": "Über BeeAware"
   },
+  "ACTIONS": {
+    "VARROA_CHECK_START": "Varroa Diagnose Start",
+    "VARROA_CHECK_END": "Varroa Diagnose Ende",
+    "VARROA_TREATMENT": "Varroa Behandlung",
+    "FRAMES_HONEY_REMOVED": "Honigwaben entnommen",
+    "FRAMES_HONEY_INSERTED": "Honigwaben hinzugefügt",
+    "FRAMES_DRONE_REMOVED": "Drohnenrahmen entnommen",
+    "FRAMES_DRONE_INSERTED": "Drohnenrahmen hinzugefügt",
+    "FRAMES_EMPTY_PANEL_REMOVED": "Mittelwände entnommen",
+    "FRAMES_EMPTY_PANEL_INSERTED": "Mittelwände hinzugefügt",
+    "FRAMES_EMPTY_COMBS_REMOVED": "Leerwaben entnommen",
+    "FRAMES_EMPTY_COMBS_INSERTED": "Leerwaben hinzugefügt",
+    "FRAMES_BROOD_REMOVED": "Brutwaben entnommen",
+    "FRAMES_BROOD_INSERTED": "Brutwaben hinzugefügt",
+    "FRAMES_BROOD_COUNTED": "Brutwaben gezählt",
+    "QUEEN_SPOTTED": "Königin gesichtet",
+    "QUEEN_ADDED": "Königin hinzugefügt",
+    "QUEEN_DECEASED": "Königin verstorben",
+    "QUEEN_EGGS_SPOTTED": "Eier gesichtet",
+    "FOOD_ADDED": "Futter hinzugefügt",
+    "WEIGHT_MEASURED": "Gewicht gemessen"
+  },
   "GENERAL": {
     "cancel": "Abbrechen",
     "yes": "Ja",

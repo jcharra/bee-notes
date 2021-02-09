@@ -1,14 +1,11 @@
-import { Countable, CountableForEntryType } from "./amount";
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { IonSelect, NavController, PickerController } from "@ionic/angular";
-import {
-  actionsForType,
-  JournalEntry,
-  JournalService,
-} from "src/app/journal.service";
-import { EntryType } from "./../../../journal.service";
+import { JournalService } from "src/app/journal.service";
+import { actionsForType, EntryType } from "src/app/model/EntryType";
+import { JournalEntry } from "src/app/model/JournalEntry";
+import { Countable, CountableForEntryType } from "./amount";
 
 @Component({
   selector: "app-journal-edit-entry",

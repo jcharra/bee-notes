@@ -28,7 +28,7 @@
           (ionCancel)="onCancel()"
         >
           <ion-select-option *ngFor="let option of typeOptions" [value]="option"
-            >{{ option }}</ion-select-option
+            >{{ 'ACTIONS.' + option | translate }}</ion-select-option
           >
         </ion-select>
       </ion-item>

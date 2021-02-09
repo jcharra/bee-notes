@@ -46,7 +46,9 @@
 }
 
 ion-content {
-  --background: url(/assets/img/loginBg.jpg) no-repeat center/cover fixed;
+  &::part(background) {
+    background: url(/assets/img/loginBg.jpg) no-repeat center/cover fixed;
+  }
 }
 
 ion-content.nobackground {

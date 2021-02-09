@@ -9,7 +9,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { addDays, format, startOfDay } from "date-fns";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { EntryType, JournalEntry } from "src/app/journal.service";
+import { EntryType } from "src/app/model/EntryType";
+import { JournalEntry } from "src/app/model/JournalEntry";
 import { JournalService } from "../../journal.service";
 import { Swarm, SwarmService } from "../../swarm.service";
 import { Reminder, ReminderService } from "./../../reminder.service";
@@ -287,7 +288,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
                   date: new Date().toISOString(),
                   text: "",
                   amount: weight,
-                  type: EntryType.WEIGHT_TRACKED,
+                  type: EntryType.WEIGHT_MEASURED,
                 })
                 .subscribe(() => {
                   this.loadData(true);
