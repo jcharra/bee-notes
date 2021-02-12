@@ -9,11 +9,15 @@ import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
 import { forkJoin } from "rxjs";
 import { first, switchMap, tap } from "rxjs/operators";
-import { JournalService } from "../journal.service";
-import { JournalEntry } from "../model/JournalEntry";
-import { StatusService } from "../status.service";
-import { SwarmGroup, SwarmGroupService } from "../swarm-group.service";
-import { Swarm, SwarmService } from "../swarm.service";
+import { JournalService } from "src/app/services/journal.service";
+import { StatusService } from "src/app/services/status.service";
+import {
+  SwarmGroupService,
+  SwarmGroup,
+} from "src/app/services/swarm-group.service";
+import { SwarmService } from "src/app/services/swarm.service";
+import { JournalEntry } from "src/app/types/JournalEntry";
+import { Swarm } from "src/app/types/Swarm";
 
 interface UISwarmGroup {
   id: string;

@@ -13,21 +13,21 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () =>
-      import("./swarms/swarms.module").then((m) => m.SwarmsPageModule),
+      import("./pages/swarms/swarms.module").then((m) => m.SwarmsPageModule),
   },
   {
     path: "finance",
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () =>
-      import("./finance/finance.module").then((m) => m.FinancePageModule),
+      import("./pages/finance/finance.module").then((m) => m.FinancePageModule),
   },
   {
     path: "excolonies",
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () =>
-      import("./excolonies/excolonies.module").then(
+      import("./pages/excolonies/excolonies.module").then(
         (m) => m.ExcoloniesPageModule
       ),
   },
@@ -36,7 +36,9 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () =>
-      import("./settings/settings.module").then((m) => m.SettingsPageModule),
+      import("./pages/settings/settings.module").then(
+        (m) => m.SettingsPageModule
+      ),
   },
   {
     path: "",
@@ -46,23 +48,26 @@ const routes: Routes = [
   {
     path: "auth",
     loadChildren: () =>
-      import("./auth/auth.module").then((m) => m.AuthPageModule),
+      import("./pages/auth/auth.module").then((m) => m.AuthPageModule),
   },
   {
     path: "excolonies",
     loadChildren: () =>
-      import("./excolonies/excolonies.module").then(
+      import("./pages/excolonies/excolonies.module").then(
         (m) => m.ExcoloniesPageModule
       ),
   },
   {
     path: "settings",
     loadChildren: () =>
-      import("./settings/settings.module").then((m) => m.SettingsPageModule),
+      import("./pages/settings/settings.module").then(
+        (m) => m.SettingsPageModule
+      ),
   },
   {
-    path: 'about',
-    loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+    path: "about",
+    loadChildren: () =>
+      import("./pages/about/about.module").then((m) => m.AboutPageModule),
   },
 ];
 

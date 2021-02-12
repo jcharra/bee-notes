@@ -2,30 +2,8 @@ import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { Observable } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
-import { AuthService } from "./auth/auth.service";
-import { JournalEntry } from "./model/JournalEntry";
-import { ColonyStatusInfo } from "./status.service";
-
-export interface GeoPosition {
-  displayName?: string;
-  lat: number;
-  lng: number;
-}
-
-export enum ActivityStatus {
-  ACTIVE = "ACTIVE",
-  DECEASED = "DECEASED",
-  SOLD = "SOLD",
-}
-
-export interface Swarm {
-  id?: string;
-  name: string;
-  created: Date;
-  statusInfo?: ColonyStatusInfo;
-  lastAction?: JournalEntry;
-  activityStatus?: ActivityStatus;
-}
+import { AuthService } from "../pages/auth/auth.service";
+import { ActivityStatus, Swarm } from "../types/Swarm";
 
 @Injectable({
   providedIn: "root",

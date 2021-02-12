@@ -4,7 +4,7 @@ import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { MenuController, Platform } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { AuthService } from "./auth/auth.service";
+import { AuthService } from "./pages/auth/auth.service";
 import { Storage } from "@ionic/storage";
 
 @Component({

@@ -2,10 +2,10 @@ import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { IonSelect, NavController, PickerController } from "@ionic/angular";
-import { JournalService } from "src/app/journal.service";
-import { actionsForType, EntryType } from "src/app/model/EntryType";
-import { JournalEntry } from "src/app/model/JournalEntry";
-import { Countable, CountableForEntryType } from "./amount";
+import { JournalService } from "src/app/services/journal.service";
+import { Countable, CountableForEntryType } from "src/app/types/Countable";
+import { actionsForType, EntryType } from "src/app/types/EntryType";
+import { JournalEntry } from "src/app/types/JournalEntry";
 
 @Component({
   selector: "app-journal-edit-entry",

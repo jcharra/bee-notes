@@ -9,11 +9,12 @@ import { TranslateService } from "@ngx-translate/core";
 import { addDays, format, startOfDay } from "date-fns";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { EntryType } from "src/app/model/EntryType";
-import { JournalEntry } from "src/app/model/JournalEntry";
-import { JournalService } from "../../journal.service";
-import { Swarm, SwarmService } from "../../swarm.service";
-import { Reminder, ReminderService } from "./../../reminder.service";
+import { EntryType } from "../../../types/EntryType";
+import { JournalEntry } from "../../../types/JournalEntry";
+import { JournalService } from "../../../services/journal.service";
+import { SwarmService } from "../../../services/swarm.service";
+import { Reminder, ReminderService } from "../../../services/reminder.service";
+import { Swarm } from "../../../types/Swarm";
 
 const JOURNAL_PLACEHOLDER = Array(3).fill({ text: "", date: new Date() });
 

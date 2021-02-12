@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { Observable, of } from "rxjs";
 import { first, map, switchMap, take, tap } from "rxjs/operators";
-import { AuthService } from "./auth/auth.service";
-import { JournalEntry } from "./model/JournalEntry";
+import { AuthService } from "../pages/auth/auth.service";
+import { JournalEntry } from "../types/JournalEntry";
 
 interface QueryConfig {
   limit?: number;

@@ -1,4 +1,4 @@
-import { EntryType } from "src/app/model/EntryType";
+import { EntryType } from "src/app/types/EntryType";
 
 export interface Countable {
   unit: string;

@@ -1,9 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { EntryType } from './journal.service';
+import { TestBed } from "@angular/core/testing";
+import { ColonyStatus } from "../types/ColonyStatus";
+import { EntryType } from "../types/EntryType";
 
-import { ColonyStatus, StatusService } from './status.service';
+import { StatusService } from "./status.service";
 
-describe('StatusService', () => {
+describe("StatusService", () => {
   let service: StatusService;
 
   beforeEach(() => {
@@ -11,19 +12,19 @@ describe('StatusService', () => {
     service = TestBed.inject(StatusService);
   });
 
-  it('should not have a division by zero for 0 days', () => {
+  it("should not have a division by zero for 0 days", () => {
     const entries = [
       {
         type: EntryType.VARROA_CHECK_END,
-        text: '',
+        text: "",
         amount: 10,
-        date: new Date(2020, 10, 1)
+        date: new Date(2020, 10, 1),
       },
       {
         type: EntryType.VARROA_CHECK_START,
-        text: '',
-        date: new Date(2020, 10, 1)
-      }
+        text: "",
+        date: new Date(2020, 10, 1),
+      },
     ];
 
     const status = service.getColonyStatus(entries);
@@ -32,19 +33,19 @@ describe('StatusService', () => {
     expect(status.avgCount).toEqual(10);
   });
 
-  it('should divide by integral number of days', () => {
+  it("should divide by integral number of days", () => {
     const entries = [
       {
         type: EntryType.VARROA_CHECK_END,
-        text: '',
+        text: "",
         amount: 32,
-        date: new Date(2020, 10, 5)
+        date: new Date(2020, 10, 5),
       },
       {
         type: EntryType.VARROA_CHECK_START,
-        text: '',
-        date: new Date(2020, 10, 1)
-      }
+        text: "",
+        date: new Date(2020, 10, 1),
+      },
     ];
 
     const status = service.getColonyStatus(entries);
@@ -53,19 +54,19 @@ describe('StatusService', () => {
     expect(status.avgCount).toEqual(8);
   });
 
-  it('should round to nearest integer', () => {
+  it("should round to nearest integer", () => {
     const entries = [
       {
         type: EntryType.VARROA_CHECK_END,
-        text: '',
+        text: "",
         amount: 20,
-        date: new Date(2020, 10, 7)
+        date: new Date(2020, 10, 7),
       },
       {
         type: EntryType.VARROA_CHECK_START,
-        text: '',
-        date: new Date(2020, 10, 1)
-      }
+        text: "",
+        date: new Date(2020, 10, 1),
+      },
     ];
 
     const status = service.getColonyStatus(entries);

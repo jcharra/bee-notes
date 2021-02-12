@@ -3,7 +3,8 @@ import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { first } from "rxjs/operators";
-import { Swarm, SwarmService } from "../swarm.service";
+import { Swarm } from "src/app/types/Swarm";
+import { SwarmService } from "../../services/swarm.service";
 
 @Component({
   selector: "app-excolonies",

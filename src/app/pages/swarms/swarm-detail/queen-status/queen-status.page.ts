@@ -8,9 +8,9 @@ import {
 import { TranslateService } from "@ngx-translate/core";
 import { addYears, format, getYear, startOfYear } from "date-fns";
 import { first } from "rxjs/operators";
-import { JournalService } from "src/app/journal.service";
-import { EntryType } from "src/app/model/EntryType";
-import { QueenService, QueenStatus } from "src/app/queen.service";
+import { JournalService } from "../../../../services/journal.service";
+import { QueenService, QueenStatus } from "../../../../services/queen.service";
+import { EntryType } from "../../../../types/EntryType";
 
 const DAY_OF_YEAR = "yyyy-MM-dd";
 

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { first, map, switchMap } from "rxjs/operators";
-import { AuthService } from "./auth/auth.service";
+import { AuthService } from "../pages/auth/auth.service";
 
 export interface QueenStatus {
   birthYear: number;

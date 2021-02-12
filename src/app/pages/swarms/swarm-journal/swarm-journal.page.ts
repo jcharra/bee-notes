@@ -3,9 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { format, getYear } from "date-fns";
-import { JournalService } from "src/app/journal.service";
-import { actionsForType } from "src/app/model/EntryType";
-import { JournalEntry } from "src/app/model/JournalEntry";
+import { JournalService } from "src/app/services/journal.service";
+import { actionsForType } from "src/app/types/EntryType";
+import { JournalEntry } from "src/app/types/JournalEntry";
 
 @Component({
   selector: "app-swarm-journal",

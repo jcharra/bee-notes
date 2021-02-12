@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { JournalEntry } from "../model/JournalEntry";
-import { CountableForEntryType } from "../swarms/swarm-journal/journal-edit-entry/amount";
+import { CountableForEntryType } from "../types/Countable";
+import { JournalEntry } from "../types/JournalEntry";
 
 @Component({
   selector: "app-journal-entry-short",

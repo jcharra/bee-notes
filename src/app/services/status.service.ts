@@ -1,19 +1,8 @@
 import { Injectable } from "@angular/core";
 import { differenceInDays } from "date-fns";
-import { EntryType } from "./model/EntryType";
-import { JournalEntry } from "./model/JournalEntry";
-
-export enum ColonyStatus {
-  VARROA_MEDIUM = "VARROA_MEDIUM",
-  VARROA_CRITICAL = "VARROA_CRITICAL",
-  VARROA_OK = "VARROA_OK",
-  SWARMING = "SWARMING",
-}
-
-export interface ColonyStatusInfo {
-  colonyStatus: ColonyStatus;
-  avgCount: number;
-}
+import { ColonyStatusInfo, ColonyStatus } from "../types/ColonyStatus";
+import { EntryType } from "../types/EntryType";
+import { JournalEntry } from "../types/JournalEntry";
 
 @Injectable({
   providedIn: "root",
