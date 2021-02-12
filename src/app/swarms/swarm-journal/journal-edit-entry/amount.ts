@@ -32,7 +32,7 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
   [
     EntryType.WEIGHT_MEASURED,
     {
-      lowerBound: 10.0,
+      lowerBound: 5.0,
       upperBound: 80,
       stepWidth: 1,
       unit: "kg",

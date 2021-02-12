@@ -285,7 +285,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
             if (weight) {
               this.journalService
                 .createEntry(this.swarmId, {
-                  date: new Date().toISOString(),
+                  date: new Date(),
                   text: "",
                   amount: weight,
                   type: EntryType.WEIGHT_MEASURED,

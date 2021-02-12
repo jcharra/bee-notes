@@ -33,7 +33,6 @@ export class JournalService {
             map((entry: any) => {
               return {
                 id: entry.id,
-                title: entry.title,
                 text: entry.text,
                 type: entry.type,
                 date: new Date(entry.date),
@@ -85,7 +84,6 @@ export class JournalService {
                 const value: any = item.payload.val();
                 entries.unshift({
                   id: key,
-                  title: value.title,
                   text: value.text,
                   type: value.type,
                   date: new Date(value.date),
@@ -112,9 +110,11 @@ export class JournalService {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         this.clearCacheForColony(swarmId);
+
+        const fbEntry = this.convertToFirebaseEntry(entry);
         return this.db
           .list(`/users/${user.uid}/journals/${swarmId}/entries`)
-          .push(entry);
+          .push(fbEntry);
       })
     );
   }
@@ -124,9 +124,13 @@ export class JournalService {
       switchMap((user) => {
         this.clearCacheForColony(swarmId);
 
+        const fbEntry = this.convertToFirebaseEntry(entry);
+
         return this.db
-          .object(`/users/${user.uid}/journals/${swarmId}/entries/${entry.id}`)
-          .update(entry);
+          .object(
+            `/users/${user.uid}/journals/${swarmId}/entries/${fbEntry.id}`
+          )
+          .update(fbEntry);
       })
     );
   }
@@ -151,5 +155,11 @@ export class JournalService {
       }
     }
     deletable.forEach((d) => this.entryCacheForColony.delete(d));
+  }
+
+  private convertToFirebaseEntry(e: JournalEntry) {
+    const clone: any = { ...e };
+    clone.date = e.date.toISOString();
+    return clone;
   }
 }

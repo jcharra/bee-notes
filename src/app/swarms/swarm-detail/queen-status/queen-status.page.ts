@@ -94,7 +94,7 @@ export class QueenStatusPage implements OnInit {
         ) {
           this.journalService
             .createEntry(this.colonyId, {
-              date: new Date(this.newStatus.lastSeen).toISOString(),
+              date: new Date(this.newStatus.lastSeen),
               text: "",
               type: EntryType.QUEEN_SPOTTED,
             })
@@ -107,7 +107,7 @@ export class QueenStatusPage implements OnInit {
         ) {
           this.journalService
             .createEntry(this.colonyId, {
-              date: new Date(this.newStatus.eggsSeen).toISOString(),
+              date: new Date(this.newStatus.eggsSeen),
               text: "",
               type: EntryType.QUEEN_EGGS_SPOTTED,
             })
@@ -135,7 +135,7 @@ export class QueenStatusPage implements OnInit {
           handler: async () => {
             this.journalService
               .createEntry(this.colonyId, {
-                date: new Date().toISOString(),
+                date: new Date(),
                 text: "",
                 type: EntryType.QUEEN_DECEASED,
               })
