@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/swarms"
+        [text]="'GENERAL.backButtonCaption' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title><strong>{{ 'FRAMES.pageTitle' | translate }}</strong></ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button menu="first"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-label class="ion-text-center"
+        >{{'GENERAL.date' | translate}}</ion-label
+      >
+    </ion-item>
+    <ion-datetime
+      [(ngModel)]="date"
+      class="ion-text-center"
+      placeholder="{{'GENERAL.pickDate' | translate}}"
+      max="{{ maxDate }}"
+      min="{{ minDate }}"
+      monthShortNames="Jan, Feb, Mar, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez"
+    >
+      ></ion-datetime
+    >
+  </ion-list>
+
+  <ion-list [inset]="true" *ngFor="let item of amounts | keyvalue">
+    <ion-item>
+      <ion-label class="ion-text-center">{{item.key | translate}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon
+        color="primary"
+        name="remove-circle-outline"
+        slot="start"
+        (click)="changeAmount(item.key, -1)"
+      ></ion-icon>
+      <ion-label class="ion-text-center">
+        <span *ngIf="item.value === 0">
+          {{ 'FRAMES.noChange' | translate }}
+        </span>
+        <strong *ngIf="item.value > 0"
+          >{{ item.value }} {{ 'FRAMES.added' | translate }}</strong
+        >
+        <strong *ngIf="item.value < 0"
+          >{{ -item.value }} {{ 'FRAMES.removed' | translate }}</strong
+        >
+      </ion-label>
+      <ion-icon
+        color="primary"
+        name="add-circle-outline"
+        slot="end"
+        (click)="changeAmount(item.key, 1)"
+      ></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-button type="submit" (click)="save()">
+    {{ 'GENERAL.save' | translate }}
+  </ion-button>
+</ion-content>

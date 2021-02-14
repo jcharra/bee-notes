@@ -22,6 +22,11 @@ const routes: Routes = [
         (m) => m.QueenStatusPageModule
       ),
   },
+  {
+    path: "frames",
+    loadChildren: () =>
+      import("./frames/frames.module").then((m) => m.FramesPageModule),
+  },
 ];
 
 @NgModule({

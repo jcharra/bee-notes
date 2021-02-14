@@ -131,12 +131,25 @@
     "FOOD_ADDED": "Futter hinzugefügt",
     "WEIGHT_MEASURED": "Gewicht gemessen"
   },
+  "FRAMES": {
+    "pageTitle": "Waben",
+    "added": "hinzugefügt",
+    "removed": "entfernt",
+    "noChange": "keine Änderung",
+    "honeyCombs": "Honigwaben",
+    "droneCombs": "Drohnenwaben",
+    "foodCombs": "Futterwaben",
+    "emptyCombs": "Leerwaben",
+    "broodCombs": "Brutwaben",
+    "emptyPanels": "Mittelwände"
+  },
   "GENERAL": {
     "cancel": "Abbrechen",
     "yes": "Ja",
     "delete": "Löschen",
     "save": "Speichern",
     "backButtonCaption": "Zurück",
-    "pickDate": "Datum auswählen"
+    "pickDate": "Datum auswählen",
+    "date": "Datum"
   }
 }
