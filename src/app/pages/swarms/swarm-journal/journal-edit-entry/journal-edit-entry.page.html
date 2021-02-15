@@ -26,6 +26,7 @@
           formControlName="actionType"
           (ionChange)="onActionTypeChange()"
           (ionCancel)="onCancel()"
+          [disabled]="entryId"
         >
           <ion-select-option *ngFor="let option of typeOptions" [value]="option"
             >{{ 'ACTIONS.' + option | translate }}</ion-select-option

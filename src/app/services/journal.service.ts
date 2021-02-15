@@ -159,7 +159,7 @@ export class JournalService {
 
   private convertToFirebaseEntry(e: JournalEntry) {
     const clone: any = { ...e };
-    clone.date = e.date.toISOString();
+    clone.date = new Date(e.date).toISOString();
     return clone;
   }
 }

@@ -45,8 +45,8 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
       lowerBound: 0.5,
       upperBound: 20,
       stepWidth: 0.5,
-      unit: "frames",
-      unitSingular: "frame",
+      unit: "combs",
+      unitSingular: "comb",
     },
   ],
   [
@@ -60,13 +60,33 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
     },
   ],
   [
+    EntryType.FRAMES_EMPTY_PANEL_REMOVED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "panels",
+      unitSingular: "panel",
+    },
+  ],
+  [
+    EntryType.FRAMES_HONEY_INSERTED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "combs",
+      unitSingular: "comb",
+    },
+  ],
+  [
     EntryType.FRAMES_HONEY_REMOVED,
     {
       lowerBound: 1,
       upperBound: 20,
       stepWidth: 1,
-      unit: "frames",
-      unitSingular: "frame",
+      unit: "combs",
+      unitSingular: "comb",
     },
   ],
   [
@@ -77,6 +97,76 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
       stepWidth: 1,
       unit: "frames",
       unitSingular: "frame",
+    },
+  ],
+  [
+    EntryType.FRAMES_DRONE_REMOVED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "frames",
+      unitSingular: "frame",
+    },
+  ],
+  [
+    EntryType.FRAMES_EMPTY_COMBS_INSERTED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "combs",
+      unitSingular: "comb",
+    },
+  ],
+  [
+    EntryType.FRAMES_EMPTY_COMBS_REMOVED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "combs",
+      unitSingular: "comb",
+    },
+  ],
+  [
+    EntryType.FRAMES_BROOD_INSERTED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "combs",
+      unitSingular: "comb",
+    },
+  ],
+  [
+    EntryType.FRAMES_BROOD_REMOVED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "combs",
+      unitSingular: "comb",
+    },
+  ],
+  [
+    EntryType.FRAMES_FOOD_INSERTED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "combs",
+      unitSingular: "comb",
+    },
+  ],
+  [
+    EntryType.FRAMES_FOOD_REMOVED,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "combs",
+      unitSingular: "comb",
     },
   ],
 ]);

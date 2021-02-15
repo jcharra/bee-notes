@@ -123,6 +123,8 @@
     "FRAMES_EMPTY_COMBS_INSERTED": "Leerwaben hinzugefügt",
     "FRAMES_BROOD_REMOVED": "Brutwaben entnommen",
     "FRAMES_BROOD_INSERTED": "Brutwaben hinzugefügt",
+    "FRAMES_FOOD_REMOVED": "Futterwaben entnommen",
+    "FRAMES_FOOD_INSERTED": "Futterwaben hinzugefügt",
     "FRAMES_BROOD_COUNTED": "Brutwaben gezählt",
     "QUEEN_SPOTTED": "Königin gesichtet",
     "QUEEN_ADDED": "Königin hinzugefügt",
@@ -141,7 +143,17 @@
     "foodCombs": "Futterwaben",
     "emptyCombs": "Leerwaben",
     "broodCombs": "Brutwaben",
-    "emptyPanels": "Mittelwände"
+    "emptyPanels": "Mittelwände",
+    "onCreationSuccess": "Tagebucheinträge wurden erstellt."
+  },
+  "UNIT": {
+    "frames": "Rähmchen",
+    "frame": "Rähmchen",
+    "comb": "Wabe",
+    "combs": "Waben",
+    "panel": "MW",
+    "panels": "MW",
+    "kg": "kg"
   },
   "GENERAL": {
     "cancel": "Abbrechen",
