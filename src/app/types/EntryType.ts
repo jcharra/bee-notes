@@ -56,6 +56,5 @@ export const actionsForType = {
     EntryType.FRAMES_HONEY_INSERTED,
     EntryType.FRAMES_HONEY_REMOVED,
   ],
-  food: [EntryType.FOOD_ADDED],
-  weight: [EntryType.WEIGHT_MEASURED],
+  other: [EntryType.FOOD_ADDED, EntryType.WEIGHT_MEASURED],
 };

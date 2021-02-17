@@ -260,49 +260,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  async trackWeight() {
-    const alert = await this.alertCtrl.create({
-      header: this.translate.instant("COLONIES_PAGE.weightDialogHeader"),
-      message: this.translate.instant("COLONIES_PAGE.weightDialogMsg"),
-      inputs: [
-        {
-          name: "name",
-          type: "text",
-          value: 0,
-        },
-      ],
-      buttons: [
-        {
-          text: this.translate.instant("GENERAL.cancel"),
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: this.translate.instant("GENERAL.save"),
-          cssClass: "danger",
-          handler: (value) => {
-            const weight = value.name && +value.name.trim();
-
-            if (weight) {
-              this.journalService
-                .createEntry(this.swarmId, {
-                  date: new Date(),
-                  text: "",
-                  amount: weight,
-                  type: EntryType.WEIGHT_MEASURED,
-                })
-                .subscribe(() => {
-                  this.loadData(true);
-                });
-            }
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
   ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();

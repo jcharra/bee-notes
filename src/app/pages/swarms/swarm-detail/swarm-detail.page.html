@@ -53,17 +53,9 @@
     <ion-fab-button
       color="primary"
       routerLink="journal/edit"
-      [queryParams]="{type: 'food'}"
+      [queryParams]="{type: 'other'}"
     >
-      <ion-icon name="restaurant-outline"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button (click)="trackWeight()">
-      <ion-icon name="barbell-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-buttons>
-  <ion-buttons class="ion-padding-horizontal">
-    <ion-fab-button slot="end" color="primary" (click)="addReminder()">
-      <ion-icon name="alarm"></ion-icon>
+      <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-button slot="end" color="danger" (click)="markAsDeceased()">
       <ion-icon name="close-circle-outline"></ion-icon>

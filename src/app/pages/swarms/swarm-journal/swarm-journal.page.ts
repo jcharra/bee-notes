@@ -7,8 +7,6 @@ import { JournalService } from "src/app/services/journal.service";
 import { actionsForType } from "src/app/types/EntryType";
 import { JournalEntry } from "src/app/types/JournalEntry";
 
-const OTHER_ACTIONS = ["weight", "food"];
-
 @Component({
   selector: "app-swarm-journal",
   templateUrl: "./swarm-journal.page.html",
@@ -54,15 +52,6 @@ export class SwarmJournalPage implements OnInit {
   updateFilteredEntries() {
     if (!this.filter) {
       this.filteredJournalEntries = this.journalEntries;
-    } else if (this.filter === "other") {
-      this.filteredJournalEntries = this.journalEntries.filter((e) => {
-        for (const o of OTHER_ACTIONS) {
-          if (actionsForType[o].indexOf(e.type) > -1) {
-            return true;
-          }
-        }
-        return false;
-      });
     } else {
       this.filteredJournalEntries = this.journalEntries.filter(
         (e) => actionsForType[this.filter].indexOf(e.type) > -1
