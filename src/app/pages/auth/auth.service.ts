@@ -3,7 +3,6 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { first, tap } from "rxjs/operators";
-
 export interface AuthResponseData {
   kind: string;
   idToken: string;
@@ -14,13 +13,17 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
+export interface User {
+  uid: string;
+}
+
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
   constructor(private auth: AngularFireAuth, private router: Router) {}
 
-  getUser(): Observable<firebase.User> {
+  getUser(): Observable<User> {
     return this.auth.user.pipe(
       first(),
       tap((u) => {
@@ -46,7 +49,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.auth
       .signInWithEmailAndPassword(email, password)
-      .then((userCreds: firebase.auth.UserCredential) => {
+      .then((userCreds: any) => {
         if (!userCreds.user || !userCreds.user.emailVerified) {
           throw "User not yet verified";
         }
