@@ -23,7 +23,7 @@
     "@angular/router": "~11.2.2",
     "@angular/service-worker": "~11.2.2",
     "@capacitor/cli": "2.4.0",
-    "@capacitor/core": "2.4.0",
+    "@capacitor/core": "2.4.6",
     "@capacitor/ios": "^2.4.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/push": "^5.28.0",
