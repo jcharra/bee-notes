@@ -76,11 +76,6 @@
     <ion-item *ngFor="let reminder of reminders">
       <strong>{{ reminder.date | date:'dd. MMM'}}: </strong>
       &nbsp;{{ reminder.text }}
-      <ion-buttons slot="end">
-        <ion-button (click)="deleteReminder(reminder.id)">
-          <ion-icon name="checkbox-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
     </ion-item>
   </ion-list>
 </ion-content>
