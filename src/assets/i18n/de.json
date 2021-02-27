@@ -155,6 +155,9 @@
     "panels": "MW",
     "kg": "kg"
   },
+  "REMINDERS": {
+    "title": "Erinnerung für Volk \"{{ swarmName }}\""
+  },
   "GENERAL": {
     "cancel": "Abbrechen",
     "yes": "Ja",

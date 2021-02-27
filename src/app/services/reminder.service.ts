@@ -1,10 +1,13 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
-import { map, switchMap } from "rxjs/operators";
-import { AuthService } from "../pages/auth/auth.service";
+import { Plugins } from "@capacitor/core";
+import { TranslateService } from "@ngx-translate/core";
+const { LocalNotifications } = Plugins;
+import { Storage } from "@ionic/storage";
 
 export interface Reminder {
-  id?: string;
+  reminderId?: number;
+  swarmId: string;
+  swarmName: string;
   date: Date;
   text: string;
 }
@@ -13,63 +16,35 @@ export interface Reminder {
   providedIn: "root",
 })
 export class ReminderService {
-  constructor(
-    private db: AngularFireDatabase,
-    private authService: AuthService
-  ) {}
+  constructor(private translate: TranslateService, private storage: Storage) {}
 
-  getReminders(swarmId: string) {
-    return this.authService.getUser().pipe(
-      switchMap((user) => {
-        return this.db
-          .list(`/users/${user.uid}/reminders/${swarmId}/reminders`)
-          .snapshotChanges()
-          .pipe(
-            map((reminders) => {
-              const entries: Reminder[] = [];
-              for (let i = 0; i < reminders.length; i++) {
-                const item: any = reminders[i];
-                const key = item.key;
-                const value = item.payload.val();
-
-                entries.push({
-                  id: key,
-                  text: value.text,
-                  date: new Date(value.date),
-                });
-              }
-
-              entries.sort((a, b) => (a.date < b.date ? -1 : 1));
-
-              return entries;
-            })
-          );
-      })
-    );
+  async getReminders(swarmId: string): Promise<Reminder[]> {
+    // maybe build a way to fetch reminders one day ...
+    return Promise.resolve([]);
   }
 
-  createReminder(swarmId: string, reminder: Reminder) {
-    return this.authService.getUser().pipe(
-      switchMap((user) => {
-        return this.db
-          .list(`/users/${user.uid}/reminders/${swarmId}/reminders`)
-          .push({
-            text: reminder.text,
-            date: reminder.date.toISOString(),
-          });
-      })
-    );
-  }
+  async createReminder(reminder: Reminder) {
+    await LocalNotifications.requestPermission();
 
-  deleteReminder(swarmId: string, reminderId: string) {
-    return this.authService.getUser().pipe(
-      switchMap((user) => {
-        return this.db
-          .object(
-            `/users/${user.uid}/reminders/${swarmId}/reminders/${reminderId}`
-          )
-          .remove();
-      })
-    );
+    reminder.reminderId = Math.floor(Math.random() * 1000000000);
+
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: this.translate.instant("REMINDERS.title", {
+            swarmName: reminder.swarmName,
+          }),
+          body: reminder.text,
+          id: reminder.reminderId,
+          schedule: { at: new Date(reminder.date) },
+          sound: null,
+          attachments: null,
+          actionTypeId: "",
+          extra: {
+            swarmId: reminder.swarmId,
+          },
+        },
+      ],
+    });
   }
 }

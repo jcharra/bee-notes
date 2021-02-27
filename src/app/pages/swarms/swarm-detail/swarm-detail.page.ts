@@ -9,11 +9,10 @@ import { TranslateService } from "@ngx-translate/core";
 import { addDays, format, startOfDay } from "date-fns";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { EntryType } from "../../../types/EntryType";
-import { JournalEntry } from "../../../types/JournalEntry";
 import { JournalService } from "../../../services/journal.service";
-import { SwarmService } from "../../../services/swarm.service";
 import { Reminder, ReminderService } from "../../../services/reminder.service";
+import { SwarmService } from "../../../services/swarm.service";
+import { JournalEntry } from "../../../types/JournalEntry";
 import { Swarm } from "../../../types/Swarm";
 
 const JOURNAL_PLACEHOLDER = Array(3).fill({ text: "", date: new Date() });
@@ -114,15 +113,15 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
             } else {
               const date = startOfDay(addDays(new Date(), days));
               const reminder = {
+                swarmId: this.swarmId,
+                swarmName: this.swarm.name,
                 text,
                 date,
               };
 
-              this.reminderService
-                .createReminder(this.swarmId, reminder)
-                .subscribe(() => {
-                  this.onReminderSaved(date);
-                });
+              this.reminderService.createReminder(reminder).then(() => {
+                this.onReminderSaved(date);
+              });
             }
           },
         },
@@ -138,8 +137,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
   loadReminders() {
     this.reminderService
       .getReminders(this.swarmId)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((reminders: Reminder[]) => {
+      .then((reminders: Reminder[]) => {
         this.reminders = reminders;
       });
   }
@@ -154,14 +152,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  deleteReminder(reminderId: string) {
-    this.reminderService
-      .deleteReminder(this.swarmId, reminderId)
-      .subscribe(() => {
-        this.onReminderDismissed();
-      });
-  }
-
   async onReminderSaved(date: Date) {
     const toast = await this.toastController.create({
       message: this.translate.instant("JOURNAL_PAGE.onReminderSuccess", {
@@ -169,7 +159,9 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
       }),
       duration: 2000,
     });
-    toast.present();
+    toast.present().then(() => {
+      this.loadReminders();
+    });
   }
 
   async onReminderDismissed() {
