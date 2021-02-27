@@ -40,7 +40,6 @@
     "phonegap-plugin-push": "^2.3.0",
     "rxjs": "~6.5.1",
     "tslib": "^2.0.0",
-    "uuid": "^8.3.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
