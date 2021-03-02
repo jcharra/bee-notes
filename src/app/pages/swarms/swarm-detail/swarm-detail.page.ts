@@ -119,9 +119,10 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
                 date,
               };
 
-              this.reminderService.createReminder(reminder).then(() => {
-                this.onReminderSaved(date);
-              });
+              this.reminderService.createReminder(reminder).then(
+                () => this.onReminderSaved(date),
+                (err) => this.onReminderCreationFailed(err)
+              );
             }
           },
         },
@@ -159,9 +160,18 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
       }),
       duration: 2000,
     });
-    toast.present().then(() => {
-      this.loadReminders();
+    toast.present();
+    this.loadReminders();
+  }
+
+  async onReminderCreationFailed(err) {
+    const toast = await this.toastController.create({
+      message: this.translate.instant("JOURNAL_PAGE.onReminderFailure", {
+        error: err,
+      }),
+      duration: 4000,
     });
+    toast.present();
   }
 
   async onReminderDismissed() {
@@ -244,6 +254,29 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
               this.swarm.name = name;
               this.swarmService.updateSwarm(this.swarm).subscribe();
             }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async deleteReminder(reminderId: number) {
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant("REMINDERS.deleteConfirmHeader"),
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.cancel"),
+          role: "cancel",
+          cssClass: "secondary",
+        },
+        {
+          text: this.translate.instant("GENERAL.delete"),
+          handler: () => {
+            this.reminderService.deleteReminder(reminderId).then(() => {
+              this.loadReminders();
+            });
           },
         },
       ],

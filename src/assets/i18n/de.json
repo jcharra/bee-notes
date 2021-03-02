@@ -70,11 +70,12 @@
     "reminderNumDays": "Nach ... Tagen",
     "createReminderButtonCaption": "Anlegen",
     "invalidReminderInput": "Ungültige Eingabe",
-    "onReminderSuccess": "Sie werden am {{date}} erinnert.",
+    "onReminderSuccess": "Du wirst am {{date}} erinnert.",
     "onReminderDismissal": "Erinnerung verworfen",
     "deleteEntryHeading": "Eintrag löschen",
     "deleteEntryMsg": "Soll der Eintrag wirklich gelöscht werden?",
-    "deleteEntryConfirm": "Löschen"
+    "deleteEntryConfirm": "Löschen",
+    "onReminderFailure": "Erinnerung nicht erstellt. FEHLER: {{error}}"
   },
   "FINANCE_PAGE": {
     "pageTitle": "Finanzen"
@@ -156,7 +157,9 @@
     "kg": "kg"
   },
   "REMINDERS": {
-    "title": "Erinnerung für Volk \"{{ swarmName }}\""
+    "title": "Erinnerung für Volk \"{{ swarmName }}\"",
+    "listTitle": "Erinnerungen",
+    "deleteConfirmHeader": "Erinnerung löschen?"
   },
   "GENERAL": {
     "cancel": "Abbrechen",

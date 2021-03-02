@@ -12,6 +12,8 @@ export interface Reminder {
   text: string;
 }
 
+const REMINDERS_STORAGE_KEY = "REMINDERS_STORAGE_KEY";
+
 @Injectable({
   providedIn: "root",
 })
@@ -19,8 +21,18 @@ export class ReminderService {
   constructor(private translate: TranslateService, private storage: Storage) {}
 
   async getReminders(swarmId: string): Promise<Reminder[]> {
-    // maybe build a way to fetch reminders one day ...
-    return Promise.resolve([]);
+    return this.storage
+      .get(REMINDERS_STORAGE_KEY)
+      .then((reminders: Reminder[]) => {
+        if (!reminders) {
+          return [];
+        }
+
+        const now = new Date();
+        return reminders.filter(
+          (r) => new Date(r.date) > now && r.swarmId === swarmId
+        );
+      });
   }
 
   async createReminder(reminder: Reminder) {
@@ -46,5 +58,26 @@ export class ReminderService {
         },
       ],
     });
+
+    this.storage.get(REMINDERS_STORAGE_KEY).then((reminders: Reminder[]) => {
+      if (!reminders) {
+        reminders = [];
+      }
+      reminders.push(reminder);
+      this.storage.set(REMINDERS_STORAGE_KEY, reminders);
+    });
+  }
+
+  async deleteReminder(reminderId: number) {
+    await LocalNotifications.cancel({
+      notifications: [{ id: "" + reminderId }],
+    });
+
+    return this.storage
+      .get(REMINDERS_STORAGE_KEY)
+      .then((reminders: Reminder[]) => {
+        reminders = reminders.filter((r) => r.reminderId !== reminderId);
+        this.storage.set(REMINDERS_STORAGE_KEY, reminders);
+      });
   }
 }
