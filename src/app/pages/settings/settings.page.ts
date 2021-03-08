@@ -17,7 +17,7 @@ export class SettingsPage implements OnInit {
   languages: Language[] = [
     { name: "English", langCode: "en" },
     { name: "Deutsch", langCode: "de" },
-    { name: "Français", langCode: "fr" },
+    //{ name: "Français", langCode: "fr" },
   ];
 
   settingsForm: FormGroup;

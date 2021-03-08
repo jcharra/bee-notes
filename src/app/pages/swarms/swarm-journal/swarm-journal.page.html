@@ -15,7 +15,7 @@
     <ion-item>
       <ion-icon
         [color]="displayYear > minYear ? 'primary' : 'light'"
-        name="chevron-back-circle-outline"
+        name="play-back-outline"
         slot="start"
         (click)="changeYear(-1)"
       ></ion-icon>
@@ -24,7 +24,7 @@
       >
       <ion-icon
         [color]="displayYear < maxYear ? 'primary' : 'light'"
-        name="chevron-forward-circle-outline"
+        name="play-forward-outline"
         slot="end"
         (click)="changeYear(1)"
       ></ion-icon>

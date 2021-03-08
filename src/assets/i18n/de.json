@@ -108,7 +108,12 @@
     "deceasedDialogConfirm": "Ja"
   },
   "ABOUT_PAGE": {
-    "pageTitle": "Über BeeAware"
+    "pageTitle": "Über BeeAware",
+    "devInfo": "entwickelt mit ❤️🐝 von Johannes Charra",
+    "feedbackHeading": "Kontakt",
+    "feedbackInfo": " Bei Fragen zur App, Bug-Reports oder Änderungsvorschlägen freue ich mich über eine Nachricht an <a href='mailto:johannes.charra@gmail.com'>johannes.charra@gmail.com</a>.",
+    "legalHeading": "Bilder",
+    "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a>: <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li></ul>"
   },
   "ACTIONS": {
     "VARROA_CHECK_START": "Varroa Diagnose Start",

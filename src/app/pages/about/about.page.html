@@ -12,8 +12,32 @@
 
 <ion-content>
   <ion-card>
-    <ion-card-content
-      [innerHTML]="'ABOUT_PAGE.beeAwareAbout' | translate"
-    ></ion-card-content>
+    <ion-card-content>
+      <div class="ion-text-center ion-padding-vertical">
+        <h1>BeeAware</h1>
+      </div>
+      <div
+        class="ion-text-center ion-padding-vertical"
+        [innerHTML]="'ABOUT_PAGE.devInfo' | translate"
+      ></div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <div>
+        <strong>{{ "ABOUT_PAGE.feedbackHeading" |translate}}</strong>
+        <div
+          class="ion-padding-vertical"
+          [innerHTML]="'ABOUT_PAGE.feedbackInfo' | translate"
+        ></div>
+      </div>
+      <div>
+        <strong>{{ "ABOUT_PAGE.legalHeading" |translate}}</strong>
+        <div
+          class="ion-padding-vertical"
+          [innerHTML]="'ABOUT_PAGE.legalInfo' | translate"
+        ></div>
+      </div>
+    </ion-card-content>
   </ion-card>
 </ion-content>
