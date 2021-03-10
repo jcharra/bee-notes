@@ -1,6 +1,6 @@
 {
   "AUTH_PAGE": {
-    "welcome": "Welcome to Bee Aware",
+    "welcome": "Welcome toBee Flat",
     "signup": "Sign up",
     "login": "Login",
     "email": "e-mail",
@@ -22,7 +22,7 @@
     "resetLinkFailure": "Error",
     "resetLinkFailureText": "Email could not be sent: ",
     "backToLogin": "Back to login",
-    "beeAwareDescription": "<strong>Bee aware</strong> can help you keep track of your activities with your bee colonies all year round. It's a quick and easy way to remember how much you harvested, how much food you gave to which colony ... and also how many Varroa mites you counted, when you made treatments etc. It's free to use, and you will never be asked to enter any personal data whatsoever apart from a valid email address."
+    "beeFlatDescription": "<strong>Bee Flat</strong> can help you keep track of your activities with your bee colonies all year round. It's a quick and easy way to remember how much you harvested, how much food you gave to which colony ... and also how many Varroa mites you counted, when you made treatments etc. It's free to use, and you will never be asked to enter any personal data whatsoever apart from a valid email address."
   },
   "COLONIES_PAGE": {
     "pageTitle": "Your colonies",

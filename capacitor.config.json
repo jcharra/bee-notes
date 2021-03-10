@@ -1,6 +1,6 @@
 {
-  "appId": "de.charra.beeaware",
-  "appName": "Bee aware",
+  "appId": "de.charra.beeflat",
+  "appName": "Bee Flat",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
