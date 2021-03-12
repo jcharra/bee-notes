@@ -9,6 +9,6 @@ describe("new App", () => {
 
   it("should be blank", () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual("Welcome toBee Flat");
+    expect(page.getTitleText()).toEqual("Welcome toBee Notes");
   });
 });

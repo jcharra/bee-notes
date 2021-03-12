@@ -1,6 +1,6 @@
 {
   "AUTH_PAGE": {
-    "welcome": "Willkommen bei Bee Flat",
+    "welcome": "Willkommen bei Bee Notes",
     "signup": "Registrieren",
     "login": "Anmelden",
     "email": "E-Mail",
@@ -22,7 +22,7 @@
     "resetLinkFailure": "Fehler",
     "resetLinkFailureText": "Es konnte keine Mail verschickt werden: ",
     "backToLogin": "Zurück zur Anmeldung",
-    "beeFlatDescription": "<strong>Bee Flat</strong> kann Dir dabei helfen, all Deine Aktivitäten mit Deinen Bienenvölkern im Blick zu behalten - das ganze Jahr über. Es ist ein simples Hilfsprogramm, mit dem alle Handgriffe wie Ernten, Varroa-Checks, Behandlungen etc. schnell erfasst und bei Bedarf nachgesehen werden können. Es ist kostenlos, frei von Werbung und erfordert nicht mehr als eine gültige Mailadresse."
+    "beeNotesDescription": "<strong>Bee Notes</strong> kann Dir dabei helfen, all Deine Aktivitäten mit Deinen Bienenvölkern im Blick zu behalten - das ganze Jahr über. Es ist ein simples Hilfsprogramm, mit dem alle Handgriffe wie Ernten, Varroa-Checks, Behandlungen etc. schnell erfasst und bei Bedarf nachgesehen werden können. Es ist kostenlos, frei von Werbung und erfordert nicht mehr als eine gültige Mailadresse."
   },
   "COLONIES_PAGE": {
     "loading": "Lade Völker ...",
@@ -108,7 +108,7 @@
     "deceasedDialogConfirm": "Ja"
   },
   "ABOUT_PAGE": {
-    "pageTitle": "Über Bee Flat",
+    "pageTitle": "Über Bee Notes",
     "devInfo": "entwickelt mit ❤️🐝 von Johannes Charra",
     "feedbackHeading": "Kontakt",
     "feedbackInfo": " Bei Fragen zur App, Bug-Reports oder Änderungsvorschlägen freue ich mich über eine Nachricht an <a href='mailto:johannes.charra@gmail.com'>johannes.charra@gmail.com</a>.",
