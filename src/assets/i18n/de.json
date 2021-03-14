@@ -109,11 +109,11 @@
   },
   "ABOUT_PAGE": {
     "pageTitle": "Über Bee Notes",
-    "devInfo": "entwickelt mit ❤️🐝 von Johannes Charra",
+    "devInfo": "entwickelt mit ❤️🐝 <br>von Johannes Charra",
     "feedbackHeading": "Kontakt",
-    "feedbackInfo": " Bei Fragen zur App, Bug-Reports oder Änderungsvorschlägen freue ich mich über eine Nachricht an <a href='mailto:johannes.charra@gmail.com'>johannes.charra@gmail.com</a>.",
+    "feedbackInfo": " Bei Fragen zur App, Bug-Reports oder Änderungsvorschlägen freue ich mich über eine Nachricht an <a href='mailto:beenotesapp@gmail.com'>beenotesapp@gmail.com</a>.",
     "legalHeading": "Bilder",
-    "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a>: <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li></ul>"
+    "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a> <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li></ul>"
   },
   "ACTIONS": {
     "VARROA_CHECK_START": "Varroa Diagnose Start",
