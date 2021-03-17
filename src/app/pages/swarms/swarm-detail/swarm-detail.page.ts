@@ -6,7 +6,7 @@ import {
   ToastController,
 } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { addDays, format, startOfDay } from "date-fns";
+import { addDays, addHours, format, startOfDay } from "date-fns";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { JournalService } from "../../../services/journal.service";
@@ -111,7 +111,8 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
             if (!text || !days) {
               this.onMissingValues();
             } else {
-              const date = startOfDay(addDays(new Date(), days));
+              // Set reminder time to 9 o'clock in the morning
+              const date = addHours(startOfDay(addDays(new Date(), days)), 9);
               const reminder = {
                 swarmId: this.swarmId,
                 swarmName: this.swarm.name,

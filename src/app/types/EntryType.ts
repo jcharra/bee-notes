@@ -27,9 +27,10 @@ export enum EntryType {
   QUEEN_DECEASED = "QUEEN_DECEASED",
   QUEEN_EGGS_SPOTTED = "QUEEN_EGGS_SPOTTED",
 
-  // food actions
+  // other actions
   FOOD_ADDED = "FOOD_ADDED",
   WEIGHT_MEASURED = "WEIGHT_MEASURED",
+  GENERAL_NOTE = "GENERAL_NOTE",
 }
 
 export const actionsForType = {
@@ -56,5 +57,9 @@ export const actionsForType = {
     EntryType.FRAMES_HONEY_INSERTED,
     EntryType.FRAMES_HONEY_REMOVED,
   ],
-  other: [EntryType.FOOD_ADDED, EntryType.WEIGHT_MEASURED],
+  other: [
+    EntryType.FOOD_ADDED,
+    EntryType.WEIGHT_MEASURED,
+    EntryType.GENERAL_NOTE,
+  ],
 };

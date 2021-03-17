@@ -67,7 +67,7 @@
     "loading": "Lade Völker ...",
     "addReminder": "Erinnerung hinzufügen",
     "reminderTextPlaceholder": "Text einfügen",
-    "reminderNumDays": "Nach ... Tagen",
+    "reminderNumDays": "Wartezeit in Tagen",
     "createReminderButtonCaption": "Anlegen",
     "invalidReminderInput": "Ungültige Eingabe",
     "onReminderSuccess": "Du wirst am {{date}} erinnert.",
@@ -111,7 +111,7 @@
     "pageTitle": "Über Bee Notes",
     "devInfo": "entwickelt mit ❤️🐝 <br>von Johannes Charra",
     "feedbackHeading": "Kontakt",
-    "feedbackInfo": " Bei Fragen zur App, Bug-Reports oder Änderungsvorschlägen freue ich mich über eine Nachricht an <a href='mailto:beenotesapp@gmail.com'>beenotesapp@gmail.com</a>.",
+    "feedbackInfo": " Bei Fragen zur App, Bug-Reports oder Änderungsvorschlägen freue ich mich über eine Nachricht an",
     "legalHeading": "Bilder",
     "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a> <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li></ul>"
   },
@@ -137,7 +137,8 @@
     "QUEEN_DECEASED": "Königin verstorben",
     "QUEEN_EGGS_SPOTTED": "Eier gesichtet",
     "FOOD_ADDED": "Futter hinzugefügt",
-    "WEIGHT_MEASURED": "Gewicht gemessen"
+    "WEIGHT_MEASURED": "Gewicht gemessen",
+    "GENERAL_NOTE": "Allgemeine Notiz"
   },
   "FRAMES": {
     "pageTitle": "Waben",
@@ -173,6 +174,20 @@
     "save": "Speichern",
     "backButtonCaption": "Zurück",
     "pickDate": "Datum auswählen",
-    "date": "Datum"
+    "date": "Datum",
+    "monthShortNames": [
+      "Jan",
+      "Feb",
+      "März",
+      "Apr",
+      "Mai",
+      "Juni",
+      "Juli",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dez"
+    ]
   }
 }
