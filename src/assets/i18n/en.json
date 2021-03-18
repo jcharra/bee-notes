@@ -10,6 +10,7 @@
     "passwordReset": "Reset password",
     "passwordResetPrompt": "Do you want to reset the password for '{{ address }}'?",
     "loginSpinner": "Logging in ...",
+    "signupSpinner": "Signup in progress ...",
     "loginFailed": "Login failed",
     "credentialsFailed": "Username and password do not match.",
     "signupFailed": "Signup failed",
@@ -22,7 +23,9 @@
     "resetLinkFailure": "Error",
     "resetLinkFailureText": "Email could not be sent: ",
     "backToLogin": "Back to login",
-    "beeNotesDescription": "<strong>Bee Notes</strong> can help you keep track of your activities with your bee colonies all year round. It's a quick and easy way to remember how much you harvested, how much food you gave to which colony ... and also how many Varroa mites you counted, when you made treatments etc. It's free to use, and you will never be asked to enter any personal data whatsoever apart from a valid email address."
+    "beeNotesDescription": "<strong>Bee Notes</strong> can help you keep track of your activities with your bee colonies all year round. It's a quick and easy way to remember how much you harvested, how much food you gave to which colony ... and also how many Varroa mites you counted, when you made treatments etc. It's free to use, and you will never be asked to enter any personal data whatsoever apart from a valid email address.",
+    "deletionFailureHint": "Your last login is too old. Please log in again and retry deleting your account.",
+    "goodbyeMessage": "Sad to see you leave ... All the best and happy beekeeping!"
   },
   "COLONIES_PAGE": {
     "loading": "Loading hives ...",
@@ -88,7 +91,10 @@
   "SETTINGS_PAGE": {
     "pageTitle": "Settings",
     "language": "Language",
-    "save": "Save"
+    "save": "Save",
+    "deleteAccount": "Delete account",
+    "deleteAccountConfirmHeader": "Are you absolutely sure you want to permanently delete your Bee Notes account? This cannot be undone.",
+    "deleteAccountConfirm": "Yes, really delete it"
   },
   "START_MENU": {
     "menuTitle": "Start",

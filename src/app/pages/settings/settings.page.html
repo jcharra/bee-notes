@@ -33,4 +33,14 @@
       {{ "SETTINGS_PAGE.save" | translate }}
     </ion-button>
   </form>
+
+  <ion-button
+    color="danger"
+    class="ion-padding-horizontal deleteAccountButton"
+    size="default"
+    expand="block"
+    (click)="deleteAccount()"
+  >
+    {{ "SETTINGS_PAGE.deleteAccount" | translate }}
+  </ion-button>
 </ion-content>

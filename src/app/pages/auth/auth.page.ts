@@ -52,7 +52,9 @@ export class AuthPage implements OnInit {
     this.loadingCtrl
       .create({
         keyboardClose: true,
-        message: this.translate.instant("AUTH_PAGE.loginSpinner"),
+        message: this.translate.instant(
+          this.isSignup ? "AUTH_PAGE.signupSpinner" : "AUTH_PAGE.loginSpinner"
+        ),
       })
       .then((loadingEl) => {
         loadingEl.present();

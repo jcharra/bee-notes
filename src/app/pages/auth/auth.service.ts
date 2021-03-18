@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Router } from "@angular/router";
+import { ToastController } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
 import { Observable } from "rxjs";
 import { first, tap } from "rxjs/operators";
 export interface AuthResponseData {
@@ -12,16 +14,19 @@ export interface AuthResponseData {
   expiresIn: string;
   registered?: boolean;
 }
-
 export interface User {
   uid: string;
 }
-
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  constructor(private auth: AngularFireAuth, private router: Router) {}
+  constructor(
+    private auth: AngularFireAuth,
+    private router: Router,
+    private toastController: ToastController,
+    private translate: TranslateService
+  ) {}
 
   getUser(): Observable<User> {
     return this.auth.user.pipe(
@@ -62,5 +67,36 @@ export class AuthService {
 
   resetPassword(email: string) {
     return this.auth.sendPasswordResetEmail(email);
+  }
+
+  deleteUser() {
+    console.log("Delete user");
+    this.auth.user.pipe(first()).subscribe((user) => {
+      user
+        .delete()
+        .then(() => {
+          this.router.navigateByUrl("/auth");
+          this.goodbyeMessage();
+        })
+        .catch((err) => {
+          this.onDeletionFailure();
+        });
+    });
+  }
+
+  async goodbyeMessage() {
+    const toast = await this.toastController.create({
+      message: this.translate.instant("AUTH_PAGE.goodbyeMessage"),
+      duration: 6000,
+    });
+    toast.present();
+  }
+
+  async onDeletionFailure() {
+    const toast = await this.toastController.create({
+      message: this.translate.instant("AUTH_PAGE.deletionFailureHint"),
+      duration: 6000,
+    });
+    toast.present();
   }
 }

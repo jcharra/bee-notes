@@ -10,6 +10,7 @@
     "passwordReset": "Passwort zurücksetzen",
     "passwordResetPrompt": "Soll das Passwort für '{{ address }}' zurückgesetzt werden?",
     "loginSpinner": "Anmeldung läuft ...",
+    "signupSpinner": "Registrierung läuft ...",
     "loginFailed": "Anmeldung fehlgeschlagen",
     "credentialsFailed": "Benutzername und Passwort passen nicht zusammen.",
     "signupFailed": "Registrierung fehlgeschlagen.",
@@ -22,7 +23,9 @@
     "resetLinkFailure": "Fehler",
     "resetLinkFailureText": "Es konnte keine Mail verschickt werden: ",
     "backToLogin": "Zurück zur Anmeldung",
-    "beeNotesDescription": "<strong>Bee Notes</strong> kann Dir dabei helfen, all Deine Aktivitäten mit Deinen Bienenvölkern im Blick zu behalten - das ganze Jahr über. Es ist ein simples Hilfsprogramm, mit dem alle Handgriffe wie Ernten, Varroa-Checks, Behandlungen etc. schnell erfasst und bei Bedarf nachgesehen werden können. Es ist kostenlos, frei von Werbung und erfordert nicht mehr als eine gültige Mailadresse."
+    "beeNotesDescription": "<strong>Bee Notes</strong> kann Dir dabei helfen, all Deine Aktivitäten mit Deinen Bienenvölkern im Blick zu behalten - das ganze Jahr über. Es ist ein simples Hilfsprogramm, mit dem alle Handgriffe wie Ernten, Varroa-Checks, Behandlungen etc. schnell erfasst und bei Bedarf nachgesehen werden können. Es ist kostenlos, frei von Werbung und erfordert nicht mehr als eine gültige Mailadresse.",
+    "deletionFailureHint": "Deine letzte Anmeldung liegt zu lange zurück. Bitte melde Dich erneut an und versuche es noch einmal.",
+    "goodbyeMessage": "Tja, das war's dann wohl ... schade. Trotzdem weiterhin viel Erfolg und Spaß mit Deinen Bienen!"
   },
   "COLONIES_PAGE": {
     "loading": "Lade Völker ...",
@@ -88,7 +91,10 @@
   "SETTINGS_PAGE": {
     "pageTitle": "Einstellungen",
     "language": "Sprache",
-    "save": "Speichern"
+    "save": "Speichern",
+    "deleteAccount": "Konto löschen",
+    "deleteAccountConfirmHeader": "Willst Du wirklich Dein Bee Notes Konto vollständig löschen? Das lässt sich nicht mehr rückgängig machen.",
+    "deleteAccountConfirm": "Ja, wirklich löschen"
   },
   "START_MENU": {
     "menuTitle": "Start",
