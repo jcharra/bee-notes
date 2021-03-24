@@ -94,7 +94,8 @@
     "save": "Speichern",
     "deleteAccount": "Konto löschen",
     "deleteAccountConfirmHeader": "Willst Du wirklich Dein Bee Notes Konto vollständig löschen? Das lässt sich nicht mehr rückgängig machen.",
-    "deleteAccountConfirm": "Ja, wirklich löschen"
+    "deleteAccountConfirm": "Ja, wirklich löschen",
+    "buyFullVersion": "Vollversion kaufen"
   },
   "START_MENU": {
     "menuTitle": "Start",
@@ -119,7 +120,7 @@
     "feedbackHeading": "Kontakt",
     "feedbackInfo": " Bei Fragen zur App, Bug-Reports oder Änderungsvorschlägen freue ich mich über eine Nachricht an",
     "legalHeading": "Bilder",
-    "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a> <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li></ul>"
+    "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a> <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li><li>Support Kaffee: <strong>Jason Villanueva</strong></ul>"
   },
   "ACTIONS": {
     "VARROA_CHECK_START": "Varroa Diagnose Start",
@@ -172,6 +173,11 @@
     "title": "Erinnerung für Volk \"{{ swarmName }}\"",
     "listTitle": "Erinnerungen",
     "deleteConfirmHeader": "Erinnerung löschen?"
+  },
+  "PURCHASES": {
+    "devCoffeeThankYou": "Herzlichen Dank im Namen des Entwicklers. Solche kleinen Aufmerksamkeiten bringen die Entwicklung von Bee Notes voran!",
+    "purchaseFailure": "Fehler beim Kauf des Items {{id}}: {{err}}",
+    "purchaseSuccess": "Der Kauf von {{id}} wurde gesendet."
   },
   "GENERAL": {
     "cancel": "Abbrechen",

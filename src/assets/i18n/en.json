@@ -119,7 +119,7 @@
     "feedbackHeading": "Feedback",
     "feedbackInfo": " If you have any questions, suggestions for improvement or bug reports, I'll be glad to hear about it at",
     "legalHeading": "Images",
-    "legalInfo": "All images taken from <a href='https://pexels.com'>pexels.com</a> <ul><li>Background image: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li></ul>"
+    "legalInfo": "All images taken from <a href='https://pexels.com'>pexels.com</a> <ul><li>Background image: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li><li>Dev coffee: <strong>Jason Villanueva</strong></ul>"
   },
   "ACTIONS": {
     "VARROA_CHECK_START": "Varroa check start",

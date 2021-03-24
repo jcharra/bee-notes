@@ -8,6 +8,18 @@
 </ion-header>
 
 <ion-content>
+  <ion-button
+    *ngIf="purchasesAvailable"
+    class="ion-padding-horizontal offset-top"
+    color="success"
+    size="default"
+    expand="block"
+    (click)="buyFullVersion()"
+  >
+    <ion-icon name="diamond-outline"></ion-icon>&nbsp;
+    {{"SETTINGS_PAGE.buyFullVersion" | translate}}
+  </ion-button>
+
   <form [formGroup]="settingsForm">
     <ion-list [inset]="true">
       <ion-item>

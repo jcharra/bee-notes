@@ -8,6 +8,7 @@ import { AngularFireModule } from "@angular/fire";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
 import { ServiceWorkerModule } from "@angular/service-worker";
+import { InAppPurchase2 } from "@ionic-native/in-app-purchase-2/ngx";
 import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
@@ -49,6 +50,7 @@ registerLocaleData(localeFr);
   providers: [
     StatusBar,
     SplashScreen,
+    InAppPurchase2,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

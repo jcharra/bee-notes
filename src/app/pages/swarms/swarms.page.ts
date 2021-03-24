@@ -9,6 +9,7 @@ import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
 import { forkJoin } from "rxjs";
 import { first, switchMap, tap } from "rxjs/operators";
+import { PurchaseService } from "src/app/purchase.service";
 import { JournalService } from "src/app/services/journal.service";
 import { StatusService } from "src/app/services/status.service";
 import {
@@ -48,7 +49,8 @@ export class SwarmsPage {
     private alertController: AlertController,
     private statusService: StatusService,
     private swarmGroupService: SwarmGroupService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private purchases: PurchaseService
   ) {
     this.DEFAULT_GROUP_NAME = this.translate.instant(
       "COLONIES_PAGE.defaultGroupName"

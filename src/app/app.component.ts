@@ -3,9 +3,9 @@ import { Router } from "@angular/router";
 import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { MenuController, Platform } from "@ionic/angular";
+import { Storage } from "@ionic/storage";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "./pages/auth/auth.service";
-import { Storage } from "@ionic/storage";
 
 @Component({
   selector: "app-root",

@@ -4,6 +4,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { Storage } from "@ionic/storage";
 import { AuthService } from "../auth/auth.service";
 import { AlertController } from "@ionic/angular";
+import { FULL_VERSION, PurchaseService } from "src/app/purchase.service";
+import { IAPProduct } from "@ionic-native/in-app-purchase-2/ngx";
 
 interface Language {
   name: string;
@@ -22,6 +24,8 @@ export class SettingsPage implements OnInit {
     //{ name: "Français", langCode: "fr" },
   ];
 
+  purchasesAvailable: boolean;
+
   settingsForm: FormGroup;
 
   constructor(
@@ -29,7 +33,8 @@ export class SettingsPage implements OnInit {
     private formBuilder: FormBuilder,
     private storage: Storage,
     private authService: AuthService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private purchaseService: PurchaseService
   ) {}
 
   ngOnInit() {
@@ -47,12 +52,25 @@ export class SettingsPage implements OnInit {
     this.settingsForm = this.formBuilder.group({
       language: [activeLanguage],
     });
+
+    this.purchasesAvailable = this.purchaseService.purchasesAvailable;
   }
 
   submit() {
     const lang = this.settingsForm.controls.language.value.langCode;
     this.translate.use(lang);
     this.storage.set("language", lang);
+  }
+
+  async buyFullVersion() {
+    const prods = this.purchaseService.products.filter(
+      (p: IAPProduct) => p.id === FULL_VERSION
+    );
+    if (prods.length === 1) {
+      this.purchaseService.purchase(prods[0]);
+    } else {
+      console.error("Full version product not found");
+    }
   }
 
   async deleteAccount() {
