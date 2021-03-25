@@ -63,14 +63,7 @@ export class SettingsPage implements OnInit {
   }
 
   async buyFullVersion() {
-    const prods = this.purchaseService.products.filter(
-      (p: IAPProduct) => p.id === FULL_VERSION
-    );
-    if (prods.length === 1) {
-      this.purchaseService.purchase(prods[0]);
-    } else {
-      console.error("Full version product not found");
-    }
+    this.purchaseService.purchaseFullVersion();
   }
 
   async deleteAccount() {

@@ -16,7 +16,7 @@ const MAX_SWARMS_FREE_VERSION = 3;
 export class PurchaseService {
   hasFullVersion: boolean;
   purchasesAvailable: boolean;
-  products: IAPProduct[] = [];
+  private products: IAPProduct[] = [];
 
   constructor(
     private plt: Platform,
@@ -33,8 +33,11 @@ export class PurchaseService {
       this.registerProducts();
       this.setupListeners();
 
+      this.store.refresh();
+      
       this.store.ready(() => {
         this.products = this.store.products;
+        console.log("Found products", this.products);
         this.purchasesAvailable = this.products.length > 0;
       });
     });
@@ -50,8 +53,6 @@ export class PurchaseService {
       id: DEV_COFFEE,
       type: this.store.CONSUMABLE,
     });
-
-    this.store.refresh();
   }
 
   setupListeners() {
@@ -84,6 +85,18 @@ export class PurchaseService {
         this.onPurchaseFailure(product, e);
       }
     );
+  }
+
+  purchaseFullVersion() {
+    if (!this.products || this.products.length === 0) {
+      console.error("No products available");
+      return;
+    }
+
+    const fullVersion = this.products.filter(p => p.id === FULL_VERSION);
+    if (fullVersion && fullVersion.length === 1) {
+      this.purchase(fullVersion[0]);
+    }
   }
 
   async onPurchaseFailure(p: IAPProduct, err: any) {
