@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-button
-    *ngIf="purchasesAvailable"
+    *ngIf="purchasesAvailable && !hasFullVersion"
     class="ion-padding-horizontal offset-top"
     color="success"
     size="default"
@@ -19,6 +19,17 @@
     <ion-icon name="diamond-outline"></ion-icon>&nbsp;
     {{"SETTINGS_PAGE.buyFullVersion" | translate}}
   </ion-button>
+
+  <ion-label
+    *ngIf="purchasesAvailable && hasFullVersion"
+    class="ion-padding-horizontal offset-top"
+    color="success"
+    size="default"
+    expand="block"
+  >
+    <ion-icon name="diamond-outline"></ion-icon>&nbsp;
+    {{"SETTINGS_PAGE.owningFullVersion" | translate}}
+  </ion-label>
 
   <form [formGroup]="settingsForm">
     <ion-list [inset]="true">

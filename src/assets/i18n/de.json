@@ -95,7 +95,8 @@
     "deleteAccount": "Konto löschen",
     "deleteAccountConfirmHeader": "Willst Du wirklich Dein Bee Notes Konto vollständig löschen? Das lässt sich nicht mehr rückgängig machen.",
     "deleteAccountConfirm": "Ja, wirklich löschen",
-    "buyFullVersion": "Vollversion kaufen"
+    "buyFullVersion": "Vollversion kaufen",
+    "owningFullVersion": "Vollversion installiert"
   },
   "START_MENU": {
     "menuTitle": "Start",

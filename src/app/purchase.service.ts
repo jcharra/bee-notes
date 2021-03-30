@@ -76,13 +76,13 @@ export class PurchaseService {
     });
   }
 
-  purchase(product: IAPProduct) {
-    this.store.order(product).then(
+  purchase(prod_id: string) {
+    this.store.order(prod_id).then(
       (p) => {
         this.onPurchaseSuccess(p);
       },
       (e) => {
-        this.onPurchaseFailure(product, e);
+        this.onPurchaseFailure(prod_id, e);
       }
     );
   }
@@ -93,16 +93,13 @@ export class PurchaseService {
       return;
     }
 
-    const fullVersion = this.products.filter(p => p.id === FULL_VERSION);
-    if (fullVersion && fullVersion.length === 1) {
-      this.purchase(fullVersion[0]);
-    }
+    this.purchase(FULL_VERSION);
   }
 
-  async onPurchaseFailure(p: IAPProduct, err: any) {
+  async onPurchaseFailure(pid: string, err: any) {
     const toast = await this.toastCtrl.create({
       message: this.translate.instant("PURCHASES.purchaseFailure", {
-        id: p.id,
+        id: pid,
         err,
       }),
       duration: 4000,

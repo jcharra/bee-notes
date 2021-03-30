@@ -25,6 +25,7 @@ export class SettingsPage implements OnInit {
   ];
 
   purchasesAvailable: boolean;
+  hasFullVersion: boolean;
 
   settingsForm: FormGroup;
 
@@ -54,6 +55,7 @@ export class SettingsPage implements OnInit {
     });
 
     this.purchasesAvailable = this.purchaseService.purchasesAvailable;
+    this.hasFullVersion = this.purchaseService.hasFullVersion;
   }
 
   submit() {
