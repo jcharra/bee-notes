@@ -169,9 +169,12 @@
     "kg": "kg"
   },
   "REMINDERS": {
+    "pageTitle": "New reminder",
     "title": "Reminder for hive \"{{ swarmName }}\"",
     "listTitle": "Reminders",
-    "deleteConfirmHeader": "Delete reminder?"
+    "deleteConfirmHeader": "Delete reminder?",
+    "textHeader": "Reminder text",
+    "textPlaceholder": "Enter subject"
   },
   "GENERAL": {
     "cancel": "Cancel",

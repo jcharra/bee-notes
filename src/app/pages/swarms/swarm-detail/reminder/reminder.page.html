@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button
+        [text]="'GENERAL.backButtonCaption' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title
+      ><strong>{{ 'REMINDERS.pageTitle' | translate }}</strong></ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list [inset]="true">
+    <ion-datetime
+      [(ngModel)]="date"
+      class="ion-text-center"
+      placeholder="{{'GENERAL.pickDate' | translate}}"
+      max="{{ maxDate }}"
+      min="{{ minDate }}"
+      monthShortNames="Jan, Feb, Mar, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez"
+    >
+      ></ion-datetime
+    >
+    <ion-item>
+      <ion-label position="stacked"
+        >{{ 'REMINDERS.textHeader' | translate }}</ion-label
+      >
+      <ion-textarea
+        [(ngModel)]="text"
+        placeholder="{{'REMINDERS.textPlaceholder' | translate}}"
+      >
+      </ion-textarea>
+    </ion-item>
+  </ion-list>
+  <ion-button class="ion-padding-horizontal" [disabled]="!text || !text.trim()" type="submit" (click)="save()">
+    {{ 'GENERAL.save' | translate }}
+  </ion-button>
+</ion-content>

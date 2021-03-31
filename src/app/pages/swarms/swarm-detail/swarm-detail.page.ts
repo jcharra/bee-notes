@@ -3,10 +3,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import {
   AlertController,
   LoadingController,
-  ToastController,
+  ToastController
 } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { addDays, addHours, format, startOfDay } from "date-fns";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { JournalService } from "../../../services/journal.service";
@@ -77,65 +76,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     this.loadReminders();
   }
 
-  async addReminder() {
-    const alert = await this.alertCtrl.create({
-      header: this.translate.instant("JOURNAL_PAGE.addReminder"),
-      inputs: [
-        {
-          name: "text",
-          type: "text",
-          placeholder: this.translate.instant(
-            "JOURNAL_PAGE.reminderTextPlaceholder"
-          ),
-        },
-        {
-          name: "days",
-          type: "number",
-          placeholder: this.translate.instant("JOURNAL_PAGE.reminderNumDays"),
-        },
-      ],
-      buttons: [
-        {
-          text: this.translate.instant("GENERAL.cancel"),
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: this.translate.instant(
-            "JOURNAL_PAGE.createReminderButtonCaption"
-          ),
-          cssClass: "primary",
-          handler: (value) => {
-            const text = value.text.trim();
-            const days = parseInt(value.days.trim());
-            if (!text || !days) {
-              this.onMissingValues();
-            } else {
-              // Set reminder time to 9 o'clock in the morning
-              const date = addHours(startOfDay(addDays(new Date(), days)), 9);
-              const reminder = {
-                swarmId: this.swarmId,
-                swarmName: this.swarm.name,
-                text,
-                date,
-              };
-
-              this.reminderService.createReminder(reminder).then(
-                () => this.onReminderSaved(date),
-                (err) => this.onReminderCreationFailed(err)
-              );
-            }
-          },
-        },
-      ],
-    });
-
-    await alert.present().then(() => {
-      const el: any = document.querySelector("ion-alert input");
-      el.focus();
-    });
-  }
-
   loadReminders() {
     this.reminderService
       .getReminders(this.swarmId)
@@ -152,27 +92,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     });
 
     await alert.present();
-  }
-
-  async onReminderSaved(date: Date) {
-    const toast = await this.toastController.create({
-      message: this.translate.instant("JOURNAL_PAGE.onReminderSuccess", {
-        date: format(date, "yyyy-MM-dd"),
-      }),
-      duration: 2000,
-    });
-    toast.present();
-    this.loadReminders();
-  }
-
-  async onReminderCreationFailed(err) {
-    const toast = await this.toastController.create({
-      message: this.translate.instant("JOURNAL_PAGE.onReminderFailure", {
-        error: err,
-      }),
-      duration: 4000,
-    });
-    toast.present();
   }
 
   async onReminderDismissed() {

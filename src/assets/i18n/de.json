@@ -171,9 +171,12 @@
     "kg": "kg"
   },
   "REMINDERS": {
+    "pageTitle": "Erinnerung anlegen",
     "title": "Erinnerung für Volk \"{{ swarmName }}\"",
     "listTitle": "Erinnerungen",
-    "deleteConfirmHeader": "Erinnerung löschen?"
+    "deleteConfirmHeader": "Erinnerung löschen?",
+    "textHeader": "Erinnerungstext",
+    "textPlaceholder": "Betreff eingeben"
   },
   "PURCHASES": {
     "devCoffeeThankYou": "Herzlichen Dank im Namen des Entwicklers. Solche kleinen Aufmerksamkeiten bringen die Entwicklung von Bee Notes voran!",

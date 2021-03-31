@@ -27,6 +27,10 @@ const routes: Routes = [
     loadChildren: () =>
       import("./frames/frames.module").then((m) => m.FramesPageModule),
   },
+  {
+    path: "reminder",
+    loadChildren: () => import('./reminder/reminder.module').then( m => m.ReminderPageModule)
+  },
 ];
 
 @NgModule({
