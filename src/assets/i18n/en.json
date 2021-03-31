@@ -52,7 +52,9 @@
     "whereToFindExColoniesHint": "You can find your former hives in the menu 'Former hives' and also reactivate them.",
     "defaultGroupName": "Unnamed group",
     "weightDialogHeader": "Track weight",
-    "weightDialogMsg": "Select the hive's weight"
+    "weightDialogMsg": "Select the hive's weight",
+    "fullVersionRequiredDialogHeader": "Full version required",
+    "fullVersionRequiredDialogText": "The free version allows only up to three hives. Consider buying the full version in the 'settings' menu."
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",
@@ -179,6 +181,7 @@
   "GENERAL": {
     "cancel": "Cancel",
     "yes": "Yes",
+    "ok": "OK",
     "delete": "Delete",
     "save": "Save",
     "backButtonCaption": "Back",

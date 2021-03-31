@@ -3,7 +3,7 @@ import {
   AlertController,
   IonReorderGroup,
   LoadingController,
-  NavController,
+  NavController
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
@@ -13,8 +13,7 @@ import { PurchaseService } from "src/app/purchase.service";
 import { JournalService } from "src/app/services/journal.service";
 import { StatusService } from "src/app/services/status.service";
 import {
-  SwarmGroupService,
-  SwarmGroup,
+  SwarmGroup, SwarmGroupService
 } from "src/app/services/swarm-group.service";
 import { SwarmService } from "src/app/services/swarm.service";
 import { JournalEntry } from "src/app/types/JournalEntry";
@@ -46,7 +45,6 @@ export class SwarmsPage {
     private alertCtrl: AlertController,
     private loadingController: LoadingController,
     private navController: NavController,
-    private alertController: AlertController,
     private statusService: StatusService,
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService,
@@ -198,6 +196,11 @@ export class SwarmsPage {
   }
 
   async createSwarm() {
+    if (this.purchases.checkLimitReached(this.swarms.length)) {
+      this.requireFullVersion();
+      return
+    }
+
     const alert = await this.alertCtrl.create({
       header: this.translate.instant("COLONIES_PAGE.newColony"),
       inputs: [
@@ -266,7 +269,7 @@ export class SwarmsPage {
   }
 
   async onCreationFailure(msg: string) {
-    const alert = await this.alertController.create({
+    const alert = await this.alertCtrl.create({
       header: this.translate.instant("COLONIES_PAGE.createGroupFailed"),
       message: msg,
       buttons: ["OK"],
@@ -378,5 +381,19 @@ export class SwarmsPage {
     this.swarmGroupService.deleteGroup(gid).subscribe(() => {
       this.loadSwarms();
     });
+  }
+
+  async requireFullVersion() {
+    const hint = await this.alertCtrl.create({
+      header: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogHeader"),
+      message: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogText"),
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.ok")
+        }
+      ]
+    });
+
+    hint.present();
   }
 }

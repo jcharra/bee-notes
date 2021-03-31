@@ -52,7 +52,9 @@
     "whereToFindExColoniesHint": "Du kannst ehemalige Völker unter dem Menü 'Ehemalige Völker' finden und auch reaktivieren.",
     "defaultGroupName": "Unbenannte Gruppe",
     "weightDialogHeader": "Gewicht erfassen",
-    "weightDialogMsg": "Wie viel kg wiegt das Volk?"
+    "weightDialogMsg": "Wie viel kg wiegt das Volk?",
+    "fullVersionRequiredDialogHeader": "Vollversion erforderlich",
+    "fullVersionRequiredDialogText": "In der kostenlosen Version sind nur bis zu drei Völker möglich. Unter 'Einstellungen' kann die Vollversion erworben werden."
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",
@@ -186,6 +188,7 @@
   "GENERAL": {
     "cancel": "Abbrechen",
     "yes": "Ja",
+    "ok": "OK",
     "delete": "Löschen",
     "save": "Speichern",
     "backButtonCaption": "Zurück",
