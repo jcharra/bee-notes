@@ -12,6 +12,7 @@ export class AboutPage implements OnInit {
   constructor(private purchaseService: PurchaseService) { }
 
   ngOnInit() {
+    this.coffeeAvailable = true || this.purchaseService.purchasesAvailable;
   }
 
   donateCoffee() {
