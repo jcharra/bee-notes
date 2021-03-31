@@ -195,6 +195,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
           text: this.translate.instant("GENERAL.delete"),
           handler: () => {
             this.reminderService.deleteReminder(reminderId).then(() => {
+              this.onReminderDismissed();
               this.loadReminders();
             });
           },
