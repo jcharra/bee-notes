@@ -96,6 +96,15 @@ export class PurchaseService {
     this.purchase(FULL_VERSION);
   }
 
+  purchaseCoffee() {
+    if (!this.products || this.products.length === 0) {
+      console.error("No products available");
+      return;
+    }
+
+    this.purchase(DEV_COFFEE);
+  }
+
   async onPurchaseFailure(pid: string, err: any) {
     const toast = await this.toastCtrl.create({
       message: this.translate.instant("PURCHASES.purchaseFailure", {

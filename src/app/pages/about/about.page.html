@@ -25,7 +25,7 @@
   <ion-card>
     <ion-card-content>
       <div>
-        <strong>{{ "ABOUT_PAGE.feedbackHeading" |translate}}</strong>
+        <strong>{{ "ABOUT_PAGE.feedbackHeading" | translate}}</strong>
         <div
           class="contactSection"
           [innerHTML]="'ABOUT_PAGE.feedbackInfo' | translate"
@@ -34,8 +34,20 @@
           <a href="mailto:beenotesapp@gmail.com">beenotesapp@gmail.com</a>
         </div>
       </div>
+      <div class="ion-padding-vertical" *ngIf="coffeeAvailable">
+        <strong>{{ "ABOUT_PAGE.support" | translate}}</strong>
+        <div class="ion-padding-vertical">
+          {{ "ABOUT_PAGE.supportText" | translate}}
+        </div>
+        <div>
+          <ion-button color="secondary" size="small" (click)="donateCoffee()">
+            <ion-icon name="cafe-outline"></ion-icon>&nbsp;
+            {{"ABOUT_PAGE.supportCoffeeButton" | translate}}
+          </ion-button>
+        </div>
+      </div>
       <div class="ion-padding-vertical">
-        <strong>{{ "ABOUT_PAGE.legalHeading" |translate}}</strong>
+        <strong>{{ "ABOUT_PAGE.legalHeading" | translate}}</strong>
         <div
           class="ion-padding-vertical"
           [innerHTML]="'ABOUT_PAGE.legalInfo' | translate"

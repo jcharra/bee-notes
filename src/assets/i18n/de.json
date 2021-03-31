@@ -123,7 +123,10 @@
     "feedbackHeading": "Kontakt",
     "feedbackInfo": " Bei Fragen zur App, Bug-Reports oder Änderungsvorschlägen freue ich mich über eine Nachricht an",
     "legalHeading": "Bilder",
-    "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a> <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li><li>Support Kaffee: <strong>Jason Villanueva</strong></ul>"
+    "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a> <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li><li>Support Kaffee: <strong>Jason Villanueva</strong></ul>",
+    "support": "Unterstützen",
+    "supportText": "Wenn Du die Entwicklung von Bee Notes unterstützen möchtest, kannst Du dem Entwickler einen virtuellen Kaffee spendieren.",
+    "supportCoffeeButton": "Kaffee spendieren (0,99€)"
   },
   "ACTIONS": {
     "VARROA_CHECK_START": "Varroa Diagnose Start",

@@ -96,7 +96,9 @@
     "save": "Save",
     "deleteAccount": "Delete account",
     "deleteAccountConfirmHeader": "Are you absolutely sure you want to permanently delete your Bee Notes account? This cannot be undone.",
-    "deleteAccountConfirm": "Yes, really delete it"
+    "deleteAccountConfirm": "Yes, really delete it",
+    "buyFullVersion": "Buy full version",
+    "owningFullVersion": "Full version installed"
   },
   "START_MENU": {
     "menuTitle": "Start",
@@ -121,7 +123,10 @@
     "feedbackHeading": "Feedback",
     "feedbackInfo": " If you have any questions, suggestions for improvement or bug reports, I'll be glad to hear about it at",
     "legalHeading": "Images",
-    "legalInfo": "All images taken from <a href='https://pexels.com'>pexels.com</a> <ul><li>Background image: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li><li>Dev coffee: <strong>Jason Villanueva</strong></ul>"
+    "legalInfo": "All images taken from <a href='https://pexels.com'>pexels.com</a> <ul><li>Background image: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li><li>Dev coffee: <strong>Jason Villanueva</strong></ul>",
+    "support": "Support",
+    "supportText": "If you'd like to support the development of Bee Notes, you can buy the developer a virtual coffee.",
+    "supportCoffeeButton": "Buy coffee (0,99€)"
   },
   "ACTIONS": {
     "VARROA_CHECK_START": "Varroa check start",
@@ -177,6 +182,11 @@
     "deleteConfirmHeader": "Delete reminder?",
     "textHeader": "Reminder text",
     "textPlaceholder": "Enter subject"
+  },
+  "PURCHASES": {
+    "devCoffeeThankYou": "Thank you very much! Treats like these keep me going ...",
+    "purchaseFailure": "Error when purchasing {{id}}: {{err}}",
+    "purchaseSuccess": "Your purchase of {{id}} was successful."
   },
   "GENERAL": {
     "cancel": "Cancel",
