@@ -20,16 +20,16 @@
     {{"SETTINGS_PAGE.buyFullVersion" | translate}}
   </ion-button>
 
-  <ion-label
+  <ion-button
     *ngIf="purchasesAvailable && hasFullVersion"
     class="ion-padding-horizontal offset-top"
     color="success"
     size="default"
     expand="block"
   >
-    <ion-icon name="diamond-outline"></ion-icon>&nbsp;
+  <ion-icon name="bag-check-outline"></ion-icon>&nbsp;
     {{"SETTINGS_PAGE.owningFullVersion" | translate}}
-  </ion-label>
+  </ion-button>
 
   <form [formGroup]="settingsForm">
     <ion-list [inset]="true">
