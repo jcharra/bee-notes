@@ -14,11 +14,6 @@
 </ion-header>
 <ion-content>
   <ion-list [inset]="true">
-    <ion-item>
-      <ion-label class="ion-text-center"
-        >{{'GENERAL.date' | translate}}</ion-label
-      >
-    </ion-item>
     <ion-datetime
       [(ngModel)]="date"
       class="ion-text-center"
@@ -28,14 +23,11 @@
       monthShortNames="Jan, Feb, Mar, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez"
     >
       ></ion-datetime
-    >
+    >    
   </ion-list>
 
-  <ion-list [inset]="true" *ngFor="let item of amounts | keyvalue">
-    <ion-item>
-      <ion-label class="ion-text-center">{{item.key | translate}}</ion-label>
-    </ion-item>
-    <ion-item>
+  <ion-list [inset]="true">
+    <ion-item  *ngFor="let item of amounts | keyvalue">
       <ion-icon
         color="primary"
         name="remove-circle-outline"
@@ -43,7 +35,8 @@
         (click)="changeAmount(item.key, -1)"
       ></ion-icon>
       <ion-label class="ion-text-center">
-        <span *ngIf="item.value === 0">
+        {{item.key | translate}}<br>
+        <span *ngIf="item.value === 0" class="text-muted">
           {{ 'FRAMES.noChange' | translate }}
         </span>
         <strong *ngIf="item.value > 0"
