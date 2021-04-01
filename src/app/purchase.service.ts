@@ -78,9 +78,7 @@ export class PurchaseService {
 
   purchase(prod_id: string) {
     this.store.order(prod_id).then(
-      (p) => {
-        this.onPurchaseSuccess(p);
-      },
+      () => { },
       (e) => {
         this.onPurchaseFailure(prod_id, e);
       }
@@ -137,6 +135,6 @@ export class PurchaseService {
   }
 
   async checkLimitReached(numSwarms: number) {
-    return this.hasFullVersion || numSwarms <= MAX_SWARMS_FREE_VERSION;
+    return !this.hasFullVersion && numSwarms >= MAX_SWARMS_FREE_VERSION;
   }
 }
