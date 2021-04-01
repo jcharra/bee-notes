@@ -188,6 +188,13 @@
     "purchaseFailure": "Fehler beim Kauf des Items {{id}}: {{err}}",
     "purchaseSuccess": "Der Kauf von {{id}} wurde gesendet."
   },
+  "ACCOUNT_DELETION": {
+    "pageTitle": "Konto löschen",
+    "introText": "Wenn Du Dein Konto dauerhaft löschen möchtest, musst Du hier Dein Passwort erneut eingeben. <br><br><strong>Bitte bedenke, dass der Vorgang nicht rückgängig gemacht werden kann!</strong>",
+    "passwordPlaceholder": "Passwort eingeben",
+    "feedbackText": "Es wäre toll, wenn Du mir <a href='mailto:beenotesapp@gmail.com'>Rückmeldung</a> geben könntest, warum Du Bee Notes nicht weiter verwenden möchtest.",
+    "deleteButton": "Konto dauerhaft löschen"
+  },
   "GENERAL": {
     "cancel": "Abbrechen",
     "yes": "Ja",

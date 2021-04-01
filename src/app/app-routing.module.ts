@@ -68,6 +68,10 @@ const routes: Routes = [
     path: "about",
     loadChildren: () =>
       import("./pages/about/about.module").then((m) => m.AboutPageModule),
+  },
+  {
+    path: 'accountdeletion',
+    loadChildren: () => import('./accountdeletion/accountdeletion.module').then( m => m.AccountdeletionPageModule)
   }
 ];
 
