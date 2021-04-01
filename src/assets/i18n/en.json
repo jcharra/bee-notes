@@ -188,6 +188,13 @@
     "purchaseFailure": "Error when purchasing {{id}}: {{err}}",
     "purchaseSuccess": "Your purchase of {{id}} was successful."
   },
+  "ACCOUNT_DELETION": {
+    "pageTitle": "Delete account",
+    "introText": "If you want to permanently delete your account, please enter your password one last time. <br><br><strong>Please be aware that this cannot be undone!</strong>",
+    "passwordPlaceholder": "Enter password",
+    "feedbackText": "It would be great if you gave me <a href='mailto:beenotesapp@gmail.com'>feedback</a> with your reasons why you quit using Bee Notes.",
+    "deleteButton": "Delete account permanently"
+  },
   "GENERAL": {
     "cancel": "Cancel",
     "yes": "Yes",
