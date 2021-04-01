@@ -1,3 +1,4 @@
+import { AuthService } from './../pages/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,8 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class AccountdeletionPage implements OnInit {
   password: string;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+  }
+
+  deleteAccount() {
+    this.authService.deleteUser(this.password);
   }
 }

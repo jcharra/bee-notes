@@ -134,7 +134,7 @@ export class PurchaseService {
     toast.present();
   }
 
-  async checkLimitReached(numSwarms: number) {
+  checkLimitReached(numSwarms: number) {
     return !this.hasFullVersion && numSwarms >= MAX_SWARMS_FREE_VERSION;
   }
 }

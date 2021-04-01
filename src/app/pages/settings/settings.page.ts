@@ -67,27 +67,4 @@ export class SettingsPage implements OnInit {
   async buyFullVersion() {
     this.purchaseService.purchaseFullVersion();
   }
-
-  async deleteAccount() {
-    const alert = await this.alertCtrl.create({
-      header: this.translate.instant(
-        "SETTINGS_PAGE.deleteAccountConfirmHeader"
-      ),
-      buttons: [
-        {
-          text: this.translate.instant("GENERAL.cancel"),
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: this.translate.instant("SETTINGS_PAGE.deleteAccountConfirm"),
-          handler: () => {
-            this.authService.deleteUser();
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
 }

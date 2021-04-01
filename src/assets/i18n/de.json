@@ -24,7 +24,7 @@
     "resetLinkFailureText": "Es konnte keine Mail verschickt werden: ",
     "backToLogin": "Zurück zur Anmeldung",
     "beeNotesDescription": "<strong>Bee Notes</strong> kann Dir dabei helfen, all Deine Aktivitäten mit Deinen Bienenvölkern im Blick zu behalten - das ganze Jahr über. Es ist ein simples Hilfsprogramm, mit dem alle Handgriffe wie Ernten, Varroa-Checks, Behandlungen etc. schnell erfasst und bei Bedarf nachgesehen werden können. Es ist kostenlos, frei von Werbung und erfordert nicht mehr als eine gültige Mailadresse.",
-    "deletionFailureHint": "Deine letzte Anmeldung liegt zu lange zurück. Bitte melde Dich erneut an und versuche es noch einmal.",
+    "deletionFailureHint": "Das Passwort war nicht korrekt, bitte versuche es noch einmal.",
     "goodbyeMessage": "Tja, das war's dann wohl ... schade. Trotzdem weiterhin viel Erfolg und Spaß mit Deinen Bienen!"
   },
   "COLONIES_PAGE": {

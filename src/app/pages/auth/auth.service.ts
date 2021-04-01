@@ -3,6 +3,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
+import * as firebase from "firebase";
 import { Observable } from "rxjs";
 import { first, tap } from "rxjs/operators";
 export interface AuthResponseData {
@@ -69,18 +70,22 @@ export class AuthService {
     return this.auth.sendPasswordResetEmail(email);
   }
 
-  deleteUser() {
-    console.log("Delete user");
-    this.auth.user.pipe(first()).subscribe((user) => {
-      user
-        .delete()
+  deleteUser(password) {
+    console.log("Delete");
+    return this.auth.user.pipe(first())
+      .subscribe((user) => {
+      return user
+        .reauthenticateWithCredential(
+          firebase.default.auth.EmailAuthProvider.credential(user.email, password))
         .then(() => {
-          this.router.navigateByUrl("/auth");
-          this.goodbyeMessage();
+          console.log("Auth ok");
+          user.delete()
+            .then(() => {
+              this.router.navigateByUrl("/auth");
+              this.goodbyeMessage();
+            });
         })
-        .catch((err) => {
-          this.onDeletionFailure();
-        });
+        .catch(() => this.onDeletionFailure());
     });
   }
 
@@ -93,6 +98,7 @@ export class AuthService {
   }
 
   async onDeletionFailure() {
+    console.log("Auth not ok");
     const toast = await this.toastController.create({
       message: this.translate.instant("AUTH_PAGE.deletionFailureHint"),
       duration: 6000,
