@@ -1,8 +1,9 @@
+import { PurchaseService } from 'src/app/purchase.service';
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { first } from "rxjs/operators";
+import { first, tap } from "rxjs/operators";
 import { Swarm } from "src/app/types/Swarm";
 import { SwarmService } from "../../services/swarm.service";
 
@@ -17,7 +18,8 @@ export class ExcoloniesPage {
     private swarmService: SwarmService,
     private router: Router,
     private alertCtrl: AlertController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private purchaseService: PurchaseService
   ) {}
 
   ionViewDidEnter() {
@@ -29,23 +31,43 @@ export class ExcoloniesPage {
       });
   }
 
-  async reactivate(s: Swarm) {
-    const alert = await this.alertCtrl.create({
-      header: this.translate.instant("FORMER_COLONIES_PAGE.reactivationHint"),
-      buttons: [
-        {
-          text: this.translate.instant("GENERAL.cancel"),
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: this.translate.instant("GENERAL.yes"),
-          handler: () => this._onReactivate(s),
-        },
-      ],
-    });
-
-    await alert.present();
+  reactivate(s: Swarm) {
+    this.swarmService
+      .getSwarms()
+      .pipe(first())
+      .subscribe(async (swarms: Swarm[]) => {
+        if (this.purchaseService.checkLimitReached(swarms ? swarms.length : 0)) {
+          const alert = await this.alertCtrl.create({
+            header: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogHeader"),
+            message: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogText"),
+            buttons: [
+              {
+                text: this.translate.instant("GENERAL.ok"),
+                cssClass: "secondary",
+              }
+            ],
+          });
+      
+          await alert.present();
+        } else {
+          const alert = await this.alertCtrl.create({
+            header: this.translate.instant("FORMER_COLONIES_PAGE.reactivationHint"),
+            buttons: [
+              {
+                text: this.translate.instant("GENERAL.cancel"),
+                role: "cancel",
+                cssClass: "secondary",
+              },
+              {
+                text: this.translate.instant("GENERAL.yes"),
+                handler: () => this._onReactivate(s),
+              },
+            ],
+          });
+      
+          await alert.present();
+        }
+      });    
   }
 
   private _onReactivate(s: Swarm) {

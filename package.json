@@ -10,7 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "ionic build --prod && firebase deploy"
+    "deploy": "ionic build --prod && firebase deploy",
+    "i18n": "pushd src/assets/i18n && python3 check.py && popd"
   },
   "private": true,
   "dependencies": {
