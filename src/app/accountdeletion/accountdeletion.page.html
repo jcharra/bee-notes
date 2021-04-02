@@ -18,7 +18,7 @@
       [(ngModel)]="password" 
       placeholder="{{ 'ACCOUNT_DELETION.passwordPlaceholder' | translate }}">
       </ion-input>
-      
+      <br>
       <ion-button size="small" color="danger" [disabled]="!password" (click)="deleteAccount()">
         {{'ACCOUNT_DELETION.deleteButton' | translate }}
       </ion-button>
