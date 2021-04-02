@@ -12,16 +12,30 @@
 </ion-header>
 <ion-content>
   <ion-list [inset]="true">
-    <ion-datetime
-      [(ngModel)]="date"
-      class="ion-text-center"
-      placeholder="{{'GENERAL.pickDate' | translate}}"
-      max="{{ maxDate }}"
-      min="{{ minDate }}"
-      monthShortNames="Jan, Feb, Mar, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez"
-    >
-      ></ion-datetime
-    >
+    <ion-item>
+      <ion-icon
+        [color]="date > minDate ? 'primary' : 'light'"
+        name="play-back-outline"
+        slot="start"        
+        (click)="changeDate(-1)"
+      ></ion-icon>
+      <ion-label class="ion-text-center">
+        <ion-datetime
+        [(ngModel)]="date"
+        class="ion-text-center"
+        placeholder="{{'GENERAL.pickDate' | translate}}"
+        max="{{ maxDate }}"
+        min="{{ minDate }}"
+        monthShortNames="Jan, Feb, Mar, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez">
+        </ion-datetime>
+      </ion-label>
+      <ion-icon
+        color="primary"
+        name="play-forward-outline"
+        slot="end"
+        (click)="changeDate(1)"
+      ></ion-icon>
+    </ion-item>
     <ion-item>
       <ion-label position="stacked"
         >{{ 'REMINDERS.textHeader' | translate }}</ion-label
@@ -33,7 +47,12 @@
       </ion-textarea>
     </ion-item>
   </ion-list>
-  <ion-button class="ion-padding-horizontal" [disabled]="!text || !text.trim()" type="submit" (click)="save()">
+  <ion-button
+    class="ion-padding-horizontal"
+    [disabled]="!text || !text.trim()"
+    type="submit"
+    (click)="save()"
+  >
     {{ 'GENERAL.save' | translate }}
   </ion-button>
 </ion-content>

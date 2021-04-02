@@ -43,6 +43,13 @@ export class ReminderPage implements OnInit {
       });
   }
 
+  changeDate(diff) {
+    const newDate = addDays(new Date(this.date), diff);
+    if (newDate >= new Date(this.minDate)) {
+      this.date = format(newDate, DAY_OF_YEAR);
+    }
+  }
+
   save() {
     const date = addHours(startOfDay(new Date(this.date)), 9);
     const reminder = {
