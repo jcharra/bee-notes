@@ -9,7 +9,6 @@ import { JournalService } from "src/app/services/journal.service";
 import { EntryType } from "src/app/types/EntryType";
 
 enum AmountKey {
-  HONEY = "FRAMES.honeyCombs",
   DRONE = "FRAMES.droneCombs",
   FOOD = "FRAMES.foodCombs",
   EMPTY_COMBS = "FRAMES.emptyCombs",
@@ -30,6 +29,7 @@ export class FramesPage implements OnInit {
   date = format(new Date(), DAY_OF_YEAR, { locale: de });
   minDate = format(startOfYear(addYears(new Date(), -1)), DAY_OF_YEAR);
   maxDate = format(new Date(), DAY_OF_YEAR);
+  harvestAmount = 0;
 
   constructor(
     private journalService: JournalService,
@@ -50,6 +50,12 @@ export class FramesPage implements OnInit {
     this.amounts.set(key, this.amounts.get(key) + num);
   }
 
+  changeHarvest(num: number) {
+    if (this.harvestAmount + num >= 0) {
+      this.harvestAmount += num;
+    }
+  }
+
   save() {
     const observables = [];
 
@@ -63,21 +69,6 @@ export class FramesPage implements OnInit {
         date: new Date(this.date),
         type,
         amount: broodChange > 0 ? broodChange : -broodChange,
-      });
-
-      observables.push(req);
-    }
-
-    const honeyChange = this.amounts.get(AmountKey.HONEY);
-    if (honeyChange) {
-      const type =
-        honeyChange > 0
-          ? EntryType.FRAMES_HONEY_INSERTED
-          : EntryType.FRAMES_HONEY_REMOVED;
-      const req = this.journalService.createEntry(this.colonyId, {
-        date: new Date(this.date),
-        type,
-        amount: honeyChange > 0 ? honeyChange : -honeyChange,
       });
 
       observables.push(req);
@@ -138,6 +129,17 @@ export class FramesPage implements OnInit {
         date: new Date(this.date),
         type,
         amount: droneChange > 0 ? droneChange : -droneChange,
+      });
+
+      observables.push(req);
+    }
+
+    if (this.harvestAmount) {
+      const type = EntryType.FRAMES_HONEY_HARVESTED;
+      const req = this.journalService.createEntry(this.colonyId, {
+        date: new Date(this.date),
+        type,
+        amount: this.harvestAmount,
       });
 
       observables.push(req);

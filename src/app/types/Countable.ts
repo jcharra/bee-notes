@@ -70,23 +70,13 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
     },
   ],
   [
-    EntryType.FRAMES_HONEY_INSERTED,
+    EntryType.FRAMES_HONEY_HARVESTED,
     {
       lowerBound: 1,
       upperBound: 20,
       stepWidth: 1,
-      unit: "combs",
-      unitSingular: "comb",
-    },
-  ],
-  [
-    EntryType.FRAMES_HONEY_REMOVED,
-    {
-      lowerBound: 1,
-      upperBound: 20,
-      stepWidth: 1,
-      unit: "combs",
-      unitSingular: "comb",
+      unit: "kg",
+      unitSingular: "kg",
     },
   ],
   [

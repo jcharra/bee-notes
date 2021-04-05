@@ -132,8 +132,7 @@
     "VARROA_CHECK_START": "Varroa check start",
     "VARROA_CHECK_END": "Varroa check finished",
     "VARROA_TREATMENT": "Varroa treatment",
-    "FRAMES_HONEY_REMOVED": "Remove honey combs",
-    "FRAMES_HONEY_INSERTED": "Added honey combs",
+    "FRAMES_HONEY_HARVESTED": "Honey Harvest",
     "FRAMES_DRONE_REMOVED": "Removed drone combs",
     "FRAMES_DRONE_INSERTED": "Added drone combs",
     "FRAMES_EMPTY_PANEL_REMOVED": "Removed empty panels",
@@ -164,7 +163,9 @@
     "emptyCombs": "Empty combs",
     "broodCombs": "Brood combs",
     "emptyPanels": "Empty panels",
-    "onCreationSuccess": "Journal entries created."
+    "onCreationSuccess": "Journal entries created.",
+    "harvest": "Honey harvest",
+    "noHarvest": "No harvest"
   },
   "UNIT": {
     "frames": "frames",

@@ -132,8 +132,7 @@
     "VARROA_CHECK_START": "Varroa Diagnose Start",
     "VARROA_CHECK_END": "Varroa Diagnose Ende",
     "VARROA_TREATMENT": "Varroa Behandlung",
-    "FRAMES_HONEY_REMOVED": "Honigwaben entnommen",
-    "FRAMES_HONEY_INSERTED": "Honigwaben hinzugefügt",
+    "FRAMES_HONEY_HARVESTED": "Honigernte",
     "FRAMES_DRONE_REMOVED": "Drohnenrahmen entnommen",
     "FRAMES_DRONE_INSERTED": "Drohnenrahmen hinzugefügt",
     "FRAMES_EMPTY_PANEL_REMOVED": "Mittelwände entnommen",
@@ -164,7 +163,9 @@
     "emptyCombs": "Leerwaben",
     "broodCombs": "Brutwaben",
     "emptyPanels": "Mittelwände",
-    "onCreationSuccess": "Tagebucheinträge wurden erstellt."
+    "onCreationSuccess": "Tagebucheinträge wurden erstellt.",
+    "harvest": "Honigernte",
+    "noHarvest": "keine Ernte"
   },
   "UNIT": {
     "frames": "Rähmchen",
