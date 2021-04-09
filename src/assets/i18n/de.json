@@ -144,6 +144,8 @@
     "FRAMES_FOOD_REMOVED": "Futterwaben entnommen",
     "FRAMES_FOOD_INSERTED": "Futterwaben hinzugefügt",
     "FRAMES_BROOD_COUNTED": "Brutwaben gezählt",
+    "FRAMES_STOREYS_ADDED": "Zargen aufgesetzt",
+    "FRAMES_STOREYS_REMOVED": "Zargen abgenommen",
     "QUEEN_SPOTTED": "Königin gesichtet",
     "QUEEN_ADDED": "Königin hinzugefügt",
     "QUEEN_DECEASED": "Königin verstorben",
@@ -165,7 +167,10 @@
     "emptyPanels": "Mittelwände",
     "onCreationSuccess": "Tagebucheinträge wurden erstellt.",
     "harvest": "Honigernte",
-    "noHarvest": "keine Ernte"
+    "noHarvest": "keine Ernte",
+    "storeys": "Zargen",
+    "storeyAdded": "aufgesetzt",
+    "storeyRemoved": "abgenommen"
   },
   "UNIT": {
     "frames": "Rähmchen",
@@ -174,7 +179,9 @@
     "combs": "Waben",
     "panel": "MW",
     "panels": "MW",
-    "kg": "kg"
+    "kg": "kg",
+    "storey": "Zarge",
+    "storeys": "Zargen"
   },
   "REMINDERS": {
     "pageTitle": "Erinnerung anlegen",

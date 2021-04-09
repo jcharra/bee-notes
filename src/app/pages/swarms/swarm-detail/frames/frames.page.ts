@@ -30,6 +30,7 @@ export class FramesPage implements OnInit {
   minDate = format(startOfYear(addYears(new Date(), -1)), DAY_OF_YEAR);
   maxDate = format(new Date(), DAY_OF_YEAR);
   harvestAmount = 0;
+  storeyAmount = 0;
 
   constructor(
     private journalService: JournalService,
@@ -53,6 +54,12 @@ export class FramesPage implements OnInit {
   changeHarvest(num: number) {
     if (this.harvestAmount + num >= 0) {
       this.harvestAmount += num;
+    }
+  }
+
+  changeStoreys(num: number) {
+    if (this.storeyAmount + num >= -3 && this.storeyAmount + num <= 3) {
+      this.storeyAmount += num;
     }
   }
 
@@ -140,6 +147,20 @@ export class FramesPage implements OnInit {
         date: new Date(this.date),
         type,
         amount: this.harvestAmount,
+      });
+
+      observables.push(req);
+    }
+
+    if (this.storeyAmount) {
+      const type =
+        this.storeyAmount > 0
+          ? EntryType.FRAMES_STOREYS_ADDED
+          : EntryType.FRAMES_STOREYS_REMOVED;
+      const req = this.journalService.createEntry(this.colonyId, {
+        date: new Date(this.date),
+        type,
+        amount: this.storeyAmount > 0 ? this.storeyAmount : -this.storeyAmount,
       });
 
       observables.push(req);

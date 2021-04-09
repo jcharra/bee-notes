@@ -159,4 +159,24 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
       unitSingular: "comb",
     },
   ],
+  [
+    EntryType.FRAMES_STOREYS_ADDED,
+    {
+      lowerBound: 1,
+      upperBound: 3,
+      stepWidth: 1,
+      unit: "storeys",
+      unitSingular: "storey",
+    },
+  ],
+  [
+    EntryType.FRAMES_STOREYS_REMOVED,
+    {
+      lowerBound: 1,
+      upperBound: 3,
+      stepWidth: 1,
+      unit: "storeys",
+      unitSingular: "storey",
+    },
+  ],
 ]);

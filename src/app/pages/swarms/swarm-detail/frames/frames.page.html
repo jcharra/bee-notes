@@ -61,6 +61,35 @@
         color="primary"
         name="remove-circle-outline"
         slot="start"
+        (click)="changeStoreys(-1)"
+      ></ion-icon>
+      <ion-label class="ion-text-center">
+        {{"FRAMES.storeys" | translate}}<br />
+        <span *ngIf="storeyAmount === 0" class="text-muted">
+          {{ 'FRAMES.noChange' | translate }}
+        </span>
+        <strong *ngIf="storeyAmount > 0"
+          >{{ storeyAmount }} {{ 'FRAMES.storeyAdded' | translate}}</strong
+        >
+        <strong *ngIf="storeyAmount < 0"
+          >{{ -storeyAmount }} {{ 'FRAMES.storeyRemoved' | translate}}</strong
+        >
+      </ion-label>
+      <ion-icon
+        color="primary"
+        name="add-circle-outline"
+        slot="end"
+        (click)="changeStoreys(1)"
+      ></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-icon
+        color="primary"
+        name="remove-circle-outline"
+        slot="start"
         (click)="changeHarvest(-1)"
       ></ion-icon>
       <ion-label class="ion-text-center">
