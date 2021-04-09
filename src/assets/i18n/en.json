@@ -144,6 +144,8 @@
     "FRAMES_FOOD_REMOVED": "Removed food combs",
     "FRAMES_FOOD_INSERTED": "Added food combs",
     "FRAMES_BROOD_COUNTED": "Counted brood combs",
+    "FRAMES_STOREYS_ADDED": "Added storeys",
+    "FRAMES_STOREYS_REMOVED": "Removed storeys",
     "QUEEN_SPOTTED": "Queen spotted",
     "QUEEN_ADDED": "Queen added",
     "QUEEN_DECEASED": "Queen deceased",
@@ -165,7 +167,10 @@
     "emptyPanels": "Empty panels",
     "onCreationSuccess": "Journal entries created.",
     "harvest": "Honey harvest",
-    "noHarvest": "No harvest"
+    "noHarvest": "No harvest",
+    "storeys": "storeys",
+    "storeyAdded": "added",
+    "storeyRemoved": "removed"
   },
   "UNIT": {
     "frames": "frames",
@@ -174,7 +179,9 @@
     "combs": "combs",
     "panel": "panel",
     "panels": "panels",
-    "kg": "kg"
+    "kg": "kg",
+    "storeys": "storeys",
+    "storey": "storey"
   },
   "REMINDERS": {
     "pageTitle": "New reminder",
