@@ -179,4 +179,14 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
       unitSingular: "storey",
     },
   ],
+  [
+    EntryType.GOT_STUNG,
+    {
+      lowerBound: 1,
+      upperBound: 20,
+      stepWidth: 1,
+      unit: "stings",
+      unitSingular: "sting",
+    },
+  ],
 ]);

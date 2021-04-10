@@ -31,6 +31,7 @@ export enum EntryType {
   // other actions
   FOOD_ADDED = "FOOD_ADDED",
   WEIGHT_MEASURED = "WEIGHT_MEASURED",
+  GOT_STUNG = "GOT_STUNG",
   GENERAL_NOTE = "GENERAL_NOTE",
 }
 
@@ -61,5 +62,6 @@ export const actionsForType = {
     EntryType.FOOD_ADDED,
     EntryType.WEIGHT_MEASURED,
     EntryType.GENERAL_NOTE,
+    EntryType.GOT_STUNG,
   ],
 };

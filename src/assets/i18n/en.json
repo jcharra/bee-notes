@@ -152,7 +152,8 @@
     "QUEEN_EGGS_SPOTTED": "Eggs spotted",
     "FOOD_ADDED": "Food added",
     "WEIGHT_MEASURED": "Tracked weight",
-    "GENERAL_NOTE": "General note"
+    "GENERAL_NOTE": "General note",
+    "GOT_STUNG": "Got stung"
   },
   "FRAMES": {
     "pageTitle": "Combs",
@@ -181,7 +182,9 @@
     "panels": "panels",
     "kg": "kg",
     "storeys": "storeys",
-    "storey": "storey"
+    "storey": "storey",
+    "stings": "stings",
+    "sting": "sting"
   },
   "REMINDERS": {
     "pageTitle": "New reminder",

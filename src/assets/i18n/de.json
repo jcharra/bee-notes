@@ -152,7 +152,8 @@
     "QUEEN_EGGS_SPOTTED": "Eier gesichtet",
     "FOOD_ADDED": "Futter hinzugefügt",
     "WEIGHT_MEASURED": "Gewicht gemessen",
-    "GENERAL_NOTE": "Allgemeine Notiz"
+    "GENERAL_NOTE": "Allgemeine Notiz",
+    "GOT_STUNG": "Gestochen worden"
   },
   "FRAMES": {
     "pageTitle": "Waben",
@@ -181,7 +182,9 @@
     "panels": "MW",
     "kg": "kg",
     "storey": "Zarge",
-    "storeys": "Zargen"
+    "storeys": "Zargen",
+    "stings": "Stiche",
+    "sting": "Stich"
   },
   "REMINDERS": {
     "pageTitle": "Erinnerung anlegen",

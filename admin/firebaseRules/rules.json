@@ -1,5 +1,6 @@
 {
   "rules": {
+    ".read": "auth.uid === 'readonly-admin'",
     "users": {
       "$uid": {
         ".write": "$uid === auth.uid",
