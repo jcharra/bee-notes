@@ -39,6 +39,7 @@
     "cordova-plugin-purchase": "^10.5.3",
     "date-fns": "^2.15.0",
     "firebase": "^8.2.9",
+    "firebase-admin": "^9.6.0",
     "rxjs": "~6.5.1",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

@@ -1,0 +1,35 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".write": "$uid === auth.uid",
+        ".read": "$uid === auth.uid || auth.uid === 'readonly-admin'",
+        "journals": {
+          "$jid": {
+            "entries": {
+              ".indexOn": "date"
+            }
+          }
+        },
+        "swarms": {
+          ".validate": "true"
+        },
+        "reminders": {
+          ".validate": "true"
+        },
+        "groups": {
+          ".validate": "true"
+        },
+        "queen": {
+          ".validate": "true"
+        },
+        "$path": {
+          ".validate": "false"
+        }
+      }
+    },
+    "$path": {
+      ".validate": "false"
+    }
+  }
+}
