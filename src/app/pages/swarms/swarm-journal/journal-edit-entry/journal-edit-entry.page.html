@@ -47,7 +47,9 @@
       <ion-item [ngClass]="{'ion-hide': !countable}">
         <ion-label position="stacked">
           {{ 'JOURNAL_PAGE.amount' | translate }}
-          <span *ngIf="countable">({{ countable.unit }})</span>
+          <span *ngIf="countable"
+            >({{ 'UNIT.' + countable.unit | translate }})</span
+          >
         </ion-label>
         <ion-input
           formControlName="amount"

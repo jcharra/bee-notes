@@ -61,7 +61,7 @@ export const actionsForType = {
   other: [
     EntryType.FOOD_ADDED,
     EntryType.WEIGHT_MEASURED,
-    EntryType.GENERAL_NOTE,
     EntryType.GOT_STUNG,
+    EntryType.GENERAL_NOTE,
   ],
 };

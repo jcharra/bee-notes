@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { IonSelect, NavController, PickerController } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
 import { JournalService } from "src/app/services/journal.service";
 import { Countable, CountableForEntryType } from "src/app/types/Countable";
 import { actionsForType, EntryType } from "src/app/types/EntryType";
@@ -28,7 +29,8 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private journalService: JournalService,
     private navCtrl: NavController,
-    private pickerController: PickerController
+    private pickerController: PickerController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -137,7 +139,10 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
         text:
           i +
           " " +
-          (i === 1 ? this.countable.unitSingular : this.countable.unit),
+          this.translate.instant(
+            "UNIT." +
+              (i === 1 ? this.countable.unitSingular : this.countable.unit)
+          ),
         value: i,
       });
     }
