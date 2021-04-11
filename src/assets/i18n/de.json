@@ -54,7 +54,8 @@
     "weightDialogHeader": "Gewicht erfassen",
     "weightDialogMsg": "Wie viel kg wiegt das Volk?",
     "fullVersionRequiredDialogHeader": "Vollversion erforderlich",
-    "fullVersionRequiredDialogText": "In der kostenlosen Version sind nur bis zu drei Völker möglich. Unter 'Einstellungen' kann die Vollversion erworben werden."
+    "fullVersionRequiredDialogText": "In der kostenlosen Version sind nur bis zu drei Völker möglich. Unter 'Einstellungen' kann die Vollversion erworben werden.",
+    "removeHive": "Volk löschen"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

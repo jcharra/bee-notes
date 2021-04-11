@@ -28,7 +28,6 @@
           name="actionType"
           interface="action-sheet"
           [(ngModel)]="newStatus.race"
-          [disabled]="entryId"
           [cancelText]="'GENERAL.cancel' | translate"
         >
           <ion-select-option *ngFor="let option of races" [value]="option"

@@ -9,5 +9,11 @@ ion-fab-button {
 .reminder {
   font-size: smaller;
   line-height: normal;
-  word-break: normal    ;
+  word-break: normal;
+}
+
+.deleteHiveButton {
+  position: absolute;
+  bottom: 20px;
+  right: 15px;
 }
