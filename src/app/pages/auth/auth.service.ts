@@ -71,19 +71,19 @@ export class AuthService {
   }
 
   deleteUser(password) {
-    console.log("Delete");
-    return this.auth.user.pipe(first())
-      .subscribe((user) => {
+    return this.auth.user.pipe(first()).subscribe((user) => {
       return user
         .reauthenticateWithCredential(
-          firebase.default.auth.EmailAuthProvider.credential(user.email, password))
+          firebase.default.auth.EmailAuthProvider.credential(
+            user.email,
+            password
+          )
+        )
         .then(() => {
-          console.log("Auth ok");
-          user.delete()
-            .then(() => {
-              this.router.navigateByUrl("/auth");
-              this.goodbyeMessage();
-            });
+          user.delete().then(() => {
+            this.router.navigateByUrl("/auth");
+            this.goodbyeMessage();
+          });
         })
         .catch(() => this.onDeletionFailure());
     });
@@ -98,7 +98,6 @@ export class AuthService {
   }
 
   async onDeletionFailure() {
-    console.log("Auth not ok");
     const toast = await this.toastController.create({
       message: this.translate.instant("AUTH_PAGE.deletionFailureHint"),
       duration: 6000,

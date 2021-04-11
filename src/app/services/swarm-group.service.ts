@@ -65,9 +65,6 @@ export class SwarmGroupService {
   updateGroup(group: SwarmGroup) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        console.log(
-          "Updating indexes of group " + group.name + " to " + group.swarmIds
-        );
         return this.db
           .object(`/users/${user.uid}/groups/${group.id}`)
           .update(group);

@@ -34,10 +34,10 @@ export class PurchaseService {
       this.setupListeners();
 
       this.store.refresh();
-      
+
       this.store.ready(() => {
         this.products = this.store.products;
-        console.log("Found products", this.products);
+        //console.log("Found products", this.products);
         this.purchasesAvailable = this.products.length > 0;
       });
     });
@@ -78,7 +78,7 @@ export class PurchaseService {
 
   purchase(prod_id: string) {
     this.store.order(prod_id).then(
-      () => { },
+      () => {},
       (e) => {
         this.onPurchaseFailure(prod_id, e);
       }

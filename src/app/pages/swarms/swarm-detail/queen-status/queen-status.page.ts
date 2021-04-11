@@ -52,7 +52,6 @@ export class QueenStatusPage implements OnInit {
       .getStatus(this.colonyId)
       .pipe(first())
       .subscribe((status: QueenStatus) => {
-        console.log("Got queen status", status);
         this.currentStatus = status || {
           birthYear: null,
         };
