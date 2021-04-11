@@ -115,7 +115,15 @@
     "onUpdateSuccess": "Daten der Königin aktualisiert",
     "deceasedDialogTitle": "Königin verstorben",
     "deceasedDialogBody": "Ist die Königin des Volks verstorben?",
-    "deceasedDialogConfirm": "Ja"
+    "deceasedDialogConfirm": "Ja",
+    "race": "Rasse",
+    "CARNICA": "Carnica",
+    "BUCKFAST": "Buckfast",
+    "DARK_BEE": "Dunkle Biene",
+    "CAUCASUS": "Kaukasisch",
+    "AFRICAN": "Afrikanisch",
+    "OTHER": "Sonstige",
+    "UNKNOWN": "Unbekannt"
   },
   "ABOUT_PAGE": {
     "pageTitle": "Über Bee Notes",

@@ -18,6 +18,32 @@
     <ion-list [inset]="true">
       <ion-item>
         <ion-label class="ion-text-center"
+          >{{'QUEEN.race' | translate}}</ion-label
+        >
+      </ion-item>
+      <ion-item>
+        <ion-select
+          class="ion-hide"
+          #actionSelect
+          name="actionType"
+          interface="action-sheet"
+          [(ngModel)]="newStatus.race"
+          [disabled]="entryId"
+          [cancelText]="'GENERAL.cancel' | translate"
+        >
+          <ion-select-option *ngFor="let option of races" [value]="option"
+            >{{ 'QUEEN.' + option | translate }}</ion-select-option
+          >
+        </ion-select>
+        <ion-label class="ion-text-center" (click)="actionSelect.open()">
+          {{'QUEEN.' + newStatus.race | translate}}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list [inset]="true">
+      <ion-item>
+        <ion-label class="ion-text-center"
           >{{'QUEEN.birthYear' | translate}}</ion-label
         >
       </ion-item>

@@ -28,6 +28,10 @@ export enum EntryType {
   QUEEN_DECEASED = "QUEEN_DECEASED",
   QUEEN_EGGS_SPOTTED = "QUEEN_EGGS_SPOTTED",
 
+  // maybe later ...
+  //QUEEN_CELL_SPOTTED = "QUEEN_CELL_SPOTTED",
+  //QUEEN_CELL_REMOVED = "QUEEN_CELL_REMOVED",
+
   // other actions
   FOOD_ADDED = "FOOD_ADDED",
   WEIGHT_MEASURED = "WEIGHT_MEASURED",
@@ -43,8 +47,8 @@ export const actionsForType = {
     EntryType.QUEEN_EGGS_SPOTTED,
   ],
   varroa: [
-    EntryType.VARROA_CHECK_END,
     EntryType.VARROA_CHECK_START,
+    EntryType.VARROA_CHECK_END,
     EntryType.VARROA_TREATMENT,
   ],
   frames: [

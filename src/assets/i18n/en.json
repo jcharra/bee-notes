@@ -115,7 +115,15 @@
     "onUpdateSuccess": "Queen data updated",
     "deceasedDialogTitle": "Queen deceased",
     "deceasedDialogBody": "Is the queen of this hive deceased?",
-    "deceasedDialogConfirm": "Yes"
+    "deceasedDialogConfirm": "Yes",
+    "race": "Race",
+    "CARNICA": "Carnica",
+    "BUCKFAST": "Buckfast",
+    "DARK_BEE": "Dark Biene",
+    "CAUCASUS": "Caucasian",
+    "AFRICAN": "African",
+    "OTHER": "Other",
+    "UNKNOWN": "Unknown"
   },
   "ABOUT_PAGE": {
     "pageTitle": "About Bee Notes",

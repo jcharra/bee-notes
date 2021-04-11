@@ -3,10 +3,20 @@ import { AngularFireDatabase } from "@angular/fire/database";
 import { first, map, switchMap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
 
+export enum Race {
+  CARNICA = "CARNICA",
+  BUCKFAST = "BUCKFAST",
+  DARK_BEE = "DARK_BEE",
+  CAUCASUS = "CAUCASUS",
+  AFRICAN = "AFRICAN",
+  OTHER = "OTHER",
+  UNKNOWN = "UNKNOWN",
+}
 export interface QueenStatus {
   birthYear: number;
   lastSeen?: Date | string;
   eggsSeen?: Date | string;
+  race?: Race;
 }
 
 @Injectable({
@@ -35,6 +45,7 @@ export class QueenService {
                 birthYear: status.birthYear,
                 lastSeen: status.lastSeen ? new Date(status.lastSeen) : null,
                 eggsSeen: status.eggsSeen ? new Date(status.eggsSeen) : null,
+                race: status.race,
               };
             })
           );
@@ -54,6 +65,7 @@ export class QueenService {
           eggsSeen: status.eggsSeen
             ? new Date(status.eggsSeen).toISOString()
             : null,
+          race: status.race,
         });
       })
     );

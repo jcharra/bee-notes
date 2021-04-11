@@ -9,7 +9,11 @@ import { TranslateService } from "@ngx-translate/core";
 import { addYears, format, getYear, startOfYear } from "date-fns";
 import { first } from "rxjs/operators";
 import { JournalService } from "../../../../services/journal.service";
-import { QueenService, QueenStatus } from "../../../../services/queen.service";
+import {
+  QueenService,
+  QueenStatus,
+  Race,
+} from "../../../../services/queen.service";
 import { EntryType } from "../../../../types/EntryType";
 
 const DAY_OF_YEAR = "yyyy-MM-dd";
@@ -27,6 +31,8 @@ export class QueenStatusPage implements OnInit {
   minYear = getYear(addYears(new Date(), -4));
   minDate = format(startOfYear(addYears(new Date(), -1)), DAY_OF_YEAR);
   maxDate = format(new Date(), DAY_OF_YEAR);
+  races = [];
+  race = Race.UNKNOWN;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +42,9 @@ export class QueenStatusPage implements OnInit {
     private toastController: ToastController,
     private translate: TranslateService,
     private alertCtrl: AlertController
-  ) {}
+  ) {
+    this.races = Object.keys(Race);
+  }
 
   ngOnInit() {
     this.colonyId = this.route.snapshot.params.swarmId;
@@ -44,6 +52,7 @@ export class QueenStatusPage implements OnInit {
       .getStatus(this.colonyId)
       .pipe(first())
       .subscribe((status: QueenStatus) => {
+        console.log("Got queen status", status);
         this.currentStatus = status || {
           birthYear: null,
         };
@@ -56,6 +65,7 @@ export class QueenStatusPage implements OnInit {
           eggsSeen: this.currentStatus.eggsSeen
             ? format(new Date(this.currentStatus.eggsSeen), DAY_OF_YEAR)
             : null,
+          race: this.currentStatus.race || Race.UNKNOWN,
         };
       });
   }
@@ -86,6 +96,7 @@ export class QueenStatusPage implements OnInit {
         eggsSeen:
           (this.newStatus.eggsSeen && new Date(this.newStatus.eggsSeen)) ||
           null,
+        race: this.newStatus.race,
       })
       .subscribe(() => {
         if (
@@ -144,6 +155,7 @@ export class QueenStatusPage implements OnInit {
             this.queenService.clearStatus(this.colonyId).subscribe(() => {
               this.newStatus = {
                 birthYear: null,
+                race: Race.UNKNOWN,
               };
             });
           },
