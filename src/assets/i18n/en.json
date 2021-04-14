@@ -193,7 +193,9 @@
     "storeys": "storeys",
     "storey": "storey",
     "stings": "stings",
-    "sting": "sting"
+    "sting": "sting",
+    "mite": "mite",
+    "mites": "mites"
   },
   "REMINDERS": {
     "pageTitle": "New reminder",
