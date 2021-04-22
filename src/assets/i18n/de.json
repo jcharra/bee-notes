@@ -59,7 +59,8 @@
     "multiAction": "Mehrfachaktion auswählen",
     "selectLocation": "Standort erfassen",
     "startVarroaTreatment": "Varroa Behandlung",
-    "startVarroaCheck": "Start Varroa Check"
+    "startVarroaCheck": "Start Varroa Check",
+    "changeGroupSelect": "Standort wechseln"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

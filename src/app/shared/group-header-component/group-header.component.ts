@@ -20,7 +20,7 @@ export class GroupHeaderComponent implements OnInit {
   constructor(
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService,
-    public actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController
   ) {}
 
   ngOnInit() {}
