@@ -8,7 +8,13 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="sortedSwarmGroups; else noBuzz">
+  <ng-container *ngIf="sortedSwarmGroups">
+    <ng-container *ngIf="sortedSwarmGroups.length === 0">
+      <ion-item class="ion-padding">
+        {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝
+      </ion-item>
+    </ng-container>
+
     <ng-container *ngFor="let group of sortedSwarmGroups; let idx = index">
       <ion-list [inset]="true" lines="full">
         <app-group-header
@@ -63,11 +69,6 @@
         ></app-group-action-bar>
       </ion-list>
     </ng-container>
-    <ng-template #noBuzz>
-      <ion-item class="ion-padding">
-        {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝
-      </ion-item>
-    </ng-template>
 
     <ion-buttons class="ion-padding-horizontal">
       <ion-fab-button slot="end" color="primary" (click)="editSwarmGroup()">

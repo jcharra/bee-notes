@@ -49,11 +49,7 @@ export class SwarmsPage {
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService,
     private purchases: PurchaseService
-  ) {
-    this.DEFAULT_GROUP_NAME = this.translate.instant(
-      "COLONIES_PAGE.defaultGroupName"
-    );
-  }
+  ) {}
 
   async loadSwarms() {
     const showSpinner = !this.swarms;

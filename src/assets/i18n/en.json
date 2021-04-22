@@ -28,15 +28,15 @@
     "goodbyeMessage": "Sad to see you leave ... All the best and happy beekeeping!"
   },
   "COLONIES_PAGE": {
-    "loading": "Loading hives ...",
-    "pageTitle": "Hives",
-    "colonies": "Hives",
+    "loading": "Loading location data ...",
+    "pageTitle": "Locations",
+    "colonies": "Locations",
     "noColonies": "No buzz yet - time to add your first hive.",
-    "emptyGroupHint": "No hives yet. Delete group by swiping.",
+    "emptyGroupHint": "No hives added yet.",
     "changeGroupNameHint": "Tap to change name",
     "varroaCountUnit": "per day",
-    "editGroupName": "Rename group",
-    "newColonyGroup": "Create new group",
+    "editGroupName": "Rename location",
+    "newColonyGroup": "Add new location",
     "namePlaceholder": "Pick a name",
     "createGroup": "Create",
     "createGroupFailed": "Creation failed",
@@ -50,7 +50,6 @@
     "closeColonyHeader": "Remove hive",
     "closeColonyBody": "Why is this hive removed?",
     "whereToFindExColoniesHint": "You can find your former hives in the menu 'Former hives' and also reactivate them.",
-    "defaultGroupName": "Unnamed group",
     "weightDialogHeader": "Track weight",
     "weightDialogMsg": "Select the hive's weight",
     "fullVersionRequiredDialogHeader": "Full version required",
@@ -108,7 +107,7 @@
   },
   "START_MENU": {
     "menuTitle": "Start",
-    "COLONIES": "Hives",
+    "COLONIES": "Locations",
     "logout": "Log out"
   },
   "QUEEN": {

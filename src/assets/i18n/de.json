@@ -28,15 +28,15 @@
     "goodbyeMessage": "Tja, das war's dann wohl ... schade. Trotzdem weiterhin viel Erfolg und Spaß mit Deinen Bienen!"
   },
   "COLONIES_PAGE": {
-    "loading": "Lade Völker ...",
-    "pageTitle": "Völker",
-    "colonies": "Völker",
+    "loading": "Lade Standorte ...",
+    "pageTitle": "Standorte",
+    "colonies": "Standorte",
     "noColonies": "Hier summt ja noch gar nichts - leg' jetzt Dein erstes Volk an!",
-    "emptyGroupHint": "Zum löschen nach links wischen.",
+    "emptyGroupHint": "Noch keine Völker angelegt",
     "changeGroupNameHint": "Durch Tippen Namen ändern",
     "varroaCountUnit": "pro Tag",
-    "editGroupName": "Gruppe umbenennen",
-    "newColonyGroup": "Neue Gruppe anlegen",
+    "editGroupName": "Standort umbenennen",
+    "newColonyGroup": "Neuen Standort anlegen",
     "namePlaceholder": "Wähle einen Namen",
     "createGroup": "Anlegen",
     "createGroupFailed": "Anlegen fehlgeschlagen",
@@ -50,7 +50,6 @@
     "closeColonyHeader": "Volk entfernen",
     "closeColonyBody": "Warum wird das Volk entfernt?",
     "whereToFindExColoniesHint": "Du kannst ehemalige Völker unter dem Menü 'Ehemalige Völker' finden und auch reaktivieren.",
-    "defaultGroupName": "Unbenannte Gruppe",
     "weightDialogHeader": "Gewicht erfassen",
     "weightDialogMsg": "Wie viel kg wiegt das Volk?",
     "fullVersionRequiredDialogHeader": "Vollversion erforderlich",
@@ -108,7 +107,7 @@
   },
   "START_MENU": {
     "menuTitle": "Start",
-    "COLONIES": "Völker",
+    "COLONIES": "Standorte",
     "logout": "Abmelden"
   },
   "QUEEN": {
