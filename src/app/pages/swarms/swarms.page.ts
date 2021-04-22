@@ -1,6 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
 import {
-  ActionSheetController,
   AlertController,
   IonReorderGroup,
   LoadingController,
@@ -50,8 +49,7 @@ export class SwarmsPage {
     private statusService: StatusService,
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService,
-    private purchases: PurchaseService,
-    public actionSheetController: ActionSheetController
+    private purchases: PurchaseService
   ) {
     this.DEFAULT_GROUP_NAME = this.translate.instant(
       "COLONIES_PAGE.defaultGroupName"
@@ -378,30 +376,6 @@ export class SwarmsPage {
       name: group.name,
       swarmIds: group.swarms.map((s) => s.id),
     });
-  }
-
-  deleteGroup(gid: string) {
-    this.swarmGroupService.deleteGroup(gid).subscribe(() => {
-      this.loadSwarms();
-    });
-  }
-
-  async openGroupActions(groupId: string) {
-    console.log("Group");
-    const sheet = await this.actionSheetController.create({
-      header: this.translate.instant("COLONIES_PAGE.multiAction"),
-      buttons: [
-        {
-          text: this.translate.instant("COLONIES_PAGE.selectLocation"),
-          icon: "navigate-outline",
-          handler: () => {
-            console.log("Locate group ", groupId);
-          },
-        },
-      ],
-    });
-
-    await sheet.present();
   }
 
   async requireFullVersion() {

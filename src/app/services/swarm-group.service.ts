@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { switchMap, map, take } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
+import { Geolocation } from "@ionic-native/geolocation/ngx";
 
 export interface SwarmGroup {
   id: string;
@@ -15,7 +16,8 @@ export interface SwarmGroup {
 export class SwarmGroupService {
   constructor(
     private db: AngularFireDatabase,
-    private authService: AuthService
+    private authService: AuthService,
+    private geolocation: Geolocation
   ) {}
 
   getGroups() {
@@ -78,5 +80,18 @@ export class SwarmGroupService {
         return this.db.object(`/users/${user.uid}/groups/${gid}`).remove();
       })
     );
+  }
+
+  setLocation(gid: string) {
+    this.geolocation
+      .getCurrentPosition()
+      .then((resp) => {
+        // resp.coords.latitude
+        // resp.coords.longitude
+        console.log("Located", gid, "at", resp.coords);
+      })
+      .catch((error) => {
+        console.log("Error getting location", error);
+      });
   }
 }

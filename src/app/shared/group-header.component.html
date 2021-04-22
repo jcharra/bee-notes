@@ -1,0 +1,37 @@
+<ion-item-sliding [ngClass]="{ 'top-buffer': idx > 0 }">
+  <ion-item class="ion-text-center groupHeading">
+    <!-- spacer button -->
+    <ion-button slot="start" fill="clear" *ngIf="group.swarms.length > 0">
+    </ion-button>
+    <ion-label (click)="group.id && editSwarmGroup(group)">
+      <strong> {{ group.name }} </strong><br />
+      <span
+        *ngIf="group.swarms.length === 0"
+        class="small-preview"
+        [innerHTML]="'COLONIES_PAGE.emptyGroupHint' | translate"
+      >
+      </span>
+      <span
+        *ngIf="group.name === DEFAULT_GROUP_NAME && group.swarms.length > 0"
+        class="small-preview"
+      >
+        {{ "COLONIES_PAGE.changeGroupNameHint" | translate }}
+      </span>
+    </ion-label>
+    <ion-button
+      slot="end"
+      fill="clear"
+      color="primary"
+      *ngIf="group.swarms.length > 0"
+      (click)="openGroupActions(group.id)"
+    >
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item-options *ngIf="group.swarms.length === 0">
+    <ion-item-option color="secondary" (click)="deleteGroup(group.id)">
+      <ion-icon slot="end" name="trash-outline"></ion-icon>
+      {{ "GENERAL.delete" | translate }}
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>
