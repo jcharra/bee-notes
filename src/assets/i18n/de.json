@@ -32,7 +32,7 @@
     "pageTitle": "Völker",
     "colonies": "Völker",
     "noColonies": "Hier summt ja noch gar nichts - leg' jetzt Dein erstes Volk an!",
-    "emptyGroupHint": "Ziehe Völker am Bienchen hierher<br />Durch Wischen kannst Du die Gruppe löschen.",
+    "emptyGroupHint": "Zum löschen nach links wischen.",
     "changeGroupNameHint": "Durch Tippen Namen ändern",
     "varroaCountUnit": "pro Tag",
     "editGroupName": "Gruppe umbenennen",

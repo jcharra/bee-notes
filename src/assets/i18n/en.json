@@ -32,7 +32,7 @@
     "pageTitle": "Hives",
     "colonies": "Hives",
     "noColonies": "No buzz yet - time to add your first hive.",
-    "emptyGroupHint": "Drag hives here by their bee icon.<br /> Delete group by swiping.",
+    "emptyGroupHint": "No hives yet. Delete group by swiping.",
     "changeGroupNameHint": "Tap to change name",
     "varroaCountUnit": "per day",
     "editGroupName": "Rename group",

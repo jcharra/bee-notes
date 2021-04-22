@@ -7,7 +7,6 @@ import {
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
-import { forkJoin } from "rxjs";
 import { first, switchMap, tap } from "rxjs/operators";
 import { PurchaseService } from "src/app/purchase.service";
 import { JournalService } from "src/app/services/journal.service";
@@ -133,7 +132,9 @@ export class SwarmsPage {
     this.navController.navigateForward("/swarms/view/" + swarmId);
   }
 
-  async editSwarmGroup(existing?: UISwarmGroup) {
+  async editSwarmGroup(groupId?: string) {
+    const existing =
+      groupId && this.sortedSwarmGroups.filter((g) => g.id === groupId)[0];
     const alert = await this.alertCtrl.create({
       header: this.translate.instant(
         existing
@@ -196,7 +197,7 @@ export class SwarmsPage {
     });
   }
 
-  async createSwarm() {
+  async createSwarm(groupId: string) {
     if (this.purchases.checkLimitReached(this.swarms.length)) {
       this.requireFullVersion();
       return;
@@ -225,24 +226,23 @@ export class SwarmsPage {
               this.swarmService
                 .createSwarm(name)
                 .pipe(
+                  first(),
                   switchMap((swarmId) => {
-                    if (this.sortedSwarmGroups.length === 0) {
-                      return this.swarmGroupService.createGroup(
-                        this.DEFAULT_GROUP_NAME,
-                        [swarmId]
-                      );
-                    } else {
-                      const lastGroup = this.sortedSwarmGroups[
-                        this.sortedSwarmGroups.length - 1
-                      ];
-                      const swarmIds = lastGroup.swarms.map((s) => s.id);
-                      swarmIds.push(swarmId);
-                      return this.swarmGroupService.updateGroup({
-                        id: lastGroup.id,
-                        name: lastGroup.name,
-                        swarmIds,
-                      });
-                    }
+                    const group = this.sortedSwarmGroups.filter(
+                      (g) => g.id === groupId
+                    );
+                    const groupToAdd = group.length
+                      ? group[0]
+                      : this.sortedSwarmGroups[
+                          this.sortedSwarmGroups.length - 1
+                        ];
+                    const swarmIds = groupToAdd.swarms.map((s) => s.id);
+                    swarmIds.push(swarmId);
+                    return this.swarmGroupService.updateGroup({
+                      id: groupToAdd.id,
+                      name: groupToAdd.name,
+                      swarmIds,
+                    });
                   })
                 )
                 .subscribe(
@@ -279,95 +279,38 @@ export class SwarmsPage {
     await alert.present();
   }
 
-  async doReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+  async doReorder(ev: CustomEvent<ItemReorderEventDetail>, groupIdx: number) {
     const fromIdx = ev.detail.from;
     const toIdx = ev.detail.to;
 
-    // Moving to idx 1 is not allowed (above first heading)
-    if (toIdx === 0) {
-      ev.detail.complete();
-      this.loadSwarms();
-      return;
+    const group = this.sortedSwarmGroups[groupIdx];
+
+    if (fromIdx > toIdx) {
+      group.swarms.splice(toIdx, 0, group.swarms[fromIdx]);
+      group.swarms.splice(fromIdx + 1, 1);
+    } else {
+      group.swarms.splice(toIdx + 1, 0, group.swarms[fromIdx]);
+      group.swarms.splice(fromIdx, 1);
     }
-
-    // A list of items that must correspond exactly to the UI list (including group headings!)
-    let flatItems = [];
-    this.sortedSwarmGroups.forEach((g) => {
-      flatItems.push(g);
-      g.swarms.forEach((s) => {
-        flatItems.push(s);
-      });
-    });
-
-    const draggedItem: Swarm = flatItems[fromIdx];
-
-    let fromGroup: UISwarmGroup;
-    for (let i = fromIdx; i >= 0; i--) {
-      if (flatItems[i].swarms) {
-        fromGroup = flatItems[i];
-        break;
-      }
-    }
-
-    const oneOffset = fromIdx > toIdx ? 1 : 0;
-
-    let toGroup: UISwarmGroup;
-    for (let i = toIdx - oneOffset; i >= 0; i--) {
-      if (flatItems[i].swarms) {
-        toGroup = flatItems[i];
-        break;
-      }
-    }
+    ev.detail.complete();
 
     const loading = await this.loadingController.create({
       message: this.translate.instant("COLONIES_PAGE.updatingSpinner"),
       showBackdrop: true,
     });
-    loading.present();
+    await loading.present();
 
-    ev.detail.complete();
-
-    // ID at target index. If it is a group heading, set to null
-    const targetId = flatItems[toIdx].swarms ? null : flatItems[toIdx].id;
-
-    fromGroup.swarms = fromGroup.swarms.filter(
-      (s: Swarm) => s.id !== draggedItem.id
-    );
-
-    if (!targetId) {
-      oneOffset
-        ? toGroup.swarms.push(draggedItem)
-        : toGroup.swarms.unshift(draggedItem);
-    } else {
-      const insertIdx = toGroup.swarms.map((s) => s.id).indexOf(targetId) || 0;
-      toGroup.swarms.splice(insertIdx - oneOffset + 1, 0, draggedItem);
-    }
-
-    const reindexRequests = [];
-
-    reindexRequests.push(
-      this.swarmGroupService.updateGroup({
-        id: toGroup.id,
-        name: toGroup.name,
-        swarmIds: toGroup.swarms.map((s) => s.id),
+    this.swarmGroupService
+      .updateGroup({
+        id: group.id,
+        name: group.name,
+        swarmIds: group.swarms.map((s) => s.id),
       })
-    );
-
-    if (fromGroup !== toGroup) {
-      reindexRequests.push(
-        this.swarmGroupService.updateGroup({
-          id: fromGroup.id,
-          name: fromGroup.name,
-          swarmIds: fromGroup.swarms.map((s) => s.id),
-        })
-      );
-    }
-
-    forkJoin(reindexRequests).subscribe(() => {
-      this.loadSwarms().then(() => {
-        loading.dismiss();
+      .subscribe(() => {
+        this.loadSwarms().then(() => {
+          loading.dismiss();
+        });
       });
-    });
   }
 
   reindexGroup(group: UISwarmGroup) {

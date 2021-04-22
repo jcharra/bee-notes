@@ -8,19 +8,18 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="sortedSwarmGroups">
-    <ion-list [inset]="true" lines="full">
-      <ion-reorder-group
-        *ngIf="sortedSwarmGroups.length > 0; else noBuzz"
-        disabled="false"
-        (ionItemReorder)="doReorder($event)"
-      >
-        <ng-container *ngFor="let group of sortedSwarmGroups; let idx = index">
-          <app-group-header
-            [idx]="idx"
-            [group]="group"
-            (changeEvent)="loadSwarms()"
-          ></app-group-header>
+  <ng-container *ngIf="sortedSwarmGroups; else noBuzz">
+    <ng-container *ngFor="let group of sortedSwarmGroups; let idx = index">
+      <ion-list [inset]="true" lines="full">
+        <app-group-header
+          [group]="group"
+          (changeEvent)="loadSwarms()"
+          (renameEvent)="editSwarmGroup($event)"
+        ></app-group-header>
+        <ion-reorder-group
+          (ionItemReorder)="doReorder($event, idx)"
+          disabled="false"
+        >
           <ion-item
             *ngFor="let swarm of group.swarms"
             (tap)="openSwarmDetail(swarm.id)"
@@ -56,19 +55,21 @@
               <br />{{"COLONIES_PAGE.varroaCountUnit" | translate}}
             </ion-label>
           </ion-item>
-        </ng-container>
-      </ion-reorder-group>
-      <ng-template #noBuzz>
-        <ion-item class="ion-padding">
-          {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝
-        </ion-item>
-      </ng-template>
-    </ion-list>
+        </ion-reorder-group>
+        <app-group-action-bar
+          [group]="group"
+          (changeEvent)="loadSwarms()"
+          (addSwarmEvent)="createSwarm($event)"
+        ></app-group-action-bar>
+      </ion-list>
+    </ng-container>
+    <ng-template #noBuzz>
+      <ion-item class="ion-padding">
+        {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝
+      </ion-item>
+    </ng-template>
 
     <ion-buttons class="ion-padding-horizontal">
-      <ion-fab-button slot="end" color="primary" (click)="createSwarm()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
       <ion-fab-button slot="end" color="primary" (click)="editSwarmGroup()">
         <ion-icon name="duplicate-outline"></ion-icon>
       </ion-fab-button>
