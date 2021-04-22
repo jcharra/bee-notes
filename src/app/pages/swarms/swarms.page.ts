@@ -1,9 +1,10 @@
 import { Component, ViewChild } from "@angular/core";
 import {
+  ActionSheetController,
   AlertController,
   IonReorderGroup,
   LoadingController,
-  NavController
+  NavController,
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
@@ -13,7 +14,8 @@ import { PurchaseService } from "src/app/purchase.service";
 import { JournalService } from "src/app/services/journal.service";
 import { StatusService } from "src/app/services/status.service";
 import {
-  SwarmGroup, SwarmGroupService
+  SwarmGroup,
+  SwarmGroupService,
 } from "src/app/services/swarm-group.service";
 import { SwarmService } from "src/app/services/swarm.service";
 import { JournalEntry } from "src/app/types/JournalEntry";
@@ -48,7 +50,8 @@ export class SwarmsPage {
     private statusService: StatusService,
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService,
-    private purchases: PurchaseService
+    private purchases: PurchaseService,
+    public actionSheetController: ActionSheetController
   ) {
     this.DEFAULT_GROUP_NAME = this.translate.instant(
       "COLONIES_PAGE.defaultGroupName"
@@ -198,7 +201,7 @@ export class SwarmsPage {
   async createSwarm() {
     if (this.purchases.checkLimitReached(this.swarms.length)) {
       this.requireFullVersion();
-      return
+      return;
     }
 
     const alert = await this.alertCtrl.create({
@@ -383,15 +386,37 @@ export class SwarmsPage {
     });
   }
 
-  async requireFullVersion() {
-    const hint = await this.alertCtrl.create({
-      header: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogHeader"),
-      message: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogText"),
+  async openGroupActions(groupId: string) {
+    console.log("Group");
+    const sheet = await this.actionSheetController.create({
+      header: this.translate.instant("COLONIES_PAGE.multiAction"),
       buttons: [
         {
-          text: this.translate.instant("GENERAL.ok")
-        }
-      ]
+          text: this.translate.instant("COLONIES_PAGE.selectLocation"),
+          icon: "navigate-outline",
+          handler: () => {
+            console.log("Locate group ", groupId);
+          },
+        },
+      ],
+    });
+
+    await sheet.present();
+  }
+
+  async requireFullVersion() {
+    const hint = await this.alertCtrl.create({
+      header: this.translate.instant(
+        "COLONIES_PAGE.fullVersionRequiredDialogHeader"
+      ),
+      message: this.translate.instant(
+        "COLONIES_PAGE.fullVersionRequiredDialogText"
+      ),
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.ok"),
+        },
+      ],
     });
 
     hint.present();

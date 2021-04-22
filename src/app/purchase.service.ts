@@ -29,7 +29,6 @@ export class PurchaseService {
         this.purchasesAvailable = false;
         return;
       }
-
       this.registerProducts();
       this.setupListeners();
 

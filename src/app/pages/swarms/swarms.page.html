@@ -45,6 +45,7 @@
                 fill="clear"
                 color="primary"
                 *ngIf="group.swarms.length > 0"
+                (click)="openGroupActions(group.id)"
               >
                 <ion-icon name="ellipsis-horizontal"></ion-icon>
               </ion-button>

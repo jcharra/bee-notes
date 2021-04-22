@@ -55,7 +55,11 @@
     "weightDialogMsg": "Select the hive's weight",
     "fullVersionRequiredDialogHeader": "Full version required",
     "fullVersionRequiredDialogText": "The free version allows only up to three hives. Consider buying the full version in the 'settings' menu.",
-    "removeHive": "Remove hive"
+    "removeHive": "Remove hive",
+    "multiAction": "Select multi action",
+    "selectLocation": "Select location",
+    "startVarroaTreatment": "Start Varroa treatment",
+    "startVarroaCheck": "Start Varroa check"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",
