@@ -17,11 +17,15 @@
       >
         <ng-container *ngFor="let group of sortedSwarmGroups; let idx = index">
           <ion-item-sliding [ngClass]="{'top-buffer': idx > 0}">
-            <ion-item
-              class="ion-text-center groupHeading"
-              (click)="group.id && editSwarmGroup(group)"
-            >
-              <ion-label>
+            <ion-item class="ion-text-center groupHeading">
+              <!-- spacer button -->
+              <ion-button
+                slot="start"
+                fill="clear"
+                *ngIf="group.swarms.length > 0"
+              >
+              </ion-button>
+              <ion-label (click)="group.id && editSwarmGroup(group)">
                 <strong> {{ group.name }} </strong><br />
                 <span
                   *ngIf="group.swarms.length === 0"
@@ -36,6 +40,14 @@
                   {{"COLONIES_PAGE.changeGroupNameHint" | translate}}
                 </span>
               </ion-label>
+              <ion-button
+                slot="end"
+                fill="clear"
+                color="primary"
+                *ngIf="group.swarms.length > 0"
+              >
+                <ion-icon name="ellipsis-horizontal"></ion-icon>
+              </ion-button>
             </ion-item>
             <ion-item-options *ngIf="group.swarms.length === 0">
               <ion-item-option
@@ -84,7 +96,6 @@
           </ion-item>
         </ng-container>
       </ion-reorder-group>
-
       <ng-template #noBuzz>
         <ion-item class="ion-padding">
           {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝
