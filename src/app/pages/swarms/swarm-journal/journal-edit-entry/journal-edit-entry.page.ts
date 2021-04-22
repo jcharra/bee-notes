@@ -108,11 +108,11 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
       columns: this.getAmountOptions(),
       buttons: [
         {
-          text: "Cancel",
+          text: this.translate.instant('GENERAL.cancel'),
           role: "cancel",
         },
         {
-          text: "Confirm",
+          text: this.translate.instant('GENERAL.ok'),
           handler: (value) => {
             this.entryForm.controls.amount.setValue(+value.amount.value || 0);
           },

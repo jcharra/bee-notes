@@ -27,6 +27,8 @@
           (ionChange)="onActionTypeChange()"
           (ionCancel)="onCancel()"
           [disabled]="entryId"
+          [okText]="'GENERAL.ok' | translate" 
+          [cancelText]="'GENERAL.cancel' | translate"
         >
           <ion-select-option *ngFor="let option of typeOptions" [value]="option"
             >{{ 'ACTIONS.' + option | translate }}</ion-select-option
