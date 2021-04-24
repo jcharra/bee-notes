@@ -63,7 +63,9 @@
     "startTreatmentDialogHeader": "Varroa Behandlung",
     "startTreatmentDialogMsg": "Ist für den ganzen Standort eine Varroa-Behandlung begonnen worden?",
     "startDiagnosisDialogHeader": "Varroa Diagnose",
-    "startDiagnosisDialogMsg": "Soll für alle Stöcke an diesem Standort eine Varroa-Diagnose begonnen werden?"
+    "startDiagnosisDialogMsg": "Soll für alle Stöcke an diesem Standort eine Varroa-Diagnose begonnen werden?",
+    "setLocationDialogHeader": "Standort definieren",
+    "setLocationDialogMsg": "Soll deine aktuelle Position als Standort für diese Gruppe festgelegt werden?"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

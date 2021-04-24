@@ -8,11 +8,9 @@
         [innerHTML]="'COLONIES_PAGE.emptyGroupHint' | translate"
       >
       </span>
-      <span
-        *ngIf="group.name === DEFAULT_GROUP_NAME && group.swarms.length > 0"
-        class="small-preview"
-      >
-        {{ "COLONIES_PAGE.changeGroupNameHint" | translate }}
+      <span *ngIf="group.lat && group.lng" class="small-preview">
+        Lat: {{ group.lat | number: ".1-2" }} Lng:
+        {{ group.lng | number: ".1-2" }}
       </span>
     </ion-label>
   </ion-item>

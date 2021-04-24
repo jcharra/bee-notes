@@ -34,22 +34,4 @@ export class GroupHeaderComponent implements OnInit {
   rename(gid: string) {
     this.renameEvent.emit(gid);
   }
-
-  async openGroupActions(groupId: string) {
-    console.log("Group");
-    const sheet = await this.actionSheetController.create({
-      header: this.translate.instant("COLONIES_PAGE.multiAction"),
-      buttons: [
-        {
-          text: this.translate.instant("COLONIES_PAGE.selectLocation"),
-          icon: "navigate-outline",
-          handler: () => {
-            this.swarmGroupService.setLocation(groupId);
-          },
-        },
-      ],
-    });
-
-    await sheet.present();
-  }
 }

@@ -3,11 +3,14 @@ import { AngularFireDatabase } from "@angular/fire/database";
 import { switchMap, map, take } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { UISwarmGroup } from "../pages/swarms/swarms.page";
 
 export interface SwarmGroup {
   id: string;
   name: string;
   swarmIds: string[];
+  lat?: number;
+  lng?: number;
 }
 
 @Injectable({
@@ -43,9 +46,11 @@ export class SwarmGroupService {
                   id: key,
                   name: value.name,
                   swarmIds: value.swarmIds,
+                  lat: value.lat,
+                  lng: value.lng,
                 });
               }
-
+              console.log("Found groups", entries);
               return entries;
             })
           );
@@ -82,13 +87,17 @@ export class SwarmGroupService {
     );
   }
 
-  setLocation(gid: string) {
-    this.geolocation
+  setLocation(group: UISwarmGroup) {
+    return this.geolocation
       .getCurrentPosition()
       .then((resp) => {
-        // resp.coords.latitude
-        // resp.coords.longitude
-        console.log("Located", gid, "at", resp.coords);
+        return this.updateGroup({
+          id: group.id,
+          name: group.name,
+          swarmIds: group.swarms.map((s) => s.id),
+          lat: resp.coords.latitude,
+          lng: resp.coords.longitude,
+        }).subscribe();
       })
       .catch((error) => {
         console.log("Error getting location", error);

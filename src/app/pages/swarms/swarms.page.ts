@@ -23,6 +23,8 @@ export interface UISwarmGroup {
   id: string;
   name: string;
   swarms: Swarm[];
+  lat?: number;
+  lng?: number;
 }
 
 @Component({
@@ -104,6 +106,8 @@ export class SwarmsPage {
           id: g.id,
           name: g.name,
           swarms: [],
+          lat: g.lat,
+          lng: g.lng,
         };
 
         (g.swarmIds || []).forEach((sid) => {

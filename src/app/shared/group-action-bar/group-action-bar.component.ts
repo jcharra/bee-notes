@@ -33,8 +33,27 @@ export class GroupActionBarComponent implements OnInit {
     this.addSwarmEvent.emit(this.group.id);
   }
 
-  setLocation() {
-    this.groupService.setLocation(this.group.id);
+  async setLocation() {
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant("COLONIES_PAGE.setLocationDialogHeader"),
+      message: this.translate.instant("COLONIES_PAGE.setLocationDialogMsg"),
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.cancel"),
+          role: "cancel",
+        },
+        {
+          text: this.translate.instant("GENERAL.ok"),
+          handler: () => {
+            this.groupService
+              .setLocation(this.group)
+              .then(() => this.changeEvent.emit());
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   async startTreatment() {

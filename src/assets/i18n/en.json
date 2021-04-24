@@ -28,7 +28,7 @@
     "goodbyeMessage": "Sad to see you leave ... All the best and happy beekeeping!"
   },
   "COLONIES_PAGE": {
-    "loading": "Loading location data ...",
+    "loading": "Loading data ...",
     "pageTitle": "Locations",
     "colonies": "Locations",
     "noColonies": "No buzz yet - time to add your first hive.",
@@ -63,7 +63,9 @@
     "startTreatmentDialogHeader": "Varroa treatment",
     "startTreatmentDialogMsg": "Would you like to start a varroa treatment for all hives of this location?",
     "startDiagnosisDialogHeader": "Varroa diagnosis",
-    "startDiagnosisDialogMsg": "Would you like to start a varroa diagnosis for all hives of this location?"
+    "startDiagnosisDialogMsg": "Would you like to start a varroa diagnosis for all hives of this location?",
+    "setLocationDialogHeader": "Set location",
+    "setLocationDialogMsg": "Would you like to set this group's location to your current position?"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",
