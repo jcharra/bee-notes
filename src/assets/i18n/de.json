@@ -59,7 +59,9 @@
     "selectLocation": "Standort erfassen",
     "startVarroaTreatment": "Varroa Behandlung",
     "startVarroaCheck": "Start Varroa Check",
-    "changeGroupSelect": "Standort wechseln"
+    "changeGroupSelect": "Standort wechseln",
+    "startTreatmentDialogHeader": "Varroa Behandlung",
+    "startTreatmentDialogMsg": "Ist für den ganzen Standort eine Varroa-Behandlung begonnen worden?"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

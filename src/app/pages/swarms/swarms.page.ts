@@ -19,7 +19,7 @@ import { SwarmService } from "src/app/services/swarm.service";
 import { JournalEntry } from "src/app/types/JournalEntry";
 import { Swarm } from "src/app/types/Swarm";
 
-interface UISwarmGroup {
+export interface UISwarmGroup {
   id: string;
   name: string;
   swarms: Swarm[];

@@ -59,7 +59,9 @@
     "selectLocation": "Select location",
     "startVarroaTreatment": "Start Varroa treatment",
     "startVarroaCheck": "Start Varroa check",
-    "changeGroupSelect": "Move to location"
+    "changeGroupSelect": "Move to location",
+    "startTreatmentDialogHeader": "Varroa treatment",
+    "startTreatmentDialogMsg": "Would you like to start a varroa treatment for all hives of this location?"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",
