@@ -61,7 +61,9 @@
     "startVarroaCheck": "Start Varroa Check",
     "changeGroupSelect": "Standort wechseln",
     "startTreatmentDialogHeader": "Varroa Behandlung",
-    "startTreatmentDialogMsg": "Ist für den ganzen Standort eine Varroa-Behandlung begonnen worden?"
+    "startTreatmentDialogMsg": "Ist für den ganzen Standort eine Varroa-Behandlung begonnen worden?",
+    "startDiagnosisDialogHeader": "Varroa Diagnose",
+    "startDiagnosisDialogMsg": "Soll für alle Stöcke an diesem Standort eine Varroa-Diagnose begonnen werden?"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

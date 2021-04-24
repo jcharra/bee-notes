@@ -72,5 +72,38 @@ export class GroupActionBarComponent implements OnInit {
     await alert.present();
   }
 
-  startDiagnosis() {}
+  async startDiagnosis() {
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant(
+        "COLONIES_PAGE.startDiagnosisDialogHeader"
+      ),
+      message: this.translate.instant("COLONIES_PAGE.startDiagnosisDialogMsg"),
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.cancel"),
+          role: "cancel",
+        },
+        {
+          text: this.translate.instant("GENERAL.ok"),
+          handler: () => {
+            const entries: Observable<any>[] = [];
+            this.group.swarms.forEach((s: Swarm) => {
+              entries.push(
+                this.journalService.createEntry(s.id, {
+                  date: new Date(),
+                  type: EntryType.VARROA_CHECK_START,
+                })
+              );
+            });
+
+            forkJoin(entries).subscribe(() => {
+              this.changeEvent.emit();
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
 }
