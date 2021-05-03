@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { ActionSheetController } from "@ionic/angular";
-import { TranslateService } from "@ngx-translate/core";
 import {
   SwarmGroup,
   SwarmGroupService,
@@ -17,11 +15,7 @@ export class GroupHeaderComponent implements OnInit {
   @Output() changeEvent = new EventEmitter<void>();
   @Output() renameEvent = new EventEmitter<string>();
 
-  constructor(
-    private swarmGroupService: SwarmGroupService,
-    private translate: TranslateService,
-    private actionSheetController: ActionSheetController
-  ) {}
+  constructor(private swarmGroupService: SwarmGroupService) {}
 
   ngOnInit() {}
 

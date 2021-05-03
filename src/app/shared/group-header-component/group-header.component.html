@@ -2,18 +2,24 @@
   <ion-item class="ion-text-center groupHeading">
     <ion-label (click)="group.id && rename(group.id)">
       <strong> {{ group.name }} </strong><br />
-      <span
-        *ngIf="group.swarms.length === 0"
-        class="small-preview"
-        [innerHTML]="'COLONIES_PAGE.emptyGroupHint' | translate"
-      >
+      <span *ngIf="group.swarms.length === 0" class="small-preview">
+        {{ "COLONIES_PAGE.emptyGroupHint" | translate }}
+        <br />
       </span>
-      <span *ngIf="group.lat && group.lng" class="small-preview">
-        Lat: {{ group.lat | number: ".1-2" }} Lng:
-        {{ group.lng | number: ".1-2" }}
+      <span
+        *ngIf="group.lat && group.lng; else tapToLocate"
+        class="small-preview"
+      >
+        Lat: {{ group.lat | number: ".1-4" }} Lng:
+        {{ group.lng | number: ".1-4" }}
       </span>
     </ion-label>
   </ion-item>
+  <app-weather-forecast
+    [lat]="group.lat"
+    [lng]="group.lng"
+    *ngIf="group.lat && group.lng"
+  ></app-weather-forecast>
   <ion-item-options *ngIf="group.swarms.length === 0">
     <ion-item-option color="secondary" (click)="deleteGroup(group.id)">
       <ion-icon slot="end" name="trash-outline"></ion-icon>

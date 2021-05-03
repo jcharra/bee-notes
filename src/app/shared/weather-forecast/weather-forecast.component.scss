@@ -1,0 +1,46 @@
+:host .forecast {
+  --ion-item-background: lightblue !important;
+  font-size: 10pt;
+  padding: 10px;
+  background-color: lightblue;
+}
+
+.dayHeader {
+  font-size: 10pt;
+  color: black;
+  margin-bottom: 5px;
+}
+
+.forecastDay ion-icon {
+  color: blue;
+  font-size: 16pt;
+}
+
+.forecastDay {
+  width: 12.5%;
+}
+
+.forecastNow ion-icon {
+  color: blue;
+  font-size: 20pt;
+}
+
+.forecastNow {
+  width: 180px;
+}
+
+.sunny {
+  color: yellow !important;
+}
+
+.cloudy {
+  color: white !important;
+}
+
+.rainy {
+  color: gray !important;
+}
+
+.danger {
+  color: red;
+}

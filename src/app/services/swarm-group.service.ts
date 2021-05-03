@@ -50,7 +50,6 @@ export class SwarmGroupService {
                   lng: value.lng,
                 });
               }
-              console.log("Found groups", entries);
               return entries;
             })
           );
@@ -95,8 +94,10 @@ export class SwarmGroupService {
           id: group.id,
           name: group.name,
           swarmIds: group.swarms.map((s) => s.id),
-          lat: resp.coords.latitude,
-          lng: resp.coords.longitude,
+          lat: Math.round(resp.coords.latitude * 1000) / 1000,
+          lng: Math.round(resp.coords.longitude * 1000) / 1000,
+          //lat: Math.random() * 90 - 45,
+          //lng: Math.random() * 90 - 45,
         }).subscribe();
       })
       .catch((error) => {

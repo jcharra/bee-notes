@@ -9,6 +9,7 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-button
+      *ngIf="group.swarms.length > 0"
       size="small"
       slot="end"
       color="primary"
@@ -18,6 +19,7 @@
       <ion-icon name="help-outline" class="double-icon-right"></ion-icon>
     </ion-fab-button>
     <ion-fab-button
+      *ngIf="group.swarms.length > 0"
       size="small"
       slot="end"
       color="primary"
