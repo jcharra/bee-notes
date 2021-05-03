@@ -29,7 +29,6 @@ export class PurchaseService {
         this.purchasesAvailable = false;
         return;
       }
-
       this.registerProducts();
       this.setupListeners();
 
@@ -135,6 +134,10 @@ export class PurchaseService {
   }
 
   checkLimitReached(numSwarms: number) {
-    return !this.hasFullVersion && numSwarms >= MAX_SWARMS_FREE_VERSION;
+    return (
+      (this.plt.is("android") || this.plt.is("ios")) &&
+      !this.hasFullVersion &&
+      numSwarms >= MAX_SWARMS_FREE_VERSION
+    );
   }
 }

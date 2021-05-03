@@ -28,15 +28,15 @@
     "goodbyeMessage": "Sad to see you leave ... All the best and happy beekeeping!"
   },
   "COLONIES_PAGE": {
-    "loading": "Loading hives ...",
-    "pageTitle": "Hives",
-    "colonies": "Hives",
+    "loading": "Loading data ...",
+    "pageTitle": "Locations",
+    "colonies": "Locations",
     "noColonies": "No buzz yet - time to add your first hive.",
-    "emptyGroupHint": "Drag hives here by their bee icon.<br /> Delete group by swiping.",
+    "emptyGroupHint": "No hives added yet.",
     "changeGroupNameHint": "Tap to change name",
     "varroaCountUnit": "per day",
-    "editGroupName": "Rename group",
-    "newColonyGroup": "Create new group",
+    "editGroupName": "Rename location",
+    "newColonyGroup": "Add new location",
     "namePlaceholder": "Pick a name",
     "createGroup": "Create",
     "createGroupFailed": "Creation failed",
@@ -50,12 +50,22 @@
     "closeColonyHeader": "Remove hive",
     "closeColonyBody": "Why is this hive removed?",
     "whereToFindExColoniesHint": "You can find your former hives in the menu 'Former hives' and also reactivate them.",
-    "defaultGroupName": "Unnamed group",
     "weightDialogHeader": "Track weight",
     "weightDialogMsg": "Select the hive's weight",
     "fullVersionRequiredDialogHeader": "Full version required",
     "fullVersionRequiredDialogText": "The free version allows only up to three hives. Consider buying the full version in the 'settings' menu.",
-    "removeHive": "Remove hive"
+    "removeHive": "Remove hive",
+    "multiAction": "Select multi action",
+    "selectLocation": "Select location",
+    "startVarroaTreatment": "Start Varroa treatment",
+    "startVarroaCheck": "Start Varroa check",
+    "changeGroupSelect": "Move to location",
+    "startTreatmentDialogHeader": "Varroa treatment",
+    "startTreatmentDialogMsg": "Would you like to start a varroa treatment for all hives of this location?",
+    "startDiagnosisDialogHeader": "Varroa diagnosis",
+    "startDiagnosisDialogMsg": "Would you like to start a varroa diagnosis for all hives of this location?",
+    "setLocationDialogHeader": "Set location",
+    "setLocationDialogMsg": "Would you like to set this group's location to your current position?"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",
@@ -103,7 +113,7 @@
   },
   "START_MENU": {
     "menuTitle": "Start",
-    "COLONIES": "Hives",
+    "COLONIES": "Locations",
     "logout": "Log out"
   },
   "QUEEN": {

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import { CountableForEntryType } from "../types/Countable";
-import { JournalEntry } from "../types/JournalEntry";
+import { CountableForEntryType } from "../../types/Countable";
+import { JournalEntry } from "../../types/JournalEntry";
 
 @Component({
   selector: "app-journal-entry-short",

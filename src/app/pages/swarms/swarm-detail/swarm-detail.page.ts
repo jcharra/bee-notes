@@ -1,13 +1,18 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
+  ActionSheetController,
   AlertController,
   LoadingController,
-  ToastController
+  ToastController,
 } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { forkJoin, Subject } from "rxjs";
+import { first, takeUntil } from "rxjs/operators";
+import {
+  SwarmGroup,
+  SwarmGroupService,
+} from "src/app/services/swarm-group.service";
 import { JournalService } from "../../../services/journal.service";
 import { Reminder, ReminderService } from "../../../services/reminder.service";
 import { SwarmService } from "../../../services/swarm.service";
@@ -38,7 +43,9 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     private reminderService: ReminderService,
     private toastController: ToastController,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private swarmGroupService: SwarmGroupService,
+    private actionSheetController: ActionSheetController
   ) {}
 
   ngOnInit() {
@@ -204,6 +211,56 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     });
 
     await alert.present();
+  }
+
+  changeGroup() {
+    this.swarmGroupService
+      .getGroups()
+      .pipe(first())
+      .subscribe(async (groups: SwarmGroup[]) => {
+        const selection = await this.actionSheetController.create({
+          header: this.translate.instant("COLONIES_PAGE.changeGroupSelect"),
+          buttons: groups.map((g) => {
+            return {
+              text: g.name,
+              handler: () => {
+                this.moveToGroup(groups, g.id);
+              },
+            };
+          }),
+        });
+
+        selection.present();
+      });
+  }
+
+  moveToGroup(groups: SwarmGroup[], targetId: string) {
+    let fromGroup, toGroup;
+    for (let group of groups) {
+      if (group.swarmIds.indexOf(this.swarmId) > -1) {
+        fromGroup = group;
+        console.log("remove from ", group.id);
+      }
+
+      if (group.id === targetId) {
+        toGroup = group;
+        console.log("move to ", group.id);
+      }
+    }
+
+    if (fromGroup.id === toGroup.id) {
+      return;
+    }
+
+    fromGroup.swarmIds = fromGroup.swarmIds.filter((i) => i !== this.swarmId);
+    toGroup.swarmIds.push(this.swarmId);
+
+    forkJoin([
+      this.swarmGroupService.updateGroup(fromGroup),
+      this.swarmGroupService.updateGroup(toGroup),
+    ]).subscribe(() => {
+      this.router.navigateByUrl("/swarms");
+    });
   }
 
   ngOnDestroy() {
