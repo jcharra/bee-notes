@@ -70,5 +70,12 @@
     "tslint": "~6.1.0",
     "typescript": "~4.0.7"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-geolocation": {
+        "GPS_REQUIRED": "false"
+      }
+    }
+  }
 }
