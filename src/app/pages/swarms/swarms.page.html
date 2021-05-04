@@ -62,11 +62,13 @@
             </ion-label>
           </ion-item>
         </ion-reorder-group>
-        <app-group-action-bar
-          [group]="group"
-          (changeEvent)="loadSwarms()"
-          (addSwarmEvent)="createSwarm($event)"
-        ></app-group-action-bar>
+        <ion-item>
+          <app-group-action-bar
+            [group]="group"
+            (changeEvent)="loadSwarms()"
+            (addSwarmEvent)="createSwarm($event)"
+          ></app-group-action-bar>
+        </ion-item>
       </ion-list>
     </ng-container>
 

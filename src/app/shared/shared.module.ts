@@ -5,6 +5,7 @@ import { GroupActionBarComponent } from "./group-action-bar/group-action-bar.com
 import { GroupHeaderComponent } from "./group-header-component/group-header.component";
 import { JournalEntryShortComponent } from "./journal-entry-short/journal-entry-short.component";
 import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.component";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 @NgModule({
   declarations: [
@@ -20,5 +21,6 @@ import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.co
     GroupActionBarComponent,
     WeatherForecastComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {}
