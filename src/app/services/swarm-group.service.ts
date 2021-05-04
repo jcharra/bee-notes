@@ -50,6 +50,7 @@ export class SwarmGroupService {
                   lng: value.lng,
                 });
               }
+              console.log("E: ", entries);
               return entries;
             })
           );
