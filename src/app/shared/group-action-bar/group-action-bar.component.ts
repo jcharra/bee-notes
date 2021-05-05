@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { AlertController } from "@ionic/angular";
+import { AlertController, LoadingController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { forkJoin, Observable } from "rxjs";
 import { UISwarmGroup } from "src/app/pages/swarms/swarms.page";
@@ -21,10 +21,10 @@ export class GroupActionBarComponent implements OnInit {
 
   constructor(
     private groupService: SwarmGroupService,
-    private reminderService: ReminderService,
     private journalService: JournalService,
     private alertCtrl: AlertController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private loadingCtrl: LoadingController
   ) {}
 
   ngOnInit() {}
@@ -44,10 +44,19 @@ export class GroupActionBarComponent implements OnInit {
         },
         {
           text: this.translate.instant("GENERAL.ok"),
-          handler: () => {
+          handler: async () => {
+            const loading = await this.loadingCtrl.create({
+              message: this.translate.instant("COLONIES_PAGE.localizing"),
+              showBackdrop: true,
+            });
+            await loading.present();
+
             this.groupService
               .setLocation(this.group)
-              .then(() => this.changeEvent.emit());
+              .then(() => {
+                loading.dismiss();
+                this.changeEvent.emit();
+              });
           },
         },
       ],

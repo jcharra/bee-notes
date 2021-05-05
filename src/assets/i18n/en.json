@@ -65,7 +65,8 @@
     "startDiagnosisDialogHeader": "Varroa diagnosis",
     "startDiagnosisDialogMsg": "Would you like to start a varroa diagnosis for all hives of this location?",
     "setLocationDialogHeader": "Set location",
-    "setLocationDialogMsg": "Would you like to set this group's location to your current position?"
+    "setLocationDialogMsg": "Would you like to set this group's location to your current position?",
+    "localizing": "Fetching GPS coordinates ..."
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",

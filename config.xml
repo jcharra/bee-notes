@@ -46,13 +46,13 @@
     </platform>
     <platform name="ios">
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-            <string>need location access to find things nearby</string>
+            <string>By providing your hives' locations, Bee Notes is able to display local weather data.</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysAndWhenInUseUsageDescription">
-            <string>need location access to find things nearby</string>
+            <string>By providing your hives' locations, Bee Notes is able to display local weather data.</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
-            <string>need location access to find things nearby</string>
+            <string>By providing your hives' locations, Bee Notes is able to display local weather data.</string>
         </edit-config>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
