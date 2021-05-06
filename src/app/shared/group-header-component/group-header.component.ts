@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { UISwarmGroup } from "src/app/pages/swarms/swarms.page";
 import {
-  SwarmGroup,
-  SwarmGroupService,
+  SwarmGroupService
 } from "../../services/swarm-group.service";
 
 @Component({
@@ -11,7 +11,7 @@ import {
 })
 export class GroupHeaderComponent implements OnInit {
   @Input() idx: number;
-  @Input() group: SwarmGroup;
+  @Input() group: UISwarmGroup;
   @Output() changeEvent = new EventEmitter<void>();
   @Output() renameEvent = new EventEmitter<string>();
 

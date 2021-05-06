@@ -8,18 +8,28 @@
 </ion-header>
 
 <ion-content>
-  <ion-button
-    *ngIf="purchasesAvailable && !hasFullVersion"
-    class="ion-padding-horizontal offset-top"
-    color="success"
-    size="default"
-    expand="block"
-    (click)="buyFullVersion()"
-  >
-    <ion-icon name="diamond-outline"></ion-icon>&nbsp;
-    {{"SETTINGS_PAGE.buyFullVersion" | translate}}
-  </ion-button>
-
+  <ng-container *ngIf="purchasesAvailable && !hasFullVersion">
+    <ion-button
+      class="ion-padding-horizontal offset-top"
+      color="success"
+      size="default"
+      expand="block"
+      (click)="buyFullVersion()"
+    >
+      <ion-icon name="diamond-outline"></ion-icon>&nbsp;
+      {{"SETTINGS_PAGE.buyFullVersion" | translate}}
+    </ion-button>
+    <ion-button
+      class="ion-padding-horizontal offset-top-small"
+      color="primary"
+      size="default"
+      expand="block"
+      (click)="refreshStore()"
+    >
+      <ion-icon name="refresh-outline"></ion-icon>&nbsp;
+      {{"SETTINGS_PAGE.restorePurchases" | translate}}
+    </ion-button>
+  </ng-container>
   <ion-button
     *ngIf="purchasesAvailable && hasFullVersion"
     class="ion-padding-horizontal offset-top"
@@ -27,7 +37,7 @@
     size="default"
     expand="block"
   >
-  <ion-icon name="bag-check-outline"></ion-icon>&nbsp;
+    <ion-icon name="bag-check-outline"></ion-icon>&nbsp;
     {{"SETTINGS_PAGE.owningFullVersion" | translate}}
   </ion-button>
 

@@ -75,6 +75,10 @@ export class PurchaseService {
     });
   }
 
+  refresh() {
+    this.store.refresh();
+  }
+
   purchase(prod_id: string) {
     this.store.order(prod_id).then(
       () => {},

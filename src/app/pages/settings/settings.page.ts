@@ -67,4 +67,8 @@ export class SettingsPage implements OnInit {
   async buyFullVersion() {
     this.purchaseService.purchaseFullVersion();
   }
+
+  refreshStore() {
+    this.purchaseService.refresh();
+  }
 }

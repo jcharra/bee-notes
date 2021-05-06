@@ -110,7 +110,8 @@
     "deleteAccountConfirmHeader": "Are you absolutely sure you want to permanently delete your Bee Notes account? This cannot be undone.",
     "deleteAccountConfirm": "Yes, really delete it",
     "buyFullVersion": "Buy full version",
-    "owningFullVersion": "Full version installed"
+    "owningFullVersion": "Full version installed",
+    "restorePurchases": "Restore purchases"
   },
   "START_MENU": {
     "menuTitle": "Start",

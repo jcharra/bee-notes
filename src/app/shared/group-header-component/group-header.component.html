@@ -2,7 +2,7 @@
   <ion-item class="ion-text-center groupHeading">
     <ion-label (click)="group.id && rename(group.id)">
       <strong> {{ group.name }} </strong><br />
-      <span *ngIf="group.swarmIds && group.swarmIds.length === 0" class="small-preview">
+      <span *ngIf="group.swarms && group.swarms.length === 0" class="small-preview">
         {{ "COLONIES_PAGE.emptyGroupHint" | translate }}
         <br />
       </span>
@@ -12,12 +12,7 @@
       </span>
     </ion-label>
   </ion-item>
-  <app-weather-forecast
-    [lat]="group.lat"
-    [lng]="group.lng"
-    *ngIf="group.lat && group.lng"
-  ></app-weather-forecast>
-  <ion-item-options *ngIf="group.swarmIds && group.swarmIds.length === 0">
+  <ion-item-options *ngIf="!group.swarms || group.swarms.length === 0">
     <ion-item-option color="secondary" (click)="deleteGroup(group.id)">
       <ion-icon slot="end" name="trash-outline"></ion-icon>
       {{ "GENERAL.delete" | translate }}

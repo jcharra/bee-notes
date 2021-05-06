@@ -22,6 +22,11 @@
           (changeEvent)="loadSwarms()"
           (renameEvent)="editSwarmGroup($event)"
         ></app-group-header>
+        <app-weather-forecast
+          [lat]="group.lat"
+          [lng]="group.lng"
+          *ngIf="group.lat && group.lng"
+        ></app-weather-forecast>
         <ion-reorder-group
           (ionItemReorder)="doReorder($event, idx)"
           disabled="false"
