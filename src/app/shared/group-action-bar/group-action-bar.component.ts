@@ -25,9 +25,9 @@ export class GroupActionBarComponent implements OnInit {
     private alertCtrl: AlertController,
     private translate: TranslateService,
     private loadingCtrl: LoadingController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   addNewSwarm() {
     this.addSwarmEvent.emit(this.group.id);
@@ -56,6 +56,10 @@ export class GroupActionBarComponent implements OnInit {
               .then(() => {
                 loading.dismiss();
                 this.changeEvent.emit();
+              })
+              .catch((err) => {
+                loading.dismiss();
+                this.onSetLocationError(err);
               });
           },
         },
@@ -63,6 +67,22 @@ export class GroupActionBarComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async onSetLocationError(err) {
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant(
+        "COLONIES_PAGE.errorGeolocation"
+      ),
+      message: "" + err,
+      buttons: [
+        {
+          text: this.translate.instant("GENERAL.ok"),
+          role: "cancel",
+        }]
+    });
+    
+    alert.present();
   }
 
   async startTreatment() {

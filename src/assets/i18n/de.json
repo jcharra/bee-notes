@@ -66,7 +66,8 @@
     "startDiagnosisDialogMsg": "Soll für alle Stöcke an diesem Standort eine Varroa-Diagnose begonnen werden?",
     "setLocationDialogHeader": "Standort definieren",
     "setLocationDialogMsg": "Soll deine aktuelle Position als Standort für diese Gruppe festgelegt werden?",
-    "localizing": "Suche GPS Koordinaten ..."
+    "localizing": "Suche GPS Koordinaten ...",
+    "errorGeolocation": "Fehler bei der Lokalisierung"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

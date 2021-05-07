@@ -99,9 +99,6 @@ export class SwarmGroupService {
           //lat: Math.random() * 90 - 45,
           //lng: Math.random() * 90 - 45,
         }).subscribe();
-      })
-      .catch((error) => {
-        console.log("Error getting location", error);
       });
   }
 }
