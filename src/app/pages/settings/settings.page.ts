@@ -1,11 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { TranslateService } from "@ngx-translate/core";
 import { Storage } from "@ionic/storage";
-import { AuthService } from "../auth/auth.service";
-import { AlertController } from "@ionic/angular";
-import { FULL_VERSION, PurchaseService } from "src/app/purchase.service";
-import { IAPProduct } from "@ionic-native/in-app-purchase-2/ngx";
+import { TranslateService } from "@ngx-translate/core";
+import { PurchaseService } from "src/app/purchase.service";
 
 interface Language {
   name: string;
@@ -33,9 +30,8 @@ export class SettingsPage implements OnInit {
     private translate: TranslateService,
     private formBuilder: FormBuilder,
     private storage: Storage,
-    private authService: AuthService,
-    private alertCtrl: AlertController,
-    private purchaseService: PurchaseService
+    private purchaseService: PurchaseService,
+    private ref: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -70,5 +66,6 @@ export class SettingsPage implements OnInit {
 
   refreshStore() {
     this.purchaseService.refresh();
+    setTimeout(() => this.ref.detectChanges(), 2000);
   }
 }

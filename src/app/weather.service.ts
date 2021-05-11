@@ -53,7 +53,6 @@ export class WeatherService {
       cachedValue &&
       isSameDay(cachedValue.current.date, startOfDay(new Date()))
     ) {
-      console.log("From cache for", cacheKey);
       return of(cachedValue);
     }
 
