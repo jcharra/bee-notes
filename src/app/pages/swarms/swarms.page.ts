@@ -128,10 +128,6 @@ export class SwarmsPage {
     this.loadSwarms();
   }
 
-  openSwarmDetail(swarmId: string) {
-    this.navController.navigateForward("/swarms/view/" + swarmId);
-  }
-
   async editSwarmGroup(groupId?: string) {
     const existing =
       groupId && this.sortedSwarmGroups.filter((g) => g.id === groupId)[0];

@@ -33,8 +33,7 @@
         >
           <ion-item
             *ngFor="let swarm of group.swarms"
-            (tap)="openSwarmDetail(swarm.id)"
-            (click)="openSwarmDetail(swarm.id)"
+            [routerLink]="['view', swarm.id]"
           >
             <ion-reorder slot="start"> 🐝 </ion-reorder>
             <ion-label>
