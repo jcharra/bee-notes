@@ -7,7 +7,7 @@ import {
   ToastController,
 } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { forkJoin, Subject } from "rxjs";
+import { forkJoin, Observable, Subject } from "rxjs";
 import { first, takeUntil } from "rxjs/operators";
 import {
   SwarmGroup,
@@ -31,8 +31,9 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
   swarm: Swarm;
   journalEntries: JournalEntry[] = JOURNAL_PLACEHOLDER;
   userId: string;
-  reminders: Reminder[];
+  reminders$: Observable<Reminder[]>;
   destroyed$ = new Subject<boolean>();
+  now = new Date();
 
   constructor(
     private swarmService: SwarmService,
@@ -84,11 +85,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
   }
 
   loadReminders() {
-    this.reminderService
-      .getReminders(this.swarmId)
-      .then((reminders: Reminder[]) => {
-        this.reminders = reminders;
-      });
+    this.reminders$ = this.reminderService.getReminders(this.swarmId);
   }
 
   async onMissingValues() {
@@ -239,12 +236,10 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     for (let group of groups) {
       if (group.swarmIds.indexOf(this.swarmId) > -1) {
         fromGroup = group;
-        console.log("remove from ", group.id);
       }
 
       if (group.id === targetId) {
         toGroup = group;
-        console.log("move to ", group.id);
       }
     }
 

@@ -3,8 +3,8 @@ import { AlertController, LoadingController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { forkJoin, Observable } from "rxjs";
 import { UISwarmGroup } from "src/app/pages/swarms/swarms.page";
+import { AnimationService } from "src/app/services/animation.service";
 import { JournalService } from "src/app/services/journal.service";
-import { ReminderService } from "src/app/services/reminder.service";
 import { SwarmGroupService } from "src/app/services/swarm-group.service";
 import { EntryType } from "src/app/types/EntryType";
 import { Swarm } from "src/app/types/Swarm";
@@ -24,10 +24,15 @@ export class GroupActionBarComponent implements OnInit {
     private journalService: JournalService,
     private alertCtrl: AlertController,
     private translate: TranslateService,
-    private loadingCtrl: LoadingController
-  ) { }
+    private loadingCtrl: LoadingController,
+    private animationService: AnimationService
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.group.swarms.length === 0) {
+      this.animationService.pulse("#addButton" + this.group.id, 3);
+    }
+  }
 
   addNewSwarm() {
     this.addSwarmEvent.emit(this.group.id);
@@ -71,17 +76,16 @@ export class GroupActionBarComponent implements OnInit {
 
   async onSetLocationError(err) {
     const alert = await this.alertCtrl.create({
-      header: this.translate.instant(
-        "COLONIES_PAGE.errorGeolocation"
-      ),
+      header: this.translate.instant("COLONIES_PAGE.errorGeolocation"),
       message: "" + err,
       buttons: [
         {
           text: this.translate.instant("GENERAL.ok"),
           role: "cancel",
-        }]
+        },
+      ],
     });
-    
+
     alert.present();
   }
 

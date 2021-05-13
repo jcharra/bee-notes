@@ -10,7 +10,7 @@
 <ion-content>
   <ng-container *ngIf="sortedSwarmGroups">
     <ng-container *ngIf="sortedSwarmGroups.length === 0">
-      <ion-item class="ion-padding">
+      <ion-item class="ion-padding" lines="none">
         {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝
       </ion-item>
     </ng-container>
@@ -77,7 +77,12 @@
     </ng-container>
 
     <ion-buttons class="ion-padding-horizontal">
-      <ion-fab-button slot="end" color="primary" (click)="editSwarmGroup()">
+      <ion-fab-button
+        class="addGroupButton"
+        slot="end"
+        color="primary"
+        (click)="editSwarmGroup()"
+      >
         <ion-icon name="duplicate-outline"></ion-icon>
       </ion-fab-button>
     </ion-buttons>

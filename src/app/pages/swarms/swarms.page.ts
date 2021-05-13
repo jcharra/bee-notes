@@ -9,6 +9,7 @@ import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
 import { first, switchMap, tap } from "rxjs/operators";
 import { PurchaseService } from "src/app/purchase.service";
+import { AnimationService } from "src/app/services/animation.service";
 import { JournalService } from "src/app/services/journal.service";
 import { StatusService } from "src/app/services/status.service";
 import {
@@ -50,7 +51,8 @@ export class SwarmsPage {
     private statusService: StatusService,
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService,
-    private purchases: PurchaseService
+    private purchases: PurchaseService,
+    private animationService: AnimationService
   ) {}
 
   async loadSwarms() {
@@ -121,6 +123,11 @@ export class SwarmsPage {
       });
 
       this.sortedSwarmGroups = displayGroups;
+
+      if (this.sortedSwarmGroups.length === 0) {
+        this.animationService.pulse(".addGroupButton", 5);
+        this.animationService.pulse(".bee", 5);
+      }
     });
   }
 

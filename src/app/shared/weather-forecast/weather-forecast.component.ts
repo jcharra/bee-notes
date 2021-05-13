@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { AnimationController } from "@ionic/angular";
 import { Observable } from "rxjs";
+import { AnimationService } from "src/app/services/animation.service";
 import { Forecast, WeatherService, WeatherType } from "src/app/weather.service";
 
 @Component({
@@ -16,27 +16,14 @@ export class WeatherForecastComponent implements OnInit {
 
   constructor(
     private weatherService: WeatherService,
-    private animationCtrl: AnimationController
+    private animationService: AnimationService
   ) {}
 
   ngOnInit() {
     this.forecast$ = this.weatherService.getForecast(this.lat, this.lng);
 
-    const animation = this.animationCtrl
-      .create()
-      .addElement(document.querySelector(".forecast"))
-      .duration(2000)
-      .fromTo("opacity", "0", "1");
-    animation.play();
+    this.animationService.fadeIn(".forecast", 2000);
 
-    setTimeout(() => {
-      const sun = this.animationCtrl
-        .create()
-        .addElement(document.querySelectorAll(".sunny"))
-        .duration(10000)
-        .iterations(Infinity)
-        .fromTo("transform", "rotate(0deg)", "rotate(360deg)");
-      sun.play();
-    }, 1000);
+    this.animationService.rotate(".sunny", Infinity);
   }
 }

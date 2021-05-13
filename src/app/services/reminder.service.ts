@@ -1,8 +1,13 @@
 import { Injectable } from "@angular/core";
+import { AngularFireDatabase } from "@angular/fire/database";
 import { Plugins } from "@capacitor/core";
-import { TranslateService } from "@ngx-translate/core";
-const { LocalNotifications } = Plugins;
 import { Storage } from "@ionic/storage";
+import { TranslateService } from "@ngx-translate/core";
+import { addDays, isBefore, startOfDay } from "date-fns";
+import { Observable } from "rxjs";
+import { first, map, switchMap, tap } from "rxjs/operators";
+import { AuthService } from "../pages/auth/auth.service";
+const { LocalNotifications } = Plugins;
 
 export interface Reminder {
   reminderId?: number;
@@ -18,21 +23,57 @@ const REMINDERS_STORAGE_KEY = "REMINDERS_STORAGE_KEY";
   providedIn: "root",
 })
 export class ReminderService {
-  constructor(private translate: TranslateService, private storage: Storage) {}
+  constructor(
+    private translate: TranslateService,
+    private storage: Storage,
+    private db: AngularFireDatabase,
+    private authService: AuthService
+  ) {}
 
-  async getReminders(swarmId: string): Promise<Reminder[]> {
-    return this.storage
-      .get(REMINDERS_STORAGE_KEY)
-      .then((reminders: Reminder[]) => {
-        if (!reminders) {
-          return [];
-        }
+  getReminders(swarmId?: string): Observable<Reminder[]> {
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
+        return this.db
+          .list(`users/${user.uid}/reminders`)
+          .snapshotChanges()
+          .pipe(
+            first(),
+            map((rs: any[]) => {
+              let reminders: Reminder[] = [];
 
-        const now = new Date();
-        return reminders.filter(
-          (r) => new Date(r.date) > now && r.swarmId === swarmId
-        );
-      });
+              for (let i = 0; i < rs.length; i++) {
+                const item: any = rs[i];
+                const key = item.key;
+                const value: any = item.payload.val();
+
+                reminders.push({
+                  reminderId: key,
+                  ...value,
+                  date: new Date(value.date),
+                });
+              }
+
+              // Show reminders if not older than 3 days
+              const obsoleteReminders = [];
+              const currentReminders = [];
+
+              for (const r of reminders) {
+                if (isBefore(r.date, startOfDay(addDays(new Date(), -3)))) {
+                  obsoleteReminders.push(r);
+                } else {
+                  currentReminders.push(r);
+                }
+              }
+
+              this.cleanupReminders(obsoleteReminders.map((r) => r.reminderId));
+
+              return swarmId
+                ? currentReminders.filter((r) => r.swarmId === swarmId)
+                : currentReminders;
+            })
+          );
+      })
+    );
   }
 
   async createReminder(reminder: Reminder) {
@@ -59,6 +100,18 @@ export class ReminderService {
       ],
     });
 
+    this.authService
+      .getUser()
+      .pipe(
+        first(),
+        tap((user) => {
+          this.db
+            .object(`users/${user.uid}/reminders/${reminder.reminderId}`)
+            .set({ ...reminder, date: reminder.date.toISOString() });
+        })
+      )
+      .subscribe();
+
     this.storage.get(REMINDERS_STORAGE_KEY).then((reminders: Reminder[]) => {
       if (!reminders) {
         reminders = [];
@@ -73,11 +126,37 @@ export class ReminderService {
       notifications: [{ id: "" + reminderId }],
     });
 
+    this.authService
+      .getUser()
+      .pipe(
+        first(),
+        tap((user) => {
+          return this.db
+            .object(`/users/${user.uid}/reminders/${reminderId}`)
+            .remove();
+        })
+      )
+      .subscribe();
+
     return this.storage
       .get(REMINDERS_STORAGE_KEY)
       .then((reminders: Reminder[]) => {
         reminders = reminders.filter((r) => r.reminderId !== reminderId);
         this.storage.set(REMINDERS_STORAGE_KEY, reminders);
       });
+  }
+
+  cleanupReminders(reminderIds: number[]) {
+    this.authService
+      .getUser()
+      .pipe(
+        first(),
+        tap((user) => {
+          for (const rid of reminderIds) {
+            this.db.object(`/users/${user.uid}/reminders/${rid}`).remove();
+          }
+        })
+      )
+      .subscribe();
   }
 }

@@ -36,7 +36,6 @@ export class PurchaseService {
 
       this.store.ready(() => {
         this.products = this.store.products;
-        //console.log("Found products", this.products);
         this.purchasesAvailable = this.products.length > 0;
       });
     });
