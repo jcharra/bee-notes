@@ -25,7 +25,7 @@ export class PurchaseService {
     private translate: TranslateService
   ) {
     this.plt.ready().then(() => {
-      if (!this.plt.is("ios")) {
+      if (!this.plt.is("ios") && !this.plt.is("android")) {
         this.purchasesAvailable = false;
         return;
       }

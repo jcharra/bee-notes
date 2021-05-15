@@ -12,7 +12,7 @@ export class AboutPage implements OnInit {
   constructor(private purchaseService: PurchaseService) { }
 
   ngOnInit() {
-    this.coffeeAvailable = true || this.purchaseService.purchasesAvailable;
+    this.coffeeAvailable = this.purchaseService.purchasesAvailable;
   }
 
   donateCoffee() {
