@@ -6,7 +6,7 @@ import {
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
-import { empty, forkJoin, Observable } from "rxjs";
+import { empty, forkJoin, from, Observable, of } from "rxjs";
 import { first, map, switchMap, tap } from "rxjs/operators";
 import { AnimationService } from "src/app/services/animation.service";
 import { JournalService } from "src/app/services/journal.service";
@@ -82,23 +82,32 @@ export class SwarmsPage {
       )
       .subscribe(() => {
         loading.dismiss();
-       });
+      }, (err) => {
+        loading.dismiss();
+        console.log("ERROR", err);
+      });
   }
 
   private loadJournalEntries(groups: UISwarmGroup[]): Observable<UISwarmGroup[]> {
     let journalUpdates = [];
     for (let group of groups) {
-      group.swarms.forEach((sw: Swarm) =>
+      group.swarms.forEach((sw: Swarm) => {
         journalUpdates.push(
           this.journalService
             .getEntries(sw.id, { limit: 6 })
-            .pipe(tap((e: JournalEntry[]) => {
+            .pipe(tap((e: JournalEntry[]) => {    
               if (e && e.length > 0) {
                 sw.lastAction = e[0];
                 sw.statusInfo = this.statusService.getColonyStatus(e);
               }
-            }))));
+            })))
+      });    
     }
+
+    if (journalUpdates.length === 0) {
+      return of(groups);
+    }
+
     return forkJoin(journalUpdates)
       .pipe(map(() => groups));
   }

@@ -16,7 +16,7 @@
     </ng-container>
 
     <ng-container *ngFor="let group of sortedSwarmGroups; let idx = index">
-      <ion-list [inset]="true" lines="full">
+      <ion-list [inset]="true" mode="ios" lines="full">
         <app-group-header
           [group]="group"
           (changeEvent)="loadSwarms()"
