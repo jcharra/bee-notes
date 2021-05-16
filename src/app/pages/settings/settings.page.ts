@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Storage } from "@ionic/storage";
 import { TranslateService } from "@ngx-translate/core";
-import { PurchaseService } from "src/app/purchase.service";
+import { PurchaseService } from "src/app/services/purchase.service";
 
 interface Language {
   name: string;

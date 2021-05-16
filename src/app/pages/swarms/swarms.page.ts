@@ -2,19 +2,19 @@ import { Component, ViewChild } from "@angular/core";
 import {
   AlertController,
   IonReorderGroup,
-  LoadingController,
-  NavController,
+  LoadingController
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
-import { first, switchMap, tap } from "rxjs/operators";
-import { PurchaseService } from "src/app/purchase.service";
+import { empty, forkJoin, Observable } from "rxjs";
+import { first, map, switchMap, tap } from "rxjs/operators";
 import { AnimationService } from "src/app/services/animation.service";
 import { JournalService } from "src/app/services/journal.service";
+import { PurchaseService } from "src/app/services/purchase.service";
 import { StatusService } from "src/app/services/status.service";
 import {
   SwarmGroup,
-  SwarmGroupService,
+  SwarmGroupService
 } from "src/app/services/swarm-group.service";
 import { SwarmService } from "src/app/services/swarm.service";
 import { JournalEntry } from "src/app/types/JournalEntry";
@@ -35,7 +35,6 @@ export interface UISwarmGroup {
 })
 export class SwarmsPage {
   sortedSwarmGroups: UISwarmGroup[] = null;
-  swarms: Swarm[];
   userId: string;
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
   translation: any;
@@ -47,7 +46,6 @@ export class SwarmsPage {
     private journalService: JournalService,
     private alertCtrl: AlertController,
     private loadingController: LoadingController,
-    private navController: NavController,
     private statusService: StatusService,
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService,
@@ -56,48 +54,60 @@ export class SwarmsPage {
   ) {}
 
   async loadSwarms() {
-    const showSpinner = !this.swarms;
     const loading = await this.loadingController.create({
       message: this.translate.instant("COLONIES_PAGE.loading"),
       showBackdrop: true,
     });
 
-    if (showSpinner) {
-      await loading.present();
-    }
-
+    await loading.present();
+    
     this.swarmService
       .getSwarms()
       .pipe(
         first(),
-        tap((s: Swarm[]) => {
-          // only reassign if length has changed (avoids flickering)
-          this.swarms =
-            this.swarms && this.swarms.length === s.length ? this.swarms : s;
-
-          this.swarms.forEach((sw: Swarm) => {
-            this.journalService
-              .getEntries(sw.id, { limit: 6 })
-              .subscribe((e: JournalEntry[]) => {
-                if (e && e.length > 0) {
-                  sw.lastAction = e[0];
-                  sw.statusInfo = this.statusService.getColonyStatus(e);
-                }
-              });
-          });
-
-          this.groupSwarms();
-
-          showSpinner && loading.dismiss();
+        switchMap((swarms: Swarm[]) => {
+          return this.groupSwarms(swarms);
+        }),
+        switchMap((groups: UISwarmGroup[]) => {
+          return this.loadJournalEntries(groups);          
+        }),
+        tap((groups: UISwarmGroup[]) => {
+          this.sortedSwarmGroups = groups;
+            
+          if (this.sortedSwarmGroups.length === 0) {
+            this.animationService.pulse(".addGroupButton", 5);
+            this.animationService.pulse(".bee", 5);
+          }
         })
       )
-      .subscribe();
+      .subscribe(() => {
+        loading.dismiss();
+       });
   }
 
-  groupSwarms() {
-    this.swarmGroupService.getGroups().subscribe((groups: SwarmGroup[]) => {
+  private loadJournalEntries(groups: UISwarmGroup[]): Observable<UISwarmGroup[]> {
+    let journalUpdates = [];
+    for (let group of groups) {
+      group.swarms.forEach((sw: Swarm) =>
+        journalUpdates.push(
+          this.journalService
+            .getEntries(sw.id, { limit: 6 })
+            .pipe(tap((e: JournalEntry[]) => {
+              if (e && e.length > 0) {
+                sw.lastAction = e[0];
+                sw.statusInfo = this.statusService.getColonyStatus(e);
+              }
+            }))));
+    }
+    return forkJoin(journalUpdates)
+      .pipe(map(() => groups));
+  }
+
+  groupSwarms(swarms: Swarm[]): Observable<UISwarmGroup[]> {
+    return this.swarmGroupService.getGroups()
+      .pipe(map((groups: SwarmGroup[]) => {
       let swarmsById = new Map<string, Swarm>();
-      this.swarms.forEach((s) => {
+      swarms.forEach((s) => {
         swarmsById.set(s.id, s);
       });
 
@@ -122,13 +132,8 @@ export class SwarmsPage {
         displayGroups.push(displayGroup);
       });
 
-      this.sortedSwarmGroups = displayGroups;
-
-      if (this.sortedSwarmGroups.length === 0) {
-        this.animationService.pulse(".addGroupButton", 5);
-        this.animationService.pulse(".bee", 5);
-      }
-    });
+        return displayGroups;
+    }));
   }
 
   ionViewDidEnter() {
@@ -201,7 +206,7 @@ export class SwarmsPage {
   }
 
   async createSwarm(groupId: string) {
-    if (this.purchases.checkLimitReached(this.swarms.length)) {
+    if (this.purchases.checkLimitReached(this._getNumberOfSwarms())) {
       this.requireFullVersion();
       return;
     }
@@ -316,14 +321,6 @@ export class SwarmsPage {
       });
   }
 
-  reindexGroup(group: UISwarmGroup) {
-    return this.swarmGroupService.updateGroup({
-      id: group.id,
-      name: group.name,
-      swarmIds: group.swarms.map((s) => s.id),
-    });
-  }
-
   async requireFullVersion() {
     const hint = await this.alertCtrl.create({
       header: this.translate.instant(
@@ -340,5 +337,13 @@ export class SwarmsPage {
     });
 
     hint.present();
+  }
+
+  private _getNumberOfSwarms() {
+    let num = 0;
+    for (let group of this.sortedSwarmGroups) {
+      num += group.swarms.length;
+    }
+    return num;
   }
 }

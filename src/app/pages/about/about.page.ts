@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PurchaseService } from 'src/app/purchase.service';
+import { PurchaseService } from 'src/app/services/purchase.service';
 
 @Component({
   selector: 'app-about',
