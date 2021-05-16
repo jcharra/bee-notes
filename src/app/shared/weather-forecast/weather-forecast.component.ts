@@ -21,9 +21,6 @@ export class WeatherForecastComponent implements OnInit {
 
   ngOnInit() {
     this.forecast$ = this.weatherService.getForecast(this.lat, this.lng);
-
-    this.animationService.fadeIn(".forecast", 2000);
-
     this.animationService.rotate(".sunny", Infinity);
   }
 }

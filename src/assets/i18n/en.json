@@ -31,7 +31,7 @@
     "loading": "Loading data ...",
     "pageTitle": "Locations",
     "colonies": "Locations",
-    "noColonies": "No buzz yet - time to add your first hive.",
+    "noColonies": "No buzz yet - time to add your first location.",
     "emptyGroupHint": "No hives added yet.",
     "changeGroupNameHint": "Tap to change name",
     "varroaCountUnit": "per day",
@@ -148,7 +148,7 @@
     "legalInfo": "All images taken from <a href='https://pexels.com'>pexels.com</a> <ul><li>Background image: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li><li>Dev coffee: <strong>Jason Villanueva</strong></ul>",
     "support": "Support",
     "supportText": "If you'd like to support the development of Bee Notes, you can buy the developer a virtual coffee.",
-    "supportCoffeeButton": "Buy coffee (0,99€)"
+    "supportCoffeeButton": "Buy coffee"
   },
   "ACTIONS": {
     "VARROA_CHECK_START": "Varroa check start",
