@@ -14,7 +14,7 @@
 
 <ion-content>
   <form [formGroup]="entryForm">
-    <ion-list>
+    <ion-list mode="ios" [inset]="true">
       <ion-item>
         <ion-label position="stacked"
           >{{ 'JOURNAL_PAGE.actionType' | translate }}</ion-label
@@ -73,6 +73,7 @@
     </ion-list>
 
     <ion-button
+      class="ion-padding-horizontal"
       [disabled]="!entryForm.valid || saving"
       type="submit"
       (click)="save()"

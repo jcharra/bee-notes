@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { AnimationService } from "src/app/services/animation.service";
-import { Forecast, WeatherService, WeatherType } from "src/app/weather.service";
+import { Forecast, WeatherService, WeatherType } from "src/app/services/weather.service";
 
 @Component({
   selector: "app-weather-forecast",
@@ -21,9 +21,6 @@ export class WeatherForecastComponent implements OnInit {
 
   ngOnInit() {
     this.forecast$ = this.weatherService.getForecast(this.lat, this.lng);
-
-    this.animationService.fadeIn(".forecast", 2000);
-
     this.animationService.rotate(".sunny", Infinity);
   }
 }

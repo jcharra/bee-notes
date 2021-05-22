@@ -13,7 +13,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list [inset]="true">
+  <ion-list [inset]="true" mode="ios">
     <ion-datetime
       [(ngModel)]="date"
       class="ion-text-center"
@@ -26,7 +26,7 @@
     >
   </ion-list>
 
-  <ion-list [inset]="true">
+  <ion-list [inset]="true" mode="ios">
     <ion-item *ngFor="let item of amounts | keyvalue">
       <ion-icon
         color="primary"
@@ -55,7 +55,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-list [inset]="true">
+  <ion-list [inset]="true" mode="ios">
     <ion-item>
       <ion-icon
         color="primary"
@@ -84,7 +84,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-list [inset]="true">
+  <ion-list [inset]="true" mode="ios">
     <ion-item>
       <ion-icon
         color="primary"

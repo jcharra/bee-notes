@@ -1,9 +1,9 @@
-import { PurchaseService } from 'src/app/purchase.service';
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { first, tap } from "rxjs/operators";
+import { first } from "rxjs/operators";
+import { PurchaseService } from 'src/app/services/purchase.service';
 import { Swarm } from "src/app/types/Swarm";
 import { SwarmService } from "../../services/swarm.service";
 

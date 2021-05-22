@@ -31,7 +31,7 @@
     "loading": "Lade Standorte ...",
     "pageTitle": "Standorte",
     "colonies": "Standorte",
-    "noColonies": "Hier summt ja noch gar nichts - leg' jetzt Dein erstes Volk an!",
+    "noColonies": "Hier summt ja noch gar nichts - leg' jetzt Deinen ersten Standort an!",
     "emptyGroupHint": "Noch keine Völker angelegt",
     "changeGroupNameHint": "Durch Tippen Namen ändern",
     "varroaCountUnit": "pro Tag",
@@ -148,7 +148,7 @@
     "legalInfo": "Alle Bilder stammen von <a href='https://pexels.com'>pexels.com</a> <ul><li>Hintergrundbild: <strong>Raj Steven</strong></li><li>App-Icon: <strong>Jean van der Meulen</strong></li><li>Support Kaffee: <strong>Jason Villanueva</strong></ul>",
     "support": "Unterstützen",
     "supportText": "Wenn Du die Entwicklung von Bee Notes unterstützen möchtest, kannst Du dem Entwickler einen virtuellen Kaffee spendieren.",
-    "supportCoffeeButton": "Kaffee spendieren (0,99€)"
+    "supportCoffeeButton": "Kaffee spendieren"
   },
   "ACTIONS": {
     "VARROA_CHECK_START": "Varroa Diagnose Start",

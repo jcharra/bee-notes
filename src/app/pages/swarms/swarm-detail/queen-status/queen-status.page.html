@@ -15,7 +15,7 @@
 
 <ion-content>
   <ng-container *ngIf="newStatus && newStatus?.birthYear; else defaultStatus">
-    <ion-list [inset]="true">
+    <ion-list [inset]="true" mode="ios">
       <ion-item>
         <ion-label class="ion-text-center"
           >{{'QUEEN.race' | translate}}</ion-label
@@ -40,7 +40,7 @@
       </ion-item>
     </ion-list>
 
-    <ion-list [inset]="true">
+    <ion-list [inset]="true" mode="ios">
       <ion-item>
         <ion-label class="ion-text-center"
           >{{'QUEEN.birthYear' | translate}}</ion-label
@@ -65,7 +65,7 @@
       </ion-item>
     </ion-list>
 
-    <ion-list [inset]="true">
+    <ion-list [inset]="true" mode="ios">
       <ion-item>
         <ion-label class="ion-text-center"
           >{{'QUEEN.lastSeen' | translate}}</ion-label
@@ -80,7 +80,7 @@
       ></ion-datetime>
     </ion-list>
 
-    <ion-list [inset]="true">
+    <ion-list [inset]="true" mode="ios">
       <ion-item>
         <ion-label class="ion-text-center"
           >{{'QUEEN.lastSeenEggs' | translate}}</ion-label
@@ -118,7 +118,7 @@
 
   <ng-template #defaultStatus>
     <ng-container *ngIf="newStatus">
-      <ion-list [inset]="true">
+      <ion-list [inset]="true" mode="ios">
         <ion-item>
           <ion-label class="ion-text-wrap">
             {{ 'QUEEN.noQueenYet' | translate }}

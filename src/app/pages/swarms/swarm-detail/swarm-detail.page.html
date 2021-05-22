@@ -16,7 +16,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list [inset]="true">
+  <ion-list [inset]="true" mode="ios">
     <ion-item class="ion-text-center">
       <ion-label>
         <strong>{{"JOURNAL_PAGE.latestActivity" | translate}}</strong>
@@ -76,7 +76,7 @@
   </ion-fab-button>
 
   <ng-container *ngIf="reminders$ | async as reminders">
-    <ion-list *ngIf="reminders.length > 0" [inset]="true">
+    <ion-list *ngIf="reminders.length > 0" [inset]="true" mode="ios">
       <ion-item class="ion-text-center">
         <ion-label>
           <strong>{{ "REMINDERS.listTitle" | translate }}</strong>
