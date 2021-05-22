@@ -71,7 +71,7 @@
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",
-    "latestActivity": "Latest entries",
+    "latestActivity": "Latest activity",
     "pageTitle": "Journal",
     "viewJournal": "View journal",
     "editEntry": "Edit entry",

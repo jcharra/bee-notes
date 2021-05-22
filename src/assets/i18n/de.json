@@ -71,7 +71,7 @@
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",
-    "latestActivity": "Neuste Einträge",
+    "latestActivity": "Letzte Aktivität",
     "pageTitle": "Tagebuch",
     "viewJournal": "Tagebuch anzeigen",
     "editEntry": "Eintrag bearbeiten",
