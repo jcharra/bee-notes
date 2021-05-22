@@ -70,14 +70,20 @@ const routes: Routes = [
       import("./pages/about/about.module").then((m) => m.AboutPageModule),
   },
   {
-    path: 'accountdeletion',
-    loadChildren: () => import('./accountdeletion/accountdeletion.module').then( m => m.AccountdeletionPageModule)
-  }
+    path: "accountdeletion",
+    loadChildren: () =>
+      import("./accountdeletion/accountdeletion.module").then(
+        (m) => m.AccountdeletionPageModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules,
+      relativeLinkResolution: "legacy",
+    }),
   ],
   exports: [RouterModule],
 })
