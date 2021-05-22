@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/swarms"
+        [text]="'GENERAL.backButtonCaption' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title
+      ><strong
+        >{{ (swarmId ? 'COLONIES_PAGE.editColony' : 'COLONIES_PAGE.newColony') |
+        translate }}</strong
+      ></ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-menu-button menu="first"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content> </ion-content>
