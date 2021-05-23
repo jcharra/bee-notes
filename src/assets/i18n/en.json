@@ -68,7 +68,8 @@
     "setLocationDialogMsg": "Would you like to set this group's location to your current position?",
     "localizing": "Fetching GPS coordinates ...",
     "errorGeolocation": "Localization error",
-    "editColony": "Edit hive"
+    "editColony": "Edit hive",
+    "colonyName": "Colony name"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",

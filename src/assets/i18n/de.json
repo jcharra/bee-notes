@@ -68,7 +68,8 @@
     "setLocationDialogMsg": "Soll deine aktuelle Position als Standort für diese Gruppe festgelegt werden?",
     "localizing": "Suche GPS Koordinaten ...",
     "errorGeolocation": "Fehler bei der Lokalisierung",
-    "editColony": "Volk bearbeiten"
+    "editColony": "Volk bearbeiten",
+    "colonyName": "Name des Volkes"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",
