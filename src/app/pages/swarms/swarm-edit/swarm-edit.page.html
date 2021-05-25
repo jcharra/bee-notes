@@ -27,7 +27,7 @@
         >
         <ion-input
           formControlName="name"
-          placeholder="{{'COLONIES_PAGE.colonyName' | translate}}"
+          placeholder="{{'COLONIES_PAGE.colonyNamePlaceholder' | translate}}"
         >
         </ion-input>
       </ion-item>
@@ -76,18 +76,36 @@
       <ion-item>
         <ion-label
           class="ion-text-center"
-          [color]="!colonyForm.controls.isLayer.value ? 'primary' : 'light'"
-        >
-          {{'COLONIES_PAGE.layer' | translate}}
-        </ion-label>
-        <ion-toggle formControlName="isLayer"> </ion-toggle>
-        <ion-label
-          class="ion-text-center"
-          [color]="colonyForm.controls.isLayer.value ? 'primary' : 'light'"
+          [color]="colonyForm.controls.isNucleus.value === false ? 'primary' : 'default'"
         >
           {{'COLONIES_PAGE.fullColony' | translate}}
         </ion-label>
+        <ion-toggle formControlName="isNucleus"> </ion-toggle>
+        <ion-label
+          class="ion-text-center"
+          [color]="colonyForm.controls.isNucleus.value === true ? 'primary' : 'default'"
+        >
+          {{'COLONIES_PAGE.nucleus' | translate}}
+        </ion-label>
       </ion-item>
+      <ng-container *ngIf="ancestors$ | async as ancestors">
+        <ion-item *ngIf="ancestors && ancestors.length > 1">
+          <ion-label position="stacked"
+            >{{'QUEEN.ancestor' | translate}}</ion-label
+          >
+          <ion-select
+            name="ancestorId"
+            interface="action-sheet"
+            formControlName="ancestorId"
+            [cancelText]="'GENERAL.cancel' | translate"
+            [okText]="'GENERAL.ok' | translate"
+          >
+            <ion-select-option *ngFor="let option of ancestors" [value]="option"
+              >{{ option.name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+      </ng-container>
     </ion-list>
 
     <ion-button

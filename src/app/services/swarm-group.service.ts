@@ -57,6 +57,34 @@ export class SwarmGroupService {
     );
   }
 
+  getGroup(groupId: string) {
+    return this.authService.getUser().pipe(
+      switchMap((user) => {
+        return this.db
+          .object(`/users/${user.uid}/groups/${groupId}`)
+          .snapshotChanges()
+          .pipe(
+            take(1),
+            map((data: any) => {
+              if (!data) {
+                return null;
+              }
+              const key = data.key;
+              const value: any = data.payload.val();
+
+              return {
+                id: key,
+                name: value.name,
+                swarmIds: value.swarmIds,
+                lat: value.lat,
+                lng: value.lng,
+              };
+            })
+          );
+      })
+    );
+  }
+
   createGroup(name: string, swarmIds: string[] = []) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
@@ -78,6 +106,19 @@ export class SwarmGroupService {
     );
   }
 
+  addSwarmToGroup(swarmId: string, groupId: string) {
+    return this.getGroup(groupId).pipe(
+      switchMap((g: SwarmGroup) => {
+        const newSwarmIds = (g.swarmIds || []).concat(swarmId);
+        return this.updateGroup({
+          id: g.id,
+          name: g.name,
+          swarmIds: newSwarmIds,
+        });
+      })
+    );
+  }
+
   deleteGroup(gid: string) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
@@ -87,18 +128,16 @@ export class SwarmGroupService {
   }
 
   setLocation(group: UISwarmGroup) {
-    return this.geolocation
-      .getCurrentPosition()
-      .then((resp) => {
-        return this.updateGroup({
-          id: group.id,
-          name: group.name,
-          swarmIds: group.swarms.map((s) => s.id),
-          lat: Math.round(resp.coords.latitude * 1000) / 1000,
-          lng: Math.round(resp.coords.longitude * 1000) / 1000,
-          //lat: Math.random() * 90 - 45,
-          //lng: Math.random() * 90 - 45,
-        }).subscribe();
-      });
+    return this.geolocation.getCurrentPosition().then((resp) => {
+      return this.updateGroup({
+        id: group.id,
+        name: group.name,
+        swarmIds: group.swarms.map((s) => s.id),
+        lat: Math.round(resp.coords.latitude * 1000) / 1000,
+        lng: Math.round(resp.coords.longitude * 1000) / 1000,
+        //lat: Math.random() * 90 - 45,
+        //lng: Math.random() * 90 - 45,
+      }).subscribe();
+    });
   }
 }

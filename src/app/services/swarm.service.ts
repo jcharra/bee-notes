@@ -72,13 +72,14 @@ export class SwarmService {
     );
   }
 
-  createSwarm(name: string): Observable<any> {
+  createSwarm(name: string, ancestorId: string = null): Observable<any> {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         const swarm = {
           name,
           created: new Date(),
           activityStatus: ActivityStatus.ACTIVE,
+          ancestorId,
         };
 
         return this.db

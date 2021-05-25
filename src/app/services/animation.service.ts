@@ -43,6 +43,6 @@ export class AnimationService {
         .iterations(iterations)
         .fromTo("transform", "rotate(0deg)", "rotate(360deg)");
       animation.play();
-    }, 200);
+    }, 1000);
   }
 }

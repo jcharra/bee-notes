@@ -1,8 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
 import {
   AlertController,
   IonReorderGroup,
-  LoadingController
+  LoadingController,
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
@@ -14,7 +15,7 @@ import { PurchaseService } from "src/app/services/purchase.service";
 import { StatusService } from "src/app/services/status.service";
 import {
   SwarmGroup,
-  SwarmGroupService
+  SwarmGroupService,
 } from "src/app/services/swarm-group.service";
 import { SwarmService } from "src/app/services/swarm.service";
 import { JournalEntry } from "src/app/types/JournalEntry";
@@ -50,7 +51,8 @@ export class SwarmsPage {
     private swarmGroupService: SwarmGroupService,
     private translate: TranslateService,
     private purchases: PurchaseService,
-    private animationService: AnimationService
+    private animationService: AnimationService,
+    private router: Router
   ) {}
 
   async loadSwarms() {
@@ -60,7 +62,7 @@ export class SwarmsPage {
     });
 
     await loading.present();
-    
+
     this.swarmService
       .getSwarms()
       .pipe(
@@ -69,80 +71,86 @@ export class SwarmsPage {
           return this.groupSwarms(swarms);
         }),
         switchMap((groups: UISwarmGroup[]) => {
-          return this.loadJournalEntries(groups);          
+          return this.loadJournalEntries(groups);
         }),
         tap((groups: UISwarmGroup[]) => {
           this.sortedSwarmGroups = groups;
-            
+
           if (this.sortedSwarmGroups.length === 0) {
             this.animationService.pulse(".addGroupButton", 5);
             this.animationService.pulse(".bee", 5);
           }
         })
       )
-      .subscribe(() => {
-        loading.dismiss();
-      }, (err) => {
-        loading.dismiss();
-        console.log("ERROR", err);
-      });
+      .subscribe(
+        () => {
+          loading.dismiss();
+        },
+        (err) => {
+          loading.dismiss();
+          console.log("ERROR", err);
+        }
+      );
   }
 
-  private loadJournalEntries(groups: UISwarmGroup[]): Observable<UISwarmGroup[]> {
+  private loadJournalEntries(
+    groups: UISwarmGroup[]
+  ): Observable<UISwarmGroup[]> {
     let journalUpdates = [];
     for (let group of groups) {
       group.swarms.forEach((sw: Swarm) => {
         journalUpdates.push(
-          this.journalService
-            .getEntries(sw.id, { limit: 6 })
-            .pipe(tap((e: JournalEntry[]) => {    
+          this.journalService.getEntries(sw.id, { limit: 6 }).pipe(
+            tap((e: JournalEntry[]) => {
               if (e && e.length > 0) {
                 sw.lastAction = e[0];
                 sw.statusInfo = this.statusService.getColonyStatus(e);
               }
-            })))
-      });    
+            })
+          )
+        );
+      });
     }
 
     if (journalUpdates.length === 0) {
       return of(groups);
     }
 
-    return forkJoin(journalUpdates)
-      .pipe(map(() => groups));
+    return forkJoin(journalUpdates).pipe(map(() => groups));
   }
 
   groupSwarms(swarms: Swarm[]): Observable<UISwarmGroup[]> {
-    return this.swarmGroupService.getGroups()
-      .pipe(map((groups: SwarmGroup[]) => {
-      let swarmsById = new Map<string, Swarm>();
-      swarms.forEach((s) => {
-        swarmsById.set(s.id, s);
-      });
-
-      let displayGroups: UISwarmGroup[] = [];
-
-      groups.forEach((g) => {
-        let displayGroup: UISwarmGroup = {
-          id: g.id,
-          name: g.name,
-          swarms: [],
-          lat: g.lat,
-          lng: g.lng,
-        };
-
-        (g.swarmIds || []).forEach((sid) => {
-          const swarm = swarmsById.get(sid);
-          if (swarm) {
-            displayGroup.swarms.push(swarm);
-          }
+    return this.swarmGroupService.getGroups().pipe(
+      map((groups: SwarmGroup[]) => {
+        let swarmsById = new Map<string, Swarm>();
+        swarms.forEach((s) => {
+          swarmsById.set(s.id, s);
         });
 
-        displayGroups.push(displayGroup);
-      });
+        let displayGroups: UISwarmGroup[] = [];
+
+        groups.forEach((g) => {
+          let displayGroup: UISwarmGroup = {
+            id: g.id,
+            name: g.name,
+            swarms: [],
+            lat: g.lat,
+            lng: g.lng,
+          };
+
+          (g.swarmIds || []).forEach((sid) => {
+            const swarm = swarmsById.get(sid);
+            if (swarm) {
+              displayGroup.swarms.push(swarm);
+            }
+          });
+
+          displayGroups.push(displayGroup);
+        });
 
         return displayGroups;
-    }));
+      })
+    );
   }
 
   ionViewDidEnter() {
@@ -220,70 +228,7 @@ export class SwarmsPage {
       return;
     }
 
-    const alert = await this.alertCtrl.create({
-      header: this.translate.instant("COLONIES_PAGE.newColony"),
-      inputs: [
-        {
-          name: "name",
-          type: "text",
-          placeholder: this.translate.instant("COLONIES_PAGE.namePlaceholder"),
-        },
-      ],
-      buttons: [
-        {
-          text: this.translate.instant("GENERAL.cancel"),
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: this.translate.instant("COLONIES_PAGE.addColony"),
-          handler: (value) => {
-            const name = value.name.trim();
-            if (name) {
-              this.swarmService
-                .createSwarm(name)
-                .pipe(
-                  first(),
-                  switchMap((swarmId) => {
-                    const group = this.sortedSwarmGroups.filter(
-                      (g) => g.id === groupId
-                    );
-                    const groupToAdd = group.length
-                      ? group[0]
-                      : this.sortedSwarmGroups[
-                          this.sortedSwarmGroups.length - 1
-                        ];
-                    const swarmIds = groupToAdd.swarms.map((s) => s.id);
-                    swarmIds.push(swarmId);
-                    return this.swarmGroupService.updateGroup({
-                      id: groupToAdd.id,
-                      name: groupToAdd.name,
-                      swarmIds,
-                    });
-                  })
-                )
-                .subscribe(
-                  () => {
-                    this.loadSwarms();
-                  },
-                  (err) => {
-                    this.onCreationFailure(err);
-                  }
-                );
-            } else {
-              this.onCreationFailure(
-                this.translate.instant("COLONIES_PAGE.chooseValidName")
-              );
-            }
-          },
-        },
-      ],
-    });
-
-    await alert.present().then(() => {
-      const el: any = document.querySelector("ion-alert input");
-      el.focus();
-    });
+    this.router.navigateByUrl(`/swarms/edit?groupId=${groupId}`);
   }
 
   async onCreationFailure(msg: string) {

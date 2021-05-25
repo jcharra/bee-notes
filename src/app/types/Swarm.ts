@@ -14,4 +14,5 @@ export interface Swarm {
   statusInfo?: ColonyStatusInfo;
   lastAction?: JournalEntry;
   activityStatus?: ActivityStatus;
+  ancestorId?: string; // id of ancestor
 }
