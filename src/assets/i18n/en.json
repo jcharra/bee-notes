@@ -69,7 +69,9 @@
     "localizing": "Fetching GPS coordinates ...",
     "errorGeolocation": "Localization error",
     "editColony": "Edit hive",
-    "colonyName": "Colony name"
+    "colonyName": "Colony name",
+    "layer": "Layer",
+    "fullColony": "Colony"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",
@@ -123,7 +125,7 @@
   },
   "QUEEN": {
     "pageTitle": "Queen",
-    "birthYear": "Birth year",
+    "birthYear": "Queen birth year",
     "lastSeen": "Last seen",
     "lastSeenEggs": "Eggs last seen",
     "noQueenYet": "The queen of this hive is not tracked yet.",
@@ -132,10 +134,10 @@
     "deceasedDialogTitle": "Queen deceased",
     "deceasedDialogBody": "Is the queen of this hive deceased?",
     "deceasedDialogConfirm": "Yes",
-    "race": "Race",
+    "race": "Queen race",
     "CARNICA": "Carnica",
     "BUCKFAST": "Buckfast",
-    "DARK_BEE": "Dark Biene",
+    "DARK_BEE": "Dunkle Biene",
     "CAUCASUS": "Caucasian",
     "AFRICAN": "African",
     "OTHER": "Other",

@@ -72,6 +72,24 @@
       </ion-item>
     </ion-list>
 
+    <ion-list [inset]="true" mode="ios">
+      <ion-item>
+        <ion-label
+          class="ion-text-center"
+          [color]="!colonyForm.controls.isLayer.value ? 'primary' : 'light'"
+        >
+          {{'COLONIES_PAGE.layer' | translate}}
+        </ion-label>
+        <ion-toggle formControlName="isLayer"> </ion-toggle>
+        <ion-label
+          class="ion-text-center"
+          [color]="colonyForm.controls.isLayer.value ? 'primary' : 'light'"
+        >
+          {{'COLONIES_PAGE.fullColony' | translate}}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
     <ion-button
       class="ion-padding-horizontal"
       [disabled]="!colonyForm.valid || saving"
