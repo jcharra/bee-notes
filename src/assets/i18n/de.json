@@ -69,7 +69,9 @@
     "localizing": "Suche GPS Koordinaten ...",
     "errorGeolocation": "Fehler bei der Lokalisierung",
     "editColony": "Volk bearbeiten",
-    "colonyName": "Name des Volkes"
+    "colonyName": "Name des Volkes",
+    "layer": "Layer",
+    "fullColony": "Colony"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",
