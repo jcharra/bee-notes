@@ -1,14 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button
-        defaultHref="/swarms"
-        [text]="'GENERAL.backButtonCaption' | translate"
-      ></ion-back-button>
+      <ion-back-button defaultHref="/swarms"></ion-back-button>
     </ion-buttons>
-    <ion-title (click)="openRenameDialog()"
-      ><strong>{{ swarm?.name }}</strong></ion-title
-    >
+    <ion-title><strong>{{ swarm?.name }}</strong></ion-title>
     <ion-buttons slot="end">
       <ion-menu-button menu="first"></ion-menu-button>
     </ion-buttons>
@@ -16,6 +11,10 @@
 </ion-header>
 
 <ion-content>
+  <ion-list [inset]="true" mode="ios" *ngIf="swarm">
+    <colony-details-card [swarm]="swarm"></colony-details-card>
+  </ion-list>
+
   <ion-list [inset]="true" mode="ios">
     <ion-item class="ion-text-center">
       <ion-label>

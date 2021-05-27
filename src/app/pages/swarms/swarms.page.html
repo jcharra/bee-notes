@@ -35,7 +35,10 @@
             *ngFor="let swarm of group.swarms"
             [routerLink]="['view', swarm.id]"
           >
-            <ion-reorder slot="start"> 🐝 </ion-reorder>
+            <ion-reorder slot="start">
+              <div *ngIf="swarm.isNucleus" class="reorder">🐝</div>
+              <div *ngIf="!swarm.isNucleus" class="reorder">🐝🐝</div>
+            </ion-reorder>
             <ion-label>
               {{ swarm.name }}
               <span

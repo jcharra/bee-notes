@@ -15,6 +15,7 @@ import { SwarmDetailPage } from "./swarm-detail.page";
     SharedModule,
     SwarmDetailPageRoutingModule,
     TranslateModule,
+    SharedModule,
   ],
   declarations: [SwarmDetailPage],
 })

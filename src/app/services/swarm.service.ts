@@ -43,6 +43,9 @@ export class SwarmService {
                   id: key,
                   name: value.name,
                   created: new Date(value.created),
+                  activityStatus: value.activityStatus,
+                  ancestorId: value.ancestorId,
+                  isNucleus: value.isNucleus,
                 });
               }
               return swarms;
@@ -65,6 +68,9 @@ export class SwarmService {
                 id,
                 name: s.name,
                 created: new Date(s.created),
+                activityStatus: s.activityStatus,
+                ancestorId: s.ancestorId,
+                isNucleus: s.isNucleus,
               };
             })
           );
@@ -72,7 +78,11 @@ export class SwarmService {
     );
   }
 
-  createSwarm(name: string, ancestorId: string = null): Observable<any> {
+  createSwarm(
+    name: string,
+    ancestorId: string = null,
+    isNucleus: boolean = false
+  ): Observable<any> {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         const swarm = {
@@ -80,6 +90,7 @@ export class SwarmService {
           created: new Date(),
           activityStatus: ActivityStatus.ACTIVE,
           ancestorId,
+          isNucleus,
         };
 
         return this.db
@@ -96,11 +107,7 @@ export class SwarmService {
   updateSwarm(s: Swarm) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
-          id: s.id,
-          name: s.name,
-          created: s.created,
-        });
+        return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update(s);
       })
     );
   }

@@ -7,6 +7,7 @@ import { JournalEntryShortComponent } from "./journal-entry-short/journal-entry-
 import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.component";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { QueenColorComponent } from "./queen-color/queen-color.component";
+import { ColonyDetailsCardComponent } from "./colony-details-card/colony-details-card.component";
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { QueenColorComponent } from "./queen-color/queen-color.component";
     GroupActionBarComponent,
     WeatherForecastComponent,
     QueenColorComponent,
+    ColonyDetailsCardComponent,
   ],
   imports: [CommonModule, TranslateModule],
   exports: [
@@ -23,6 +25,7 @@ import { QueenColorComponent } from "./queen-color/queen-color.component";
     GroupActionBarComponent,
     WeatherForecastComponent,
     QueenColorComponent,
+    ColonyDetailsCardComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

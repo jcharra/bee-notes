@@ -1,10 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
 import { addYears, getYear } from "date-fns";
-import { Observable } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { combineLatest, forkJoin, Observable } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import { QueenService, Race } from "src/app/services/queen.service";
 import { SwarmGroupService } from "src/app/services/swarm-group.service";
 import { SwarmService } from "src/app/services/swarm.service";
@@ -30,7 +29,6 @@ export class SwarmEditPage implements OnInit {
     private queenService: QueenService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService,
     private formBuilder: FormBuilder
   ) {
     this.races = Object.keys(Race);
@@ -44,11 +42,33 @@ export class SwarmEditPage implements OnInit {
 
     this.colonyForm = this.formBuilder.group({
       name: [null, Validators.required],
-      race: [Race.UNKNOWN],
+      race: [null],
       birthYear: [getYear(new Date())],
-      isNucleus: [true],
+      isNucleus: [null],
       ancestorId: [null],
     });
+
+    if (this.swarmId) {
+      combineLatest([
+        this.swarmService.getSwarm(this.swarmId),
+        this.queenService.getStatus(this.swarmId),
+      ]).subscribe(([swarm, status]) => {
+        if (status) {
+          status.race && this.colonyForm.controls.race.setValue(status.race);
+          status.birthYear &&
+            this.colonyForm.controls.birthYear.setValue(status.birthYear);
+        }
+
+        if (swarm) {
+          this.colonyForm.controls.isNucleus.setValue(!!swarm.isNucleus);
+          swarm.name && this.colonyForm.controls.name.setValue(swarm.name);
+          swarm.ancestorId &&
+            this.colonyForm.controls.ancestorId.setValue(swarm.ancestorId);
+        }
+      });
+    } else {
+      this.colonyForm.controls.isNucleus.setValue(true);
+    }
   }
 
   changeBirthYear(diff: number) {
@@ -60,16 +80,28 @@ export class SwarmEditPage implements OnInit {
 
   save() {
     const vals = this.colonyForm.value;
-    console.log("Value is", vals);
-    this.swarmService
-      .createSwarm(vals.name, vals.ancestorId)
-      .pipe(
-        switchMap((swarmId: string) => {
-          return this.swarmGroupService.addSwarmToGroup(swarmId, this.groupId);
-        })
-      )
-      .subscribe(() => {
+
+    if (this.swarmId) {
+      forkJoin([
+        this.swarmService.updateSwarm({ id: this.swarmId, ...vals }),
+        this.queenService.saveStatus(this.swarmId, vals),
+      ]).subscribe(() => {
         this.router.navigateByUrl("/swarms");
       });
+    } else {
+      this.swarmService
+        .createSwarm(vals.name, vals.ancestorId, vals.isNucleus)
+        .pipe(
+          switchMap((swarmId: string) => {
+            return forkJoin([
+              this.queenService.saveStatus(swarmId, vals),
+              this.swarmGroupService.addSwarmToGroup(swarmId, this.groupId),
+            ]);
+          })
+        )
+        .subscribe(() => {
+          this.router.navigateByUrl("/swarms");
+        });
+    }
   }
 }

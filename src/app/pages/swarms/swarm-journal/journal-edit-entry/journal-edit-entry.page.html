@@ -1,9 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button
-        [text]="'GENERAL.backButtonCaption' | translate"
-      ></ion-back-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title
       >{{ (entryId ? 'JOURNAL_PAGE.editEntry' : 'JOURNAL_PAGE.newEntry') |
@@ -27,7 +25,7 @@
           (ionChange)="onActionTypeChange()"
           (ionCancel)="onCancel()"
           [disabled]="entryId"
-          [okText]="'GENERAL.ok' | translate" 
+          [okText]="'GENERAL.ok' | translate"
           [cancelText]="'GENERAL.cancel' | translate"
         >
           <ion-select-option *ngFor="let option of typeOptions" [value]="option"

@@ -31,8 +31,6 @@ export class QueenStatusPage implements OnInit {
   minYear = getYear(addYears(new Date(), -4));
   minDate = format(startOfYear(addYears(new Date(), -1)), DAY_OF_YEAR);
   maxDate = format(new Date(), DAY_OF_YEAR);
-  races = [];
-  race = Race.UNKNOWN;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,9 +40,7 @@ export class QueenStatusPage implements OnInit {
     private toastController: ToastController,
     private translate: TranslateService,
     private alertCtrl: AlertController
-  ) {
-    this.races = Object.keys(Race);
-  }
+  ) {}
 
   ngOnInit() {
     this.colonyId = this.route.snapshot.params.swarmId;

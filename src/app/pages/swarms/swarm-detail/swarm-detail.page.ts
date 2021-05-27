@@ -152,40 +152,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     toast.present();
   }
 
-  async openRenameDialog() {
-    const alert = await this.alertCtrl.create({
-      header: this.translate.instant("COLONIES_PAGE.renameColonyTitle"),
-      inputs: [
-        {
-          name: "name",
-          type: "text",
-          value: this.swarm.name,
-        },
-      ],
-      buttons: [
-        {
-          text: this.translate.instant("GENERAL.cancel"),
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: this.translate.instant("GENERAL.save"),
-          cssClass: "danger",
-          handler: (value) => {
-            const name = value.name && value.name.trim();
-
-            if (name) {
-              this.swarm.name = name;
-              this.swarmService.updateSwarm(this.swarm).subscribe();
-            }
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
   async deleteReminder(reminderId: number) {
     const alert = await this.alertCtrl.create({
       header: this.translate.instant("REMINDERS.deleteConfirmHeader"),
