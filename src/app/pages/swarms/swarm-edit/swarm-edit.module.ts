@@ -8,6 +8,7 @@ import { SwarmEditPageRoutingModule } from "./swarm-edit-routing.module";
 
 import { SwarmEditPage } from "./swarm-edit.page";
 import { TranslateModule } from "@ngx-translate/core";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { TranslateModule } from "@ngx-translate/core";
     SwarmEditPageRoutingModule,
     TranslateModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   declarations: [SwarmEditPage],
 })

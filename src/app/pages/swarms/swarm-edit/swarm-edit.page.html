@@ -61,8 +61,11 @@
           (click)="changeBirthYear(-1)"
         ></ion-icon>
         <ion-label class="ion-text-center"
-          ><strong>{{ colonyForm.controls.birthYear.value }}</strong></ion-label
-        >
+          ><strong>{{ colonyForm.controls.birthYear.value }}</strong>
+          <queen-color
+            [year]="colonyForm.controls.birthYear.value"
+          ></queen-color
+        ></ion-label>
         <ion-icon
           [color]="colonyForm.controls.birthYear.value < maxYear ? 'primary' : 'light'"
           name="add-circle-outline"
