@@ -109,6 +109,11 @@ export class SwarmGroupService {
   addSwarmToGroup(swarmId: string, groupId: string) {
     return this.getGroup(groupId).pipe(
       switchMap((g: SwarmGroup) => {
+        if (!g) {
+          console.error("No group given - aborting");
+          return;
+        }
+
         const newSwarmIds = (g.swarmIds || []).concat(swarmId);
         return this.updateGroup({
           id: g.id,

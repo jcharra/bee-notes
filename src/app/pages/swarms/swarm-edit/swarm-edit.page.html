@@ -74,21 +74,24 @@
 
     <ion-list [inset]="true" mode="ios">
       <ion-item>
-        <ion-label
-          class="ion-text-center"
-          [color]="colonyForm.controls.isNucleus.value === false ? 'primary' : 'default'"
-        >
-          {{'COLONIES_PAGE.fullColony' | translate}}
-        </ion-label>
-        <ion-toggle formControlName="isNucleus"> </ion-toggle>
-        <ion-label
-          class="ion-text-center"
-          [color]="colonyForm.controls.isNucleus.value === true ? 'primary' : 'default'"
-        >
-          {{'COLONIES_PAGE.nucleus' | translate}}
+        <ion-label class="ion-text-center">
+          {{'COLONIES_PAGE.colonyKind' | translate}}
         </ion-label>
       </ion-item>
-      <ng-container *ngIf="ancestors$ | async as ancestors">
+      <ion-radio-group formControlName="isNucleus">
+        <ion-item>
+          <ion-label>Ableger</ion-label>
+          <ion-radio slot="start" color="success" [value]="true"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Wirtschaftsvolk</ion-label>
+          <ion-radio slot="start" color="success" [value]="false"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+
+    <ng-container *ngIf="ancestors$ | async as ancestors">
+      <ion-list [inset]="true" mode="ios">
         <ion-item *ngIf="ancestors && ancestors.length > 1">
           <ion-label position="stacked"
             >{{'QUEEN.ancestor' | translate}}</ion-label
@@ -100,13 +103,15 @@
             [cancelText]="'GENERAL.cancel' | translate"
             [okText]="'GENERAL.ok' | translate"
           >
-            <ion-select-option *ngFor="let option of ancestors" [value]="option"
+            <ion-select-option
+              *ngFor="let option of ancestors"
+              [value]="option.id"
               >{{ option.name }}</ion-select-option
             >
           </ion-select>
         </ion-item>
-      </ng-container>
-    </ion-list>
+      </ion-list>
+    </ng-container>
 
     <ion-button
       class="ion-padding-horizontal"

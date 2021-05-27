@@ -40,21 +40,13 @@ export class SwarmEditPage implements OnInit {
     this.swarmId = this.route.snapshot.params.swarmId;
     this.groupId = this.route.snapshot.queryParams.groupId;
 
-    this.ancestors$ = this.swarmService.getSwarms().pipe(
-      map((s: Swarm[]) => {
-        s.unshift({
-          name: this.translate.instant("COLONIES_PAGE.unknownOrigin"),
-          created: null,
-        });
-        return s;
-      })
-    );
+    this.ancestors$ = this.swarmService.getSwarms();
 
     this.colonyForm = this.formBuilder.group({
       name: [null, Validators.required],
       race: [Race.UNKNOWN],
       birthYear: [getYear(new Date())],
-      isNucleus: [false],
+      isNucleus: [true],
       ancestorId: [null],
     });
   }
@@ -68,6 +60,7 @@ export class SwarmEditPage implements OnInit {
 
   save() {
     const vals = this.colonyForm.value;
+    console.log("Value is", vals);
     this.swarmService
       .createSwarm(vals.name, vals.ancestorId)
       .pipe(
