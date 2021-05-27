@@ -11,8 +11,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-list [inset]="true" mode="ios" *ngIf="swarm">
-    <colony-details-card [swarm]="swarm"></colony-details-card>
+  <ion-list [inset]="true" mode="ios" class="detailsCard">
+    <colony-details-card *ngIf="swarm" [swarm]="swarm"></colony-details-card>
   </ion-list>
 
   <ion-list [inset]="true" mode="ios">

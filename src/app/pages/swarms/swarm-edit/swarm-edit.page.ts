@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { addYears, getYear } from "date-fns";
 import { combineLatest, forkJoin, Observable } from "rxjs";
-import { switchMap } from "rxjs/operators";
+import { switchMap, tap } from "rxjs/operators";
 import { QueenService, Race } from "src/app/services/queen.service";
 import { SwarmGroupService } from "src/app/services/swarm-group.service";
 import { SwarmService } from "src/app/services/swarm.service";
@@ -81,12 +81,13 @@ export class SwarmEditPage implements OnInit {
   save() {
     const vals = this.colonyForm.value;
 
+    let job;
     if (this.swarmId) {
-      forkJoin([
+      job = forkJoin([
         this.swarmService.updateSwarm({ id: this.swarmId, ...vals }),
         this.queenService.saveStatus(this.swarmId, vals),
       ]).subscribe(() => {
-        this.router.navigateByUrl("/swarms");
+        this.router.navigateByUrl("/swarms/view/" + this.swarmId);
       });
     } else {
       this.swarmService
@@ -96,12 +97,14 @@ export class SwarmEditPage implements OnInit {
             return forkJoin([
               this.queenService.saveStatus(swarmId, vals),
               this.swarmGroupService.addSwarmToGroup(swarmId, this.groupId),
-            ]);
+            ]).pipe(
+              tap(() => {
+                this.router.navigateByUrl("/swarms/view/" + swarmId);
+              })
+            );
           })
         )
-        .subscribe(() => {
-          this.router.navigateByUrl("/swarms");
-        });
+        .subscribe();
     }
   }
 }
