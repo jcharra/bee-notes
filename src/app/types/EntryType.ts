@@ -61,6 +61,10 @@ export const actionsForType = {
     EntryType.FRAMES_EMPTY_PANEL_INSERTED,
     EntryType.FRAMES_EMPTY_PANEL_REMOVED,
     EntryType.FRAMES_HONEY_HARVESTED,
+    EntryType.FRAMES_FOOD_INSERTED,
+    EntryType.FRAMES_FOOD_REMOVED,
+    EntryType.FRAMES_STOREYS_ADDED,
+    EntryType.FRAMES_STOREYS_REMOVED
   ],
   other: [
     EntryType.FOOD_ADDED,

@@ -116,7 +116,7 @@ export class FramesPage implements OnInit {
       const type =
         foodChange > 0
           ? EntryType.FRAMES_FOOD_INSERTED
-          : EntryType.FRAMES_FOOD_INSERTED;
+          : EntryType.FRAMES_FOOD_REMOVED;
       const req = this.journalService.createEntry(this.colonyId, {
         date: new Date(this.date),
         type,
