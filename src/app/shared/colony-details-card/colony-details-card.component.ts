@@ -25,8 +25,8 @@ export class ColonyDetailsCardComponent implements OnInit {
     this.queenStatus$ = this.queenService.getStatus(this.swarm.id).pipe(
       map((s: QueenStatus) => {
         return {
-          race: s.race || Race.UNKNOWN,
-          birthYear: s.birthYear || getYear(new Date()),
+          race: s?.race || Race.UNKNOWN,
+          birthYear: s?.birthYear,
         };
       })
     );
