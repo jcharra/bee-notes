@@ -107,6 +107,7 @@ export class SwarmService {
   updateSwarm(s: Swarm) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
+        console.log("User id", user.uid, "swarm", s.id);
         return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update(s);
       })
     );

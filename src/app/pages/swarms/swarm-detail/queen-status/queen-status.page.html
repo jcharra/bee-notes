@@ -1,7 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/swarms"></ion-back-button>
+      <ion-button [routerLink]="'/swarms/view/' + colonyId">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title><strong>{{ 'QUEEN.pageTitle' | translate }}</strong></ion-title>
     <ion-buttons slot="end">
