@@ -33,7 +33,9 @@
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">{{'QUEEN.race' | translate}}</ion-label>
+        <ion-label position="stacked"
+          >{{'QUEEN.queenRace' | translate}}</ion-label
+        >
         <ion-select
           name="race"
           interface="action-sheet"
@@ -85,11 +87,11 @@
       </ion-item>
       <ion-radio-group formControlName="isNucleus">
         <ion-item>
-          <ion-label>Ableger</ion-label>
+          <ion-label>{{'QUEEN.nucleus' | translate}}</ion-label>
           <ion-radio slot="start" color="success" [value]="true"></ion-radio>
         </ion-item>
         <ion-item>
-          <ion-label>Wirtschaftsvolk</ion-label>
+          <ion-label>{{'QUEEN.fullColony' | translate}}</ion-label>
           <ion-radio slot="start" color="success" [value]="false"></ion-radio>
         </ion-item>
       </ion-radio-group>

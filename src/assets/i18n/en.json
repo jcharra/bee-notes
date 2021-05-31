@@ -73,7 +73,8 @@
     "colonyNamePlaceholder": "Enter name",
     "nucleus": "Nucleus",
     "fullColony": "Colony",
-    "unknownOrigin": "unknown"
+    "unknownOrigin": "unknown",
+    "colonyKind": "Type"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",
@@ -136,7 +137,9 @@
     "deceasedDialogTitle": "Queen deceased",
     "deceasedDialogBody": "Is the queen of this hive deceased?",
     "deceasedDialogConfirm": "Yes",
-    "race": "Queen race",
+    "queenRace": "Queen race",
+    "race": "Race",
+    "year": "Year",
     "CARNICA": "Carnica",
     "BUCKFAST": "Buckfast",
     "DARK_BEE": "Dunkle Biene",
@@ -144,7 +147,9 @@
     "AFRICAN": "African",
     "OTHER": "Other",
     "UNKNOWN": "Unknown",
-    "ancestor": "Ancestor colony"
+    "ancestor": "Ancestor colony",
+    "nucleus": "Nucleus",
+    "fullColony": "Colony"
   },
   "ABOUT_PAGE": {
     "pageTitle": "About Bee Notes",

@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { first } from "rxjs/operators";
-import { PurchaseService } from 'src/app/services/purchase.service';
+import { PurchaseService } from "src/app/services/purchase.service";
 import { Swarm } from "src/app/types/Swarm";
 import { SwarmService } from "../../services/swarm.service";
 
@@ -36,22 +36,31 @@ export class ExcoloniesPage {
       .getSwarms()
       .pipe(first())
       .subscribe(async (swarms: Swarm[]) => {
-        if (this.purchaseService.checkLimitReached(swarms ? swarms.length : 0)) {
+        console.log("Got ", swarms.length);
+        if (
+          this.purchaseService.checkLimitReached(swarms ? swarms.length : 0)
+        ) {
           const alert = await this.alertCtrl.create({
-            header: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogHeader"),
-            message: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogText"),
+            header: this.translate.instant(
+              "COLONIES_PAGE.fullVersionRequiredDialogHeader"
+            ),
+            message: this.translate.instant(
+              "COLONIES_PAGE.fullVersionRequiredDialogText"
+            ),
             buttons: [
               {
                 text: this.translate.instant("GENERAL.ok"),
                 cssClass: "secondary",
-              }
+              },
             ],
           });
-      
+
           await alert.present();
         } else {
           const alert = await this.alertCtrl.create({
-            header: this.translate.instant("FORMER_COLONIES_PAGE.reactivationHint"),
+            header: this.translate.instant(
+              "FORMER_COLONIES_PAGE.reactivationHint"
+            ),
             buttons: [
               {
                 text: this.translate.instant("GENERAL.cancel"),
@@ -64,10 +73,10 @@ export class ExcoloniesPage {
               },
             ],
           });
-      
+
           await alert.present();
         }
-      });    
+      });
   }
 
   private _onReactivate(s: Swarm) {

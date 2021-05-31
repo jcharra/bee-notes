@@ -137,7 +137,7 @@
     "deceasedDialogTitle": "Königin verstorben",
     "deceasedDialogBody": "Ist die Königin des Volks verstorben?",
     "deceasedDialogConfirm": "Ja",
-    "race": "Rasse Königin",
+    "queenRace": "Rasse Königin",
     "CARNICA": "Carnica",
     "BUCKFAST": "Buckfast",
     "DARK_BEE": "Dunkle Biene",
@@ -145,7 +145,11 @@
     "AFRICAN": "Afrikanisch",
     "OTHER": "Sonstige",
     "UNKNOWN": "Unbekannt",
-    "ancestor": "Entstanden aus Volk (falls bekannt)"
+    "ancestor": "Entstanden aus Volk (falls bekannt)",
+    "nucleus": "Ableger",
+    "fullColony": "Wirtschaftsvolk",
+    "year": "Jahr",
+    "race": "Rasse"
   },
   "ABOUT_PAGE": {
     "pageTitle": "Über Bee Notes",
