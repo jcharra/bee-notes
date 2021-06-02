@@ -184,6 +184,9 @@
     "QUEEN_ADDED": "Königin hinzugefügt",
     "QUEEN_DECEASED": "Königin verstorben",
     "QUEEN_EGGS_SPOTTED": "Eier gesichtet",
+    "QUEEN_CELL_SPOTTED": "Weiselzellen gefunden",
+    "QUEEN_CELL_REMOVED": "Weiselzellen entfernt",
+    "COLONY_SWARMED": "Schwarm abgegangen",
     "FOOD_ADDED": "Futter hinzugefügt",
     "WEIGHT_MEASURED": "Gewicht gemessen",
     "GENERAL_NOTE": "Allgemeine Notiz",
@@ -220,7 +223,9 @@
     "stings": "Stiche",
     "sting": "Stich",
     "mite": "Milbe",
-    "mites": "Milben"
+    "mites": "Milben",
+    "cells": "Zellen",
+    "cell": "Zelle"
   },
   "REMINDERS": {
     "pageTitle": "Erinnerung anlegen",

@@ -27,10 +27,9 @@ export enum EntryType {
   QUEEN_ADDED = "QUEEN_ADDED",
   QUEEN_DECEASED = "QUEEN_DECEASED",
   QUEEN_EGGS_SPOTTED = "QUEEN_EGGS_SPOTTED",
-
-  // maybe later ...
-  //QUEEN_CELL_SPOTTED = "QUEEN_CELL_SPOTTED",
-  //QUEEN_CELL_REMOVED = "QUEEN_CELL_REMOVED",
+  QUEEN_CELL_SPOTTED = "QUEEN_CELL_SPOTTED",
+  QUEEN_CELL_REMOVED = "QUEEN_CELL_REMOVED",
+  COLONY_SWARMED = "COLONY_SWARMED",
 
   // other actions
   FOOD_ADDED = "FOOD_ADDED",
@@ -45,6 +44,9 @@ export const actionsForType = {
     EntryType.QUEEN_ADDED,
     EntryType.QUEEN_DECEASED,
     EntryType.QUEEN_EGGS_SPOTTED,
+    EntryType.QUEEN_CELL_SPOTTED,
+    EntryType.QUEEN_CELL_REMOVED,
+    EntryType.COLONY_SWARMED,
   ],
   varroa: [
     EntryType.VARROA_CHECK_START,
@@ -64,7 +66,7 @@ export const actionsForType = {
     EntryType.FRAMES_FOOD_INSERTED,
     EntryType.FRAMES_FOOD_REMOVED,
     EntryType.FRAMES_STOREYS_ADDED,
-    EntryType.FRAMES_STOREYS_REMOVED
+    EntryType.FRAMES_STOREYS_REMOVED,
   ],
   other: [
     EntryType.FOOD_ADDED,

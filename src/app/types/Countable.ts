@@ -189,4 +189,24 @@ export const CountableForEntryType: Map<EntryType, Countable> = new Map([
       unitSingular: "sting",
     },
   ],
+  [
+    EntryType.QUEEN_CELL_SPOTTED,
+    {
+      lowerBound: 1,
+      upperBound: 10,
+      stepWidth: 1,
+      unit: "cells",
+      unitSingular: "cell",
+    },
+  ],
+  [
+    EntryType.QUEEN_CELL_REMOVED,
+    {
+      lowerBound: 1,
+      upperBound: 10,
+      stepWidth: 1,
+      unit: "cells",
+      unitSingular: "cell",
+    },
+  ],
 ]);

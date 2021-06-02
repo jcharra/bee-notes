@@ -16,20 +16,14 @@ const routes: Routes = [
       ),
   },
   {
-    path: "queen",
-    loadChildren: () =>
-      import("./queen-status/queen-status.module").then(
-        (m) => m.QueenStatusPageModule
-      ),
-  },
-  {
     path: "frames",
     loadChildren: () =>
       import("./frames/frames.module").then((m) => m.FramesPageModule),
   },
   {
     path: "reminder",
-    loadChildren: () => import('./reminder/reminder.module').then( m => m.ReminderPageModule)
+    loadChildren: () =>
+      import("./reminder/reminder.module").then((m) => m.ReminderPageModule),
   },
 ];
 

@@ -142,7 +142,7 @@
     "year": "Year",
     "CARNICA": "Carnica",
     "BUCKFAST": "Buckfast",
-    "DARK_BEE": "Dunkle Biene",
+    "DARK_BEE": "Dark Bee",
     "CAUCASUS": "Caucasian",
     "AFRICAN": "African",
     "OTHER": "Other",
@@ -184,6 +184,9 @@
     "QUEEN_ADDED": "Queen added",
     "QUEEN_DECEASED": "Queen deceased",
     "QUEEN_EGGS_SPOTTED": "Eggs spotted",
+    "QUEEN_CELL_SPOTTED": "Queen cells spotted",
+    "QUEEN_CELL_REMOVED": "Queen cells removed",
+    "COLONY_SWARMED": "Colony swarmed",
     "FOOD_ADDED": "Food added",
     "WEIGHT_MEASURED": "Tracked weight",
     "GENERAL_NOTE": "General note",
@@ -220,7 +223,9 @@
     "stings": "stings",
     "sting": "sting",
     "mite": "mite",
-    "mites": "mites"
+    "mites": "mites",
+    "cells": "cells",
+    "cell": "cell"
   },
   "REMINDERS": {
     "pageTitle": "New reminder",
