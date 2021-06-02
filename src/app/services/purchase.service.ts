@@ -78,8 +78,8 @@ export class PurchaseService {
     this.store.refresh();
   }
 
-  purchase(prod_id: string) {
-    this.store.order(prod_id).then(
+  purchase(prod_id: string): Promise<void> {
+    return this.store.order(prod_id).then(
       () => {},
       (e) => {
         this.onPurchaseFailure(prod_id, e);
@@ -87,22 +87,22 @@ export class PurchaseService {
     );
   }
 
-  purchaseFullVersion() {
+  purchaseFullVersion(): Promise<void> {
     if (!this.products || this.products.length === 0) {
       console.error("No products available");
-      return;
+      return Promise.reject();
     }
 
-    this.purchase(FULL_VERSION);
+    return this.purchase(FULL_VERSION);
   }
 
-  purchaseCoffee() {
+  purchaseCoffee(): Promise<void> {
     if (!this.products || this.products.length === 0) {
       console.error("No products available");
-      return;
+      return Promise.reject();
     }
 
-    this.purchase(DEV_COFFEE);
+    return this.purchase(DEV_COFFEE);
   }
 
   async onPurchaseFailure(pid: string, err: any) {

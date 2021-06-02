@@ -50,6 +50,10 @@ export class SettingsPage implements OnInit {
       language: [activeLanguage],
     });
 
+    this.setPurchaseProps();
+  }
+
+  setPurchaseProps() {
     this.purchasesAvailable = this.purchaseService.purchasesAvailable;
     this.hasFullVersion = this.purchaseService.hasFullVersion;
   }
@@ -61,11 +65,9 @@ export class SettingsPage implements OnInit {
   }
 
   async buyFullVersion() {
-    this.purchaseService.purchaseFullVersion();
-  }
-
-  refreshStore() {
+    await this.purchaseService.purchaseFullVersion();
     this.purchaseService.refresh();
-    setTimeout(() => this.ref.detectChanges(), 2000);
+    this.setPurchaseProps();
+    this.ref.detectChanges();
   }
 }
