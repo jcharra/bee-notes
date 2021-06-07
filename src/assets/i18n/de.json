@@ -119,7 +119,8 @@
     "deleteAccountConfirm": "Ja, wirklich löschen",
     "buyFullVersion": "Vollversion kaufen",
     "owningFullVersion": "Vollversion installiert",
-    "restorePurchases": "Käufe wiederherstellen"
+    "restorePurchases": "Käufe wiederherstellen",
+    "updating": "Aktualisiere ..."
   },
   "START_MENU": {
     "menuTitle": "Start",

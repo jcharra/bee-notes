@@ -119,7 +119,8 @@
     "deleteAccountConfirm": "Yes, really delete it",
     "buyFullVersion": "Buy full version",
     "owningFullVersion": "Full version installed",
-    "restorePurchases": "Restore purchases"
+    "restorePurchases": "Restore purchases",
+    "updating": "Updating ..."
   },
   "START_MENU": {
     "menuTitle": "Start",

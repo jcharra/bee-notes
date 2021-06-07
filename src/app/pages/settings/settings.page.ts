@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { LoadingController } from "@ionic/angular";
 import { Storage } from "@ionic/storage";
 import { TranslateService } from "@ngx-translate/core";
 import { PurchaseService } from "src/app/services/purchase.service";
@@ -31,7 +32,8 @@ export class SettingsPage implements OnInit {
     private formBuilder: FormBuilder,
     private storage: Storage,
     private purchaseService: PurchaseService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private loadingCtrl: LoadingController
   ) {}
 
   ngOnInit() {
@@ -66,8 +68,24 @@ export class SettingsPage implements OnInit {
 
   async buyFullVersion() {
     await this.purchaseService.purchaseFullVersion();
-    this.purchaseService.refresh();
-    this.setPurchaseProps();
-    this.ref.detectChanges();
+    this.refreshStore();
   }
+
+  async refreshStore() {
+    const loading = await this.loadingCtrl.create({
+      message: this.translate.instant("SETTINGS_PAGE.updating"),
+      showBackdrop: true,
+    });
+
+    await loading.present();
+
+    this.purchaseService.refresh();
+
+    setTimeout(() => {
+      loading.dismiss();
+      this.setPurchaseProps();
+      this.ref.detectChanges();
+    }, 3000);
+    
+  }  
 }
