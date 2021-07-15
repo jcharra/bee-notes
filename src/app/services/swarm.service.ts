@@ -46,6 +46,7 @@ export class SwarmService {
                   activityStatus: value.activityStatus,
                   ancestorId: value.ancestorId,
                   isNucleus: value.isNucleus,
+                  about: value.about,
                 });
               }
               return swarms;
@@ -71,6 +72,7 @@ export class SwarmService {
                 activityStatus: s.activityStatus,
                 ancestorId: s.ancestorId,
                 isNucleus: s.isNucleus,
+                about: s.about,
               };
             })
           );
@@ -81,7 +83,8 @@ export class SwarmService {
   createSwarm(
     name: string,
     ancestorId: string = null,
-    isNucleus: boolean = false
+    isNucleus: boolean = false,
+    about: string = ""
   ): Observable<any> {
     return this.authService.getUser().pipe(
       switchMap((user) => {
@@ -91,6 +94,7 @@ export class SwarmService {
           activityStatus: ActivityStatus.ACTIVE,
           ancestorId,
           isNucleus,
+          about,
         };
 
         return this.db

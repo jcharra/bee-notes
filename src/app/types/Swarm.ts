@@ -16,4 +16,5 @@ export interface Swarm {
   activityStatus?: ActivityStatus;
   ancestorId?: string; // id of ancestor
   isNucleus?: boolean;
+  about?: string;
 }

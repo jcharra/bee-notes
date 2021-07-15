@@ -46,6 +46,7 @@ export class SwarmEditPage implements OnInit {
       birthYear: [getYear(new Date())],
       isNucleus: [null],
       ancestorId: [null],
+      about: [null],
     });
 
     if (this.swarmId) {
@@ -64,6 +65,7 @@ export class SwarmEditPage implements OnInit {
           swarm.name && this.colonyForm.controls.name.setValue(swarm.name);
           swarm.ancestorId &&
             this.colonyForm.controls.ancestorId.setValue(swarm.ancestorId);
+          swarm.about && this.colonyForm.controls.about.setValue(swarm.about);
         }
       });
     } else {

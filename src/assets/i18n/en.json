@@ -74,7 +74,10 @@
     "nucleus": "Nucleus",
     "fullColony": "Colony",
     "unknownOrigin": "unknown",
-    "colonyKind": "Type"
+    "colonyKind": "Type",
+    "about": "About this colony",
+    "aboutShort": "About",
+    "aboutPlaceholder": "Optional notes"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "No entries yet.",

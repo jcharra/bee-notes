@@ -120,6 +120,20 @@
       </ion-list>
     </ng-container>
 
+    <ion-list [inset]="true" mode="ios">
+      <ion-item>
+        <ion-label position="stacked"
+          >{{ 'COLONIES_PAGE.about' | translate }}</ion-label
+        >
+        <ion-textarea
+          maxlength="100"
+          formControlName="about"
+          placeholder="{{'COLONIES_PAGE.aboutPlaceholder' | translate}}"
+        >
+        </ion-textarea>
+      </ion-item>
+    </ion-list>
+
     <ion-button
       class="ion-padding-horizontal"
       [disabled]="!colonyForm.valid"

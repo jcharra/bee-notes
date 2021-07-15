@@ -74,7 +74,10 @@
     "nucleus": "Ableger",
     "fullColony": "Wirtschaftsvolk",
     "unknownOrigin": "unbekannt",
-    "colonyKind": "Art"
+    "colonyKind": "Art",
+    "about": "Über dieses Volk",
+    "aboutShort": "Notiz",
+    "aboutPlaceholder": "Anmerkung"
   },
   "JOURNAL_PAGE": {
     "noTrackedActivity": "Keine Einträge.",

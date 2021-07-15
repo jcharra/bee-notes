@@ -20,8 +20,19 @@
   <ion-row>
     <ion-col size="3">{{ "QUEEN.year" | translate }}:</ion-col>
     <ion-col size="9">
-      <queen-color [year]="queenStatus.birthYear" *ngIf="queenStatus.birthYear"></queen-color>
-      <div *ngIf="!queenStatus.birthYear">{{ 'QUEEN.UNKNOWN' | translate }}</div>
+      <queen-color
+        [year]="queenStatus.birthYear"
+        *ngIf="queenStatus.birthYear"
+      ></queen-color>
+      <div *ngIf="!queenStatus.birthYear">
+        {{ "QUEEN.UNKNOWN" | translate }}
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="swarm.about">
+    <ion-col size="3">{{ "COLONIES_PAGE.aboutShort" | translate }}:</ion-col>
+    <ion-col size="9" [ngClass]="{ about: swarm.about.length > 50 }">
+      {{ swarm.about }}
     </ion-col>
   </ion-row>
 </ion-grid>
