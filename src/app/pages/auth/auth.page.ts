@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Plugins } from "@capacitor/core";
+import { Storage } from "@capacitor/storage";
 import { AlertController, LoadingController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "./auth.service";
@@ -31,7 +31,7 @@ export class AuthPage implements OnInit {
     });
 
     // Prepopulate email field if possible
-    Plugins.Storage.get({ key: "lastEmailAddress" }).then((data: any) => {
+    Storage.get({ key: "lastEmailAddress" }).then((data: any) => {
       if (data && data.value) {
         this.loginForm.get("email").setValue(data.value);
       }
@@ -43,7 +43,7 @@ export class AuthPage implements OnInit {
       return;
     }
 
-    Plugins.Storage.set({
+    Storage.set({
       key: "lastEmailAddress",
       value: this.loginForm.value.email,
     });
