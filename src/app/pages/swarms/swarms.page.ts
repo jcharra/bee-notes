@@ -7,9 +7,10 @@ import {
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
-import { empty, forkJoin, from, Observable, of } from "rxjs";
+import { forkJoin, Observable, of } from "rxjs";
 import { first, map, switchMap, tap } from "rxjs/operators";
 import { AnimationService } from "src/app/services/animation.service";
+import { AppreviewService } from "src/app/services/appreview.service";
 import { JournalService } from "src/app/services/journal.service";
 import { PurchaseService } from "src/app/services/purchase.service";
 import { StatusService } from "src/app/services/status.service";
@@ -52,7 +53,8 @@ export class SwarmsPage {
     private translate: TranslateService,
     private purchases: PurchaseService,
     private animationService: AnimationService,
-    private router: Router
+    private router: Router,
+    private appreview: AppreviewService
   ) {}
 
   async loadSwarms() {
@@ -67,6 +69,9 @@ export class SwarmsPage {
       .getSwarms()
       .pipe(
         first(),
+        tap((swarms: Swarm[]) => {
+          this.appreview.checkReview(swarms);
+        }),
         switchMap((swarms: Swarm[]) => {
           return this.groupSwarms(swarms);
         }),
