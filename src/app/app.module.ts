@@ -10,7 +10,6 @@ import { RouteReuseStrategy } from "@angular/router";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { InAppPurchase2 } from "@ionic-native/in-app-purchase-2/ngx";
-import { LocalNotifications } from "@ionic-native/local-notifications/ngx";
 import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
@@ -54,7 +53,6 @@ registerLocaleData(localeFr);
     SplashScreen,
     InAppPurchase2,
     Geolocation,
-    LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

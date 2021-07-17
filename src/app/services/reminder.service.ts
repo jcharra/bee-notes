@@ -6,8 +6,7 @@ import { addDays, isBefore, startOfDay } from "date-fns";
 import { Observable } from "rxjs";
 import { first, map, switchMap, tap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
-import { LocalNotifications } from "@ionic-native/local-notifications/ngx";
-
+import { LocalNotifications } from "@capacitor/local-notifications";
 export interface Reminder {
   reminderId?: number;
   swarmId: string;
@@ -26,8 +25,7 @@ export class ReminderService {
     private translate: TranslateService,
     private storage: Storage,
     private db: AngularFireDatabase,
-    private authService: AuthService,
-    private localNotifications: LocalNotifications
+    private authService: AuthService
   ) {}
 
   getReminders(swarmId?: string): Observable<Reminder[]> {
@@ -77,20 +75,24 @@ export class ReminderService {
   }
 
   async createReminder(reminder: Reminder) {
-    await this.localNotifications.requestPermission();
+    await LocalNotifications.requestPermissions();
 
     reminder.reminderId = Math.floor(Math.random() * 1000000000);
 
-    await this.localNotifications.schedule({
-      title: this.translate.instant("REMINDERS.title", {
-        swarmName: reminder.swarmName,
-      }),
-      text: reminder.text,
-      id: reminder.reminderId,
-      trigger: { at: new Date(reminder.date) },
-      data: {
-        swarmId: reminder.swarmId,
-      },
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: this.translate.instant("REMINDERS.title", {
+            swarmName: reminder.swarmName,
+          }),
+          body: reminder.text,
+          id: reminder.reminderId,
+          schedule: { at: new Date(reminder.date) },
+          extra: {
+            swarmId: reminder.swarmId,
+          },
+        },
+      ],
     });
 
     this.authService
@@ -115,8 +117,8 @@ export class ReminderService {
   }
 
   async deleteReminder(reminderId: number) {
-    await this.localNotifications.cancel({
-      notifications: [{ id: "" + reminderId }],
+    await LocalNotifications.cancel({
+      notifications: [{ id: reminderId }],
     });
 
     this.authService
