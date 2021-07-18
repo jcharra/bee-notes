@@ -60,7 +60,7 @@ export class SettingsPage implements OnInit {
     this.hasFullVersion = this.purchaseService.hasFullVersion;
   }
 
-  submit() {
+  saveLanguage() {
     const lang = this.settingsForm.controls.language.value.langCode;
     this.translate.use(lang);
     this.storage.set("language", lang);
@@ -86,6 +86,5 @@ export class SettingsPage implements OnInit {
       this.setPurchaseProps();
       this.ref.detectChanges();
     }, 3000);
-    
-  }  
+  }
 }

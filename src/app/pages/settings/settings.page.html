@@ -50,6 +50,7 @@
           okText="Okay"
           cancelText="Cancel"
           formControlName="language"
+          (ionChange)="saveLanguage()"
         >
           <ion-select-option *ngFor="let lang of languages" [value]="lang"
             >{{ lang.name }}</ion-select-option
@@ -57,14 +58,6 @@
         </ion-select>
       </ion-item>
     </ion-list>
-    <ion-button
-      class="ion-padding-horizontal"
-      size="default"
-      expand="block"
-      (click)="submit()"
-    >
-      {{ "SETTINGS_PAGE.save" | translate }}
-    </ion-button>
   </form>
 
   <ion-button
