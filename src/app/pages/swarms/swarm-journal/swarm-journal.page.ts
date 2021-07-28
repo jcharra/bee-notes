@@ -3,9 +3,12 @@ import { ActivatedRoute } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { format, getYear } from "date-fns";
+import { Observable } from "rxjs";
 import { JournalService } from "src/app/services/journal.service";
+import { SwarmService } from "src/app/services/swarm.service";
 import { actionsForType } from "src/app/types/EntryType";
 import { JournalEntry } from "src/app/types/JournalEntry";
+import { Swarm } from "src/app/types/Swarm";
 
 @Component({
   selector: "app-swarm-journal",
@@ -16,6 +19,7 @@ export class SwarmJournalPage implements OnInit {
   journalEntries: JournalEntry[];
   filteredJournalEntries: JournalEntry[];
   swarmId: string;
+  swarm$: Observable<Swarm>;
   readonly: boolean;
   displayYear = getYear(new Date());
   maxYear = getYear(new Date());
@@ -23,6 +27,7 @@ export class SwarmJournalPage implements OnInit {
   filter: string = null;
 
   constructor(
+    private swarmService: SwarmService,
     private journalService: JournalService,
     private route: ActivatedRoute,
     private alertCtrl: AlertController,
@@ -32,6 +37,8 @@ export class SwarmJournalPage implements OnInit {
   ngOnInit() {
     this.swarmId = this.route.snapshot.params.swarmId;
     this.readonly = this.route.snapshot.queryParams.readonly;
+
+    this.swarm$ = this.swarmService.getSwarm(this.swarmId);
   }
 
   ionViewDidEnter() {

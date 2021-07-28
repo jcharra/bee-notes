@@ -5,7 +5,7 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{ 'JOURNAL_PAGE.pageTitle' | translate }}</ion-title>
+    <ion-title>{{ (swarm$ | async)?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
