@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
-import { Observable } from "rxjs";
+import { from, Observable, of } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
 import { ActivityStatus, Swarm } from "../types/Swarm";
+import { LocalStorageKey, StorageSyncService } from "./storage-sync.service";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +12,8 @@ import { ActivityStatus, Swarm } from "../types/Swarm";
 export class SwarmService {
   constructor(
     private db: AngularFireDatabase,
-    private authService: AuthService
+    private authService: AuthService,
+    private storageSync: StorageSyncService
   ) {}
 
   getSwarms(
@@ -19,37 +21,57 @@ export class SwarmService {
       ActivityStatus.SOLD,
       ActivityStatus.DECEASED,
     ]
-  ): Observable<Swarm[]> {
+  ) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return this.db
-          .list(`users/${user.uid}/swarms`)
-          .snapshotChanges()
+        return this.storageSync
+          .getFromStorage(user.uid, LocalStorageKey.SWARMS)
           .pipe(
-            take(1),
-            map((swarmData: any[]) => {
-              const swarms: Swarm[] = [];
+            switchMap((localResultPromise) => {
+              return from(localResultPromise).pipe(
+                switchMap((localResult) => {
+                  if (localResult) {
+                    console.log("Local result:", localResult);
+                    return of(localResult);
+                  } else {
+                    return this.db
+                      .list(`users/${user.uid}/swarms`)
+                      .snapshotChanges()
+                      .pipe(
+                        take(1),
+                        map((swarmData: any[]) => {
+                          const swarms: Swarm[] = [];
 
-              for (let i = 0; i < swarmData.length; i++) {
-                const item: any = swarmData[i];
-                const key = item.key;
-                const value: any = item.payload.val();
+                          for (let i = 0; i < swarmData.length; i++) {
+                            const item: any = swarmData[i];
+                            const key = item.key;
+                            const value: any = item.payload.val();
 
-                if (ignoreStatuses.indexOf(value.activityStatus) > -1) {
-                  continue;
-                }
+                            if (
+                              ignoreStatuses.indexOf(value.activityStatus) > -1
+                            ) {
+                              continue;
+                            }
 
-                swarms.push({
-                  id: key,
-                  name: value.name,
-                  created: new Date(value.created),
-                  activityStatus: value.activityStatus,
-                  ancestorId: value.ancestorId,
-                  isNucleus: value.isNucleus,
-                  about: value.about,
-                });
-              }
-              return swarms;
+                            swarms.push({
+                              id: key,
+                              name: value.name,
+                              created: new Date(value.created),
+                              activityStatus: value.activityStatus,
+                              ancestorId: value.ancestorId,
+                              isNucleus: value.isNucleus,
+                              about: value.about,
+                            });
+                          }
+
+                          this.writeSwarmsToStorage(user.uid, swarms);
+
+                          return swarms;
+                        })
+                      );
+                  }
+                })
+              );
             })
           );
       })
@@ -87,7 +109,9 @@ export class SwarmService {
     about: string = ""
   ): Observable<any> {
     return this.authService.getUser().pipe(
-      switchMap((user) => {
+      switchMap(async (user) => {
+        await this._markStorageAsDirty(user.uid);
+
         const swarm = {
           name,
           created: new Date(),
@@ -110,9 +134,8 @@ export class SwarmService {
 
   updateSwarm(s: Swarm) {
     return this.authService.getUser().pipe(
-      switchMap((user) => {
-        console.log("User id", user.uid, "swarm", s.id);
-        return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update(s);
+      map((user) => {
+        this.db.object(`/users/${user.uid}/swarms/${s.id}`).update(s);
       })
     );
   }
@@ -132,6 +155,7 @@ export class SwarmService {
   reactivate(s: Swarm) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
+        this._markStorageAsDirty(user.uid);
         return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
           activityStatus: ActivityStatus.ACTIVE,
         });
@@ -141,11 +165,24 @@ export class SwarmService {
 
   private deactivate(s: Swarm, status: ActivityStatus) {
     return this.authService.getUser().pipe(
-      switchMap((user) => {
+      switchMap(async (user) => {
+        await this._markStorageAsDirty(user.uid);
         return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
           activityStatus: status,
         });
       })
+    );
+  }
+
+  private writeSwarmsToStorage(userId: string, swarms: Swarm[]) {
+    this.storageSync.writeToStorage(userId, LocalStorageKey.SWARMS, swarms);
+  }
+
+  private _markStorageAsDirty(userId: string) {
+    return this.storageSync.setCloudTimestamp(
+      userId,
+      LocalStorageKey.SWARMS,
+      new Date()
     );
   }
 }
