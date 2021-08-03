@@ -31,8 +31,14 @@ export class SwarmService {
               return from(localResultPromise).pipe(
                 switchMap((localResult) => {
                   if (localResult) {
-                    console.log("Local result:", localResult);
-                    return of(localResult);
+                    return of(localResult).pipe(
+                      take(1),
+                      map((swarms: Swarm[]) => {
+                        return swarms.filter(
+                          (s) => ignoreStatuses.indexOf(s.activityStatus) === -1
+                        );
+                      })
+                    );
                   } else {
                     return this.db
                       .list(`users/${user.uid}/swarms`)
@@ -47,12 +53,6 @@ export class SwarmService {
                             const key = item.key;
                             const value: any = item.payload.val();
 
-                            if (
-                              ignoreStatuses.indexOf(value.activityStatus) > -1
-                            ) {
-                              continue;
-                            }
-
                             swarms.push({
                               id: key,
                               name: value.name,
@@ -66,7 +66,10 @@ export class SwarmService {
 
                           this.writeSwarmsToStorage(user.uid, swarms);
 
-                          return swarms;
+                          return swarms.filter(
+                            (s) =>
+                              ignoreStatuses.indexOf(s.activityStatus) === -1
+                          );
                         })
                       );
                   }
@@ -179,6 +182,7 @@ export class SwarmService {
   }
 
   private _markStorageAsDirty(userId: string) {
+    console.log("Timestamp for swarms updated");
     return this.storageSync.setCloudTimestamp(
       userId,
       LocalStorageKey.SWARMS,
