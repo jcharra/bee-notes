@@ -34,9 +34,14 @@ export class SwarmService {
                     return of(localResult).pipe(
                       take(1),
                       map((swarms: Swarm[]) => {
-                        return swarms.filter(
-                          (s) => ignoreStatuses.indexOf(s.activityStatus) === -1
-                        );
+                        return swarms
+                          .map((s) => {
+                            return { ...s, created: new Date(s.created) };
+                          })
+                          .filter(
+                            (s) =>
+                              ignoreStatuses.indexOf(s.activityStatus) === -1
+                          );
                       })
                     );
                   } else {
@@ -117,7 +122,7 @@ export class SwarmService {
 
         const swarm = {
           name,
-          created: new Date(),
+          created: new Date().toISOString(),
           activityStatus: ActivityStatus.ACTIVE,
           ancestorId,
           isNucleus,
@@ -178,7 +183,18 @@ export class SwarmService {
   }
 
   private writeSwarmsToStorage(userId: string, swarms: Swarm[]) {
-    this.storageSync.writeToStorage(userId, LocalStorageKey.SWARMS, swarms);
+    this.storageSync.writeToStorage(
+      userId,
+      LocalStorageKey.SWARMS,
+      swarms.map((s) => {
+        let date = null;
+        try {
+          date = new Date(s.created).toISOString();
+        } catch {}
+
+        return { ...s, created: date };
+      })
+    );
   }
 
   private _markStorageAsDirty(userId: string) {

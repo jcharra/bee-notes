@@ -36,7 +36,6 @@ export class ExcoloniesPage {
       .getSwarms()
       .pipe(first())
       .subscribe(async (swarms: Swarm[]) => {
-        console.log("Got ", swarms.length);
         if (
           this.purchaseService.checkLimitReached(swarms ? swarms.length : 0)
         ) {
