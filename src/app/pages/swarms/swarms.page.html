@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="forceReloadSwarms($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ng-container *ngIf="sortedSwarmGroups">
     <ng-container *ngIf="sortedSwarmGroups.length === 0">
       <ion-item class="ion-padding" lines="none">

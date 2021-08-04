@@ -8,7 +8,7 @@ import { TranslateService } from "@ngx-translate/core";
 
 export const DEV_COFFEE = "devcoffee";
 export const FULL_VERSION = "beenotesfullversion";
-const MAX_SWARMS_FREE_VERSION = 3;
+const MAX_SWARMS_FREE_VERSION = 30;
 
 @Injectable({
   providedIn: "root",

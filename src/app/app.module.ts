@@ -13,7 +13,8 @@ import { InAppPurchase2 } from "@ionic-native/in-app-purchase-2/ngx";
 import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
-import { IonicStorageModule } from "@ionic/storage";
+import { Drivers } from "@ionic/storage";
+import { IonicStorageModule } from "@ionic/storage-angular";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { environment } from "src/environments/environment";
@@ -35,8 +36,12 @@ registerLocaleData(localeFr);
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(),
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: "__mydb",
+      driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
+    }),
     AppRoutingModule,
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

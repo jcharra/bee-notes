@@ -24,64 +24,58 @@ export class SwarmService {
   ) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return this.storageSync
-          .getFromStorage(user.uid, LocalStorageKey.SWARMS)
-          .pipe(
-            switchMap((localResultPromise) => {
-              return from(localResultPromise).pipe(
-                switchMap((localResult) => {
-                  if (localResult) {
-                    return of(localResult).pipe(
-                      take(1),
-                      map((swarms: Swarm[]) => {
-                        return swarms
-                          .map((s) => {
-                            return { ...s, created: new Date(s.created) };
-                          })
-                          .filter(
-                            (s) =>
-                              ignoreStatuses.indexOf(s.activityStatus) === -1
-                          );
-                      })
+        return from(
+          this.storageSync.getFromStorage(LocalStorageKey.SWARMS)
+        ).pipe(
+          switchMap((localResult) => {
+            if (localResult) {
+              return of(localResult).pipe(
+                take(1),
+                map((swarms: Swarm[]) => {
+                  return swarms
+                    .map((s) => {
+                      return { ...s, created: new Date(s.created) };
+                    })
+                    .filter(
+                      (s) => ignoreStatuses.indexOf(s.activityStatus) === -1
                     );
-                  } else {
-                    return this.db
-                      .list(`users/${user.uid}/swarms`)
-                      .snapshotChanges()
-                      .pipe(
-                        take(1),
-                        map((swarmData: any[]) => {
-                          const swarms: Swarm[] = [];
-
-                          for (let i = 0; i < swarmData.length; i++) {
-                            const item: any = swarmData[i];
-                            const key = item.key;
-                            const value: any = item.payload.val();
-
-                            swarms.push({
-                              id: key,
-                              name: value.name,
-                              created: new Date(value.created),
-                              activityStatus: value.activityStatus,
-                              ancestorId: value.ancestorId,
-                              isNucleus: value.isNucleus,
-                              about: value.about,
-                            });
-                          }
-
-                          this.writeSwarmsToStorage(user.uid, swarms);
-
-                          return swarms.filter(
-                            (s) =>
-                              ignoreStatuses.indexOf(s.activityStatus) === -1
-                          );
-                        })
-                      );
-                  }
                 })
               );
-            })
-          );
+            } else {
+              return this.db
+                .list(`users/${user.uid}/swarms`)
+                .snapshotChanges()
+                .pipe(
+                  take(1),
+                  map((swarmData: any[]) => {
+                    const swarms: Swarm[] = [];
+
+                    for (let i = 0; i < swarmData.length; i++) {
+                      const item: any = swarmData[i];
+                      const key = item.key;
+                      const value: any = item.payload.val();
+
+                      swarms.push({
+                        id: key,
+                        name: value.name,
+                        created: new Date(value.created),
+                        activityStatus: value.activityStatus,
+                        ancestorId: value.ancestorId,
+                        isNucleus: value.isNucleus,
+                        about: value.about,
+                      });
+                    }
+
+                    this.writeSwarmsToStorage(swarms);
+
+                    return swarms.filter(
+                      (s) => ignoreStatuses.indexOf(s.activityStatus) === -1
+                    );
+                  })
+                );
+            }
+          })
+        );
       })
     );
   }
@@ -182,9 +176,8 @@ export class SwarmService {
     );
   }
 
-  private writeSwarmsToStorage(userId: string, swarms: Swarm[]) {
+  private writeSwarmsToStorage(swarms: Swarm[]) {
     this.storageSync.writeToStorage(
-      userId,
       LocalStorageKey.SWARMS,
       swarms.map((s) => {
         let date = null;
@@ -198,11 +191,6 @@ export class SwarmService {
   }
 
   private _markStorageAsDirty(userId: string) {
-    console.log("Timestamp for swarms updated");
-    return this.storageSync.setCloudTimestamp(
-      userId,
-      LocalStorageKey.SWARMS,
-      new Date()
-    );
+    return this.storageSync.clearFromStorage(LocalStorageKey.SWARMS);
   }
 }

@@ -7,6 +7,7 @@ import {
 } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
+import { differenceInMilliseconds } from "date-fns";
 import { forkJoin, Observable, of } from "rxjs";
 import { first, map, switchMap, tap } from "rxjs/operators";
 import { AnimationService } from "src/app/services/animation.service";
@@ -14,6 +15,10 @@ import { AppreviewService } from "src/app/services/appreview.service";
 import { JournalService } from "src/app/services/journal.service";
 import { PurchaseService } from "src/app/services/purchase.service";
 import { StatusService } from "src/app/services/status.service";
+import {
+  LocalStorageKey,
+  StorageSyncService,
+} from "src/app/services/storage-sync.service";
 import {
   SwarmGroup,
   SwarmGroupService,
@@ -54,8 +59,15 @@ export class SwarmsPage {
     private purchases: PurchaseService,
     private animationService: AnimationService,
     private router: Router,
-    private appreview: AppreviewService
+    private appreview: AppreviewService,
+    private storageSync: StorageSyncService
   ) {}
+
+  async forceReloadSwarms(event) {
+    await this.storageSync.clearFromStorage(LocalStorageKey.SWARMS);
+    await this.loadSwarms();
+    event.target.complete();
+  }
 
   async loadSwarms() {
     const loading = await this.loadingController.create({
@@ -65,20 +77,34 @@ export class SwarmsPage {
 
     await loading.present();
 
+    const start = new Date();
     this.swarmService
       .getSwarms()
       .pipe(
         first(),
         tap((swarms: Swarm[]) => {
+          console.log(`${differenceInMilliseconds(new Date(), start)} later`);
           this.appreview.checkReview(swarms);
         }),
         switchMap((swarms: Swarm[]) => {
+          console.log(
+            `${differenceInMilliseconds(
+              new Date(),
+              start
+            )} later (app review done)`
+          );
           return this.groupSwarms(swarms);
         }),
         switchMap((groups: UISwarmGroup[]) => {
+          console.log(
+            `${differenceInMilliseconds(new Date(), start)} later (grouping)`
+          );
           return this.loadJournalEntries(groups);
         }),
         tap((groups: UISwarmGroup[]) => {
+          console.log(
+            `${differenceInMilliseconds(new Date(), start)} later (entries)`
+          );
           this.sortedSwarmGroups = groups;
 
           if (this.sortedSwarmGroups.length === 0) {

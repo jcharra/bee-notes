@@ -3,9 +3,9 @@ import { Router } from "@angular/router";
 import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { MenuController, Platform } from "@ionic/angular";
-import { Storage } from "@ionic/storage";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "./pages/auth/auth.service";
+import { StorageService } from "./services/storage.service";
 
 @Component({
   selector: "app-root",
@@ -21,7 +21,7 @@ export class AppComponent {
     private router: Router,
     private menu: MenuController,
     private translate: TranslateService,
-    private storage: Storage
+    private storageService: StorageService
   ) {
     this.initializeApp();
   }
@@ -29,15 +29,17 @@ export class AppComponent {
   initializeApp() {
     this.splashScreen.show();
 
-    this.storage.get("language").then((lang) => {
-      this.translate.setDefaultLang(lang || "de");
-      this.translate.use(lang || "de");
-    });
-
     this.platform.ready().then(() => {
       this.splashScreen.hide();
-      this.statusBar.styleDefault();      
+      this.statusBar.styleDefault();
     });
+
+    setTimeout(() => {
+      this.storageService.get("language").then((lang) => {
+        this.translate.setDefaultLang(lang || "de");
+        this.translate.use(lang || "de");
+      });
+    }, 200);
   }
 
   onLogout() {

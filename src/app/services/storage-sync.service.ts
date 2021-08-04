@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
-import { Storage } from "@ionic/storage";
-import { isEqual } from "date-fns";
+import { differenceInMilliseconds, isEqual } from "date-fns";
+import { of } from "rxjs";
 import { first, map } from "rxjs/operators";
+import { StorageService } from "./storage.service";
 
 export enum LocalStorageKey {
   SWARMS = "swarms",
@@ -18,66 +19,33 @@ interface StorageEntry {
   providedIn: "root",
 })
 export class StorageSyncService {
-  constructor(private db: AngularFireDatabase, private storage: Storage) {}
+  constructor(
+    private db: AngularFireDatabase,
+    private storageService: StorageService
+  ) {}
 
-  getFromStorage(userId: string, key: LocalStorageKey) {
-    return this.getCloudTimestamp(userId, key).pipe(
-      map(async (ts) => {
-        if (!ts) {
-          return null;
-        }
+  async getFromStorage(key: LocalStorageKey) {
+    const start = new Date();
 
-        const timestampFromCloud = new Date(ts);
-        const storageEntry: StorageEntry = await this.storage.get(key);
-        const timestampFromStorage = storageEntry
-          ? storageEntry.timestamp
-          : null;
+    const storageEntry: StorageEntry = await this.storageService.get(key);
+    const dataFromStorage = storageEntry ? storageEntry.data : null;
 
-        const dataFromStorage = storageEntry ? storageEntry.data : null;
-
-        if (
-          timestampFromCloud &&
-          timestampFromStorage &&
-          isEqual(timestampFromCloud, new Date(timestampFromStorage))
-        ) {
-          console.log("LOCAL RESULT:", dataFromStorage);
-          return dataFromStorage;
-        }
-      })
-    );
+    console.log("LOCAL RESULT:", dataFromStorage);
+    console.log(`Took ${differenceInMilliseconds(new Date(), start)} ms`);
+    return dataFromStorage;
   }
 
-  writeToStorage(userId: string, key: LocalStorageKey, data: any) {
+  writeToStorage(key: LocalStorageKey, data: any) {
     const timestamp = new Date();
     const storageEntry = {
       timestamp,
       data,
     };
-    this.storage.set(key, storageEntry);
-    this.setCloudTimestamp(userId, key, timestamp);
+    this.storageService.set(key, storageEntry);
     console.log(`Wrote data with ts ${timestamp} to storage: ${data}`);
   }
 
-  setCloudTimestamp(
-    userId: string,
-    key: LocalStorageKey,
-    ts: Date
-  ): Promise<void> {
-    console.log("Set timestamp for", key, "to", ts, "for user", userId);
-    return this.db
-      .object(`users/${userId}/timestamp/`)
-      .update({ [key]: ts.toISOString() });
-  }
-
-  private getCloudTimestamp(userId: string, key: LocalStorageKey) {
-    return this.db
-      .object(`users/${userId}/timestamp/${key}`)
-      .valueChanges()
-      .pipe(
-        first(),
-        map((val: Date) => {
-          return val ? new Date(val) : null;
-        })
-      );
+  clearFromStorage(key: LocalStorageKey) {
+    this.storageService.remove(key);
   }
 }
