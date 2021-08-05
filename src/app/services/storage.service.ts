@@ -24,7 +24,11 @@ export class StorageService {
     return this._storage?.set(key, data);
   }
 
-  remove(key: string) {
-    this._storage.remove(key);
+  remove(key: string): Promise<any> {
+    return this._storage.remove(key);
+  }
+
+  clear(): Promise<any> {
+    return this._storage.clear();
   }
 }

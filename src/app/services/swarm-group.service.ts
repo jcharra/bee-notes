@@ -4,6 +4,8 @@ import { switchMap, map, take } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { UISwarmGroup } from "../pages/swarms/swarms.page";
+import { LocalStorageKey, StorageSyncService } from "./storage-sync.service";
+import { from, of } from "rxjs";
 
 export interface SwarmGroup {
   id: string;
@@ -20,39 +22,56 @@ export class SwarmGroupService {
   constructor(
     private db: AngularFireDatabase,
     private authService: AuthService,
-    private geolocation: Geolocation
+    private geolocation: Geolocation,
+    private storageSync: StorageSyncService
   ) {}
 
   getGroups() {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return this.db
-          .list(`/users/${user.uid}/groups`)
-          .snapshotChanges()
-          .pipe(
-            take(1),
-            map((data: any[]) => {
-              if (!data) {
-                return [];
-              }
+        return from(
+          this.storageSync.getFromStorage(LocalStorageKey.GROUPS)
+        ).pipe(
+          switchMap((localGroups) => {
+            if (localGroups) {
+              return of(localGroups);
+            } else {
+              return this.db
+                .list(`/users/${user.uid}/groups`)
+                .snapshotChanges()
+                .pipe(
+                  take(1),
+                  map((data: any[]) => {
+                    if (!data) {
+                      return [];
+                    }
 
-              const entries: SwarmGroup[] = [];
-              for (let i = 0; i < data.length; i++) {
-                const item: any = data[i];
-                const key = item.key;
-                const value: any = item.payload.val();
+                    const entries: SwarmGroup[] = [];
+                    for (let i = 0; i < data.length; i++) {
+                      const item: any = data[i];
+                      const key = item.key;
+                      const value: any = item.payload.val();
 
-                entries.push({
-                  id: key,
-                  name: value.name,
-                  swarmIds: value.swarmIds,
-                  lat: value.lat,
-                  lng: value.lng,
-                });
-              }
-              return entries;
-            })
-          );
+                      entries.push({
+                        id: key,
+                        name: value.name,
+                        swarmIds: value.swarmIds,
+                        lat: value.lat,
+                        lng: value.lng,
+                      });
+                    }
+
+                    this.storageSync.writeToStorage(
+                      LocalStorageKey.GROUPS,
+                      entries
+                    );
+
+                    return entries;
+                  })
+                );
+            }
+          })
+        );
       })
     );
   }

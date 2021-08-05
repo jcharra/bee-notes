@@ -46,8 +46,6 @@ export class SwarmsPage {
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
   translation: any;
 
-  DEFAULT_GROUP_NAME = "";
-
   constructor(
     private swarmService: SwarmService,
     private journalService: JournalService,
@@ -64,7 +62,7 @@ export class SwarmsPage {
   ) {}
 
   async forceReloadSwarms(event) {
-    await this.storageSync.clearFromStorage(LocalStorageKey.SWARMS);
+    await this.storageSync.clearStorage();
     await this.loadSwarms();
     event.target.complete();
   }
@@ -131,7 +129,7 @@ export class SwarmsPage {
     for (let group of groups) {
       group.swarms.forEach((sw: Swarm) => {
         journalUpdates.push(
-          this.journalService.getEntries(sw.id, { limit: 6 }).pipe(
+          this.journalService.getDigest(sw.id).pipe(
             tap((e: JournalEntry[]) => {
               if (e && e.length > 0) {
                 sw.lastAction = e[0];

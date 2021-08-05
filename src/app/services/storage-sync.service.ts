@@ -1,13 +1,10 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
-import { differenceInMilliseconds, isEqual } from "date-fns";
-import { of } from "rxjs";
-import { first, map } from "rxjs/operators";
 import { StorageService } from "./storage.service";
 
 export enum LocalStorageKey {
   SWARMS = "swarms",
   JOURNAL_ENTRIES = "journal_entries",
+  GROUPS = "groups",
 }
 
 interface StorageEntry {
@@ -19,33 +16,30 @@ interface StorageEntry {
   providedIn: "root",
 })
 export class StorageSyncService {
-  constructor(
-    private db: AngularFireDatabase,
-    private storageService: StorageService
-  ) {}
+  constructor(private storageService: StorageService) {}
 
-  async getFromStorage(key: LocalStorageKey) {
-    const start = new Date();
-
-    const storageEntry: StorageEntry = await this.storageService.get(key);
+  async getFromStorage(key: LocalStorageKey, appendix: string = "") {
+    const storageEntry: StorageEntry = await this.storageService.get(
+      key + appendix
+    );
     const dataFromStorage = storageEntry ? storageEntry.data : null;
-
-    console.log("LOCAL RESULT:", dataFromStorage);
-    console.log(`Took ${differenceInMilliseconds(new Date(), start)} ms`);
     return dataFromStorage;
   }
 
-  writeToStorage(key: LocalStorageKey, data: any) {
+  writeToStorage(key: LocalStorageKey, data: any, appendix: string = "") {
     const timestamp = new Date();
     const storageEntry = {
       timestamp,
       data,
     };
-    this.storageService.set(key, storageEntry);
-    console.log(`Wrote data with ts ${timestamp} to storage: ${data}`);
+    this.storageService.set(key + appendix, storageEntry);
   }
 
-  clearFromStorage(key: LocalStorageKey) {
-    this.storageService.remove(key);
+  clearFromStorage(key: LocalStorageKey, appendix: string = ""): Promise<any> {
+    return this.storageService.remove(key + appendix);
+  }
+
+  clearStorage() {
+    return this.storageService.clear();
   }
 }

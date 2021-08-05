@@ -112,7 +112,7 @@ export class SwarmService {
   ): Observable<any> {
     return this.authService.getUser().pipe(
       switchMap(async (user) => {
-        await this._markStorageAsDirty(user.uid);
+        await this._markStorageAsDirty();
 
         const swarm = {
           name,
@@ -136,7 +136,8 @@ export class SwarmService {
 
   updateSwarm(s: Swarm) {
     return this.authService.getUser().pipe(
-      map((user) => {
+      map(async (user) => {
+        await this._markStorageAsDirty();
         this.db.object(`/users/${user.uid}/swarms/${s.id}`).update(s);
       })
     );
@@ -156,8 +157,8 @@ export class SwarmService {
 
   reactivate(s: Swarm) {
     return this.authService.getUser().pipe(
-      switchMap((user) => {
-        this._markStorageAsDirty(user.uid);
+      switchMap(async (user) => {
+        await this._markStorageAsDirty();
         return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
           activityStatus: ActivityStatus.ACTIVE,
         });
@@ -168,7 +169,7 @@ export class SwarmService {
   private deactivate(s: Swarm, status: ActivityStatus) {
     return this.authService.getUser().pipe(
       switchMap(async (user) => {
-        await this._markStorageAsDirty(user.uid);
+        await this._markStorageAsDirty();
         return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
           activityStatus: status,
         });
@@ -190,7 +191,7 @@ export class SwarmService {
     );
   }
 
-  private _markStorageAsDirty(userId: string) {
+  private _markStorageAsDirty(): Promise<any> {
     return this.storageSync.clearFromStorage(LocalStorageKey.SWARMS);
   }
 }

@@ -1,15 +1,18 @@
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
-import { Observable, of } from "rxjs";
+import { from, Observable, of } from "rxjs";
 import { first, map, switchMap, take, tap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
 import { JournalEntry } from "../types/JournalEntry";
+import { LocalStorageKey, StorageSyncService } from "./storage-sync.service";
 
 interface QueryConfig {
   limit?: number;
   startAt?: string;
   endAt?: string;
 }
+
+const DIGEST_SIZE = 20;
 
 @Injectable({
   providedIn: "root",
@@ -19,27 +22,28 @@ export class JournalService {
 
   constructor(
     private db: AngularFireDatabase,
-    private authService: AuthService
+    private authService: AuthService,
+    private storageSync: StorageSyncService
   ) {}
 
-  getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
-    return this.authService.getUser().pipe(
-      first(),
-      switchMap((user) => {
-        return this.db
-          .object(`/users/${user.uid}/journals/${swarmId}/entries/${entryId}`)
-          .valueChanges()
-          .pipe(
-            map((entry: any) => {
-              return {
-                id: entry.id,
-                text: entry.text,
-                type: entry.type,
-                date: new Date(entry.date),
-                amount: entry.amount,
-              };
+  getDigest(swarmId: string) {
+    return from(
+      this.storageSync.getFromStorage(LocalStorageKey.JOURNAL_ENTRIES, swarmId)
+    ).pipe(
+      switchMap((entries) => {
+        if (entries) {
+          return of(entries);
+        } else {
+          return this.getEntries(swarmId, { limit: DIGEST_SIZE }).pipe(
+            tap((entries) => {
+              this.storageSync.writeToStorage(
+                LocalStorageKey.JOURNAL_ENTRIES,
+                entries,
+                swarmId
+              );
             })
           );
+        }
       })
     );
   }
@@ -102,6 +106,28 @@ export class JournalService {
       }),
       tap((entries: JournalEntry[]) => {
         this.entryCacheForColony.set(cacheKey, entries);
+      })
+    );
+  }
+
+  getEntry(swarmId: string, entryId: string): Observable<JournalEntry> {
+    return this.authService.getUser().pipe(
+      first(),
+      switchMap((user) => {
+        return this.db
+          .object(`/users/${user.uid}/journals/${swarmId}/entries/${entryId}`)
+          .valueChanges()
+          .pipe(
+            map((entry: any) => {
+              return {
+                id: entry.id,
+                text: entry.text,
+                type: entry.type,
+                date: new Date(entry.date),
+                amount: entry.amount,
+              };
+            })
+          );
       })
     );
   }
