@@ -80,26 +80,38 @@ export class SwarmService {
     );
   }
 
-  getSwarm(id: string): Observable<Swarm> {
-    return this.authService.getUser().pipe(
-      switchMap((user) => {
-        return this.db
-          .object(`users/${user.uid}/swarms/${id}`)
-          .valueChanges()
-          .pipe(
-            take(1),
-            map((s: any) => {
-              return {
-                id,
-                name: s.name,
-                created: new Date(s.created),
-                activityStatus: s.activityStatus,
-                ancestorId: s.ancestorId,
-                isNucleus: s.isNucleus,
-                about: s.about,
-              };
+  getSwarm(swarmId: string): Observable<Swarm> {
+    return from(this.storageSync.getFromStorage(LocalStorageKey.SWARMS)).pipe(
+      switchMap((localSwarms) => {
+        const swarmForId = localSwarms
+          ? localSwarms.filter((s) => s.id === swarmId)[0]
+          : null;
+        if (swarmForId) {
+          console.log("From local");
+          return of(swarmForId);
+        } else {
+          return this.authService.getUser().pipe(
+            switchMap((user) => {
+              return this.db
+                .object(`users/${user.uid}/swarms/${swarmId}`)
+                .valueChanges()
+                .pipe(
+                  take(1),
+                  map((s: any) => {
+                    return {
+                      id: swarmId,
+                      name: s.name,
+                      created: new Date(s.created),
+                      activityStatus: s.activityStatus,
+                      ancestorId: s.ancestorId,
+                      isNucleus: s.isNucleus,
+                      about: s.about,
+                    };
+                  })
+                );
             })
           );
+        }
       })
     );
   }

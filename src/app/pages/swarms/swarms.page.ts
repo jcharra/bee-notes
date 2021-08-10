@@ -68,12 +68,18 @@ export class SwarmsPage {
   }
 
   async loadSwarms() {
-    const loading = await this.loadingController.create({
-      message: this.translate.instant("COLONIES_PAGE.loading"),
-      showBackdrop: true,
-    });
+    let loading = null;
 
-    await loading.present();
+    // Show spinner only if not loaded from local storage, which
+    // is so fast a spinner would just flicker shortly.
+    if (!(await this.storageSync.getFromStorage(LocalStorageKey.SWARMS))) {
+      loading = await this.loadingController.create({
+        message: this.translate.instant("COLONIES_PAGE.loading"),
+        showBackdrop: true,
+      });
+
+      loading && (await loading.present());
+    }
 
     const start = new Date();
     this.swarmService
@@ -103,7 +109,10 @@ export class SwarmsPage {
           console.log(
             `${differenceInMilliseconds(new Date(), start)} later (entries)`
           );
-          this.sortedSwarmGroups = groups;
+
+          if (this._groupsDiffer(this.sortedSwarmGroups, groups)) {
+            this.sortedSwarmGroups = groups;
+          }
 
           if (this.sortedSwarmGroups.length === 0) {
             this.animationService.pulse(".addGroupButton", 5);
@@ -113,10 +122,10 @@ export class SwarmsPage {
       )
       .subscribe(
         () => {
-          loading.dismiss();
+          loading && loading.dismiss();
         },
         (err) => {
-          loading.dismiss();
+          loading && loading.dismiss();
           console.log("ERROR", err);
         }
       );
@@ -328,5 +337,37 @@ export class SwarmsPage {
       num += group.swarms.length;
     }
     return num;
+  }
+
+  private _groupsDiffer(oldGroups: UISwarmGroup[], newGroups: UISwarmGroup[]) {
+    if (!oldGroups || !newGroups || oldGroups.length !== newGroups.length) {
+      return true;
+    }
+
+    for (let i = 0; i < oldGroups.length; i++) {
+      const og = oldGroups[i];
+      const ng = newGroups[i];
+
+      if (
+        og.swarms.length !== ng.swarms.length ||
+        og.name !== ng.name ||
+        og.lat !== ng.lat ||
+        og.lng !== ng.lng
+      ) {
+        return true;
+      }
+
+      for (let j = 0; j < og.swarms.length; j++) {
+        if (
+          og.swarms[j].id !== ng.swarms[j].id ||
+          og.swarms[j].name !== ng.swarms[j].name ||
+          og.swarms[j].isNucleus !== ng.swarms[j].isNucleus
+        ) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }
