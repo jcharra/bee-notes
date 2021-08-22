@@ -31,3 +31,6 @@ npm-debug.log*
 /plugins
 /www
 /backups
+.firebaserc
+beetracker.code-workspace
+.firebase/hosting.d3d3.cache
