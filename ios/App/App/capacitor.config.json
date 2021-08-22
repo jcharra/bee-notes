@@ -1,20 +1,9 @@
 {
 	"appId": "de.charra.beenotes",
 	"appName": "Bee Notes",
-	"bundledWebRuntime": false,
-	"npmClient": "npm",
 	"webDir": "www",
+	"bundledWebRuntime": false,
 	"plugins": {
-		"SplashScreen": {
-			"launchShowDuration": 1000,
-			"launchAutoHide": true,
-			"backgroundColor": "#ffffff",
-			"showSpinner": true,
-			"iosSpinnerStyle": "large",
-			"spinnerColor": "#ffffff",
-			"splashFullScreen": true,
-			"splashImmersive": true
-		},
 		"LocalNotifications": {
 			"smallIcon": "tbd",
 			"iconColor": "#488AFF",
