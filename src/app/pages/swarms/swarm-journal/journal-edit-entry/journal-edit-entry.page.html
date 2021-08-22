@@ -26,7 +26,7 @@
           formControlName="actionType"
           (ionChange)="onActionTypeChange()"
           (ionCancel)="onCancel()"
-          [disabled]="entryId"
+          [disabled]="!!entryId"
           [okText]="'GENERAL.ok' | translate"
           [cancelText]="'GENERAL.cancel' | translate"
         >

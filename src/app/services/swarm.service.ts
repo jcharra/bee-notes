@@ -87,7 +87,6 @@ export class SwarmService {
           ? localSwarms.filter((s) => s.id === swarmId)[0]
           : null;
         if (swarmForId) {
-          console.log("From local");
           return of(swarmForId);
         } else {
           return this.authService.getUser().pipe(

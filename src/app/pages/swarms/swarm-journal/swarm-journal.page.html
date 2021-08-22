@@ -37,7 +37,7 @@
               class="imgbutton"
               [disabled]="filter && filter !== 'varroa'"
             >
-              <ion-img src="assets/img/Varroa_Mite.png"></ion-img>
+              <ion-icon name="bug-outline"></ion-icon>
             </ion-fab-button>
           </ion-col>
           <ion-col (click)="toggleFilter('queen')">
@@ -45,7 +45,7 @@
               class="imgbutton"
               [disabled]="filter && filter !== 'queen'"
             >
-              <ion-img src="assets/img/queenSmall.png"></ion-img>
+              <crown></crown>
             </ion-fab-button>
           </ion-col>
           <ion-col (click)="toggleFilter('frames')">

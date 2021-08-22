@@ -8,6 +8,8 @@ import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.co
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { QueenColorComponent } from "./queen-color/queen-color.component";
 import { ColonyDetailsCardComponent } from "./colony-details-card/colony-details-card.component";
+import { CrownComponent } from "./crown/crown.component";
+import { MiteComponent } from "./mite/mite.component";
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { ColonyDetailsCardComponent } from "./colony-details-card/colony-details
     WeatherForecastComponent,
     QueenColorComponent,
     ColonyDetailsCardComponent,
+    CrownComponent,
+    MiteComponent,
   ],
   imports: [CommonModule, TranslateModule],
   exports: [
@@ -26,6 +30,8 @@ import { ColonyDetailsCardComponent } from "./colony-details-card/colony-details
     WeatherForecastComponent,
     QueenColorComponent,
     ColonyDetailsCardComponent,
+    CrownComponent,
+    MiteComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

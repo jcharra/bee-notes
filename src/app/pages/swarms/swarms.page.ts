@@ -361,7 +361,9 @@ export class SwarmsPage {
         if (
           og.swarms[j].id !== ng.swarms[j].id ||
           og.swarms[j].name !== ng.swarms[j].name ||
-          og.swarms[j].isNucleus !== ng.swarms[j].isNucleus
+          og.swarms[j].isNucleus !== ng.swarms[j].isNucleus ||
+          og.swarms[j].statusInfo?.avgCount !==
+            ng.swarms[j].statusInfo?.avgCount
         ) {
           return true;
         }

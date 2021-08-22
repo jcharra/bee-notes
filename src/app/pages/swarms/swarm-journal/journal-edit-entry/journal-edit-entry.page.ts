@@ -1,5 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { IonSelect, NavController, PickerController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
@@ -43,7 +48,10 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
       : Object.values(EntryType);
 
     this.entryForm = this.formBuilder.group({
-      actionType: [null, Validators.required],
+      actionType: new FormControl(
+        { value: null, disabled: false },
+        Validators.required
+      ),
       date: [new Date().toISOString(), Validators.required],
       amount: [0],
       text: [""],
@@ -108,11 +116,11 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
       columns: this.getAmountOptions(),
       buttons: [
         {
-          text: this.translate.instant('GENERAL.cancel'),
+          text: this.translate.instant("GENERAL.cancel"),
           role: "cancel",
         },
         {
-          text: this.translate.instant('GENERAL.ok'),
+          text: this.translate.instant("GENERAL.ok"),
           handler: (value) => {
             this.entryForm.controls.amount.setValue(+value.amount.value || 0);
           },
