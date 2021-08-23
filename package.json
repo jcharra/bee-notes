@@ -11,7 +11,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "ionic build --configuration production && firebase deploy",
-    "i18n": "pushd src/assets/i18n && python3 check.py && popd"
+    "i18n": "pushd src/assets/i18n && python3 check.py && popd",
+    "cypress:open": "./node_modules/cypress/bin/cypress open"
   },
   "private": true,
   "dependencies": {
@@ -63,6 +64,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "cypress": "^8.3.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.3.4",

@@ -20,6 +20,7 @@
                   >{{ "AUTH_PAGE.email" | translate}}</ion-label
                 >
                 <ion-input
+                  data-test-id="email"
                   formControlName="email"
                   type="email"
                   placeholder="{{ 'AUTH_PAGE.emailPlaceholder' | translate }}"
@@ -30,6 +31,7 @@
                   >{{"AUTH_PAGE.password" | translate}}</ion-label
                 >
                 <ion-input
+                  data-test-id="password"
                   formControlName="password"
                   type="password"
                   placeholder="{{'AUTH_PAGE.passwordPlaceholder' | translate}}"
@@ -40,7 +42,12 @@
         </ion-row>
         <ion-row>
           <ion-col size-sm="6" offset-sm="3">
-            <ion-button color="primary" expand="block" (click)="onLogin()">
+            <ion-button
+              data-test-id="submit"
+              color="primary"
+              expand="block"
+              (click)="onLogin()"
+            >
               {{ (isSignup ? 'AUTH_PAGE.signup' : 'AUTH_PAGE.login') |
               translate}}</ion-button
             >

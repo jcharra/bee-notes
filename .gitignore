@@ -34,3 +34,4 @@ npm-debug.log*
 .firebaserc
 beetracker.code-workspace
 .firebase/hosting.d3d3.cache
+cypress.env.json
