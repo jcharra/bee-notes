@@ -123,6 +123,16 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
           },
         },
         {
+          text: this.translate.instant("COLONIES_PAGE.markAsDissolved"),
+          cssClass: "danger",
+          handler: async () => {
+            this.swarmService.markAsDissolved(this.swarm).subscribe(() => {
+              this.router.navigateByUrl("/");
+            });
+            this.showWhereToFindHint();
+          },
+        },
+        {
           text: this.translate.instant("COLONIES_PAGE.markAsSold"),
           cssClass: "danger",
           handler: async () => {

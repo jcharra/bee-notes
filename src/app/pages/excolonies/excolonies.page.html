@@ -11,7 +11,25 @@
   <ion-list [inset]="true" *ngIf="colonies">
     <ng-container *ngIf="colonies.length > 0; else noFormerColonies">
       <ion-item *ngFor="let colony of colonies">
-        <ion-label>{{ colony.name }}</ion-label>
+        <ion-icon
+          *ngIf="colony.activityStatus === 'DISSOLVED'"
+          class="statusHint"
+          slot="start"
+          name="exit"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="colony.activityStatus === 'DECEASED'"
+          class="statusHint"
+          slot="start"
+          name="heart-dislike"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="colony.activityStatus === 'SOLD'"
+          class="statusHint"
+          slot="start"
+          name="cash"
+        ></ion-icon>
+        <ion-label slot="start">{{ colony.name }}</ion-label>
         <ion-buttons slot="end">
           <ion-button (click)="viewJournal(colony)">
             <ion-icon name="book-outline"></ion-icon>

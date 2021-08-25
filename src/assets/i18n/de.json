@@ -47,6 +47,7 @@
     "renameColonyTitle": "Volk umbenennen",
     "markAsDeceased": "Volk verstorben 😢",
     "markAsSold": "Volk verkauft",
+    "markAsDissolved": "Volk aufgelöst",
     "closeColonyHeader": "Volk entfernen",
     "closeColonyBody": "Warum wird das Volk entfernt?",
     "whereToFindExColoniesHint": "Du kannst ehemalige Völker unter dem Menü 'Ehemalige Völker' finden und auch reaktivieren.",
@@ -110,7 +111,7 @@
   },
   "FORMER_COLONIES_PAGE": {
     "pageTitle": "Ehemalige Völker",
-    "noColonies": "Bisher sind keine Völker gestorben oder verkauft worden.",
+    "noColonies": "Bisher sind keine Völker gestorben, aufgelöst oder verkauft worden.",
     "reactivationHint": "Möchtest Du dieses Volk wieder aktivieren?"
   },
   "SETTINGS_PAGE": {
@@ -187,7 +188,7 @@
     "QUEEN_SPOTTED": "Königin gesichtet",
     "QUEEN_ADDED": "Königin hinzugefügt",
     "QUEEN_DECEASED": "Königin verstorben",
-    "QUEEN_EGGS_SPOTTED": "Eier gesichtet",
+    "QUEEN_EGGS_SPOTTED": "Eier & offene Brut vorhanden",
     "QUEEN_CELL_SPOTTED": "Weiselzellen gefunden",
     "QUEEN_CELL_REMOVED": "Weiselzellen entfernt",
     "COLONY_SWARMED": "Schwarm abgegangen",

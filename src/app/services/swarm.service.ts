@@ -20,6 +20,7 @@ export class SwarmService {
     ignoreStatuses: ActivityStatus[] = [
       ActivityStatus.SOLD,
       ActivityStatus.DECEASED,
+      ActivityStatus.DISSOLVED,
     ]
   ) {
     return this.authService.getUser().pipe(
@@ -160,6 +161,10 @@ export class SwarmService {
 
   markAsSold(s: Swarm) {
     return this.deactivate(s, ActivityStatus.SOLD);
+  }
+
+  markAsDissolved(s: Swarm) {
+    return this.deactivate(s, ActivityStatus.DISSOLVED);
   }
 
   getFormerSwarms(): Observable<Swarm[]> {

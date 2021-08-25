@@ -47,6 +47,7 @@
     "renameColonyTitle": "Rename hive",
     "markAsDeceased": "Colony deceased 😢",
     "markAsSold": "Hive sold",
+    "markAsDissolved": "Dissolved",
     "closeColonyHeader": "Remove hive",
     "closeColonyBody": "Why is this hive removed?",
     "whereToFindExColoniesHint": "You can find your former hives in the menu 'Former hives' and also reactivate them.",
@@ -110,7 +111,7 @@
   },
   "FORMER_COLONIES_PAGE": {
     "pageTitle": "Former hives",
-    "noColonies": "You haven't lost or sold any colonies yet.",
+    "noColonies": "You haven't lost, dissolved or sold any colonies yet.",
     "reactivationHint": "Do you want to reactivate this colony?"
   },
   "SETTINGS_PAGE": {
@@ -187,7 +188,7 @@
     "QUEEN_SPOTTED": "Queen spotted",
     "QUEEN_ADDED": "Queen added",
     "QUEEN_DECEASED": "Queen deceased",
-    "QUEEN_EGGS_SPOTTED": "Eggs spotted",
+    "QUEEN_EGGS_SPOTTED": "Eggs & larvae spotted",
     "QUEEN_CELL_SPOTTED": "Queen cells spotted",
     "QUEEN_CELL_REMOVED": "Queen cells removed",
     "COLONY_SWARMED": "Colony swarmed",

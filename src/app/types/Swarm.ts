@@ -5,6 +5,7 @@ export enum ActivityStatus {
   ACTIVE = "ACTIVE",
   DECEASED = "DECEASED",
   SOLD = "SOLD",
+  DISSOLVED = "DISSOLVED",
 }
 
 export interface Swarm {
