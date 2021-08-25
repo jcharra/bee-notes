@@ -99,12 +99,6 @@ export class SwarmsPage {
           );
           return this.groupSwarms(swarms);
         }),
-        switchMap((groups: UISwarmGroup[]) => {
-          console.log(
-            `${differenceInMilliseconds(new Date(), start)} later (grouping)`
-          );
-          return this.loadJournalEntries(groups);
-        }),
         tap((groups: UISwarmGroup[]) => {
           console.log(
             `${differenceInMilliseconds(new Date(), start)} later (entries)`
@@ -118,6 +112,12 @@ export class SwarmsPage {
             this.animationService.pulse(".addGroupButton", 5);
             this.animationService.pulse(".bee", 5);
           }
+        }),
+        switchMap(() => {
+          console.log(
+            `${differenceInMilliseconds(new Date(), start)} later (grouping)`
+          );
+          return this.loadJournalEntries();
         })
       )
       .subscribe(
@@ -131,11 +131,9 @@ export class SwarmsPage {
       );
   }
 
-  private loadJournalEntries(
-    groups: UISwarmGroup[]
-  ): Observable<UISwarmGroup[]> {
+  private loadJournalEntries(): Observable<unknown> {
     let journalUpdates = [];
-    for (let group of groups) {
+    for (let group of this.sortedSwarmGroups) {
       group.swarms.forEach((sw: Swarm) => {
         journalUpdates.push(
           this.journalService.getDigest(sw.id).pipe(
@@ -150,11 +148,7 @@ export class SwarmsPage {
       });
     }
 
-    if (journalUpdates.length === 0) {
-      return of(groups);
-    }
-
-    return forkJoin(journalUpdates).pipe(map(() => groups));
+    return forkJoin(journalUpdates);
   }
 
   groupSwarms(swarms: Swarm[]): Observable<UISwarmGroup[]> {
@@ -361,10 +355,7 @@ export class SwarmsPage {
         if (
           og.swarms[j].id !== ng.swarms[j].id ||
           og.swarms[j].name !== ng.swarms[j].name ||
-          og.swarms[j].isNucleus !== ng.swarms[j].isNucleus ||
-          og.swarms[j].statusInfo?.avgCount !==
-            ng.swarms[j].statusInfo?.avgCount ||
-          og.swarms[j].lastAction?.date !== ng.swarms[j].lastAction?.date
+          og.swarms[j].isNucleus !== ng.swarms[j].isNucleus
         ) {
           return true;
         }

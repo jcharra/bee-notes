@@ -203,6 +203,6 @@ export class SwarmService {
   }
 
   private _markStorageAsDirty(): Promise<any> {
-    return this.storageSync.clearFromStorage(LocalStorageKey.SWARMS);
+    return this.storageSync.clearStorage();
   }
 }
