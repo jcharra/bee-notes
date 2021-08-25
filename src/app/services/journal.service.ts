@@ -181,6 +181,10 @@ export class JournalService {
       }
     }
     deletable.forEach((d) => this.entryCacheForColony.delete(d));
+    this.storageSync.clearFromStorage(
+      LocalStorageKey.JOURNAL_ENTRIES,
+      colonyId
+    );
   }
 
   private convertToFirebaseEntry(e: JournalEntry) {

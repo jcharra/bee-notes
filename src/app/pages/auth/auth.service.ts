@@ -6,6 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 import * as firebase from "firebase";
 import { Observable } from "rxjs";
 import { first, tap } from "rxjs/operators";
+import { StorageSyncService } from "src/app/services/storage-sync.service";
 export interface AuthResponseData {
   kind: string;
   idToken: string;
@@ -26,7 +27,8 @@ export class AuthService {
     private auth: AngularFireAuth,
     private router: Router,
     private toastController: ToastController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private storageSync: StorageSyncService
   ) {}
 
   getUser(): Observable<User> {
@@ -64,6 +66,7 @@ export class AuthService {
 
   logout() {
     this.auth.signOut();
+    this.storageSync.clearStorage();
   }
 
   resetPassword(email: string) {
