@@ -25,6 +25,7 @@ export class SwarmService {
   ) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
+        console.log("User", user.uid);
         return from(
           this.storageSync.getFromStorage(LocalStorageKey.SWARMS)
         ).pipe(

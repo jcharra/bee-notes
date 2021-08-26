@@ -49,16 +49,7 @@ export class SwarmGroupService {
                     const entries: SwarmGroup[] = [];
                     for (let i = 0; i < data.length; i++) {
                       const item: any = data[i];
-                      const key = item.key;
-                      const value: any = item.payload.val();
-
-                      entries.push({
-                        id: key,
-                        name: value.name,
-                        swarmIds: value.swarmIds,
-                        lat: value.lat,
-                        lng: value.lng,
-                      });
+                      entries.push(this._entryFromFbValue(item));
                     }
 
                     this.storageSync.writeToStorage(
@@ -88,16 +79,8 @@ export class SwarmGroupService {
               if (!data) {
                 return null;
               }
-              const key = data.key;
-              const value: any = data.payload.val();
 
-              return {
-                id: key,
-                name: value.name,
-                swarmIds: value.swarmIds,
-                lat: value.lat,
-                lng: value.lng,
-              };
+              return this._entryFromFbValue(data);
             })
           );
       })
@@ -166,6 +149,27 @@ export class SwarmGroupService {
         //lng: Math.random() * 90 - 45,
       }).subscribe();
     });
+  }
+
+  private _entryFromFbValue(data: any) {
+    const key = data.key;
+    const value: any = data.payload.val();
+
+    let entry: SwarmGroup = {
+      id: key,
+      name: value.name,
+      swarmIds: value.swarmIds,
+    };
+
+    if (value.lat) {
+      entry.lat = value.lat;
+    }
+
+    if (value.lng) {
+      entry.lng = value.lng;
+    }
+
+    return entry;
   }
 
   private _markStorageAsDirty(): Promise<any> {

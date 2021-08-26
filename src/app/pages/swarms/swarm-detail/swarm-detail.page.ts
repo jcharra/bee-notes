@@ -210,7 +210,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
   moveToGroup(groups: SwarmGroup[], targetId: string) {
     let fromGroup, toGroup;
     for (let group of groups) {
-      if (group.swarmIds.indexOf(this.swarmId) > -1) {
+      if (group.swarmIds && group.swarmIds.indexOf(this.swarmId) > -1) {
         fromGroup = group;
       }
 
@@ -224,7 +224,11 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
     }
 
     fromGroup.swarmIds = fromGroup.swarmIds.filter((i) => i !== this.swarmId);
-    toGroup.swarmIds.push(this.swarmId);
+    if (toGroup.swarmIds) {
+      toGroup.swarmIds.push(this.swarmId);
+    } else {
+      toGroup.swarmIds = [this.swarmId];
+    }
 
     forkJoin([
       this.swarmGroupService.updateGroup(fromGroup),
