@@ -107,6 +107,7 @@ export class SwarmGroupService {
   createGroup(name: string, swarmIds: string[] = []) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
+        this._markStorageAsDirty();
         return this.db.list(`/users/${user.uid}/groups`).push({
           name,
           swarmIds,
@@ -118,6 +119,7 @@ export class SwarmGroupService {
   updateGroup(group: SwarmGroup) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
+        this._markStorageAsDirty();
         return this.db
           .object(`/users/${user.uid}/groups/${group.id}`)
           .update(group);
@@ -128,8 +130,8 @@ export class SwarmGroupService {
   addSwarmToGroup(swarmId: string, groupId: string) {
     return this.getGroup(groupId).pipe(
       switchMap((g: SwarmGroup) => {
+        this._markStorageAsDirty();
         if (!g) {
-          console.error("No group given - aborting");
           return;
         }
 
@@ -146,6 +148,7 @@ export class SwarmGroupService {
   deleteGroup(gid: string) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
+        this._markStorageAsDirty();
         return this.db.object(`/users/${user.uid}/groups/${gid}`).remove();
       })
     );
@@ -163,5 +166,9 @@ export class SwarmGroupService {
         //lng: Math.random() * 90 - 45,
       }).subscribe();
     });
+  }
+
+  private _markStorageAsDirty(): Promise<any> {
+    return this.storageSync.clearFromStorage(LocalStorageKey.GROUPS);
   }
 }
