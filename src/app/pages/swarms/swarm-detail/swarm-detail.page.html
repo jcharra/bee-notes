@@ -17,6 +17,27 @@
     <colony-details-card *ngIf="swarm" [swarm]="swarm"></colony-details-card>
   </ion-list>
 
+  <ng-container *ngIf="reminders$ | async as reminders">
+    <ion-list *ngIf="reminders.length > 0" [inset]="true" mode="ios">
+      <ion-item class="ion-text-center">
+        <ion-label>
+          <strong>{{ "REMINDERS.listTitle" | translate }}</strong>
+        </ion-label>
+      </ion-item>
+      <ion-item *ngFor="let reminder of reminders" class="reminder">
+        <ion-text [color]="reminder.date < now ? 'danger': 'default'">
+          <strong>{{ reminder.date | date:'dd. MMM'}}: </strong>
+          {{ reminder.text }}</ion-text
+        >
+        <ion-buttons slot="end">
+          <ion-button (click)="deleteReminder(reminder.reminderId)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
   <ion-list [inset]="true" mode="ios">
     <ion-item class="ion-text-center">
       <ion-label>
@@ -70,34 +91,8 @@
     <ion-fab-button (click)="changeGroup()">
       <ion-icon name="exit-outline"></ion-icon>
     </ion-fab-button>
+    <ion-fab-button color="danger" (click)="markAsDeceased()">
+      <ion-icon name="close-circle-outline"></ion-icon>
+    </ion-fab-button>
   </ion-buttons>
-
-  <ion-fab-button
-    color="danger"
-    class="deleteHiveButton"
-    (click)="markAsDeceased()"
-  >
-    <ion-icon name="close-circle-outline"></ion-icon>
-  </ion-fab-button>
-
-  <ng-container *ngIf="reminders$ | async as reminders">
-    <ion-list *ngIf="reminders.length > 0" [inset]="true" mode="ios">
-      <ion-item class="ion-text-center">
-        <ion-label>
-          <strong>{{ "REMINDERS.listTitle" | translate }}</strong>
-        </ion-label>
-      </ion-item>
-      <ion-item *ngFor="let reminder of reminders" class="reminder">
-        <ion-text [color]="reminder.date < now ? 'danger': 'default'">
-          <strong>{{ reminder.date | date:'dd. MMM'}}: </strong>
-          {{ reminder.text }}</ion-text
-        >
-        <ion-buttons slot="end">
-          <ion-button (click)="deleteReminder(reminder.reminderId)">
-            <ion-icon name="trash-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-item>
-    </ion-list>
-  </ng-container>
 </ion-content>
