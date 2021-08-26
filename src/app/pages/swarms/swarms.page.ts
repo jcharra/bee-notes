@@ -8,7 +8,7 @@ import {
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
 import { differenceInMilliseconds } from "date-fns";
-import { forkJoin, Observable, of } from "rxjs";
+import { empty, forkJoin, Observable, of } from "rxjs";
 import { first, map, switchMap, tap } from "rxjs/operators";
 import { AnimationService } from "src/app/services/animation.service";
 import { AppreviewService } from "src/app/services/appreview.service";
@@ -146,6 +146,10 @@ export class SwarmsPage {
           )
         );
       });
+    }
+
+    if (journalUpdates.length === 0) {
+      return of([]);
     }
 
     return forkJoin(journalUpdates);
