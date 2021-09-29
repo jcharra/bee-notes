@@ -1,16 +1,23 @@
 <div *ngIf="varroaInfo">
   <div *ngIf="varroaInfo.status === 'HIGH'" class="red">
-    <div class="varroaNumber">{{ varroaInfo.average }}</div>
+    <div class="varroaNumber" [ngClass]="{ 'text-small': varroaInfo.average > 9 }">
+      {{ varroaInfo.average }}
+    </div>
     <div class="varroaMite">
       <mite [color]="'filterRed'" size="small"></mite>
     </div>
+    <div class="text-small annotation">p.d.</div>
   </div>
   <div *ngIf="varroaInfo.status === 'MEDIUM'" class="orange">
-    <div class="varroaNumber">{{ varroaInfo.average }}</div>
+    <div class="varroaNumber" [ngClass]="{ 'text-small': varroaInfo.average > 9 }">
+      {{ varroaInfo.average }}
+    </div>
     <div class="varroaMite">
       <mite [color]="'filterOrange'" size="small"></mite>
     </div>
+    <div class="text-small annotation">p.d.</div>
   </div>
+
   <div *ngIf="varroaInfo.status === 'OK' && isNucleus">🐝</div>
-  <div *ngIf="varroaInfo.status === 'OK' && !isNucleus">🐝🐝</div>
+  <div *ngIf="varroaInfo.status === 'OK' && !isNucleus" class="healthy">🐝🐝</div>
 </div>

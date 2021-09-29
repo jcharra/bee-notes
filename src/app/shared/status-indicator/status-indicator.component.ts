@@ -2,11 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { differenceInHours } from "date-fns";
 import { first, tap } from "rxjs/operators";
 import { JournalService } from "src/app/services/journal.service";
-import {
-  ColonyAggression,
-  QueenHealth,
-  VarroaStatus,
-} from "src/app/types/ColonyStatus";
+import { ColonyAggression, QueenHealth, VarroaStatus } from "src/app/types/ColonyStatus";
 import { EntryType } from "src/app/types/EntryType";
 import { JournalEntry } from "src/app/types/JournalEntry";
 
@@ -52,9 +48,7 @@ export class StatusIndicatorComponent implements OnInit {
         varroaEnd = entry;
       } else if (entry.type === EntryType.VARROA_CHECK_START && varroaEnd) {
         let varroaAvg = varroaEnd.amount
-          ? +varroaEnd.amount /
-            ((differenceInHours(varroaEnd.date, new Date(entry.date)) || 1) /
-              24)
+          ? +varroaEnd.amount / ((differenceInHours(varroaEnd.date, new Date(entry.date)) || 1) / 24)
           : 0;
         return {
           average: Math.round(varroaAvg),
