@@ -10,6 +10,7 @@ import { QueenColorComponent } from "./queen-color/queen-color.component";
 import { ColonyDetailsCardComponent } from "./colony-details-card/colony-details-card.component";
 import { CrownComponent } from "./crown/crown.component";
 import { MiteComponent } from "./mite/mite.component";
+import { StatusIndicatorComponent } from "./status-indicator/status-indicator.component";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MiteComponent } from "./mite/mite.component";
     ColonyDetailsCardComponent,
     CrownComponent,
     MiteComponent,
+    StatusIndicatorComponent,
   ],
   imports: [CommonModule, TranslateModule],
   exports: [
@@ -32,6 +34,7 @@ import { MiteComponent } from "./mite/mite.component";
     ColonyDetailsCardComponent,
     CrownComponent,
     MiteComponent,
+    StatusIndicatorComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

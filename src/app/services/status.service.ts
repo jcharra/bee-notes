@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { differenceInDays } from "date-fns";
-import { ColonyStatusInfo, ColonyStatus } from "../types/ColonyStatus";
+import { differenceInHours } from "date-fns";
+import { ColonyStatus, ColonyStatusInfo } from "../types/ColonyStatus";
 import { EntryType } from "../types/EntryType";
 import { JournalEntry } from "../types/JournalEntry";
 
@@ -16,7 +16,8 @@ export class StatusService {
       } else if (entry.type === EntryType.VARROA_CHECK_START && varroaEnd) {
         let varroaAvg = varroaEnd.amount
           ? +varroaEnd.amount /
-            (differenceInDays(varroaEnd.date, new Date(entry.date)) || 1)
+            ((differenceInHours(varroaEnd.date, new Date(entry.date)) || 1) /
+              24)
           : 0;
 
         varroaAvg = Math.round(varroaAvg);

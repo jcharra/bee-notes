@@ -39,8 +39,12 @@
             [routerLink]="['view', swarm.id]"
           >
             <ion-reorder slot="start">
-              <div *ngIf="swarm.isNucleus" class="reorder">🐝</div>
-              <div *ngIf="!swarm.isNucleus" class="reorder">🐝🐝</div>
+              <div class="reorder">
+                <status-indicator
+                  [colonyId]="swarm.id"
+                  [isNucleus]="swarm.isNucleus"
+                ></status-indicator>
+              </div>
             </ion-reorder>
             <ion-label>
               {{ swarm.name }}
@@ -58,17 +62,6 @@
                   >{{"JOURNAL_PAGE.noTrackedActivity" | translate}}</span
                 >
               </ng-template>
-            </ion-label>
-            <ion-label
-              slot="end"
-              [color]="swarm.statusInfo?.colonyStatus === 'VARROA_OK' ? 'success' : 
-        (swarm.statusInfo?.colonyStatus === 'VARROA_MEDIUM' ? 'warning' : 'danger')"
-              *ngIf="swarm.statusInfo?.colonyStatus"
-              class="statusInfoLabel"
-            >
-              {{ swarm.statusInfo.avgCount }}
-              <ion-icon name="bug-outline" slot="end"></ion-icon>
-              <br />{{"COLONIES_PAGE.varroaCountUnit" | translate}}
             </ion-label>
           </ion-item>
         </ion-reorder-group>

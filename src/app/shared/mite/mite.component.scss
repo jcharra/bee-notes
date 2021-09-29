@@ -1,5 +1,23 @@
-.filterWhite {
+.small {
+  width: 20px;
+  height: 20px;
+}
+
+.large {
   width: 30px;
   height: 30px;
+}
+
+.filterWhite {
   filter: saturate(100%) brightness(100%) invert(100%);
+}
+
+.filterRed {
+  filter: invert(15%) sepia(67%) saturate(4666%) hue-rotate(353deg)
+    brightness(112%) contrast(126%);
+}
+
+.filterOrange {
+  filter: invert(78%) sepia(58%) saturate(4848%) hue-rotate(2deg)
+    brightness(107%) contrast(105%);
 }
