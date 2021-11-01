@@ -59,33 +59,21 @@
   </ion-list>
 
   <ion-buttons class="ion-padding-horizontal">
-    <ion-fab-button
-      class="imgbutton"
-      routerLink="journal/edit"
-      [queryParams]="{type: 'varroa'}"
-    >
+    <ion-fab-button class="imgbutton" routerLink="journal/edit" [queryParams]="{type: 'varroa'}">
       <mite></mite>
     </ion-fab-button>
-    <ion-fab-button
-      class="imgbutton"
-      routerLink="journal/edit"
-      [queryParams]="{type: 'queen'}"
-    >
+    <ion-fab-button class="imgbutton" routerLink="journal/edit" [queryParams]="{type: 'queen'}">
       <crown size="lg" color="white"></crown>
     </ion-fab-button>
     <ion-fab-button class="imgbutton" routerLink="frames">
       <ion-icon name="git-compare-outline"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button
-      color="primary"
-      routerLink="journal/edit"
-      [queryParams]="{type: 'other'}"
-    >
+    <ion-fab-button color="primary" routerLink="journal/edit" [queryParams]="{type: 'other'}">
       <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
     </ion-fab-button>
   </ion-buttons>
   <ion-buttons class="ion-padding-horizontal">
-    <ion-fab-button routerLink="reminder">
+    <ion-fab-button [routerLink]="'/reminders'" [queryParams]="{swarmId: swarm?.id}">
       <ion-icon name="alarm-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-button (click)="changeGroup()">

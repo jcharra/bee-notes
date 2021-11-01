@@ -1,39 +1,19 @@
 <ion-buttons>
-  <ion-fab-button
-    [id]="'addButton' + group.id"
-    size="small"
-    slot="end"
-    color="primary"
-    (click)="addNewSwarm()"
-  >
+  <ion-fab-button [id]="'addButton' + group.id" size="small" slot="end" color="primary" (click)="addNewSwarm()">
     <ion-icon name="cube-outline" class="double-icon-left"></ion-icon>
     <ion-icon name="add" class="double-icon-right"></ion-icon>
   </ion-fab-button>
-  <ion-fab-button
-    *ngIf="group.swarms.length > 0"
-    size="small"
-    slot="end"
-    color="primary"
-    (click)="startDiagnosis()"
-  >
+  <ion-fab-button [routerLink]="'/reminders'" [queryParams]="{ groupId: group.id }" size="small">
+    <ion-icon name="alarm-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-button *ngIf="group.swarms.length > 0" size="small" slot="end" color="primary" (click)="startDiagnosis()">
     <ion-icon name="bug-outline" class="double-icon-left"></ion-icon>
     <ion-icon name="help-outline" class="double-icon-right"></ion-icon>
   </ion-fab-button>
-  <ion-fab-button
-    *ngIf="group.swarms.length > 0"
-    size="small"
-    slot="end"
-    color="primary"
-    (click)="startTreatment()"
-  >
+  <ion-fab-button *ngIf="group.swarms.length > 0" size="small" slot="end" color="primary" (click)="startTreatment()">
     <ion-icon name="eyedrop-outline"></ion-icon>
   </ion-fab-button>
-  <ion-fab-button
-    size="small"
-    slot="end"
-    color="primary"
-    (click)="setLocation()"
-  >
+  <ion-fab-button size="small" slot="end" color="primary" (click)="setLocation()">
     <ion-icon name="location-outline"></ion-icon>
   </ion-fab-button>
 </ion-buttons>

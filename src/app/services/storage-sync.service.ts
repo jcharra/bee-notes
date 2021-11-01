@@ -5,6 +5,7 @@ export enum LocalStorageKey {
   SWARMS = "swarms",
   JOURNAL_ENTRIES = "journal_entries",
   GROUPS = "groups",
+  REMINDERS = "reminders",
 }
 
 interface StorageEntry {
@@ -19,9 +20,7 @@ export class StorageSyncService {
   constructor(private storageService: StorageService) {}
 
   async getFromStorage(key: LocalStorageKey, appendix: string = "") {
-    const storageEntry: StorageEntry = await this.storageService.get(
-      key + appendix
-    );
+    const storageEntry: StorageEntry = await this.storageService.get(key + appendix);
     const dataFromStorage = storageEntry ? storageEntry.data : null;
     return dataFromStorage;
   }

@@ -8,15 +8,7 @@ import { SwarmDetailPageRoutingModule } from "./swarm-detail-routing.module";
 import { SwarmDetailPage } from "./swarm-detail.page";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SharedModule,
-    SwarmDetailPageRoutingModule,
-    TranslateModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, SwarmDetailPageRoutingModule, TranslateModule, SharedModule],
   declarations: [SwarmDetailPage],
 })
 export class SwarmDetailPageModule {}

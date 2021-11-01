@@ -238,7 +238,9 @@
     "listTitle": "Erinnerungen",
     "deleteConfirmHeader": "Erinnerung löschen?",
     "textHeader": "Erinnerungstext",
-    "textPlaceholder": "Betreff eingeben"
+    "textPlaceholder": "Betreff eingeben",
+    "targetLocation": "Standort",
+    "targetColony": "Volk"
   },
   "PURCHASES": {
     "devCoffeeThankYou": "Herzlichen Dank im Namen des Entwicklers. Solche kleinen Aufmerksamkeiten bringen die Entwicklung von Bee Notes voran!",
@@ -261,19 +263,6 @@
     "backButtonCaption": "Zurück",
     "pickDate": "Datum auswählen",
     "date": "Datum",
-    "monthShortNames": [
-      "Jan",
-      "Feb",
-      "März",
-      "Apr",
-      "Mai",
-      "Juni",
-      "Juli",
-      "Aug",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Dez"
-    ]
+    "monthShortNames": ["Jan", "Feb", "März", "Apr", "Mai", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Dez"]
   }
 }

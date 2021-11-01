@@ -1,30 +1,25 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button [routerLink]="'/swarms/view/' + swarmId">
+      <ion-button [routerLink]="swarmId ? '/swarms/view/' + swarmId : '/swarms'">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title
-      ><strong>{{ 'REMINDERS.pageTitle' | translate }}</strong></ion-title
-    >
+    <ion-title><strong>{{ 'REMINDERS.pageTitle' | translate }}</strong></ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <ion-list [inset]="true" mode="ios">
+    <ion-item *ngIf="group"> {{'REMINDERS.targetLocation' | translate}}: {{group.name}} </ion-item>
+    <ion-item *ngIf="swarm"> {{'REMINDERS.targetColony' | translate}}: {{swarm.name}} </ion-item>
+  </ion-list>
   <ion-list [inset]="true" mode="ios">
     <ion-item>
       <ion-grid>
         <ion-row>
           <ion-col size="2">
-            <ion-label
-              (click)="changeDate(-1)"
-              class="top-padding ion-text-center"
-            >
-              <ion-icon
-                [color]="date > minDate ? 'primary' : 'light'"
-                name="play-back-outline"
-                slot="start"
-              ></ion-icon
+            <ion-label (click)="changeDate(-1)" class="top-padding ion-text-center">
+              <ion-icon [color]="date > minDate ? 'primary' : 'light'" name="play-back-outline" slot="start"></ion-icon
             ></ion-label>
           </ion-col>
           <ion-col size="8">
@@ -41,37 +36,19 @@
             </ion-label>
           </ion-col>
           <ion-col size="2">
-            <ion-label
-              (click)="changeDate(1)"
-              class="top-padding ion-text-center"
-            >
-              <ion-icon
-                color="primary"
-                name="play-forward-outline"
-                slot="end"
-              ></ion-icon>
+            <ion-label (click)="changeDate(1)" class="top-padding ion-text-center">
+              <ion-icon color="primary" name="play-forward-outline" slot="end"></ion-icon>
             </ion-label>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked"
-        >{{ 'REMINDERS.textHeader' | translate }}</ion-label
-      >
-      <ion-textarea
-        [(ngModel)]="text"
-        placeholder="{{'REMINDERS.textPlaceholder' | translate}}"
-      >
-      </ion-textarea>
+      <ion-label position="stacked">{{ 'REMINDERS.textHeader' | translate }}</ion-label>
+      <ion-textarea [(ngModel)]="text" placeholder="{{'REMINDERS.textPlaceholder' | translate}}"> </ion-textarea>
     </ion-item>
   </ion-list>
-  <ion-button
-    class="ion-padding-horizontal"
-    [disabled]="!text || !text.trim()"
-    type="submit"
-    (click)="save()"
-  >
+  <ion-button class="ion-padding-horizontal" [disabled]="!text || !text.trim()" type="submit" (click)="save()">
     {{ 'GENERAL.save' | translate }}
   </ion-button>
 </ion-content>

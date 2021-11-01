@@ -10,20 +10,11 @@ const routes: Routes = [
   },
   {
     path: "journal",
-    loadChildren: () =>
-      import("../swarm-journal/swarm-journal.module").then(
-        (m) => m.SwarmJournalPageModule
-      ),
+    loadChildren: () => import("../swarm-journal/swarm-journal.module").then((m) => m.SwarmJournalPageModule),
   },
   {
     path: "frames",
-    loadChildren: () =>
-      import("./frames/frames.module").then((m) => m.FramesPageModule),
-  },
-  {
-    path: "reminder",
-    loadChildren: () =>
-      import("./reminder/reminder.module").then((m) => m.ReminderPageModule),
+    loadChildren: () => import("./frames/frames.module").then((m) => m.FramesPageModule),
   },
 ];
 

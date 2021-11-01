@@ -11,6 +11,7 @@ import { ColonyDetailsCardComponent } from "./colony-details-card/colony-details
 import { CrownComponent } from "./crown/crown.component";
 import { MiteComponent } from "./mite/mite.component";
 import { StatusIndicatorComponent } from "./status-indicator/status-indicator.component";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { StatusIndicatorComponent } from "./status-indicator/status-indicator.co
     MiteComponent,
     StatusIndicatorComponent,
   ],
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, RouterModule],
   exports: [
     JournalEntryShortComponent,
     GroupHeaderComponent,

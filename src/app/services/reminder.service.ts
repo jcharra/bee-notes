@@ -1,21 +1,21 @@
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
+import { LocalNotifications } from "@capacitor/local-notifications";
 import { Storage } from "@ionic/storage";
 import { TranslateService } from "@ngx-translate/core";
 import { addDays, isBefore, startOfDay } from "date-fns";
-import { Observable } from "rxjs";
+import { from, of } from "rxjs";
 import { first, map, switchMap, tap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
-import { LocalNotifications } from "@capacitor/local-notifications";
+import { LocalStorageKey, StorageSyncService } from "./storage-sync.service";
 export interface Reminder {
   reminderId?: number;
-  swarmId: string;
+  swarmId?: string;
+  groupId?: string;
   swarmName: string;
   date: Date;
   text: string;
 }
-
-const REMINDERS_STORAGE_KEY = "REMINDERS_STORAGE_KEY";
 
 @Injectable({
   providedIn: "root",
@@ -25,51 +25,60 @@ export class ReminderService {
     private translate: TranslateService,
     private storage: Storage,
     private db: AngularFireDatabase,
-    private authService: AuthService
+    private authService: AuthService,
+    private storageSync: StorageSyncService
   ) {}
 
-  getReminders(swarmId?: string): Observable<Reminder[]> {
+  getReminders(swarmId?: string) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return this.db
-          .list(`users/${user.uid}/reminders`)
-          .snapshotChanges()
-          .pipe(
-            first(),
-            map((rs: any[]) => {
-              let reminders: Reminder[] = [];
+        return from(this.storageSync.getFromStorage(LocalStorageKey.REMINDERS)).pipe(
+          switchMap((localReminders) => {
+            if (localReminders) {
+              return of(localReminders);
+            } else {
+              return this.db
+                .list(`users/${user.uid}/reminders`)
+                .snapshotChanges()
+                .pipe(
+                  first(),
+                  map((rs: any[]) => {
+                    let reminders: Reminder[] = [];
 
-              for (let i = 0; i < rs.length; i++) {
-                const item: any = rs[i];
-                const key = item.key;
-                const value: any = item.payload.val();
+                    for (let i = 0; i < rs.length; i++) {
+                      const item: any = rs[i];
+                      const key = item.key;
+                      const value: any = item.payload.val();
 
-                reminders.push({
-                  reminderId: key,
-                  ...value,
-                  date: new Date(value.date),
-                });
-              }
+                      reminders.push({
+                        reminderId: key,
+                        ...value,
+                        date: new Date(value.date),
+                      });
+                    }
 
-              // Show reminders if not older than 3 days
-              const obsoleteReminders = [];
-              const currentReminders = [];
+                    // Show reminders if not older than 3 days
+                    const obsoleteReminders = [];
+                    const currentReminders = [];
 
-              for (const r of reminders) {
-                if (isBefore(r.date, startOfDay(addDays(new Date(), -3)))) {
-                  obsoleteReminders.push(r);
-                } else {
-                  currentReminders.push(r);
-                }
-              }
+                    for (const r of reminders) {
+                      if (isBefore(r.date, startOfDay(addDays(new Date(), -3)))) {
+                        obsoleteReminders.push(r);
+                      } else {
+                        currentReminders.push(r);
+                      }
+                    }
 
-              this.cleanupReminders(obsoleteReminders.map((r) => r.reminderId));
+                    this.cleanupReminders(obsoleteReminders.map((r) => r.reminderId));
 
-              return swarmId
-                ? currentReminders.filter((r) => r.swarmId === swarmId)
-                : currentReminders;
-            })
-          );
+                    this.storageSync.writeToStorage(LocalStorageKey.REMINDERS, currentReminders);
+
+                    return swarmId ? currentReminders.filter((r) => r.swarmId === swarmId) : currentReminders;
+                  })
+                );
+            }
+          })
+        );
       })
     );
   }
@@ -107,13 +116,7 @@ export class ReminderService {
       )
       .subscribe();
 
-    this.storage.get(REMINDERS_STORAGE_KEY).then((reminders: Reminder[]) => {
-      if (!reminders) {
-        reminders = [];
-      }
-      reminders.push(reminder);
-      this.storage.set(REMINDERS_STORAGE_KEY, reminders);
-    });
+    this._markStorageAsDirty();
   }
 
   async deleteReminder(reminderId: number) {
@@ -126,19 +129,12 @@ export class ReminderService {
       .pipe(
         first(),
         tap((user) => {
-          return this.db
-            .object(`/users/${user.uid}/reminders/${reminderId}`)
-            .remove();
+          return this.db.object(`/users/${user.uid}/reminders/${reminderId}`).remove();
         })
       )
       .subscribe();
 
-    return this.storage
-      .get(REMINDERS_STORAGE_KEY)
-      .then((reminders: Reminder[]) => {
-        reminders = reminders.filter((r) => r.reminderId !== reminderId);
-        this.storage.set(REMINDERS_STORAGE_KEY, reminders);
-      });
+    this._markStorageAsDirty();
   }
 
   cleanupReminders(reminderIds: number[]) {
@@ -153,5 +149,9 @@ export class ReminderService {
         })
       )
       .subscribe();
+  }
+
+  private _markStorageAsDirty(): Promise<any> {
+    return this.storageSync.clearFromStorage(LocalStorageKey.REMINDERS);
   }
 }
