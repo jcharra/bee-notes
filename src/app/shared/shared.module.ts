@@ -12,6 +12,7 @@ import { CrownComponent } from "./crown/crown.component";
 import { MiteComponent } from "./mite/mite.component";
 import { StatusIndicatorComponent } from "./status-indicator/status-indicator.component";
 import { RouterModule } from "@angular/router";
+import { ReminderItemComponent } from "./reminder-item/reminder-item.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { RouterModule } from "@angular/router";
     CrownComponent,
     MiteComponent,
     StatusIndicatorComponent,
+    ReminderItemComponent,
   ],
   imports: [CommonModule, TranslateModule, RouterModule],
   exports: [
@@ -36,6 +38,7 @@ import { RouterModule } from "@angular/router";
     CrownComponent,
     MiteComponent,
     StatusIndicatorComponent,
+    ReminderItemComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

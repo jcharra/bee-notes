@@ -25,7 +25,11 @@
         ></app-group-header>
         <app-weather-forecast [lat]="group.lat" [lng]="group.lng" *ngIf="group.lat && group.lng"></app-weather-forecast>
         <ng-container *ngIf="group.reminders && group.reminders.length > 0">
-          <ion-item *ngFor="let groupReminder of group.reminders"> {{groupReminder.text}} </ion-item>
+          <app-reminder-item
+            [reminder]="reminder"
+            *ngFor="let reminder of group.reminders"
+            (notifyChange)="loadSwarms()"
+          ></app-reminder-item>
         </ng-container>
         <ion-reorder-group (ionItemReorder)="doReorder($event, idx)" disabled="false">
           <ion-item *ngFor="let swarm of group.swarms" [routerLink]="['view', swarm.id]">

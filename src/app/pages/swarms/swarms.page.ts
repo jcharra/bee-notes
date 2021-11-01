@@ -120,7 +120,7 @@ export class SwarmsPage {
       );
   }
 
-  private loadGroupReminders() {
+  loadGroupReminders() {
     return this.reminderService.getReminders().pipe(
       first(),
       tap((rs: Reminder[]) => {

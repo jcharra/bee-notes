@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ActionSheetController, AlertController, LoadingController, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { forkJoin, Observable, Subject } from "rxjs";
+import { forkJoin, Subject } from "rxjs";
 import { first, takeUntil } from "rxjs/operators";
 import { SwarmGroup, SwarmGroupService } from "src/app/services/swarm-group.service";
 import { JournalService } from "../../../services/journal.service";
@@ -85,25 +85,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
       });
   }
 
-  async onMissingValues() {
-    const alert = await this.alertCtrl.create({
-      header: "Error",
-      message: this.translate.instant("JOURNAL_PAGE.invalidReminderInput"),
-      buttons: ["OK"],
-    });
-
-    await alert.present();
-  }
-
-  async onReminderDismissed() {
-    const toast = await this.toastController.create({
-      message: this.translate.instant("JOURNAL_PAGE.onReminderDismissal"),
-      duration: 2000,
-    });
-
-    toast.present();
-  }
-
   async markAsDeceased() {
     const alert = await this.alertCtrl.create({
       header: this.translate.instant("COLONIES_PAGE.closeColonyHeader"),
@@ -155,30 +136,6 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
       duration: 6000,
     });
     toast.present();
-  }
-
-  async deleteReminder(reminderId: number) {
-    const alert = await this.alertCtrl.create({
-      header: this.translate.instant("REMINDERS.deleteConfirmHeader"),
-      buttons: [
-        {
-          text: this.translate.instant("GENERAL.cancel"),
-          role: "cancel",
-          cssClass: "secondary",
-        },
-        {
-          text: this.translate.instant("GENERAL.delete"),
-          handler: () => {
-            this.reminderService.deleteReminder(reminderId).then(() => {
-              this.onReminderDismissed();
-              this.loadReminders();
-            });
-          },
-        },
-      ],
-    });
-
-    await alert.present();
   }
 
   changeGroup() {

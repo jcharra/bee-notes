@@ -114,25 +114,25 @@ export class ReminderService {
       )
       .subscribe();
 
-    this._markStorageAsDirty();
+    this._markStorageAsDirty(reminder.swarmId);
   }
 
-  async deleteReminder(reminderId: number) {
-    await this._markStorageAsDirty();
-
+  async deleteReminder(reminder: Reminder) {
     await LocalNotifications.cancel({
-      notifications: [{ id: reminderId }],
+      notifications: [{ id: reminder.reminderId }],
     });
 
-    await this.authService
+    this.authService
       .getUser()
       .pipe(
         first(),
         tap((user) => {
-          this.db.object(`/users/${user.uid}/reminders/${reminderId}`).remove();
+          this.db.object(`/users/${user.uid}/reminders/${reminder.reminderId}`).remove();
         })
       )
-      .toPromise();
+      .subscribe();
+
+    this._markStorageAsDirty(reminder.swarmId);
   }
 
   cleanupReminders(reminderIds: number[]) {
@@ -149,7 +149,7 @@ export class ReminderService {
       .subscribe();
   }
 
-  private _markStorageAsDirty(): Promise<any> {
-    return this.storageSync.clearFromStorage(LocalStorageKey.REMINDERS);
+  private _markStorageAsDirty(swarmId?: string): Promise<any> {
+    return this.storageSync.clearFromStorage(LocalStorageKey.REMINDERS, swarmId);
   }
 }

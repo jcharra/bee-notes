@@ -18,22 +18,11 @@
   </ion-list>
 
   <ion-list *ngIf="reminders?.length > 0" [inset]="true" mode="ios">
-    <ion-item class="ion-text-center">
-      <ion-label>
-        <strong>{{ "REMINDERS.listTitle" | translate }}</strong>
-      </ion-label>
-    </ion-item>
-    <ion-item *ngFor="let reminder of reminders" class="reminder">
-      <ion-text [color]="reminder.date < now ? 'danger': 'default'">
-        <strong>{{ reminder.date | date:'dd. MMM'}}: </strong>
-        {{ reminder.text }}</ion-text
-      >
-      <ion-buttons slot="end">
-        <ion-button (click)="deleteReminder(reminder.reminderId)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
+    <app-reminder-item
+      [reminder]="reminder"
+      *ngFor="let reminder of reminders"
+      (notifyChange)="loadReminders()"
+    ></app-reminder-item>
   </ion-list>
 
   <ion-list [inset]="true" mode="ios">

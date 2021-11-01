@@ -1,0 +1,5 @@
+<ion-item class="groupReminder"
+  ><ion-icon slot="start" name="alarm-outline"></ion-icon>
+  <ion-label class="ion-text-wrap"> {{ reminder.date | date: "dd. MMM" }}: {{ reminder.text }}</ion-label>
+  <ion-icon name="trash-outline" (click)="delete()"></ion-icon>
+</ion-item>
