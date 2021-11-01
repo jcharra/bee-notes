@@ -13,9 +13,7 @@
   </ion-refresher>
   <ng-container *ngIf="sortedSwarmGroups">
     <ng-container *ngIf="sortedSwarmGroups.length === 0">
-      <ion-item class="ion-padding" lines="none">
-        {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝
-      </ion-item>
+      <ion-item class="ion-padding" lines="none"> {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝 </ion-item>
     </ng-container>
 
     <ng-container *ngFor="let group of sortedSwarmGroups; let idx = index">
@@ -25,42 +23,27 @@
           (changeEvent)="loadSwarms()"
           (renameEvent)="editSwarmGroup($event)"
         ></app-group-header>
-        <app-weather-forecast
-          [lat]="group.lat"
-          [lng]="group.lng"
-          *ngIf="group.lat && group.lng"
-        ></app-weather-forecast>
-        <ion-reorder-group
-          (ionItemReorder)="doReorder($event, idx)"
-          disabled="false"
-        >
-          <ion-item
-            *ngFor="let swarm of group.swarms"
-            [routerLink]="['view', swarm.id]"
-          >
+        <app-weather-forecast [lat]="group.lat" [lng]="group.lng" *ngIf="group.lat && group.lng"></app-weather-forecast>
+        <ng-container *ngIf="group.reminders && group.reminders.length > 0">
+          <ion-item *ngFor="let groupReminder of group.reminders"> {{groupReminder.text}} </ion-item>
+        </ng-container>
+        <ion-reorder-group (ionItemReorder)="doReorder($event, idx)" disabled="false">
+          <ion-item *ngFor="let swarm of group.swarms" [routerLink]="['view', swarm.id]">
             <ion-reorder slot="start">
               <div class="reorder">
-                <status-indicator
-                  [colonyId]="swarm.id"
-                  [isNucleus]="swarm.isNucleus"
-                ></status-indicator>
+                <status-indicator [colonyId]="swarm.id" [isNucleus]="swarm.isNucleus"></status-indicator>
               </div>
             </ion-reorder>
             <ion-label>
               {{ swarm.name }}
-              <span
-                class="small-preview"
-                *ngIf="swarm.lastAction as entry; else noActionYet"
-              >
+              <span class="small-preview" *ngIf="swarm.lastAction as entry; else noActionYet">
                 <br />
                 <strong>{{ entry.date | date:'dd. MMM'}}: </strong>
                 {{ 'ACTIONS.' + entry.type | translate }}
               </span>
               <ng-template #noActionYet>
                 <br />
-                <span class="small-preview"
-                  >{{"JOURNAL_PAGE.noTrackedActivity" | translate}}</span
-                >
+                <span class="small-preview">{{"JOURNAL_PAGE.noTrackedActivity" | translate}}</span>
               </ng-template>
             </ion-label>
           </ion-item>
@@ -76,12 +59,7 @@
     </ng-container>
 
     <ion-buttons class="ion-padding-horizontal">
-      <ion-fab-button
-        class="addGroupButton"
-        slot="end"
-        color="primary"
-        (click)="editSwarmGroup()"
-      >
+      <ion-fab-button class="addGroupButton" slot="end" color="primary" (click)="editSwarmGroup()">
         <ion-icon name="duplicate-outline"></ion-icon>
       </ion-fab-button>
     </ion-buttons>

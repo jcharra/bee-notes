@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import { LocalNotifications } from "@capacitor/local-notifications";
-import { Storage } from "@ionic/storage";
 import { TranslateService } from "@ngx-translate/core";
 import { addDays, isBefore, startOfDay } from "date-fns";
 import { from, of } from "rxjs";
@@ -23,7 +22,6 @@ export interface Reminder {
 export class ReminderService {
   constructor(
     private translate: TranslateService,
-    private storage: Storage,
     private db: AngularFireDatabase,
     private authService: AuthService,
     private storageSync: StorageSyncService
@@ -32,7 +30,7 @@ export class ReminderService {
   getReminders(swarmId?: string) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return from(this.storageSync.getFromStorage(LocalStorageKey.REMINDERS)).pipe(
+        return from(this.storageSync.getFromStorage(LocalStorageKey.REMINDERS, swarmId)).pipe(
           switchMap((localReminders) => {
             if (localReminders) {
               return of(localReminders);
@@ -71,7 +69,7 @@ export class ReminderService {
 
                     this.cleanupReminders(obsoleteReminders.map((r) => r.reminderId));
 
-                    this.storageSync.writeToStorage(LocalStorageKey.REMINDERS, currentReminders);
+                    this.storageSync.writeToStorage(LocalStorageKey.REMINDERS, currentReminders, swarmId);
 
                     return swarmId ? currentReminders.filter((r) => r.swarmId === swarmId) : currentReminders;
                   })
@@ -120,21 +118,21 @@ export class ReminderService {
   }
 
   async deleteReminder(reminderId: number) {
+    await this._markStorageAsDirty();
+
     await LocalNotifications.cancel({
       notifications: [{ id: reminderId }],
     });
 
-    this.authService
+    await this.authService
       .getUser()
       .pipe(
         first(),
         tap((user) => {
-          return this.db.object(`/users/${user.uid}/reminders/${reminderId}`).remove();
+          this.db.object(`/users/${user.uid}/reminders/${reminderId}`).remove();
         })
       )
-      .subscribe();
-
-    this._markStorageAsDirty();
+      .toPromise();
   }
 
   cleanupReminders(reminderIds: number[]) {

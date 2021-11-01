@@ -1,28 +1,19 @@
 import { Component, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import {
-  AlertController,
-  IonReorderGroup,
-  LoadingController,
-} from "@ionic/angular";
+import { AlertController, IonReorderGroup, LoadingController } from "@ionic/angular";
 import { ItemReorderEventDetail } from "@ionic/core";
 import { TranslateService } from "@ngx-translate/core";
 import { differenceInMilliseconds } from "date-fns";
-import { empty, forkJoin, Observable, of } from "rxjs";
+import { forkJoin, Observable, of } from "rxjs";
 import { first, map, switchMap, tap } from "rxjs/operators";
 import { AnimationService } from "src/app/services/animation.service";
 import { AppreviewService } from "src/app/services/appreview.service";
 import { JournalService } from "src/app/services/journal.service";
 import { PurchaseService } from "src/app/services/purchase.service";
+import { Reminder, ReminderService } from "src/app/services/reminder.service";
 import { StatusService } from "src/app/services/status.service";
-import {
-  LocalStorageKey,
-  StorageSyncService,
-} from "src/app/services/storage-sync.service";
-import {
-  SwarmGroup,
-  SwarmGroupService,
-} from "src/app/services/swarm-group.service";
+import { LocalStorageKey, StorageSyncService } from "src/app/services/storage-sync.service";
+import { SwarmGroup, SwarmGroupService } from "src/app/services/swarm-group.service";
 import { SwarmService } from "src/app/services/swarm.service";
 import { JournalEntry } from "src/app/types/JournalEntry";
 import { Swarm } from "src/app/types/Swarm";
@@ -33,6 +24,7 @@ export interface UISwarmGroup {
   swarms: Swarm[];
   lat?: number;
   lng?: number;
+  reminders?: Reminder[];
 }
 
 @Component({
@@ -58,7 +50,8 @@ export class SwarmsPage {
     private animationService: AnimationService,
     private router: Router,
     private appreview: AppreviewService,
-    private storageSync: StorageSyncService
+    private storageSync: StorageSyncService,
+    private reminderService: ReminderService
   ) {}
 
   async forceReloadSwarms(event) {
@@ -91,18 +84,11 @@ export class SwarmsPage {
           this.appreview.checkReview(swarms);
         }),
         switchMap((swarms: Swarm[]) => {
-          console.log(
-            `${differenceInMilliseconds(
-              new Date(),
-              start
-            )} later (app review done)`
-          );
+          console.log(`${differenceInMilliseconds(new Date(), start)} later (app review done)`);
           return this.groupSwarms(swarms);
         }),
         tap((groups: UISwarmGroup[]) => {
-          console.log(
-            `${differenceInMilliseconds(new Date(), start)} later (entries)`
-          );
+          console.log(`${differenceInMilliseconds(new Date(), start)} later (grouping done)`);
 
           if (this._groupsDiffer(this.sortedSwarmGroups, groups)) {
             this.sortedSwarmGroups = groups;
@@ -114,14 +100,17 @@ export class SwarmsPage {
           }
         }),
         switchMap(() => {
-          console.log(
-            `${differenceInMilliseconds(new Date(), start)} later (grouping)`
-          );
+          console.log(`${differenceInMilliseconds(new Date(), start)} later (group diff check)`);
           return this.loadJournalEntries();
+        }),
+        switchMap(() => {
+          console.log(`${differenceInMilliseconds(new Date(), start)} later (entries)`);
+          return this.loadGroupReminders();
         })
       )
       .subscribe(
         () => {
+          console.log(`${differenceInMilliseconds(new Date(), start)} later (reminders)`);
           loading && loading.dismiss();
         },
         (err) => {
@@ -129,6 +118,17 @@ export class SwarmsPage {
           console.log("ERROR", err);
         }
       );
+  }
+
+  private loadGroupReminders() {
+    return this.reminderService.getReminders().pipe(
+      first(),
+      tap((rs: Reminder[]) => {
+        for (let group of this.sortedSwarmGroups) {
+          group.reminders = rs.filter((r) => r.groupId === group.id);
+        }
+      })
+    );
   }
 
   private loadJournalEntries(): Observable<unknown> {
@@ -194,14 +194,9 @@ export class SwarmsPage {
   }
 
   async editSwarmGroup(groupId?: string) {
-    const existing =
-      groupId && this.sortedSwarmGroups.filter((g) => g.id === groupId)[0];
+    const existing = groupId && this.sortedSwarmGroups.filter((g) => g.id === groupId)[0];
     const alert = await this.alertCtrl.create({
-      header: this.translate.instant(
-        existing
-          ? "COLONIES_PAGE.editGroupName"
-          : "COLONIES_PAGE.newColonyGroup"
-      ),
+      header: this.translate.instant(existing ? "COLONIES_PAGE.editGroupName" : "COLONIES_PAGE.newColonyGroup"),
       inputs: [
         {
           name: "name",
@@ -217,9 +212,7 @@ export class SwarmsPage {
           cssClass: "secondary",
         },
         {
-          text: existing
-            ? this.translate.instant("GENERAL.save")
-            : this.translate.instant("COLONIES_PAGE.createGroup"),
+          text: existing ? this.translate.instant("GENERAL.save") : this.translate.instant("COLONIES_PAGE.createGroup"),
           handler: (value) => {
             const name = value.name.trim();
             if (name) {
@@ -243,9 +236,7 @@ export class SwarmsPage {
                 }
               );
             } else {
-              this.onCreationFailure(
-                this.translate.instant("COLONIES_PAGE.chooseValidName")
-              );
+              this.onCreationFailure(this.translate.instant("COLONIES_PAGE.chooseValidName"));
             }
           },
         },
@@ -313,12 +304,8 @@ export class SwarmsPage {
 
   async requireFullVersion() {
     const hint = await this.alertCtrl.create({
-      header: this.translate.instant(
-        "COLONIES_PAGE.fullVersionRequiredDialogHeader"
-      ),
-      message: this.translate.instant(
-        "COLONIES_PAGE.fullVersionRequiredDialogText"
-      ),
+      header: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogHeader"),
+      message: this.translate.instant("COLONIES_PAGE.fullVersionRequiredDialogText"),
       buttons: [
         {
           text: this.translate.instant("GENERAL.ok"),
@@ -346,12 +333,7 @@ export class SwarmsPage {
       const og = oldGroups[i];
       const ng = newGroups[i];
 
-      if (
-        og.swarms.length !== ng.swarms.length ||
-        og.name !== ng.name ||
-        og.lat !== ng.lat ||
-        og.lng !== ng.lng
-      ) {
+      if (og.swarms.length !== ng.swarms.length || og.name !== ng.name || og.lat !== ng.lat || og.lng !== ng.lng) {
         return true;
       }
 

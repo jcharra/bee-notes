@@ -1,18 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  ActionSheetController,
-  AlertController,
-  LoadingController,
-  ToastController,
-} from "@ionic/angular";
+import { ActionSheetController, AlertController, LoadingController, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { forkJoin, Observable, Subject } from "rxjs";
 import { first, takeUntil } from "rxjs/operators";
-import {
-  SwarmGroup,
-  SwarmGroupService,
-} from "src/app/services/swarm-group.service";
+import { SwarmGroup, SwarmGroupService } from "src/app/services/swarm-group.service";
 import { JournalService } from "../../../services/journal.service";
 import { Reminder, ReminderService } from "../../../services/reminder.service";
 import { SwarmService } from "../../../services/swarm.service";
@@ -31,7 +23,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
   swarm: Swarm;
   journalEntries: JournalEntry[] = JOURNAL_PLACEHOLDER;
   userId: string;
-  reminders$: Observable<Reminder[]>;
+  reminders: Reminder[];
   destroyed$ = new Subject<boolean>();
   now = new Date();
 
@@ -85,7 +77,12 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
   }
 
   loadReminders() {
-    this.reminders$ = this.reminderService.getReminders(this.swarmId);
+    this.reminderService
+      .getReminders(this.swarmId)
+      .pipe(first())
+      .subscribe((rs: Reminder[]) => {
+        this.reminders = rs;
+      });
   }
 
   async onMissingValues() {
@@ -154,9 +151,7 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
 
   async showWhereToFindHint() {
     const toast = await this.toastController.create({
-      message: this.translate.instant(
-        "COLONIES_PAGE.whereToFindExColoniesHint"
-      ),
+      message: this.translate.instant("COLONIES_PAGE.whereToFindExColoniesHint"),
       duration: 6000,
     });
     toast.present();
@@ -230,12 +225,11 @@ export class SwarmDetailPage implements OnInit, OnDestroy {
       toGroup.swarmIds = [this.swarmId];
     }
 
-    forkJoin([
-      this.swarmGroupService.updateGroup(fromGroup),
-      this.swarmGroupService.updateGroup(toGroup),
-    ]).subscribe(() => {
-      this.router.navigateByUrl("/swarms");
-    });
+    forkJoin([this.swarmGroupService.updateGroup(fromGroup), this.swarmGroupService.updateGroup(toGroup)]).subscribe(
+      () => {
+        this.router.navigateByUrl("/swarms");
+      }
+    );
   }
 
   ngOnDestroy() {

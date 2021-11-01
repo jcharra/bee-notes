@@ -71,8 +71,8 @@ export class ReminderPage implements OnInit {
   save() {
     const date = addHours(startOfDay(new Date(this.date)), 9);
     const reminder = {
-      swarmId: this.swarmId,
-      groupId: this.groupId,
+      swarmId: this.swarmId || "",
+      groupId: this.groupId || "",
       swarmName: this.swarm ? this.swarm.name : null,
       text: this.text.trim(),
       date,
