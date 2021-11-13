@@ -234,7 +234,7 @@
   },
   "REMINDERS": {
     "pageTitle": "New reminder",
-    "title": "Reminder for hive \"{{ swarmName }}\"",
+    "title": "Reminder for hive {{ swarmName }}",
     "listTitle": "Reminders",
     "deleteConfirmHeader": "Delete reminder?",
     "textHeader": "Reminder text",

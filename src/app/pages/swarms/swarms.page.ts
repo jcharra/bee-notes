@@ -125,7 +125,9 @@ export class SwarmsPage {
       first(),
       tap((rs: Reminder[]) => {
         for (let group of this.sortedSwarmGroups) {
-          group.reminders = rs.filter((r) => r.groupId === group.id);
+          const rems = rs.filter((r) => r.groupId === group.id);
+          rems.sort((r1, r2) => (r1.date < r2.date ? -1 : 1));
+          group.reminders = rems;
         }
       })
     );

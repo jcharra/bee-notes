@@ -1,18 +1,16 @@
-import { NavController } from "@ionic/angular";
-import { SwarmService } from "src/app/services/swarm.service";
-import { ActivatedRoute } from "@angular/router";
-import { ToastController } from "@ionic/angular";
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { NavController, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { addYears, format, endOfYear, addHours, startOfDay, addDays } from "date-fns";
+import { addDays, addHours, addYears, endOfYear, format, startOfHour } from "date-fns";
 import { de } from "date-fns/locale";
-import { ReminderService } from "src/app/services/reminder.service";
-import { Swarm } from "src/app/types/Swarm";
 import { first } from "rxjs/operators";
+import { ReminderService } from "src/app/services/reminder.service";
 import { SwarmGroup, SwarmGroupService } from "src/app/services/swarm-group.service";
+import { SwarmService } from "src/app/services/swarm.service";
+import { Swarm } from "src/app/types/Swarm";
 
-const DAY_OF_YEAR = "yyyy-MM-dd";
-
+const DAY_OF_YEAR = "yyyy-MM-dd H:mm";
 @Component({
   selector: "app-reminder",
   templateUrl: "./reminder.page.html",
@@ -23,8 +21,8 @@ export class ReminderPage implements OnInit {
   groupId: string;
   swarm: Swarm;
   group: SwarmGroup;
-  date = format(addDays(new Date(), 1), DAY_OF_YEAR, { locale: de });
-  minDate = format(addDays(new Date(), 1), DAY_OF_YEAR);
+  date = format(startOfHour(addHours(new Date(), 1)), DAY_OF_YEAR, { locale: de });
+  minDate = format(new Date(), DAY_OF_YEAR);
   maxDate = format(endOfYear(addYears(new Date(), 1)), DAY_OF_YEAR);
   text: string;
 
@@ -68,18 +66,21 @@ export class ReminderPage implements OnInit {
     }
   }
 
+  changeHour(diff) {
+    this.date = format(addHours(new Date(this.date), diff), DAY_OF_YEAR, { locale: de });
+  }
+
   save() {
-    const date = addHours(startOfDay(new Date(this.date)), 9);
     const reminder = {
       swarmId: this.swarmId || "",
       groupId: this.groupId || "",
       swarmName: this.swarm ? this.swarm.name : null,
       text: this.text.trim(),
-      date,
+      date: new Date(this.date),
     };
 
     this.reminderService.createReminder(reminder).then(
-      () => this.onReminderSaved(date),
+      () => this.onReminderSaved(new Date(this.date)),
       (err) => this.onReminderCreationFailed(err)
     );
   }
