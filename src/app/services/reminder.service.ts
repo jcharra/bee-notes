@@ -11,7 +11,8 @@ export interface Reminder {
   reminderId?: number;
   swarmId?: string;
   groupId?: string;
-  swarmName: string;
+  groupName?: string;
+  swarmName?: string;
   date: Date;
   text: string;
 }
@@ -89,9 +90,13 @@ export class ReminderService {
     await LocalNotifications.schedule({
       notifications: [
         {
-          title: this.translate.instant("REMINDERS.title", {
-            swarmName: reminder.swarmName,
-          }),
+          title: reminder.swarmName
+            ? this.translate.instant("REMINDERS.title", {
+                swarmName: reminder.swarmName,
+              })
+            : this.translate.instant("REMINDERS.titleForGroup", {
+                groupName: reminder.groupName,
+              }),
           body: reminder.text,
           id: reminder.reminderId,
           schedule: { at: new Date(reminder.date) },

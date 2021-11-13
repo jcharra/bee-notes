@@ -75,6 +75,7 @@ export class ReminderPage implements OnInit {
       swarmId: this.swarmId || "",
       groupId: this.groupId || "",
       swarmName: this.swarm ? this.swarm.name : null,
+      groupName: this.group ? this.group.name : null,
       text: this.text.trim(),
       date: new Date(this.date),
     };

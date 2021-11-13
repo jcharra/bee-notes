@@ -235,6 +235,7 @@
   "REMINDERS": {
     "pageTitle": "Erinnerung anlegen",
     "title": "Erinnerung für Volk {{ swarmName }}",
+    "titleForGroup": "Erinnerung für Standort {{ groupName }}",
     "listTitle": "Erinnerungen",
     "deleteConfirmHeader": "Erinnerung löschen?",
     "textHeader": "Erinnerungstext",
