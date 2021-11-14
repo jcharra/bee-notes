@@ -234,13 +234,15 @@
   },
   "REMINDERS": {
     "pageTitle": "New reminder",
+    "pageTitleEdit": "Edit reminder",
     "title": "Reminder for hive {{ swarmName }}",
     "listTitle": "Reminders",
     "deleteConfirmHeader": "Delete reminder?",
     "textHeader": "Reminder text",
     "textPlaceholder": "Enter subject",
-    "targetLocation": "Location",
-    "targetColony": "Colony"
+    "targetLocation": "For location",
+    "targetColony": "For colony",
+    "time": "Time"
   },
   "PURCHASES": {
     "devCoffeeThankYou": "Thank you very much! Treats like these keep me going ...",

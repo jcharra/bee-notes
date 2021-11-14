@@ -82,6 +82,11 @@ export class ReminderService {
     );
   }
 
+  async updateReminder(reminder: Reminder) {
+    await this.deleteReminder({ ...reminder });
+    await this.createReminder({ ...reminder }); // will create a new reminder ID
+  }
+
   async createReminder(reminder: Reminder) {
     await LocalNotifications.requestPermissions();
 
@@ -123,6 +128,7 @@ export class ReminderService {
   }
 
   async deleteReminder(reminder: Reminder) {
+    console.log("Delete", reminder.reminderId);
     await LocalNotifications.cancel({
       notifications: [{ id: reminder.reminderId }],
     });
@@ -133,6 +139,7 @@ export class ReminderService {
         first(),
         tap((user) => {
           this.db.object(`/users/${user.uid}/reminders/${reminder.reminderId}`).remove();
+          console.log("Remove from firebase", reminder.reminderId);
         })
       )
       .subscribe();
@@ -155,6 +162,7 @@ export class ReminderService {
   }
 
   private _markStorageAsDirty(swarmId?: string): Promise<any> {
+    console.log("Clear reminders from local storage for swarm", swarmId);
     return this.storageSync.clearFromStorage(LocalStorageKey.REMINDERS, swarmId);
   }
 }

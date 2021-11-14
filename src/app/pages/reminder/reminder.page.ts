@@ -3,27 +3,26 @@ import { ActivatedRoute } from "@angular/router";
 import { NavController, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { addDays, addHours, addYears, endOfYear, format, startOfHour } from "date-fns";
-import { de } from "date-fns/locale";
-import { first } from "rxjs/operators";
-import { ReminderService } from "src/app/services/reminder.service";
+import { first, tap } from "rxjs/operators";
+import { Reminder, ReminderService } from "src/app/services/reminder.service";
 import { SwarmGroup, SwarmGroupService } from "src/app/services/swarm-group.service";
 import { SwarmService } from "src/app/services/swarm.service";
 import { Swarm } from "src/app/types/Swarm";
 
-const DAY_OF_YEAR = "yyyy-MM-dd H:mm";
 @Component({
   selector: "app-reminder",
   templateUrl: "./reminder.page.html",
   styleUrls: ["./reminder.page.scss"],
 })
-export class ReminderPage implements OnInit {
+export class ReminderPage {
   swarmId: string;
   groupId: string;
-  swarm: Swarm;
-  group: SwarmGroup;
-  date = format(startOfHour(addHours(new Date(), 1)), DAY_OF_YEAR, { locale: de });
-  minDate = format(new Date(), DAY_OF_YEAR);
-  maxDate = format(endOfYear(addYears(new Date(), 1)), DAY_OF_YEAR);
+  swarmName: string;
+  groupName: string;
+  reminderId: number;
+  isoDate = startOfHour(addHours(new Date(), 1)).toISOString();
+  minDate = new Date().toISOString();
+  maxDate = endOfYear(addYears(new Date(), 1)).toISOString();
   text: string;
 
   constructor(
@@ -36,17 +35,20 @@ export class ReminderPage implements OnInit {
     private navCtrl: NavController
   ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.swarmId = this.route.snapshot.queryParams.swarmId;
     this.groupId = this.route.snapshot.queryParams.groupId;
+    this.reminderId = this.route.snapshot.queryParams.reminderId;
 
     if (this.swarmId) {
       this.swarmService
         .getSwarm(this.swarmId)
         .pipe(first())
         .subscribe((s: Swarm) => {
-          this.swarm = s;
+          this.swarmName = s.name;
         });
+    } else {
+      this.swarmName = "";
     }
 
     if (this.groupId) {
@@ -54,36 +56,66 @@ export class ReminderPage implements OnInit {
         .getGroup(this.groupId)
         .pipe(first())
         .subscribe((g: SwarmGroup) => {
-          this.group = g;
+          this.groupName = g.name;
         });
+    } else {
+      this.groupName = "";
+    }
+
+    if (this.reminderId) {
+      this.reminderService
+        .getReminders(this.swarmId)
+        .pipe(
+          first(),
+          tap((rems: Reminder[]) => {
+            const rem = rems.find((r) => r.reminderId === +this.reminderId);
+            if (rem) {
+              this.isoDate = rem.date.toISOString();
+              this.text = rem.text;
+              this.groupId = rem.groupId;
+              this.swarmId = rem.swarmId;
+              this.swarmName = rem.swarmName;
+              this.groupName = rem.groupName;
+            }
+          })
+        )
+        .subscribe();
     }
   }
 
   changeDate(diff) {
-    const newDate = addDays(new Date(this.date), diff);
+    const newDate = addDays(new Date(this.isoDate), diff);
     if (newDate >= new Date(this.minDate)) {
-      this.date = format(newDate, DAY_OF_YEAR);
+      this.isoDate = newDate.toISOString();
     }
-  }
-
-  changeHour(diff) {
-    this.date = format(addHours(new Date(this.date), diff), DAY_OF_YEAR, { locale: de });
   }
 
   save() {
     const reminder = {
       swarmId: this.swarmId || "",
       groupId: this.groupId || "",
-      swarmName: this.swarm ? this.swarm.name : null,
-      groupName: this.group ? this.group.name : null,
+      swarmName: this.swarmName || "",
+      groupName: this.groupName || "",
       text: this.text.trim(),
-      date: new Date(this.date),
+      date: new Date(this.isoDate),
     };
 
-    this.reminderService.createReminder(reminder).then(
-      () => this.onReminderSaved(new Date(this.date)),
-      (err) => this.onReminderCreationFailed(err)
-    );
+    if (this.reminderId) {
+      this.reminderService
+        .updateReminder({
+          reminderId: this.reminderId,
+          ...reminder,
+        })
+        .then(
+          () => this.onReminderSaved(new Date(this.isoDate)),
+          (err) => this.onReminderCreationFailed(err)
+        );
+    } else {
+      this.reminderService.createReminder(reminder).then(
+        () => this.onReminderSaved(new Date(this.isoDate)),
+        (err) => this.onReminderCreationFailed(err)
+      );
+    }
   }
 
   async onReminderSaved(date: Date) {
