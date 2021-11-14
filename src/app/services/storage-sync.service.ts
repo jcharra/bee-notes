@@ -20,6 +20,7 @@ export class StorageSyncService {
   constructor(private storageService: StorageService) {}
 
   async getFromStorage(key: LocalStorageKey, appendix: string = "") {
+    console.log("From storage", key + appendix);
     const storageEntry: StorageEntry = await this.storageService.get(key + appendix);
     const dataFromStorage = storageEntry ? storageEntry.data : null;
     return dataFromStorage;

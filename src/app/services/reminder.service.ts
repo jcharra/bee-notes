@@ -29,6 +29,7 @@ export class ReminderService {
   ) {}
 
   getReminders(swarmId?: string) {
+    console.log("Fetch for swarm", swarmId);
     return this.authService.getUser().pipe(
       switchMap((user) => {
         return from(this.storageSync.getFromStorage(LocalStorageKey.REMINDERS, swarmId)).pipe(
@@ -70,9 +71,13 @@ export class ReminderService {
 
                     this.cleanupReminders(obsoleteReminders.map((r) => r.reminderId));
 
-                    this.storageSync.writeToStorage(LocalStorageKey.REMINDERS, currentReminders, swarmId);
+                    const filteredReminders = swarmId
+                      ? currentReminders.filter((r) => r.swarmId === swarmId)
+                      : currentReminders.filter((r) => !r.swarmId);
 
-                    return swarmId ? currentReminders.filter((r) => r.swarmId === swarmId) : currentReminders;
+                    this.storageSync.writeToStorage(LocalStorageKey.REMINDERS, filteredReminders, swarmId);
+
+                    return filteredReminders;
                   })
                 );
             }
