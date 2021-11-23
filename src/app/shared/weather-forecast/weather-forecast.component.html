@@ -11,12 +11,11 @@
       <div *ngIf="fc.weather[0].main === weatherType.RAIN">
         <ion-icon class="rainy" name="rainy-outline"></ion-icon>
       </div>
-      <div [ngClass]="{ danger: fc.temp.max < 0 || fc.temp.max > 30 }">
-        {{ fc.temp.max }}°
+      <div *ngIf="fc.weather[0].main === weatherType.SNOW">
+        <ion-icon class="cloudy" name="snow-outline"></ion-icon>
       </div>
-      <div [ngClass]="{ danger: fc.temp.min < 0 || fc.temp.min > 30 }">
-        {{ fc.temp.min }}°
-      </div>
+      <div [ngClass]="{ danger: fc.temp.max < 0 || fc.temp.max > 30 }">{{ fc.temp.max }}°</div>
+      <div [ngClass]="{ danger: fc.temp.min < 0 || fc.temp.min > 30 }">{{ fc.temp.min }}°</div>
     </div>
   </ng-container>
 </ion-item>

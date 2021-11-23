@@ -10,6 +10,7 @@ export enum WeatherType {
   CLEAR = "Clear",
   RAIN = "Rain",
   CLOUDS = "Clouds",
+  SNOW = "Snow",
 }
 
 export interface Weather {
@@ -49,10 +50,7 @@ export class WeatherService {
   getForecast(lat: number, lng: number): Observable<Forecast> {
     const cacheKey = lat + "_" + lng;
     const cachedValue = this.cache.get(cacheKey);
-    if (
-      cachedValue &&
-      isSameDay(cachedValue.current.date, startOfDay(new Date()))
-    ) {
+    if (cachedValue && isSameDay(cachedValue.current.date, startOfDay(new Date()))) {
       return of(cachedValue);
     }
 
@@ -69,7 +67,6 @@ export class WeatherService {
           });
 
           fc.current.date = new Date(fc.current.dt * 1000);
-
           return fc;
         }),
         tap((fc: Forecast) => {
