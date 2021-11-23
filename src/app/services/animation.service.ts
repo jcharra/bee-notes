@@ -34,14 +34,14 @@ export class AnimationService {
     }, 200);
   }
 
-  rotate(selector: string, iterations: number, duration: number = 10000) {
+  rotate(selector: string, iterations: number, duration: number = 10000, speed: number = 1) {
     setTimeout(() => {
       const animation = this.animationCtrl
         .create()
         .addElement(document.querySelectorAll(selector))
         .duration(duration)
         .iterations(iterations)
-        .fromTo("transform", "rotate(0deg)", "rotate(360deg)");
+        .fromTo("transform", "rotate(0deg)", `rotate(${speed * 360}deg)`);
       animation.play();
     }, 1000);
   }

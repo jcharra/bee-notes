@@ -14,13 +14,11 @@ export class WeatherForecastComponent implements OnInit {
   forecast$: Observable<Forecast>;
   weatherType = WeatherType;
 
-  constructor(
-    private weatherService: WeatherService,
-    private animationService: AnimationService
-  ) {}
+  constructor(private weatherService: WeatherService, private animationService: AnimationService) {}
 
   ngOnInit() {
     this.forecast$ = this.weatherService.getForecast(this.lat, this.lng);
     this.animationService.rotate(".sunny", Infinity);
+    this.animationService.rotate(".snowy", Infinity, 0.5);
   }
 }
