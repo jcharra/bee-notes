@@ -19,6 +19,5 @@ export class WeatherForecastComponent implements OnInit {
   ngOnInit() {
     this.forecast$ = this.weatherService.getForecast(this.lat, this.lng);
     this.animationService.rotate(".sunny", Infinity);
-    this.animationService.rotate(".snowy", Infinity, 0.5);
   }
 }
