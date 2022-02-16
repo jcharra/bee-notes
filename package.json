@@ -46,7 +46,7 @@
     "cordova-plugin-purchase": "^10.5.3",
     "cordova-res": "^0.15.3",
     "date-fns": "^2.15.0",
-    "firebase": "^8.2.9",
+    "firebase": "^8.10.1",
     "firebase-admin": "^9.6.0",
     "ionic": "^5.4.16",
     "rxjs": "~6.5.1",
