@@ -3,7 +3,7 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import * as firebase from "firebase";
+import { EmailAuthProvider } from "firebase/auth";
 import { Observable } from "rxjs";
 import { first, tap } from "rxjs/operators";
 import { StorageSyncService } from "src/app/services/storage-sync.service";
@@ -72,7 +72,7 @@ export class AuthService {
   deleteUser(password) {
     return this.auth.user.pipe(first()).subscribe((user) => {
       return user
-        .reauthenticateWithCredential(firebase.default.auth.EmailAuthProvider.credential(user.email, password))
+        .reauthenticateWithCredential(EmailAuthProvider.credential(user.email, password))
         .then(() => {
           user.delete().then(() => {
             this.router.navigateByUrl("/auth");
