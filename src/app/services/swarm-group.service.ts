@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
+import { AngularFireDatabase } from "@angular/fire/compat/database";
 import { switchMap, map, take } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
@@ -29,9 +29,7 @@ export class SwarmGroupService {
   getGroups() {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return from(
-          this.storageSync.getFromStorage(LocalStorageKey.GROUPS)
-        ).pipe(
+        return from(this.storageSync.getFromStorage(LocalStorageKey.GROUPS)).pipe(
           switchMap((localGroups) => {
             if (localGroups) {
               return of(localGroups);
@@ -52,10 +50,7 @@ export class SwarmGroupService {
                       entries.push(this._entryFromFbValue(item));
                     }
 
-                    this.storageSync.writeToStorage(
-                      LocalStorageKey.GROUPS,
-                      entries
-                    );
+                    this.storageSync.writeToStorage(LocalStorageKey.GROUPS, entries);
 
                     return entries;
                   })
@@ -103,9 +98,7 @@ export class SwarmGroupService {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         this._markStorageAsDirty();
-        return this.db
-          .object(`/users/${user.uid}/groups/${group.id}`)
-          .update(group);
+        return this.db.object(`/users/${user.uid}/groups/${group.id}`).update(group);
       })
     );
   }

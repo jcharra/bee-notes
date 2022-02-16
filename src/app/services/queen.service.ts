@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
+import { AngularFireDatabase } from "@angular/fire/compat/database";
 import { first, map, switchMap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
 
@@ -23,10 +23,7 @@ export interface QueenStatus {
   providedIn: "root",
 })
 export class QueenService {
-  constructor(
-    private db: AngularFireDatabase,
-    private authService: AuthService
-  ) {}
+  constructor(private db: AngularFireDatabase, private authService: AuthService) {}
 
   getStatus(colonyId: string) {
     return this.authService.getUser().pipe(
@@ -59,12 +56,8 @@ export class QueenService {
       switchMap((user) => {
         return this.db.object(`/users/${user.uid}/queen/${colonyId}`).update({
           birthYear: status.birthYear,
-          lastSeen: status.lastSeen
-            ? new Date(status.lastSeen).toISOString()
-            : null,
-          eggsSeen: status.eggsSeen
-            ? new Date(status.eggsSeen).toISOString()
-            : null,
+          lastSeen: status.lastSeen ? new Date(status.lastSeen).toISOString() : null,
+          eggsSeen: status.eggsSeen ? new Date(status.eggsSeen).toISOString() : null,
           race: status.race,
         });
       })

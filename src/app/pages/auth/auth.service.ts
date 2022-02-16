@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
@@ -45,23 +45,19 @@ export class AuthService {
   }
 
   signup(email: string, password: string) {
-    return this.auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        this.auth.user.pipe(first()).subscribe((user) => {
-          return user.sendEmailVerification();
-        });
+    return this.auth.createUserWithEmailAndPassword(email, password).then(() => {
+      this.auth.user.pipe(first()).subscribe((user) => {
+        return user.sendEmailVerification();
       });
+    });
   }
 
   login(email: string, password: string) {
-    return this.auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCreds: any) => {
-        if (!userCreds.user || !userCreds.user.emailVerified) {
-          throw "User not yet verified";
-        }
-      });
+    return this.auth.signInWithEmailAndPassword(email, password).then((userCreds: any) => {
+      if (!userCreds.user || !userCreds.user.emailVerified) {
+        throw "User not yet verified";
+      }
+    });
   }
 
   logout() {
@@ -76,12 +72,7 @@ export class AuthService {
   deleteUser(password) {
     return this.auth.user.pipe(first()).subscribe((user) => {
       return user
-        .reauthenticateWithCredential(
-          firebase.default.auth.EmailAuthProvider.credential(
-            user.email,
-            password
-          )
-        )
+        .reauthenticateWithCredential(firebase.default.auth.EmailAuthProvider.credential(user.email, password))
         .then(() => {
           user.delete().then(() => {
             this.router.navigateByUrl("/auth");

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
+import { AngularFireDatabase } from "@angular/fire/compat/database";
 import { from, Observable, of } from "rxjs";
 import { first, map, switchMap, take, tap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
@@ -27,20 +27,14 @@ export class JournalService {
   ) {}
 
   getDigest(swarmId: string) {
-    return from(
-      this.storageSync.getFromStorage(LocalStorageKey.JOURNAL_ENTRIES, swarmId)
-    ).pipe(
+    return from(this.storageSync.getFromStorage(LocalStorageKey.JOURNAL_ENTRIES, swarmId)).pipe(
       switchMap((entries) => {
         if (entries) {
           return of(entries);
         } else {
           return this.getEntries(swarmId, { limit: DIGEST_SIZE }).pipe(
             tap((entries) => {
-              this.storageSync.writeToStorage(
-                LocalStorageKey.JOURNAL_ENTRIES,
-                entries,
-                swarmId
-              );
+              this.storageSync.writeToStorage(LocalStorageKey.JOURNAL_ENTRIES, entries, swarmId);
             })
           );
         }
@@ -48,10 +42,7 @@ export class JournalService {
     );
   }
 
-  getEntries(
-    swarmId: string,
-    config: QueryConfig = {}
-  ): Observable<JournalEntry[]> {
+  getEntries(swarmId: string, config: QueryConfig = {}): Observable<JournalEntry[]> {
     const startAt = config.startAt || "2000-01-01";
     const endAt = config.endAt || "2050-12-31";
     const limit = config.limit || 1000;
@@ -67,11 +58,7 @@ export class JournalService {
 
         const entries = this.db
           .list(`/users/${user.uid}/journals/${swarmId}/entries`, (ref) =>
-            ref
-              .orderByChild("date")
-              .startAt(startAt)
-              .endAt(endAt)
-              .limitToLast(limit)
+            ref.orderByChild("date").startAt(startAt).endAt(endAt).limitToLast(limit)
           )
           .snapshotChanges()
           .pipe(
@@ -138,9 +125,7 @@ export class JournalService {
         this.clearCacheForColony(swarmId);
 
         const fbEntry = this.convertToFirebaseEntry(entry);
-        return this.db
-          .list(`/users/${user.uid}/journals/${swarmId}/entries`)
-          .push(fbEntry);
+        return this.db.list(`/users/${user.uid}/journals/${swarmId}/entries`).push(fbEntry);
       })
     );
   }
@@ -152,11 +137,7 @@ export class JournalService {
 
         const fbEntry = this.convertToFirebaseEntry(entry);
 
-        return this.db
-          .object(
-            `/users/${user.uid}/journals/${swarmId}/entries/${fbEntry.id}`
-          )
-          .update(fbEntry);
+        return this.db.object(`/users/${user.uid}/journals/${swarmId}/entries/${fbEntry.id}`).update(fbEntry);
       })
     );
   }
@@ -166,9 +147,7 @@ export class JournalService {
       switchMap((user) => {
         this.clearCacheForColony(swarmId);
 
-        return this.db
-          .object(`/users/${user.uid}/journals/${swarmId}/entries/${id}`)
-          .remove();
+        return this.db.object(`/users/${user.uid}/journals/${swarmId}/entries/${id}`).remove();
       })
     );
   }
@@ -181,10 +160,7 @@ export class JournalService {
       }
     }
     deletable.forEach((d) => this.entryCacheForColony.delete(d));
-    this.storageSync.clearFromStorage(
-      LocalStorageKey.JOURNAL_ENTRIES,
-      colonyId
-    );
+    this.storageSync.clearFromStorage(LocalStorageKey.JOURNAL_ENTRIES, colonyId);
   }
 
   private convertToFirebaseEntry(e: JournalEntry) {

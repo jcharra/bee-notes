@@ -4,7 +4,7 @@ import localeDe from "@angular/common/locales/de";
 import localeEn from "@angular/common/locales/en";
 import localeFr from "@angular/common/locales/fr";
 import { NgModule } from "@angular/core";
-import { AngularFireModule } from "@angular/fire";
+import { AngularFireModule } from "@angular/fire/compat";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
 import { ServiceWorkerModule } from "@angular/service-worker";
@@ -52,12 +52,7 @@ registerLocaleData(localeFr);
       enabled: environment.production,
     }),
   ],
-  providers: [
-    StatusBar,
-    InAppPurchase2,
-    Geolocation,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-  ],
+  providers: [StatusBar, InAppPurchase2, Geolocation, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

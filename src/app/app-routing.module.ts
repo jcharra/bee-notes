@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { AngularFireAuthGuard, redirectUnauthorizedTo } from "@angular/fire/auth-guard";
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from "@angular/fire/compat/auth-guard";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["auth"]);

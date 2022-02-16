@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
+import { AngularFireDatabase } from "@angular/fire/compat/database";
 import { from, Observable, of } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
@@ -17,18 +17,12 @@ export class SwarmService {
   ) {}
 
   getSwarms(
-    ignoreStatuses: ActivityStatus[] = [
-      ActivityStatus.SOLD,
-      ActivityStatus.DECEASED,
-      ActivityStatus.DISSOLVED,
-    ]
+    ignoreStatuses: ActivityStatus[] = [ActivityStatus.SOLD, ActivityStatus.DECEASED, ActivityStatus.DISSOLVED]
   ) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         console.log("User", user.uid);
-        return from(
-          this.storageSync.getFromStorage(LocalStorageKey.SWARMS)
-        ).pipe(
+        return from(this.storageSync.getFromStorage(LocalStorageKey.SWARMS)).pipe(
           switchMap((localResult) => {
             if (localResult) {
               return of(localResult).pipe(
@@ -38,9 +32,7 @@ export class SwarmService {
                     .map((s) => {
                       return { ...s, created: new Date(s.created) };
                     })
-                    .filter(
-                      (s) => ignoreStatuses.indexOf(s.activityStatus) === -1
-                    );
+                    .filter((s) => ignoreStatuses.indexOf(s.activityStatus) === -1);
                 })
               );
             } else {
@@ -70,9 +62,7 @@ export class SwarmService {
 
                     this.writeSwarmsToStorage(swarms);
 
-                    return swarms.filter(
-                      (s) => ignoreStatuses.indexOf(s.activityStatus) === -1
-                    );
+                    return swarms.filter((s) => ignoreStatuses.indexOf(s.activityStatus) === -1);
                   })
                 );
             }
@@ -85,9 +75,7 @@ export class SwarmService {
   getSwarm(swarmId: string): Observable<Swarm> {
     return from(this.storageSync.getFromStorage(LocalStorageKey.SWARMS)).pipe(
       switchMap((localSwarms) => {
-        const swarmForId = localSwarms
-          ? localSwarms.filter((s) => s.id === swarmId)[0]
-          : null;
+        const swarmForId = localSwarms ? localSwarms.filter((s) => s.id === swarmId)[0] : null;
         if (swarmForId) {
           return of(swarmForId);
         } else {
