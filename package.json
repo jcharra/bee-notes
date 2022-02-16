@@ -47,7 +47,7 @@
     "cordova-res": "^0.15.3",
     "date-fns": "^2.15.0",
     "firebase": "^8.2.9",
-    "firebase-admin": "^9.6.0",
+    "firebase-admin": "^10.0.2",
     "ionic": "^5.4.16",
     "rxjs": "~6.5.1",
     "tslib": "^2.0.0",
