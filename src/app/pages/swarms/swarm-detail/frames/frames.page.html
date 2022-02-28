@@ -13,16 +13,24 @@
 </ion-header>
 <ion-content>
   <ion-list [inset]="true" mode="ios">
-    <ion-datetime
-      [(ngModel)]="date"
-      class="ion-text-center"
-      placeholder="{{'GENERAL.pickDate' | translate}}"
-      max="{{ maxDate }}"
-      min="{{ minDate }}"
-      monthShortNames="Jan, Feb, Mar, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez"
-    >
-      ></ion-datetime
-    >
+    <ion-item>
+      <ion-label position="stacked"> {{ 'JOURNAL_PAGE.date' | translate }}</ion-label>
+      <ion-input id="date">{{ date | date:'dd.MM.yyyy' }} </ion-input>
+
+      <ion-popover trigger="date" size="cover">
+        <ng-template>
+          <ion-datetime
+            #popoverDate
+            (ionChange)="date = popoverDate.value"
+            placeholder="'JOURNAL_PAGE.selectDatePlaceholder' | translate"
+            presentation="date"
+            locale="de-DE"
+            max="{{ maxDate }}"
+            min="{{ minDate }}"
+          ></ion-datetime>
+        </ng-template>
+      </ion-popover>
+    </ion-item>
   </ion-list>
 
   <ion-list [inset]="true" mode="ios">
@@ -35,75 +43,36 @@
       ></ion-icon>
       <ion-label class="ion-text-center">
         {{item.key | translate}}<br />
-        <span *ngIf="item.value === 0" class="text-muted">
-          {{ 'FRAMES.noChange' | translate }}
-        </span>
-        <strong *ngIf="item.value > 0"
-          >{{ item.value }} {{ 'FRAMES.added' | translate }}</strong
-        >
-        <strong *ngIf="item.value < 0"
-          >{{ -item.value }} {{ 'FRAMES.removed' | translate }}</strong
-        >
+        <span *ngIf="item.value === 0" class="text-muted"> {{ 'FRAMES.noChange' | translate }} </span>
+        <strong *ngIf="item.value > 0">{{ item.value }} {{ 'FRAMES.added' | translate }}</strong>
+        <strong *ngIf="item.value < 0">{{ -item.value }} {{ 'FRAMES.removed' | translate }}</strong>
       </ion-label>
-      <ion-icon
-        color="primary"
-        name="add-circle-outline"
-        slot="end"
-        (click)="changeAmount(item.key, 1)"
-      ></ion-icon>
+      <ion-icon color="primary" name="add-circle-outline" slot="end" (click)="changeAmount(item.key, 1)"></ion-icon>
     </ion-item>
   </ion-list>
 
   <ion-list [inset]="true" mode="ios">
     <ion-item>
-      <ion-icon
-        color="primary"
-        name="remove-circle-outline"
-        slot="start"
-        (click)="changeStoreys(-1)"
-      ></ion-icon>
+      <ion-icon color="primary" name="remove-circle-outline" slot="start" (click)="changeStoreys(-1)"></ion-icon>
       <ion-label class="ion-text-center">
         {{"FRAMES.storeys" | translate}}<br />
-        <span *ngIf="storeyAmount === 0" class="text-muted">
-          {{ 'FRAMES.noChange' | translate }}
-        </span>
-        <strong *ngIf="storeyAmount > 0"
-          >{{ storeyAmount }} {{ 'FRAMES.storeyAdded' | translate}}</strong
-        >
-        <strong *ngIf="storeyAmount < 0"
-          >{{ -storeyAmount }} {{ 'FRAMES.storeyRemoved' | translate}}</strong
-        >
+        <span *ngIf="storeyAmount === 0" class="text-muted"> {{ 'FRAMES.noChange' | translate }} </span>
+        <strong *ngIf="storeyAmount > 0">{{ storeyAmount }} {{ 'FRAMES.storeyAdded' | translate}}</strong>
+        <strong *ngIf="storeyAmount < 0">{{ -storeyAmount }} {{ 'FRAMES.storeyRemoved' | translate}}</strong>
       </ion-label>
-      <ion-icon
-        color="primary"
-        name="add-circle-outline"
-        slot="end"
-        (click)="changeStoreys(1)"
-      ></ion-icon>
+      <ion-icon color="primary" name="add-circle-outline" slot="end" (click)="changeStoreys(1)"></ion-icon>
     </ion-item>
   </ion-list>
 
   <ion-list [inset]="true" mode="ios">
     <ion-item>
-      <ion-icon
-        color="primary"
-        name="remove-circle-outline"
-        slot="start"
-        (click)="changeHarvest(-1)"
-      ></ion-icon>
+      <ion-icon color="primary" name="remove-circle-outline" slot="start" (click)="changeHarvest(-1)"></ion-icon>
       <ion-label class="ion-text-center">
         {{"FRAMES.harvest" | translate}}<br />
-        <span *ngIf="harvestAmount === 0" class="text-muted">
-          {{ 'FRAMES.noHarvest' | translate }}
-        </span>
+        <span *ngIf="harvestAmount === 0" class="text-muted"> {{ 'FRAMES.noHarvest' | translate }} </span>
         <strong *ngIf="harvestAmount > 0">{{ harvestAmount }} kg</strong>
       </ion-label>
-      <ion-icon
-        color="primary"
-        name="add-circle-outline"
-        slot="end"
-        (click)="changeHarvest(1)"
-      ></ion-icon>
+      <ion-icon color="primary" name="add-circle-outline" slot="end" (click)="changeHarvest(1)"></ion-icon>
     </ion-item>
   </ion-list>
 
