@@ -55,6 +55,20 @@ ion-content.nobackground {
   --background: none;
 }
 
+ion-list,
+.controls-container {
+  max-width: min(600px, calc(100% - 30px));
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.login-card {
+  margin-top: 40px;
+  max-width: min(400px, calc(100% - 30px));
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 body:before {
   content: "";
   display: block;

@@ -1,24 +1,19 @@
 <ion-content>
-  <ion-card style="margin-top: 50px">
+  <ion-card class="login-card">
     <ion-card-header>
-      <ion-card-subtitle
-        >{{"AUTH_PAGE.welcome" | translate}} 🐝</ion-card-subtitle
-      >
+      <ion-card-subtitle>{{"AUTH_PAGE.welcome" | translate}} 🐝</ion-card-subtitle>
       <ion-card-title color="primary"
-        >{{ (isSignup ? 'AUTH_PAGE.signup' : 'AUTH_PAGE.login') |
-        translate}}</ion-card-title
+        >{{ (isSignup ? 'AUTH_PAGE.signup' : 'AUTH_PAGE.login') | translate}}</ion-card-title
       >
     </ion-card-header>
 
     <form [formGroup]="loginForm">
       <ion-grid>
         <ion-row>
-          <ion-col size-sm="6" offset-sm="3">
+          <ion-col>
             <ion-list>
               <ion-item>
-                <ion-label position="floating"
-                  >{{ "AUTH_PAGE.email" | translate}}</ion-label
-                >
+                <ion-label position="floating">{{ "AUTH_PAGE.email" | translate}}</ion-label>
                 <ion-input
                   data-test-id="email"
                   formControlName="email"
@@ -27,9 +22,7 @@
                 ></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label position="floating"
-                  >{{"AUTH_PAGE.password" | translate}}</ion-label
-                >
+                <ion-label position="floating">{{"AUTH_PAGE.password" | translate}}</ion-label>
                 <ion-input
                   data-test-id="password"
                   formControlName="password"
@@ -41,30 +34,16 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size-sm="6" offset-sm="3">
-            <ion-button
-              data-test-id="submit"
-              color="primary"
-              expand="block"
-              (click)="onLogin()"
-            >
-              {{ (isSignup ? 'AUTH_PAGE.signup' : 'AUTH_PAGE.login') |
-              translate}}</ion-button
+          <ion-col>
+            <ion-button data-test-id="submit" color="primary" expand="block" (click)="onLogin()">
+              {{ (isSignup ? 'AUTH_PAGE.signup' : 'AUTH_PAGE.login') | translate}}</ion-button
             >
 
             <ng-container *ngIf="!isSignup">
-              <ion-label
-                color="secondary"
-                class="ion-float-left ion-padding"
-                (click)="isSignup = !isSignup"
-              >
+              <ion-label color="secondary" class="ion-float-left ion-padding" (click)="isSignup = !isSignup">
                 {{'AUTH_PAGE.signup' | translate}}
               </ion-label>
-              <ion-label
-                color="secondary"
-                class="ion-float-right ion-padding"
-                (click)="resetPassword()"
-              >
+              <ion-label color="secondary" class="ion-float-right ion-padding" (click)="resetPassword()">
                 {{ 'AUTH_PAGE.passwordReset' | translate}}
               </ion-label>
             </ng-container>
@@ -83,9 +62,7 @@
       </ion-grid>
     </form>
   </ion-card>
-  <ion-card *ngIf="isSignup">
-    <ion-card-content
-      [innerHTML]="'AUTH_PAGE.beeNotesDescription' | translate"
-    ></ion-card-content>
+  <ion-card *ngIf="isSignup" class="login-card">
+    <ion-card-content [innerHTML]="'AUTH_PAGE.beeNotesDescription' | translate"></ion-card-content>
   </ion-card>
 </ion-content>
