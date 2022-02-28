@@ -1,10 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { IonSelect, NavController, PickerController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
@@ -43,36 +38,25 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     this.entryId = this.route.snapshot.queryParams.entryId;
     this.type = this.route.snapshot.queryParams.type;
 
-    this.typeOptions = this.type
-      ? actionsForType[this.type]
-      : Object.values(EntryType);
+    this.typeOptions = this.type ? actionsForType[this.type] : Object.values(EntryType);
 
     this.entryForm = this.formBuilder.group({
-      actionType: new FormControl(
-        { value: null, disabled: false },
-        Validators.required
-      ),
-      date: [new Date().toISOString(), Validators.required],
+      actionType: new FormControl({ value: null, disabled: false }, Validators.required),
+      date: [new Date(), Validators.required],
       amount: [0],
       text: [""],
     });
 
     if (this.entryId) {
-      this.journalService
-        .getEntry(this.swarmId, this.entryId)
-        .subscribe((entry: JournalEntry) => {
-          this.entryForm.controls.actionType.setValue(
-            entry.type ? entry.type.toString() : null
-          );
-          this.entryForm.controls.text.setValue(entry.text || "");
-          this.entryForm.controls.amount.setValue(entry.amount || "");
-          if (entry.date) {
-            this.entryForm.controls.date.setValue(
-              new Date(entry.date).toISOString()
-            );
-          }
-          this.onActionTypeChange();
-        });
+      this.journalService.getEntry(this.swarmId, this.entryId).subscribe((entry: JournalEntry) => {
+        this.entryForm.controls.actionType.setValue(entry.type ? entry.type.toString() : null);
+        this.entryForm.controls.text.setValue(entry.text || "");
+        this.entryForm.controls.amount.setValue(entry.amount || "");
+        if (entry.date) {
+          this.entryForm.controls.date.setValue(new Date(entry.date));
+        }
+        this.onActionTypeChange();
+      });
     }
   }
 
@@ -91,13 +75,9 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
 
     if (this.entryId) {
       entry.id = this.entryId;
-      this.journalService
-        .updateEntry(this.swarmId, entry)
-        .subscribe(this.onSuccessfullySaved.bind(this));
+      this.journalService.updateEntry(this.swarmId, entry).subscribe(this.onSuccessfullySaved.bind(this));
     } else {
-      this.journalService
-        .createEntry(this.swarmId, entry)
-        .subscribe(this.onSuccessfullySaved.bind(this));
+      this.journalService.createEntry(this.swarmId, entry).subscribe(this.onSuccessfullySaved.bind(this));
     }
   }
 
@@ -131,6 +111,10 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     await picker.present();
   }
 
+  setDate(d: Date) {
+    this.entryForm.controls.date.setValue(new Date(d));
+  }
+
   getAmountOptions() {
     const options = [];
 
@@ -138,19 +122,9 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
       return options;
     }
 
-    for (
-      let i = this.countable.lowerBound;
-      i <= this.countable.upperBound;
-      i += this.countable.stepWidth
-    ) {
+    for (let i = this.countable.lowerBound; i <= this.countable.upperBound; i += this.countable.stepWidth) {
       options.push({
-        text:
-          i +
-          " " +
-          this.translate.instant(
-            "UNIT." +
-              (i === 1 ? this.countable.unitSingular : this.countable.unit)
-          ),
+        text: i + " " + this.translate.instant("UNIT." + (i === 1 ? this.countable.unitSingular : this.countable.unit)),
         value: i,
       });
     }

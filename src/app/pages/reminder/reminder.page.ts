@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NavController, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { addDays, addHours, addYears, endOfYear, format, startOfHour } from "date-fns";
+import { addHours, addYears, endOfYear, format, startOfHour } from "date-fns";
 import { first, tap } from "rxjs/operators";
 import { Reminder, ReminderService } from "src/app/services/reminder.service";
 import { SwarmGroup, SwarmGroupService } from "src/app/services/swarm-group.service";
@@ -20,7 +20,9 @@ export class ReminderPage {
   swarmName: string;
   groupName: string;
   reminderId: number;
-  isoDate = startOfHour(addHours(new Date(), 1)).toISOString();
+  isoDate: string;
+  datePart: string;
+  timePart: string;
   minDate = new Date().toISOString();
   maxDate = endOfYear(addYears(new Date(), 1)).toISOString();
   text: string;
@@ -70,7 +72,7 @@ export class ReminderPage {
           tap((rems: Reminder[]) => {
             const rem = rems.find((r) => r.reminderId === +this.reminderId);
             if (rem) {
-              this.isoDate = rem.date.toISOString();
+              this.setDateTime(rem.date.toISOString());
               this.text = rem.text;
               this.groupId = rem.groupId;
               this.swarmId = rem.swarmId;
@@ -80,13 +82,8 @@ export class ReminderPage {
           })
         )
         .subscribe();
-    }
-  }
-
-  changeDate(diff) {
-    const newDate = addDays(new Date(this.isoDate), diff);
-    if (newDate >= new Date(this.minDate)) {
-      this.isoDate = newDate.toISOString();
+    } else {
+      this.setDateTime(startOfHour(addHours(new Date(), 1)).toISOString());
     }
   }
 
@@ -116,6 +113,14 @@ export class ReminderPage {
         (err) => this.onReminderCreationFailed(err)
       );
     }
+  }
+
+  setDateTime(d: string) {
+    this.isoDate = d;
+    const date = new Date(d);
+    this.datePart = format(date, "dd.MM.yyyy");
+    this.timePart = format(date, "HH:mm");
+    console.log("Date:", this.isoDate, " Datepart:", this.datePart, " Time:", this.timePart);
   }
 
   async onReminderSaved(date: Date) {

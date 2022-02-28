@@ -242,7 +242,8 @@
     "textPlaceholder": "Enter subject",
     "targetLocation": "For location",
     "targetColony": "For colony",
-    "time": "Time"
+    "time": "Time",
+    "datetimePattern": "On {{ date }} at {{ time }} o'clock"
   },
   "PURCHASES": {
     "devCoffeeThankYou": "Thank you very much! Treats like these keep me going ...",

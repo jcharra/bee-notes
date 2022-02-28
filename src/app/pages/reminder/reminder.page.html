@@ -23,47 +23,24 @@
   </ion-list>
   <ion-list [inset]="true" mode="ios">
     <ion-item>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="2">
-            <ion-label (click)="changeDate(-1)" class="top-padding ion-text-center">
-              <ion-icon
-                [color]="isoDate > minDate ? 'primary' : 'light'"
-                name="play-back-outline"
-                slot="start"
-              ></ion-icon
-            ></ion-label>
-          </ion-col>
-          <ion-col size="8">
-            <ion-label class="ion-text-center">
-              <ion-datetime
-                [(ngModel)]="isoDate"
-                class="ion-text-center"
-                placeholder="{{'GENERAL.pickDate' | translate}}"
-                max="{{ maxDate }}"
-                min="{{ minDate }}"
-                displayFormat="DD. MMM YYYY"
-                monthShortNames="Jan, Feb, Mar, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez"
-              >
-              </ion-datetime>
-            </ion-label>
-          </ion-col>
-          <ion-col size="2">
-            <ion-label (click)="changeDate(1)" class="top-padding ion-text-center">
-              <ion-icon color="primary" name="play-forward-outline" slot="end"></ion-icon>
-            </ion-label>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-    <ion-item>
-      <ion-label>{{'REMINDERS.time' | translate}}:</ion-label>
-      <ion-datetime
-        class="ion-text-center"
-        [(ngModel)]="isoDate"
-        displayFormat="H:mm"
-        minuteValues="0,15,30,45"
-      ></ion-datetime>
+      <ion-label
+        id="date"
+        [translate]="'REMINDERS.datetimePattern'"
+        [translateParams]="{date: datePart, time: timePart}"
+      ></ion-label>
+      <ion-popover trigger="date" size="cover">
+        <ng-template>
+          <ion-datetime
+            #popoverDate
+            (ionChange)="setDateTime(popoverDate.value)"
+            placeholder="'JOURNAL_PAGE.selectDatePlaceholder' | translate"
+            presentation="date-time"
+            locale="de-DE"
+            max="{{ maxDate }}"
+            min="{{ minDate }}"
+          ></ion-datetime>
+        </ng-template>
+      </ion-popover>
     </ion-item>
     <ion-item>
       <ion-textarea [(ngModel)]="text" rows="3" placeholder="{{'REMINDERS.textPlaceholder' | translate}}">

@@ -243,7 +243,8 @@
     "textPlaceholder": "Betreff eingeben",
     "targetLocation": "Für Standort",
     "targetColony": "Für Volk",
-    "time": "Uhrzeit"
+    "time": "Uhrzeit",
+    "datetimePattern": "Am {{ date }} um {{ time }} Uhr"
   },
   "PURCHASES": {
     "devCoffeeThankYou": "Herzlichen Dank im Namen des Entwicklers. Solche kleinen Aufmerksamkeiten bringen die Entwicklung von Bee Notes voran!",

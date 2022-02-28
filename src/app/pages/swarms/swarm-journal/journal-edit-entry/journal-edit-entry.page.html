@@ -5,10 +5,7 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title
-      >{{ (entryId ? 'JOURNAL_PAGE.editEntry' : 'JOURNAL_PAGE.newEntry') |
-      translate }}</ion-title
-    >
+    <ion-title>{{ (entryId ? 'JOURNAL_PAGE.editEntry' : 'JOURNAL_PAGE.newEntry') | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,9 +13,7 @@
   <form [formGroup]="entryForm">
     <ion-list mode="ios" [inset]="true">
       <ion-item>
-        <ion-label position="stacked"
-          >{{ 'JOURNAL_PAGE.actionType' | translate }}</ion-label
-        >
+        <ion-label position="stacked">{{ 'JOURNAL_PAGE.actionType' | translate }}</ion-label>
         <ion-select
           #actionSelect
           name="actionType"
@@ -36,48 +31,35 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">
-          {{ 'JOURNAL_PAGE.date' | translate }}
-        </ion-label>
-        <ion-datetime
-          formControlName="date"
-          displayFormat="DD. MMM YYYY"
-          placeholder="'JOURNAL_PAGE.selectDatePlaceholder' | translate"
-        >
-        </ion-datetime>
+        <ion-label position="stacked"> {{ 'JOURNAL_PAGE.date' | translate }} </ion-label>
+        <ion-input id="date">{{ entryForm.controls.date.value | date:'dd.MM.yyyy' }}</ion-input>
+        <ion-popover trigger="date" size="cover">
+          <ng-template>
+            <ion-datetime
+              #popoverDate
+              (ionChange)="setDate(popoverDate.value)"
+              placeholder="'JOURNAL_PAGE.selectDatePlaceholder' | translate"
+              presentation="date"
+              locale="de-DE"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
       </ion-item>
       <ion-item [ngClass]="{'ion-hide': !countable}">
         <ion-label position="stacked">
           {{ 'JOURNAL_PAGE.amount' | translate }}
-          <span *ngIf="countable"
-            >({{ 'UNIT.' + countable.unit | translate }})</span
-          >
+          <span *ngIf="countable">({{ 'UNIT.' + countable.unit | translate }})</span>
         </ion-label>
-        <ion-input
-          formControlName="amount"
-          (click)="openAmountPicker()"
-          value="0"
-        >
-        </ion-input>
+        <ion-input formControlName="amount" (click)="openAmountPicker()" value="0"> </ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked"
-          >{{ 'JOURNAL_PAGE.comment' | translate }}</ion-label
-        >
-        <ion-textarea
-          formControlName="text"
-          placeholder="{{'JOURNAL_PAGE.optionalComment' | translate}}"
-        >
+        <ion-label position="stacked">{{ 'JOURNAL_PAGE.comment' | translate }}</ion-label>
+        <ion-textarea formControlName="text" placeholder="{{'JOURNAL_PAGE.optionalComment' | translate}}">
         </ion-textarea>
       </ion-item>
     </ion-list>
 
-    <ion-button
-      class="ion-padding-horizontal"
-      [disabled]="!entryForm.valid || saving"
-      type="submit"
-      (click)="save()"
-    >
+    <ion-button class="ion-padding-horizontal" [disabled]="!entryForm.valid || saving" type="submit" (click)="save()">
       {{ 'GENERAL.save' | translate }}
     </ion-button>
   </form>
