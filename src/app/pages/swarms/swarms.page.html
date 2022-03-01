@@ -12,9 +12,9 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ng-container *ngIf="sortedSwarmGroups">
-    <ng-container *ngIf="sortedSwarmGroups.length === 0">
-      <ion-item class="ion-padding" lines="none"> {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝 </ion-item>
-    </ng-container>
+    <ion-list [inset]="true" mode="ios" lines="full" *ngIf="sortedSwarmGroups.length === 0">
+      <ion-item lines="none"> {{ 'COLONIES_PAGE.noColonies' | translate }} 🐝 </ion-item>
+    </ion-list>
 
     <ng-container *ngFor="let group of sortedSwarmGroups; let idx = index">
       <ion-list [inset]="true" mode="ios" lines="full">
