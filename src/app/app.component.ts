@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { MenuController, Platform } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "./pages/auth/auth.service";
 import { StorageService } from "./services/storage.service";
+import { SplashScreen } from "@capacitor/splash-screen";
 
 @Component({
   selector: "app-root",
@@ -14,7 +14,6 @@ import { StorageService } from "./services/storage.service";
 export class AppComponent {
   constructor(
     private platform: Platform,
-    private statusBar: StatusBar,
     private authService: AuthService,
     private router: Router,
     private menu: MenuController,
@@ -26,7 +25,9 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      SplashScreen.hide({
+        fadeOutDuration: 100,
+      });
     });
 
     setTimeout(() => {

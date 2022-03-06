@@ -1,8 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  IAPProduct,
-  InAppPurchase2,
-} from "@ionic-native/in-app-purchase-2/ngx";
+import { IAPProduct, InAppPurchase2 } from "@ionic-native/in-app-purchase-2/ngx";
 import { Platform, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 
@@ -138,9 +135,7 @@ export class PurchaseService {
 
   checkLimitReached(numSwarms: number) {
     return (
-      (this.plt.is("android") || this.plt.is("ios")) &&
-      !this.hasFullVersion &&
-      numSwarms >= MAX_SWARMS_FREE_VERSION
+      (this.plt.is("android") || this.plt.is("ios")) && !this.hasFullVersion && numSwarms >= MAX_SWARMS_FREE_VERSION
     );
   }
 }
