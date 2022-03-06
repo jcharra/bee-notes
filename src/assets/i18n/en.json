@@ -236,6 +236,7 @@
     "pageTitle": "New reminder",
     "pageTitleEdit": "Edit reminder",
     "title": "Reminder for hive {{ swarmName }}",
+    "titleForGroup": "Reminder for location {{ groupName }}",
     "listTitle": "Reminders",
     "deleteConfirmHeader": "Delete reminder?",
     "textHeader": "Reminder text",

@@ -25,9 +25,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      SplashScreen.hide({
-        fadeOutDuration: 100,
-      });
+      SplashScreen.hide();
     });
 
     setTimeout(() => {
