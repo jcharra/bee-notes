@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list lines="full" mode="ios">
+  <ion-list lines="full" mode="ios" inset="true">
     <ion-item>
       <ion-icon
         [color]="displayYear > minYear ? 'primary' : 'light'"
@@ -56,7 +56,7 @@
 
     <ng-container *ngFor="let entry of filteredJournalEntries; let idx = index">
       <ion-item *ngIf="idx === 0 || datesDiffer(entry.date, filteredJournalEntries[idx - 1].date)">
-        <ion-label class="ion-text-center" color="primary"> {{ entry.date | date:'MMM dd'}} </ion-label>
+        <ion-label class="ion-text-center"> {{ entry.date | date:'MMM dd'}} </ion-label>
       </ion-item>
       <ion-item>
         <ion-label>

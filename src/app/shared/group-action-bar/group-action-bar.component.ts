@@ -18,6 +18,7 @@ export class GroupActionBarComponent implements OnInit {
   @Input() group: UISwarmGroup;
   @Output() addSwarmEvent = new EventEmitter<string>();
   @Output() changeEvent = new EventEmitter<string>();
+  @Output() deleteGroupEvent = new EventEmitter<string>();
 
   constructor(
     private groupService: SwarmGroupService,
@@ -36,6 +37,12 @@ export class GroupActionBarComponent implements OnInit {
 
   addNewSwarm() {
     this.addSwarmEvent.emit(this.group.id);
+  }
+
+  deleteGroup() {
+    this.groupService.deleteGroup(this.group.id).subscribe(() => {
+      this.deleteGroupEvent.emit();
+    });
   }
 
   async setLocation() {
@@ -91,9 +98,7 @@ export class GroupActionBarComponent implements OnInit {
 
   async startTreatment() {
     const alert = await this.alertCtrl.create({
-      header: this.translate.instant(
-        "COLONIES_PAGE.startTreatmentDialogHeader"
-      ),
+      header: this.translate.instant("COLONIES_PAGE.startTreatmentDialogHeader"),
       message: this.translate.instant("COLONIES_PAGE.startTreatmentDialogMsg"),
       buttons: [
         {
@@ -126,9 +131,7 @@ export class GroupActionBarComponent implements OnInit {
 
   async startDiagnosis() {
     const alert = await this.alertCtrl.create({
-      header: this.translate.instant(
-        "COLONIES_PAGE.startDiagnosisDialogHeader"
-      ),
+      header: this.translate.instant("COLONIES_PAGE.startDiagnosisDialogHeader"),
       message: this.translate.instant("COLONIES_PAGE.startDiagnosisDialogMsg"),
       buttons: [
         {

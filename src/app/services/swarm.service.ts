@@ -128,7 +128,7 @@ export class SwarmService {
           .list(`/users/${user.uid}/swarms`)
           .push(swarm)
           .then((res: any) => {
-            const pathParts = res.path.pieces_;
+            const pathParts = res._delegate._path.pieces_;
             return pathParts[pathParts.length - 1];
           });
       })

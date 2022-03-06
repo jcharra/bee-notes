@@ -35,3 +35,4 @@ beetracker.code-workspace
 .firebase/hosting.d3d3.cache
 cypress.env.json
 .angular
+cypress/videos

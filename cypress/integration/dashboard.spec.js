@@ -1,17 +1,16 @@
 describe("Visit dashboard", () => {
-  it("Verifies there are no colonies!", () => {
-    cy.visit("http://localhost:4200/auth");
-    cy.clearCookies();
-    cy.contains("Willkommen bei Bee Notes");
+  it("Finds no colonies in empty account and sees a hint to add some", () => {
+    cy.login(Cypress.env("login_email_empty_account"), Cypress.env("login_password_empty_account"));
+    cy.contains("Hier summt ja noch gar nichts");
+  });
 
-    cy.get('ion-input[data-test-id="email"] > input').type(Cypress.env("login_email"));
-
-    cy.get('ion-input[data-test-id="password"] > input').type(Cypress.env("login_password"));
-
-    cy.get('ion-button[data-test-id="submit"]').click();
-
-    cy.contains("Standorte");
-
-    cy.contains("Hier summt ja noch gar nichts", { timeout: 10000 });
+  it.only("Create a new group, add location, change name, delete again", () => {
+    cy.login(Cypress.env("login_email_standard_account"), Cypress.env("login_password_standard_account"));
+    cy.get("ion-fab-button[data-test-id='add-colony-group']", { timeout: 10000 }).click();
+    cy.get("ion-alert").contains("Neuen Standort anlegen");
+    cy.get("ion-alert input").type("Bergspitze");
+    cy.get("ion-alert button").last().click();
+    cy.get("ion-fab-button[data-test-id='add-colony-group']").last().click();
+    cy.contains("Hier summt ja noch gar nichts");
   });
 });

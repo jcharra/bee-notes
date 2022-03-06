@@ -57,6 +57,7 @@
             [group]="group"
             (changeEvent)="loadSwarms()"
             (addSwarmEvent)="createSwarm($event)"
+            (deleteGroupEvent)="loadSwarms()"
           ></app-group-action-bar>
         </ion-item>
       </ion-list>
@@ -64,7 +65,13 @@
 
     <div class="controls-container">
       <ion-buttons class="ion-padding-horizontal">
-        <ion-fab-button class="addGroupButton" slot="end" color="primary" (click)="editSwarmGroup()">
+        <ion-fab-button
+          class="addGroupButton"
+          slot="end"
+          color="primary"
+          (click)="editSwarmGroup()"
+          data-test-id="add-colony-group"
+        >
           <ion-icon name="duplicate-outline"></ion-icon>
         </ion-fab-button>
       </ion-buttons>

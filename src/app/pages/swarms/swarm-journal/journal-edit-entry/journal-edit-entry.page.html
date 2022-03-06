@@ -41,6 +41,7 @@
               placeholder="'JOURNAL_PAGE.selectDatePlaceholder' | translate"
               presentation="date"
               locale="de-DE"
+              [value]="initialDate"
             ></ion-datetime>
           </ng-template>
         </ion-popover>
@@ -59,8 +60,10 @@
       </ion-item>
     </ion-list>
 
-    <ion-button class="ion-padding-horizontal" [disabled]="!entryForm.valid || saving" type="submit" (click)="save()">
-      {{ 'GENERAL.save' | translate }}
-    </ion-button>
+    <div class="controls-container">
+      <ion-button class="ion-padding-horizontal" [disabled]="!entryForm.valid || saving" type="submit" (click)="save()">
+        {{ 'GENERAL.save' | translate }}
+      </ion-button>
+    </div>
   </form>
 </ion-content>

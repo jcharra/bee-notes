@@ -46,7 +46,9 @@
       </ion-textarea>
     </ion-item>
   </ion-list>
-  <ion-button class="ion-padding-horizontal" [disabled]="!text || !text.trim()" type="submit" (click)="save()">
-    {{ 'GENERAL.save' | translate }}
-  </ion-button>
+  <div class="controls-container">
+    <ion-button class="ion-padding-horizontal" [disabled]="!text || !text.trim()" type="submit" (click)="save()">
+      {{ 'GENERAL.save' | translate }}
+    </ion-button>
+  </div>
 </ion-content>

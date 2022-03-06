@@ -16,4 +16,13 @@
   <ion-fab-button size="small" slot="end" color="primary" (click)="setLocation()">
     <ion-icon name="location-outline"></ion-icon>
   </ion-fab-button>
+  <ion-fab-button
+    *ngIf="group.swarms.length === 0"
+    size="small"
+    color="danger"
+    (click)="deleteGroup()"
+    data-test-id="deleteGroupAction"
+  >
+    <ion-icon name="close-circle-outline"></ion-icon>
+  </ion-fab-button>
 </ion-buttons>

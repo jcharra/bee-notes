@@ -22,6 +22,7 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
   entryForm: FormGroup;
   saving = false;
   countable: Countable;
+  initialDate: string;
   @ViewChild("actionSelect", { static: false }) selectRef: IonSelect;
 
   constructor(
@@ -46,7 +47,9 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
       amount: [0],
       text: [""],
     });
+  }
 
+  ionViewDidEnter() {
     if (this.entryId) {
       this.journalService.getEntry(this.swarmId, this.entryId).subscribe((entry: JournalEntry) => {
         this.entryForm.controls.actionType.setValue(entry.type ? entry.type.toString() : null);
@@ -54,9 +57,18 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
         this.entryForm.controls.amount.setValue(entry.amount || "");
         if (entry.date) {
           this.entryForm.controls.date.setValue(new Date(entry.date));
+          this.initialDate = this.entryForm.controls.date.value.toISOString();
+        } else {
+          this.initialDate = new Date().toISOString();
         }
         this.onActionTypeChange();
       });
+    } else {
+      this.entryForm.controls.actionType.setValue(null);
+      this.entryForm.controls.text.setValue("");
+      this.entryForm.controls.amount.setValue("");
+      this.entryForm.controls.date.setValue(new Date());
+      this.initialDate = new Date().toISOString();
     }
   }
 
@@ -111,8 +123,8 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     await picker.present();
   }
 
-  setDate(d: Date) {
-    this.entryForm.controls.date.setValue(new Date(d));
+  setDate(dateStr: string) {
+    this.entryForm.controls.date.setValue(new Date(dateStr));
   }
 
   getAmountOptions() {
