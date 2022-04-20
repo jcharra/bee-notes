@@ -4,10 +4,13 @@ import localeDe from "@angular/common/locales/de";
 import localeEn from "@angular/common/locales/en";
 import localeFr from "@angular/common/locales/fr";
 import { NgModule } from "@angular/core";
+import { getApp } from "@angular/fire/app";
+import { getAuth, indexedDBLocalPersistence, initializeAuth, provideAuth } from "@angular/fire/auth";
 import { AngularFireModule } from "@angular/fire/compat";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
 import { ServiceWorkerModule } from "@angular/service-worker";
+import { Capacitor } from "@capacitor/core";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { InAppPurchase2 } from "@ionic-native/in-app-purchase-2/ngx";
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
@@ -31,6 +34,17 @@ registerLocaleData(localeFr);
   entryComponents: [],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    provideAuth(() => {
+      if (Capacitor.isNativePlatform()) {
+        console.log("NATIVE auth");
+        return initializeAuth(getApp(), {
+          persistence: indexedDBLocalPersistence,
+        });
+      } else {
+        console.log("WEB auth");
+        return getAuth();
+      }
+    }),
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(),
@@ -39,7 +53,6 @@ registerLocaleData(localeFr);
       driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
     }),
     AppRoutingModule,
-
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

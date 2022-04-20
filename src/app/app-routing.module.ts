@@ -8,31 +8,31 @@ const routes: Routes = [
   {
     path: "swarms",
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    data: { AngularFireAuthGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () => import("./pages/swarms/swarms.module").then((m) => m.SwarmsPageModule),
   },
   {
     path: "finance",
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    data: { AngularFireAuthGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () => import("./pages/finance/finance.module").then((m) => m.FinancePageModule),
   },
   {
     path: "excolonies",
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    data: { AngularFireAuthGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () => import("./pages/excolonies/excolonies.module").then((m) => m.ExcoloniesPageModule),
   },
   {
     path: "settings",
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    data: { AngularFireAuthGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () => import("./pages/settings/settings.module").then((m) => m.SettingsPageModule),
   },
   {
     path: "reminders",
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    data: { AngularFireAuthGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () => import("./pages/reminder/reminder.module").then((m) => m.ReminderPageModule),
   },
   {
