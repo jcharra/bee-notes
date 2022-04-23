@@ -298,9 +298,11 @@ export class SwarmsPage {
         swarmIds: group.swarms.map((s) => s.id),
       })
       .subscribe(() => {
-        this.loadSwarms().then(() => {
-          loading.dismiss();
-        });
+        this.loadSwarms()
+          .then(() => {
+            loading.dismiss();
+          })
+          .catch(console.error);
       });
   }
 

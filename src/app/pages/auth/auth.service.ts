@@ -1,11 +1,15 @@
 import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/compat/auth";
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "@angular/fire/auth";
 import { Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { EmailAuthProvider } from "firebase/auth";
-import { Observable } from "rxjs";
-import { first, tap } from "rxjs/operators";
+import { Observable, of } from "rxjs";
 import { StorageSyncService } from "src/app/services/storage-sync.service";
 export interface AuthResponseData {
   kind: string;
@@ -24,7 +28,7 @@ export interface User {
 })
 export class AuthService {
   constructor(
-    private auth: AngularFireAuth,
+    private auth: Auth,
     private router: Router,
     private toastController: ToastController,
     private translate: TranslateService,
@@ -32,28 +36,23 @@ export class AuthService {
   ) {}
 
   getUser(): Observable<User> {
-    return this.auth.user.pipe(
-      first(),
-      tap((u) => {
-        if (!u) {
-          this.router.navigateByUrl("/auth");
-          throw new Error("Unauthorized");
-        }
-        return u;
-      })
-    );
+    const u = this.auth.currentUser;
+    if (!u) {
+      console.error("UNAUTHORIZED - back to login");
+      this.router.navigateByUrl("/auth");
+      throw new Error("Unauthorized");
+    }
+    return of(u);
   }
 
   signup(email: string, password: string) {
-    return this.auth.createUserWithEmailAndPassword(email, password).then(() => {
-      this.auth.user.pipe(first()).subscribe((user) => {
-        return user.sendEmailVerification();
-      });
+    return createUserWithEmailAndPassword(this.auth, email, password).then((result) => {
+      return sendEmailVerification(result.user);
     });
   }
 
   login(email: string, password: string) {
-    return this.auth.signInWithEmailAndPassword(email, password).then((userCreds: any) => {
+    return signInWithEmailAndPassword(this.auth, email, password).then((userCreds: any) => {
       if (!userCreds.user || !userCreds.user.emailVerified) {
         throw "User not yet verified";
       }
@@ -66,10 +65,11 @@ export class AuthService {
   }
 
   resetPassword(email: string) {
-    return this.auth.sendPasswordResetEmail(email);
+    return sendPasswordResetEmail(this.auth, email);
   }
 
   deleteUser(password) {
+    /*
     return this.auth.user.pipe(first()).subscribe((user) => {
       return user
         .reauthenticateWithCredential(EmailAuthProvider.credential(user.email, password))
@@ -81,6 +81,7 @@ export class AuthService {
         })
         .catch(() => this.onDeletionFailure());
     });
+    */
   }
 
   async goodbyeMessage() {

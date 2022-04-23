@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/compat/database";
+import { list, object } from "@angular/fire/database";
+import { query } from "firebase/database";
 import { from, Observable, of } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
@@ -10,11 +11,7 @@ import { LocalStorageKey, StorageSyncService } from "./storage-sync.service";
   providedIn: "root",
 })
 export class SwarmService {
-  constructor(
-    private db: AngularFireDatabase,
-    private authService: AuthService,
-    private storageSync: StorageSyncService
-  ) {}
+  constructor(private authService: AuthService, private storageSync: StorageSyncService) {}
 
   getSwarms(
     ignoreStatuses: ActivityStatus[] = [ActivityStatus.SOLD, ActivityStatus.DECEASED, ActivityStatus.DISSOLVED]
@@ -36,8 +33,7 @@ export class SwarmService {
                 })
               );
             } else {
-              return this.db
-                .list(`users/${user.uid}/swarms`)
+              return list(`users/${user.uid}/swarms`)
                 .snapshotChanges()
                 .pipe(
                   take(1),

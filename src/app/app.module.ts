@@ -4,9 +4,9 @@ import localeDe from "@angular/common/locales/de";
 import localeEn from "@angular/common/locales/en";
 import localeFr from "@angular/common/locales/fr";
 import { NgModule } from "@angular/core";
-import { getApp } from "@angular/fire/app";
+import { getApp, initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { getAuth, indexedDBLocalPersistence, initializeAuth, provideAuth } from "@angular/fire/auth";
-import { AngularFireModule } from "@angular/fire/compat";
+import { provideDatabase, getDatabase } from "@angular/fire/database";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
 import { ServiceWorkerModule } from "@angular/service-worker";
@@ -33,7 +33,8 @@ registerLocaleData(localeFr);
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideDatabase(() => getDatabase(getApp())),
     provideAuth(() => {
       if (Capacitor.isNativePlatform()) {
         console.log("NATIVE auth");
