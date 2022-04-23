@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/compat/database";
+import { list, object, Database, remove } from "@angular/fire/database";
+import { push, ref, update } from "firebase/database";
 import { from, Observable, of } from "rxjs";
 import { first, map, switchMap, take, tap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
@@ -20,11 +21,7 @@ const DIGEST_SIZE = 20;
 export class JournalService {
   private entryCacheForColony = new Map<string, JournalEntry[]>();
 
-  constructor(
-    private db: AngularFireDatabase,
-    private authService: AuthService,
-    private storageSync: StorageSyncService
-  ) {}
+  constructor(private db: Database, private authService: AuthService, private storageSync: StorageSyncService) {}
 
   getDigest(swarmId: string) {
     return from(this.storageSync.getFromStorage(LocalStorageKey.JOURNAL_ENTRIES, swarmId)).pipe(
@@ -56,39 +53,34 @@ export class JournalService {
           return of(cached);
         }
 
-        const entries = this.db
-          .list(`/users/${user.uid}/journals/${swarmId}/entries`, (ref) =>
-            ref.orderByChild("date").startAt(startAt).endAt(endAt).limitToLast(limit)
-          )
-          .snapshotChanges()
-          .pipe(
-            take(1),
-            map((data: any[]) => {
-              if (!data) {
-                return [];
-              }
+        const entries = list(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries`)).pipe(
+          take(1),
+          map((data: any[]) => {
+            if (!data) {
+              return [];
+            }
 
-              const entries: JournalEntry[] = [];
-              for (let i = 0; i < data.length; i++) {
-                const item: any = data[i];
-                const key = item.key;
-                const value: any = item.payload.val();
-                entries.unshift({
-                  id: key,
-                  text: value.text,
-                  type: value.type,
-                  date: new Date(value.date),
-                  amount: value.amount,
-                });
-              }
-
-              entries.sort((a, b) => {
-                return a.date < b.date ? 1 : -1;
+            const entries: JournalEntry[] = [];
+            for (let i = 0; i < data.length; i++) {
+              const item: any = data[i];
+              const key = item.key;
+              const value: any = item.payload.val();
+              entries.unshift({
+                id: key,
+                text: value.text,
+                type: value.type,
+                date: new Date(value.date),
+                amount: value.amount,
               });
+            }
 
-              return limit > -1 ? entries.splice(0, limit) : entries;
-            })
-          );
+            entries.sort((a, b) => {
+              return a.date < b.date ? 1 : -1;
+            });
+
+            return limit > -1 ? entries.splice(0, limit) : entries;
+          })
+        );
         return entries;
       }),
       tap((entries: JournalEntry[]) => {
@@ -101,20 +93,17 @@ export class JournalService {
     return this.authService.getUser().pipe(
       first(),
       switchMap((user) => {
-        return this.db
-          .object(`/users/${user.uid}/journals/${swarmId}/entries/${entryId}`)
-          .valueChanges()
-          .pipe(
-            map((entry: any) => {
-              return {
-                id: entry.id,
-                text: entry.text,
-                type: entry.type,
-                date: new Date(entry.date),
-                amount: entry.amount,
-              };
-            })
-          );
+        return object(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries/${entryId}`)).pipe(
+          map((entry: any) => {
+            return {
+              id: entry.id,
+              text: entry.text,
+              type: entry.type,
+              date: new Date(entry.date),
+              amount: entry.amount,
+            };
+          })
+        );
       })
     );
   }
@@ -125,7 +114,7 @@ export class JournalService {
         this.clearCacheForColony(swarmId);
 
         const fbEntry = this.convertToFirebaseEntry(entry);
-        return this.db.list(`/users/${user.uid}/journals/${swarmId}/entries`).push(fbEntry);
+        return push(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries`), fbEntry);
       })
     );
   }
@@ -137,7 +126,7 @@ export class JournalService {
 
         const fbEntry = this.convertToFirebaseEntry(entry);
 
-        return this.db.object(`/users/${user.uid}/journals/${swarmId}/entries/${fbEntry.id}`).update(fbEntry);
+        return update(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries/${fbEntry.id}`), fbEntry);
       })
     );
   }
@@ -147,7 +136,7 @@ export class JournalService {
       switchMap((user) => {
         this.clearCacheForColony(swarmId);
 
-        return this.db.object(`/users/${user.uid}/journals/${swarmId}/entries/${id}`).remove();
+        return remove(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries/${id}`));
       })
     );
   }

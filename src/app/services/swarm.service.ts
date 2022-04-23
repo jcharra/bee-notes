@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { list, object } from "@angular/fire/database";
-import { query } from "firebase/database";
+import { list, object, Database } from "@angular/fire/database";
+import { push, ref, update } from "firebase/database";
 import { from, Observable, of } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
@@ -11,7 +11,7 @@ import { LocalStorageKey, StorageSyncService } from "./storage-sync.service";
   providedIn: "root",
 })
 export class SwarmService {
-  constructor(private authService: AuthService, private storageSync: StorageSyncService) {}
+  constructor(private db: Database, private authService: AuthService, private storageSync: StorageSyncService) {}
 
   getSwarms(
     ignoreStatuses: ActivityStatus[] = [ActivityStatus.SOLD, ActivityStatus.DECEASED, ActivityStatus.DISSOLVED]
@@ -33,34 +33,32 @@ export class SwarmService {
                 })
               );
             } else {
-              return list(`users/${user.uid}/swarms`)
-                .snapshotChanges()
-                .pipe(
-                  take(1),
-                  map((swarmData: any[]) => {
-                    const swarms: Swarm[] = [];
+              return list(ref(this.db, `users/${user.uid}/swarms`)).pipe(
+                take(1),
+                map((swarmData: any[]) => {
+                  const swarms: Swarm[] = [];
 
-                    for (let i = 0; i < swarmData.length; i++) {
-                      const item: any = swarmData[i];
-                      const key = item.key;
-                      const value: any = item.payload.val();
+                  for (let i = 0; i < swarmData.length; i++) {
+                    const item: any = swarmData[i];
+                    const key = item.key;
+                    const value: any = item.payload.val();
 
-                      swarms.push({
-                        id: key,
-                        name: value.name,
-                        created: new Date(value.created),
-                        activityStatus: value.activityStatus,
-                        ancestorId: value.ancestorId,
-                        isNucleus: value.isNucleus,
-                        about: value.about,
-                      });
-                    }
+                    swarms.push({
+                      id: key,
+                      name: value.name,
+                      created: new Date(value.created),
+                      activityStatus: value.activityStatus,
+                      ancestorId: value.ancestorId,
+                      isNucleus: value.isNucleus,
+                      about: value.about,
+                    });
+                  }
 
-                    this.writeSwarmsToStorage(swarms);
+                  this.writeSwarmsToStorage(swarms);
 
-                    return swarms.filter((s) => ignoreStatuses.indexOf(s.activityStatus) === -1);
-                  })
-                );
+                  return swarms.filter((s) => ignoreStatuses.indexOf(s.activityStatus) === -1);
+                })
+              );
             }
           })
         );
@@ -77,23 +75,20 @@ export class SwarmService {
         } else {
           return this.authService.getUser().pipe(
             switchMap((user) => {
-              return this.db
-                .object(`users/${user.uid}/swarms/${swarmId}`)
-                .valueChanges()
-                .pipe(
-                  take(1),
-                  map((s: any) => {
-                    return {
-                      id: swarmId,
-                      name: s.name,
-                      created: new Date(s.created),
-                      activityStatus: s.activityStatus,
-                      ancestorId: s.ancestorId,
-                      isNucleus: s.isNucleus,
-                      about: s.about,
-                    };
-                  })
-                );
+              return object(ref(this.db, `users/${user.uid}/swarms/${swarmId}`)).pipe(
+                take(1),
+                map((s: any) => {
+                  return {
+                    id: swarmId,
+                    name: s.name,
+                    created: new Date(s.created),
+                    activityStatus: s.activityStatus,
+                    ancestorId: s.ancestorId,
+                    isNucleus: s.isNucleus,
+                    about: s.about,
+                  };
+                })
+              );
             })
           );
         }
@@ -120,13 +115,10 @@ export class SwarmService {
           about,
         };
 
-        return this.db
-          .list(`/users/${user.uid}/swarms`)
-          .push(swarm)
-          .then((res: any) => {
-            const pathParts = res._delegate._path.pieces_;
-            return pathParts[pathParts.length - 1];
-          });
+        return push(ref(this.db, `/users/${user.uid}/swarms`), swarm).then((res: any) => {
+          const pathParts = res._delegate._path.pieces_;
+          return pathParts[pathParts.length - 1];
+        });
       })
     );
   }
@@ -135,7 +127,7 @@ export class SwarmService {
     return this.authService.getUser().pipe(
       map(async (user) => {
         await this._markStorageAsDirty();
-        this.db.object(`/users/${user.uid}/swarms/${s.id}`).update(s);
+        update(ref(this.db, `/users/${user.uid}/swarms/${s.id}`), s);
       })
     );
   }
@@ -160,7 +152,7 @@ export class SwarmService {
     return this.authService.getUser().pipe(
       switchMap(async (user) => {
         await this._markStorageAsDirty();
-        return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
+        return update(ref(this.db, `/users/${user.uid}/swarms/${s.id}`), {
           activityStatus: ActivityStatus.ACTIVE,
         });
       })
@@ -171,7 +163,7 @@ export class SwarmService {
     return this.authService.getUser().pipe(
       switchMap(async (user) => {
         await this._markStorageAsDirty();
-        return this.db.object(`/users/${user.uid}/swarms/${s.id}`).update({
+        return update(ref(this.db, `/users/${user.uid}/swarms/${s.id}`), {
           activityStatus: status,
         });
       })

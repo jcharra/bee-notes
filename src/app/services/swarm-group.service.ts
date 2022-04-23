@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/compat/database";
-import { switchMap, map, take } from "rxjs/operators";
-import { AuthService } from "../pages/auth/auth.service";
+import { Database, list, object, remove } from "@angular/fire/database";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { push, ref, update } from "firebase/database";
+import { from, of } from "rxjs";
+import { map, switchMap, take } from "rxjs/operators";
+import { AuthService } from "../pages/auth/auth.service";
 import { UISwarmGroup } from "../pages/swarms/swarms.page";
 import { LocalStorageKey, StorageSyncService } from "./storage-sync.service";
-import { from, of } from "rxjs";
 
 export interface SwarmGroup {
   id: string;
@@ -20,7 +21,7 @@ export interface SwarmGroup {
 })
 export class SwarmGroupService {
   constructor(
-    private db: AngularFireDatabase,
+    private db: Database,
     private authService: AuthService,
     private geolocation: Geolocation,
     private storageSync: StorageSyncService
@@ -34,27 +35,24 @@ export class SwarmGroupService {
             if (localGroups) {
               return of(localGroups);
             } else {
-              return this.db
-                .list(`/users/${user.uid}/groups`)
-                .snapshotChanges()
-                .pipe(
-                  take(1),
-                  map((data: any[]) => {
-                    if (!data) {
-                      return [];
-                    }
+              return list(ref(this.db, `/users/${user.uid}/groups`)).pipe(
+                take(1),
+                map((data: any[]) => {
+                  if (!data) {
+                    return [];
+                  }
 
-                    const entries: SwarmGroup[] = [];
-                    for (let i = 0; i < data.length; i++) {
-                      const item: any = data[i];
-                      entries.push(this._entryFromFbValue(item));
-                    }
+                  const entries: SwarmGroup[] = [];
+                  for (let i = 0; i < data.length; i++) {
+                    const item: any = data[i];
+                    entries.push(this._entryFromFbValue(item));
+                  }
 
-                    this.storageSync.writeToStorage(LocalStorageKey.GROUPS, entries);
+                  this.storageSync.writeToStorage(LocalStorageKey.GROUPS, entries);
 
-                    return entries;
-                  })
-                );
+                  return entries;
+                })
+              );
             }
           })
         );
@@ -65,19 +63,16 @@ export class SwarmGroupService {
   getGroup(groupId: string) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return this.db
-          .object(`/users/${user.uid}/groups/${groupId}`)
-          .snapshotChanges()
-          .pipe(
-            take(1),
-            map((data: any) => {
-              if (!data) {
-                return null;
-              }
+        return object(ref(this.db, `/users/${user.uid}/groups/${groupId}`)).pipe(
+          take(1),
+          map((data: any) => {
+            if (!data) {
+              return null;
+            }
 
-              return this._entryFromFbValue(data);
-            })
-          );
+            return this._entryFromFbValue(data);
+          })
+        );
       })
     );
   }
@@ -86,7 +81,7 @@ export class SwarmGroupService {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         this._markStorageAsDirty();
-        return this.db.list(`/users/${user.uid}/groups`).push({
+        return push(ref(this.db, `/users/${user.uid}/groups`), {
           name,
           swarmIds,
         });
@@ -98,7 +93,7 @@ export class SwarmGroupService {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         this._markStorageAsDirty();
-        return this.db.object(`/users/${user.uid}/groups/${group.id}`).update(group);
+        return update(ref(this.db, `/users/${user.uid}/groups/${group.id}`), group);
       })
     );
   }
@@ -125,7 +120,7 @@ export class SwarmGroupService {
     return this.authService.getUser().pipe(
       switchMap((user) => {
         this._markStorageAsDirty();
-        return this.db.object(`/users/${user.uid}/groups/${gid}`).remove();
+        return remove(ref(this.db, `/users/${user.uid}/groups/${gid}`));
       })
     );
   }

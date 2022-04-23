@@ -9,7 +9,7 @@ import {
 import { Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
-import { Observable, of } from "rxjs";
+import { EMPTY, Observable, of } from "rxjs";
 import { StorageSyncService } from "src/app/services/storage-sync.service";
 export interface AuthResponseData {
   kind: string;
@@ -40,7 +40,7 @@ export class AuthService {
     if (!u) {
       console.error("UNAUTHORIZED - back to login");
       this.router.navigateByUrl("/auth");
-      throw new Error("Unauthorized");
+      return EMPTY;
     }
     return of(u);
   }
