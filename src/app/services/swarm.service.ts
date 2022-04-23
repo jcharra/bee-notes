@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { list, object, Database } from "@angular/fire/database";
+import { list, object, Database, listVal } from "@angular/fire/database";
 import { push, ref, update } from "firebase/database";
 import { from, Observable, of } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
@@ -33,24 +33,17 @@ export class SwarmService {
                 })
               );
             } else {
-              return list(ref(this.db, `users/${user.uid}/swarms`)).pipe(
+              return listVal(ref(this.db, `users/${user.uid}/swarms`)).pipe(
                 take(1),
                 map((swarmData: any[]) => {
                   const swarms: Swarm[] = [];
 
                   for (let i = 0; i < swarmData.length; i++) {
                     const item: any = swarmData[i];
-                    const key = item.key;
-                    const value: any = item.payload.val();
 
                     swarms.push({
-                      id: key,
-                      name: value.name,
-                      created: new Date(value.created),
-                      activityStatus: value.activityStatus,
-                      ancestorId: value.ancestorId,
-                      isNucleus: value.isNucleus,
-                      about: value.about,
+                      ...item,
+                      created: new Date(item.created),
                     });
                   }
 
@@ -116,7 +109,7 @@ export class SwarmService {
         };
 
         return push(ref(this.db, `/users/${user.uid}/swarms`), swarm).then((res: any) => {
-          const pathParts = res._delegate._path.pieces_;
+          const pathParts = res._path.pieces_;
           return pathParts[pathParts.length - 1];
         });
       })
