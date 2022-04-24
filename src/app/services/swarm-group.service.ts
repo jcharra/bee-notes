@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Database, list, listVal, object, remove } from "@angular/fire/database";
+import { Database, listVal, objectVal, remove } from "@angular/fire/database";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { push, ref, update } from "firebase/database";
 import { from, of } from "rxjs";
@@ -35,7 +35,9 @@ export class SwarmGroupService {
             if (localGroups) {
               return of(localGroups);
             } else {
-              return listVal(ref(this.db, `/users/${user.uid}/groups`)).pipe(
+              return listVal(ref(this.db, `/users/${user.uid}/groups`), {
+                keyField: "id",
+              }).pipe(
                 take(1),
                 map((data: any[]) => {
                   if (!data) {
@@ -63,7 +65,9 @@ export class SwarmGroupService {
   getGroup(groupId: string) {
     return this.authService.getUser().pipe(
       switchMap((user) => {
-        return object(ref(this.db, `/users/${user.uid}/groups/${groupId}`)).pipe(
+        return objectVal(ref(this.db, `/users/${user.uid}/groups/${groupId}`), {
+          keyField: "id",
+        }).pipe(
           take(1),
           map((data: any) => {
             if (!data) {

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { list, object, Database, listVal } from "@angular/fire/database";
+import { Database, listVal, objectVal } from "@angular/fire/database";
 import { push, ref, update } from "firebase/database";
 import { from, Observable, of } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
@@ -33,7 +33,9 @@ export class SwarmService {
                 })
               );
             } else {
-              return listVal(ref(this.db, `users/${user.uid}/swarms`)).pipe(
+              return listVal(ref(this.db, `users/${user.uid}/swarms`), {
+                keyField: "id",
+              }).pipe(
                 take(1),
                 map((swarmData: any[]) => {
                   const swarms: Swarm[] = [];
@@ -68,7 +70,9 @@ export class SwarmService {
         } else {
           return this.authService.getUser().pipe(
             switchMap((user) => {
-              return object(ref(this.db, `users/${user.uid}/swarms/${swarmId}`)).pipe(
+              return objectVal(ref(this.db, `users/${user.uid}/swarms/${swarmId}`), {
+                keyField: "id",
+              }).pipe(
                 take(1),
                 map((s: any) => {
                   return {

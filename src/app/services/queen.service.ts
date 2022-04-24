@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Database, object, remove } from "@angular/fire/database";
+import { Database, objectVal, remove } from "@angular/fire/database";
 import { ref, update } from "firebase/database";
 import { first, map, switchMap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
@@ -30,7 +30,9 @@ export class QueenService {
     return this.authService.getUser().pipe(
       first(),
       switchMap((user) => {
-        return object(ref(this.db, `/users/${user.uid}/queen/${colonyId}`)).pipe(
+        return objectVal(ref(this.db, `/users/${user.uid}/queen/${colonyId}`), {
+          keyField: "id",
+        }).pipe(
           map((status: any) => {
             if (!status) {
               return null;

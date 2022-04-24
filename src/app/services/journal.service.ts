@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { list, object, Database, remove, listVal } from "@angular/fire/database";
+import { Database, listVal, objectVal, remove } from "@angular/fire/database";
 import { push, ref, update } from "firebase/database";
 import { from, Observable, of } from "rxjs";
 import { first, map, switchMap, take, tap } from "rxjs/operators";
@@ -53,7 +53,9 @@ export class JournalService {
           return of(cached);
         }
 
-        const entries = listVal(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries`)).pipe(
+        const entries = listVal(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries`), {
+          keyField: "id",
+        }).pipe(
           take(1),
           map((data: any[]) => {
             if (!data) {
@@ -88,7 +90,9 @@ export class JournalService {
     return this.authService.getUser().pipe(
       first(),
       switchMap((user) => {
-        return object(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries/${entryId}`)).pipe(
+        return objectVal(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries/${entryId}`), {
+          keyField: "id",
+        }).pipe(
           map((entry: any) => {
             return {
               id: entry.id,

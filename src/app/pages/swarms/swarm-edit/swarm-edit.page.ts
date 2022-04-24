@@ -50,24 +50,21 @@ export class SwarmEditPage implements OnInit {
     });
 
     if (this.swarmId) {
-      combineLatest([
-        this.swarmService.getSwarm(this.swarmId),
-        this.queenService.getStatus(this.swarmId),
-      ]).subscribe(([swarm, status]) => {
-        if (status) {
-          status.race && this.colonyForm.controls.race.setValue(status.race);
-          status.birthYear &&
-            this.colonyForm.controls.birthYear.setValue(status.birthYear);
-        }
+      combineLatest([this.swarmService.getSwarm(this.swarmId), this.queenService.getStatus(this.swarmId)]).subscribe(
+        ([swarm, status]) => {
+          if (status) {
+            status.race && this.colonyForm.controls.race.setValue(status.race);
+            status.birthYear && this.colonyForm.controls.birthYear.setValue(status.birthYear);
+          }
 
-        if (swarm) {
-          this.colonyForm.controls.isNucleus.setValue(!!swarm.isNucleus);
-          swarm.name && this.colonyForm.controls.name.setValue(swarm.name);
-          swarm.ancestorId &&
-            this.colonyForm.controls.ancestorId.setValue(swarm.ancestorId);
-          swarm.about && this.colonyForm.controls.about.setValue(swarm.about);
+          if (swarm) {
+            this.colonyForm.controls.isNucleus.setValue(!!swarm.isNucleus);
+            swarm.name && this.colonyForm.controls.name.setValue(swarm.name);
+            swarm.ancestorId && this.colonyForm.controls.ancestorId.setValue(swarm.ancestorId);
+            swarm.about && this.colonyForm.controls.about.setValue(swarm.about);
+          }
         }
-      });
+      );
     } else {
       this.colonyForm.controls.isNucleus.setValue(true);
     }
@@ -83,9 +80,8 @@ export class SwarmEditPage implements OnInit {
   save() {
     const vals = this.colonyForm.value;
 
-    let job;
     if (this.swarmId) {
-      job = forkJoin([
+      forkJoin([
         this.swarmService.updateSwarm({ id: this.swarmId, ...vals }),
         this.queenService.saveStatus(this.swarmId, vals),
       ]).subscribe(() => {

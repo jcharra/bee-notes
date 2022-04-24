@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Database, list, listVal, remove, set } from "@angular/fire/database";
+import { Database, listVal, remove, set } from "@angular/fire/database";
 import { LocalNotifications } from "@capacitor/local-notifications";
 import { TranslateService } from "@ngx-translate/core";
 import { addDays, isBefore, startOfDay } from "date-fns";
@@ -38,7 +38,9 @@ export class ReminderService {
             if (localReminders) {
               return of(localReminders);
             } else {
-              return listVal(ref(this.db, `users/${user.uid}/reminders`)).pipe(
+              return listVal(ref(this.db, `users/${user.uid}/reminders`), {
+                keyField: "id",
+              }).pipe(
                 first(),
                 map((rs: any[]) => {
                   let reminders: Reminder[] = [];
