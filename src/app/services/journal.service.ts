@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Database, listVal, objectVal, remove } from "@angular/fire/database";
-import { push, ref, update } from "firebase/database";
+import { Database, endAt, listVal, objectVal, remove, startAt } from "@angular/fire/database";
+import { limitToLast, orderByChild, push, query, ref, update } from "firebase/database";
 import { from, Observable, of } from "rxjs";
 import { first, map, switchMap, take, tap } from "rxjs/operators";
 import { AuthService } from "../pages/auth/auth.service";
@@ -40,11 +40,11 @@ export class JournalService {
   }
 
   getEntries(swarmId: string, config: QueryConfig = {}): Observable<JournalEntry[]> {
-    const startAt = config.startAt || "2000-01-01";
-    const endAt = config.endAt || "2050-12-31";
+    const startAtDate = config.startAt || "2000-01-01";
+    const endAtDate = config.endAt || "2050-12-31";
     const limit = config.limit || 1000;
 
-    const cacheKey = `${swarmId}_${startAt}_${endAt}_${limit}`;
+    const cacheKey = `${swarmId}_${startAtDate}_${endAtDate}_${limit}`;
     return this.authService.getUser().pipe(
       switchMap((user) => {
         const cached = this.entryCacheForColony.get(cacheKey);
@@ -53,9 +53,18 @@ export class JournalService {
           return of(cached);
         }
 
-        const entries = listVal(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries`), {
-          keyField: "id",
-        }).pipe(
+        const entries = listVal(
+          query(
+            ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries`),
+            orderByChild("date"),
+            startAt(startAtDate),
+            endAt(endAtDate),
+            limitToLast(limit)
+          ),
+          {
+            keyField: "id",
+          }
+        ).pipe(
           take(1),
           map((data: any[]) => {
             if (!data) {
