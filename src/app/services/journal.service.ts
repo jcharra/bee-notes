@@ -144,6 +144,11 @@ export class JournalService {
       switchMap((user) => {
         this.clearCacheForColony(swarmId);
 
+        if (!id) {
+          console.error("Delete without ID");
+          return;
+        }
+
         return remove(ref(this.db, `/users/${user.uid}/journals/${swarmId}/entries/${id}`));
       })
     );
