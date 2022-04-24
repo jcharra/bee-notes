@@ -13,7 +13,7 @@
           <ion-col>
             <ion-list>
               <ion-item>
-                <ion-label position="floating">{{ "AUTH_PAGE.email" | translate}}</ion-label>
+                <ion-label mode="ios" position="stacked">{{ "AUTH_PAGE.email" | translate}}</ion-label>
                 <ion-input
                   data-test-id="email"
                   formControlName="email"
@@ -22,7 +22,7 @@
                 ></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label position="floating">{{"AUTH_PAGE.password" | translate}}</ion-label>
+                <ion-label mode="ios" position="stacked">{{"AUTH_PAGE.password" | translate}}</ion-label>
                 <ion-input
                   data-test-id="password"
                   formControlName="password"
@@ -35,7 +35,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-button data-test-id="submit" color="primary" expand="block" (click)="onLogin()">
+            <ion-button type="submit" data-test-id="submit" color="primary" expand="block" (click)="onLogin()">
               {{ (isSignup ? 'AUTH_PAGE.signup' : 'AUTH_PAGE.login') | translate}}</ion-button
             >
 

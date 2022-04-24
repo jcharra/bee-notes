@@ -6,7 +6,7 @@
     "email": "E-Mail",
     "emailPlaceholder": "Deine E-Mail-Adresse",
     "password": "Passwort",
-    "passwordPlaceholder": "Dein Password",
+    "passwordPlaceholder": "Dein Passwort",
     "passwordReset": "Passwort zurücksetzen",
     "passwordResetPrompt": "Soll das Passwort für '{{ address }}' zurückgesetzt werden?",
     "loginSpinner": "Anmeldung läuft ...",
