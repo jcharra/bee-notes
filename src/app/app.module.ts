@@ -5,8 +5,14 @@ import localeEn from "@angular/common/locales/en";
 import localeFr from "@angular/common/locales/fr";
 import { NgModule } from "@angular/core";
 import { getApp, initializeApp, provideFirebaseApp } from "@angular/fire/app";
-import { getAuth, indexedDBLocalPersistence, initializeAuth, provideAuth } from "@angular/fire/auth";
-import { provideDatabase, getDatabase } from "@angular/fire/database";
+import {
+  browserSessionPersistence,
+  getAuth,
+  indexedDBLocalPersistence,
+  initializeAuth,
+  provideAuth,
+} from "@angular/fire/auth";
+import { getDatabase, provideDatabase } from "@angular/fire/database";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
 import { ServiceWorkerModule } from "@angular/service-worker";
@@ -43,7 +49,9 @@ registerLocaleData(localeFr);
         });
       } else {
         console.log("WEB auth");
-        return getAuth();
+        const auth = getAuth();
+        auth.setPersistence(browserSessionPersistence);
+        return auth;
       }
     }),
     BrowserModule,

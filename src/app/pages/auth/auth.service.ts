@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import {
   Auth,
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -38,8 +40,6 @@ export class AuthService {
   getUser(): Observable<User> {
     const u = this.auth.currentUser;
     if (!u) {
-      console.error("UNAUTHORIZED - back to login");
-      this.router.navigateByUrl("/auth");
       return EMPTY;
     }
     return of(u);
@@ -59,9 +59,9 @@ export class AuthService {
     });
   }
 
-  logout() {
-    this.auth.signOut();
-    this.storageSync.clearStorage();
+  async logout() {
+    await this.auth.signOut();
+    await this.storageSync.clearStorage();
   }
 
   resetPassword(email: string) {
@@ -69,19 +69,21 @@ export class AuthService {
   }
 
   deleteUser(password) {
-    /*
-    return this.auth.user.pipe(first()).subscribe((user) => {
-      return user
-        .reauthenticateWithCredential(EmailAuthProvider.credential(user.email, password))
-        .then(() => {
-          user.delete().then(() => {
-            this.router.navigateByUrl("/auth");
-            this.goodbyeMessage();
-          });
-        })
-        .catch(() => this.onDeletionFailure());
-    });
-    */
+    const user = this.auth.currentUser;
+
+    if (!user) {
+      console.log("No user found");
+      return;
+    }
+
+    return reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email, password))
+      .then(() => {
+        user.delete().then(() => {
+          this.router.navigateByUrl("/auth");
+          this.goodbyeMessage();
+        });
+      })
+      .catch(() => this.onDeletionFailure());
   }
 
   async goodbyeMessage() {
