@@ -25,7 +25,7 @@ jobs:
           npm run build --prod
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact
+        uses: actions/upload-pages-artifact@v1
         with:
           path: "www/"
 
