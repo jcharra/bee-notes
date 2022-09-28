@@ -32,7 +32,7 @@
       </ion-label>
     </ion-item>
     <ion-item *ngFor="let entry of journalEntries">
-      <ion-label *ngIf="entry.type">
+      <ion-label *ngIf="entry.type" (click)="editJournalEntry(entry.id)">
         <strong>{{ entry.date | date:'dd. MMM'}}: </strong>
         <app-journal-entry-short [entry]="entry"></app-journal-entry-short>
       </ion-label>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ActionSheetController, AlertController, LoadingController, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
@@ -189,5 +189,9 @@ export class SwarmDetailPage implements OnDestroy {
   ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  editJournalEntry(entryId: string) {
+    this.router.navigateByUrl(`/swarms/view/${this.swarmId}/journal/edit?entryId=${entryId}`);
   }
 }

@@ -103,6 +103,10 @@ export class JournalService {
           keyField: "id",
         }).pipe(
           map((entry: any) => {
+            if (!entry) {
+              return null;
+            }
+
             return {
               id: entry.id,
               text: entry.text,
