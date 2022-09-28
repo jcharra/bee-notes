@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { differenceInHours } from "date-fns";
-import { first, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { JournalService } from "src/app/services/journal.service";
 import { ColonyAggression, QueenHealth, VarroaStatus } from "src/app/types/ColonyStatus";
 import { EntryType } from "src/app/types/EntryType";
@@ -22,16 +23,23 @@ export class StatusIndicatorComponent implements OnInit {
   varroaInfo: VarroaInfo;
   queenHealth: QueenHealth;
   aggression: ColonyAggression;
-  loading: boolean;
 
-  constructor(private journalService: JournalService) {}
+  constructor(private journalService: JournalService, private routerActive: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.loading = true;
+    this.refresh();
+
+    this.routerActive.paramMap.subscribe(() => {
+      if (this.router.url === "/swarms") {
+        this.refresh();
+      }
+    });
+  }
+
+  refresh() {
     this.journalService
       .getDigest(this.colonyId)
       .pipe(
-        first(),
         tap((entries: JournalEntry[]) => {
           this.varroaInfo = this._determineVarroaInfo(entries);
           this.queenHealth = this._determineQueenHealth(entries);
