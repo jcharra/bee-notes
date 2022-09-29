@@ -1,0 +1,27 @@
+{
+  "AUTH_PAGE": {
+    "welcome": "Bienvenue chezBee Notes",
+    "signup": "Créer un compte",
+    "login": "Login",
+    "email": "e-mail",
+    "emailPlaceholder": "Your email address",
+    "password": "password",
+    "passwordPlaceholder": "Your password",
+    "passwordReset": "Reset password",
+    "passwordResetPrompt": "Do you want to reset the password for '{{ address }}'?",
+    "loginSpinner": "Logging in ...",
+    "loginFailed": "Login failed",
+    "credentialsFailed": "Username and password do not match.",
+    "signupFailed": "Signup failed",
+    "signupSuccess": "Signup successful.",
+    "signupSuccessText": "We just sent you an email with an account confirmation link.",
+    "noEmailAddress": "No mail address",
+    "noEmailAddressText": "Please enter a valid email address.",
+    "resetLinkSent": "Reset link sent",
+    "resetLinkSentText": "We just sent you an email with a password reset link.",
+    "resetLinkFailure": "Error",
+    "resetLinkFailureText": "Email could not be sent: ",
+    "backToLogin": "Back to login",
+    "beeNotesDescription": "<strong>Bee Notes</strong> can help you keep track of your activities with your bee colonies all year round. It's a quick and easy way to remember how much you harvested, how much food you gave to which colony ... and also how many Varroa mites you counted, when you made treatments etc. It's free to use, and you will never be asked to enter any personal data whatsoever apart from a valid email address."
+  }
+}
