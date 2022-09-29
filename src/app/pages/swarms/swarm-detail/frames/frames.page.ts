@@ -68,10 +68,7 @@ export class FramesPage implements OnInit {
 
     const broodChange = this.amounts.get(AmountKey.BROOD);
     if (broodChange) {
-      const type =
-        broodChange > 0
-          ? EntryType.FRAMES_BROOD_INSERTED
-          : EntryType.FRAMES_BROOD_REMOVED;
+      const type = broodChange > 0 ? EntryType.FRAMES_BROOD_INSERTED : EntryType.FRAMES_BROOD_REMOVED;
       const req = this.journalService.createEntry(this.colonyId, {
         date: new Date(this.date),
         type,
@@ -83,10 +80,7 @@ export class FramesPage implements OnInit {
 
     const emptyPanelsChange = this.amounts.get(AmountKey.EMPTY_PANELS);
     if (emptyPanelsChange) {
-      const type =
-        emptyPanelsChange > 0
-          ? EntryType.FRAMES_EMPTY_PANEL_INSERTED
-          : EntryType.FRAMES_EMPTY_PANEL_REMOVED;
+      const type = emptyPanelsChange > 0 ? EntryType.FRAMES_EMPTY_PANEL_INSERTED : EntryType.FRAMES_EMPTY_PANEL_REMOVED;
       const req = this.journalService.createEntry(this.colonyId, {
         date: new Date(this.date),
         type,
@@ -98,10 +92,7 @@ export class FramesPage implements OnInit {
 
     const emptyCombsChange = this.amounts.get(AmountKey.EMPTY_COMBS);
     if (emptyCombsChange) {
-      const type =
-        emptyCombsChange > 0
-          ? EntryType.FRAMES_EMPTY_COMBS_INSERTED
-          : EntryType.FRAMES_EMPTY_COMBS_REMOVED;
+      const type = emptyCombsChange > 0 ? EntryType.FRAMES_EMPTY_COMBS_INSERTED : EntryType.FRAMES_EMPTY_COMBS_REMOVED;
       const req = this.journalService.createEntry(this.colonyId, {
         date: new Date(this.date),
         type,
@@ -113,10 +104,7 @@ export class FramesPage implements OnInit {
 
     const foodChange = this.amounts.get(AmountKey.FOOD);
     if (foodChange) {
-      const type =
-        foodChange > 0
-          ? EntryType.FRAMES_FOOD_INSERTED
-          : EntryType.FRAMES_FOOD_REMOVED;
+      const type = foodChange > 0 ? EntryType.FRAMES_FOOD_INSERTED : EntryType.FRAMES_FOOD_REMOVED;
       const req = this.journalService.createEntry(this.colonyId, {
         date: new Date(this.date),
         type,
@@ -128,10 +116,7 @@ export class FramesPage implements OnInit {
 
     const droneChange = this.amounts.get(AmountKey.DRONE);
     if (droneChange) {
-      const type =
-        droneChange > 0
-          ? EntryType.FRAMES_DRONE_INSERTED
-          : EntryType.FRAMES_DRONE_REMOVED;
+      const type = droneChange > 0 ? EntryType.FRAMES_DRONE_INSERTED : EntryType.FRAMES_DRONE_REMOVED;
       const req = this.journalService.createEntry(this.colonyId, {
         date: new Date(this.date),
         type,
@@ -153,10 +138,7 @@ export class FramesPage implements OnInit {
     }
 
     if (this.storeyAmount) {
-      const type =
-        this.storeyAmount > 0
-          ? EntryType.FRAMES_STOREYS_ADDED
-          : EntryType.FRAMES_STOREYS_REMOVED;
+      const type = this.storeyAmount > 0 ? EntryType.FRAMES_STOREYS_ADDED : EntryType.FRAMES_STOREYS_REMOVED;
       const req = this.journalService.createEntry(this.colonyId, {
         date: new Date(this.date),
         type,
@@ -178,5 +160,10 @@ export class FramesPage implements OnInit {
       duration: 2000,
     });
     toast.present();
+  }
+
+  setDate(dateStr: string | string[]) {
+    const date = typeof dateStr === "string" ? dateStr : dateStr[0];
+    this.date = format(new Date(date), DAY_OF_YEAR, { locale: de });
   }
 }

@@ -123,8 +123,8 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     await picker.present();
   }
 
-  setDate(dateStr: string) {
-    this.entryForm.controls.date.setValue(new Date(dateStr));
+  setDate(dateStr: string | string[]) {
+    this.entryForm.controls.date.setValue(new Date(typeof dateStr === "string" ? dateStr : dateStr[0]));
   }
 
   getAmountOptions() {

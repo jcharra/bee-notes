@@ -21,7 +21,7 @@
         <ng-template>
           <ion-datetime
             #popoverDate
-            (ionChange)="date = popoverDate.value"
+            (ionChange)="setDate(popoverDate.value)"
             presentation="date"
             locale="de-DE"
             max="{{ maxDate }}"

@@ -115,9 +115,9 @@ export class ReminderPage {
     }
   }
 
-  setDateTime(d: string) {
-    this.isoDate = d;
-    const date = new Date(d);
+  setDateTime(d: string | string[]) {
+    this.isoDate = typeof d === "string" ? d : d[0];
+    const date = new Date(typeof d === "string" ? d : d[0]);
     this.datePart = format(date, "dd.MM.yyyy");
     this.timePart = format(date, "HH:mm");
     console.log("Date:", this.isoDate, " Datepart:", this.datePart, " Time:", this.timePart);
