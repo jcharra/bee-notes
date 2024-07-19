@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { LoadingController } from "@ionic/angular";
 import { Storage } from "@ionic/storage";
 import { TranslateService } from "@ngx-translate/core";
@@ -25,11 +25,11 @@ export class SettingsPage implements OnInit {
   purchasesAvailable: boolean;
   hasFullVersion: boolean;
 
-  settingsForm: FormGroup;
+  settingsForm: UntypedFormGroup;
 
   constructor(
     private translate: TranslateService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private storage: Storage,
     private purchaseService: PurchaseService,
     private ref: ChangeDetectorRef,

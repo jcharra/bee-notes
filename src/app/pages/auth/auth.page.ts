@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Storage } from "@capacitor/storage";
 import { AlertController, LoadingController } from "@ionic/angular";
@@ -14,7 +14,7 @@ import { AuthService } from "./auth.service";
 export class AuthPage implements OnInit {
   isSignup = false;
   isLoading = false;
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
 
   constructor(
     private authService: AuthService,
@@ -25,9 +25,9 @@ export class AuthPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loginForm = new FormGroup({
-      email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl("", [Validators.required]),
+    this.loginForm = new UntypedFormGroup({
+      email: new UntypedFormControl("", [Validators.required, Validators.email]),
+      password: new UntypedFormControl("", [Validators.required]),
     });
 
     // Prepopulate email field if possible

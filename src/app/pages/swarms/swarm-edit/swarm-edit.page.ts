@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { addYears, getYear } from "date-fns";
 import { combineLatest, forkJoin, Observable } from "rxjs";
@@ -17,7 +17,7 @@ import { Swarm } from "src/app/types/Swarm";
 export class SwarmEditPage implements OnInit {
   swarmId: string;
   groupId: string;
-  colonyForm: FormGroup;
+  colonyForm: UntypedFormGroup;
   races = [];
   maxYear = getYear(new Date());
   minYear = getYear(addYears(new Date(), -4));
@@ -29,7 +29,7 @@ export class SwarmEditPage implements OnInit {
     private queenService: QueenService,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.races = Object.keys(Race);
   }

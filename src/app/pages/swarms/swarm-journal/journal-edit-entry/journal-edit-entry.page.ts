@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { IonSelect, NavController, PickerController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
@@ -19,7 +19,7 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
   type: string;
   typeOptions: EntryType[];
   actionType: EntryType;
-  entryForm: FormGroup;
+  entryForm: UntypedFormGroup;
   saving = false;
   countable: Countable;
   initialDate: string;
@@ -27,7 +27,7 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private journalService: JournalService,
     private navCtrl: NavController,
     private pickerController: PickerController,
@@ -42,7 +42,7 @@ export class JournalEditEntryPage implements OnInit, AfterViewInit {
     this.typeOptions = this.type ? actionsForType[this.type] : Object.values(EntryType);
 
     this.entryForm = this.formBuilder.group({
-      actionType: new FormControl({ value: null, disabled: false }, Validators.required),
+      actionType: new UntypedFormControl({ value: null, disabled: false }, Validators.required),
       date: [new Date(), Validators.required],
       amount: [0],
       text: [""],

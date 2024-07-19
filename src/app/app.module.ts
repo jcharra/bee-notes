@@ -36,44 +36,44 @@ registerLocaleData(localeDe);
 registerLocaleData(localeEn);
 registerLocaleData(localeFr);
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideDatabase(() => getDatabase(getApp())),
-    provideAuth(() => {
-      if (Capacitor.isNativePlatform()) {
-        console.log("NATIVE auth");
-        return initializeAuth(getApp(), {
-          persistence: indexedDBLocalPersistence,
-        });
-      } else {
-        console.log("WEB auth");
-        const auth = getAuth();
-        auth.setPersistence(browserSessionPersistence);
-        return auth;
-      }
-    }),
-    BrowserModule,
-    HttpClientModule,
-    IonicModule.forRoot(),
-    IonicStorageModule.forRoot({
-      name: "__mydb",
-      driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
-    }),
-    AppRoutingModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
-    ServiceWorkerModule.register("ngsw-worker.js", {
-      enabled: environment.production,
-    }),
-  ],
-  providers: [InAppPurchase2, Geolocation, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+        provideDatabase(() => getDatabase(getApp())),
+        provideAuth(() => {
+            if (Capacitor.isNativePlatform()) {
+                console.log("NATIVE auth");
+                return initializeAuth(getApp(), {
+                    persistence: indexedDBLocalPersistence,
+                });
+            }
+            else {
+                console.log("WEB auth");
+                const auth = getAuth();
+                auth.setPersistence(browserSessionPersistence);
+                return auth;
+            }
+        }),
+        BrowserModule,
+        HttpClientModule,
+        IonicModule.forRoot(),
+        IonicStorageModule.forRoot({
+            name: "__mydb",
+            driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
+        }),
+        AppRoutingModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient],
+            },
+        }),
+        ServiceWorkerModule.register("ngsw-worker.js", {
+            enabled: environment.production,
+        }),
+    ],
+    providers: [InAppPurchase2, Geolocation, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
