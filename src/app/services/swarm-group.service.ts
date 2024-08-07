@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Database, listVal, objectVal, remove } from "@angular/fire/database";
-import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { Geolocation } from "@awesome-cordova-plugins/geolocation/ngx";
 import { push, ref, update } from "firebase/database";
 import { from, of } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";

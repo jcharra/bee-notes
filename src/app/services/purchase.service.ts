@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IAPProduct, InAppPurchase2 } from "@ionic-native/in-app-purchase-2/ngx";
+import { IAPProduct, InAppPurchase2 } from "@awesome-cordova-plugins/in-app-purchase-2/ngx";
 import { Platform, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 
