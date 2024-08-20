@@ -52,7 +52,7 @@
     "cordova-plugin-purchase": "^10.6.1",
     "cordova-res": "^0.15.4",
     "date-fns": "^2.29.3",
-    "firebase": "^9.14.0",
+    "firebase": "^9.23.0",
     "firebase-admin": "^11.3.0",
     "rxjs": "^7.5.0",
     "tslib": "^2.4.1",
