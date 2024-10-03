@@ -4,7 +4,8 @@ import { isSameDay, startOfDay } from "date-fns";
 import { Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 
-const API_KEY = "09b7c89a1945dc1168a4d50a97ffd24d";
+// insert your own key here to retrieve weather forecast information
+const API_KEY = "MY_OPENWEATHER_API_KEY";
 
 export enum WeatherType {
   CLEAR = "Clear",
