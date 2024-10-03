@@ -21,5 +21,16 @@
 			"SplashScreen": "screen",
 			"SplashScreenDelay": "0"
 		}
-	}
+	},
+	"packageClassList": [
+		"InAppReviewPlugin",
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"LocalNotificationsPlugin",
+		"PreferencesPlugin",
+		"SplashScreenPlugin",
+		"StatusBarPlugin",
+		"CDVPlugin"
+	]
 }

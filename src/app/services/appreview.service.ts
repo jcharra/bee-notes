@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Swarm } from "../types/Swarm";
-import { RateApp } from "capacitor-rate-app";
+import { InAppReview } from "@capacitor-community/in-app-review";
 import { differenceInMonths } from "date-fns";
 import { Platform } from "@ionic/angular";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from "@capacitor/preferences";
 
 const validDate = (d) => d && d.getTime && !isNaN(d.getTime());
 const storageLastReviewRequestDate = "LAST_REVIEW_REQUEST";
@@ -22,7 +22,7 @@ export class AppreviewService {
       return;
     }
 
-    const lastDate = await Storage.get({ key: storageLastReviewRequestDate });
+    const lastDate = await Preferences.get({ key: storageLastReviewRequestDate });
     if (lastDate && lastDate.value) {
       if (differenceInMonths(new Date(), new Date(lastDate.value)) > 3) {
         this.requestReview();
@@ -49,10 +49,10 @@ export class AppreviewService {
   }
 
   private async requestReview() {
-    await Storage.set({
+    await Preferences.set({
       key: storageLastReviewRequestDate,
       value: new Date().toISOString(),
     });
-    RateApp.requestReview();
+    InAppReview.requestReview();
   }
 }

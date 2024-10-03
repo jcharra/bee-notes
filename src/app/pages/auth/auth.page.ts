@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from "@capacitor/preferences";
 import { AlertController, LoadingController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "./auth.service";
@@ -31,7 +31,7 @@ export class AuthPage implements OnInit {
     });
 
     // Prepopulate email field if possible
-    Storage.get({ key: "lastEmailAddress" }).then((data: any) => {
+    Preferences.get({ key: "lastEmailAddress" }).then((data: any) => {
       if (data && data.value) {
         this.loginForm.get("email").setValue(data.value);
       }
@@ -43,7 +43,7 @@ export class AuthPage implements OnInit {
       return;
     }
 
-    Storage.set({
+    Preferences.set({
       key: "lastEmailAddress",
       value: this.loginForm.value.email,
     });
@@ -52,9 +52,7 @@ export class AuthPage implements OnInit {
     this.loadingCtrl
       .create({
         keyboardClose: true,
-        message: this.translate.instant(
-          this.isSignup ? "AUTH_PAGE.signupSpinner" : "AUTH_PAGE.loginSpinner"
-        ),
+        message: this.translate.instant(this.isSignup ? "AUTH_PAGE.signupSpinner" : "AUTH_PAGE.loginSpinner"),
       })
       .then((loadingEl) => {
         loadingEl.present();
