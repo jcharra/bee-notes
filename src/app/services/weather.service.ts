@@ -57,7 +57,7 @@ export class WeatherService {
 
     return this.http
       .get<Forecast>(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&appid=${API_KEY}&units=metric&exclude=hourly,minutely,alerts`
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&appid=${API_KEY}&units=metric&exclude=hourly,minutely,alerts`
       )
       .pipe(
         map((fc: Forecast) => {
