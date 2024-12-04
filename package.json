@@ -27,7 +27,7 @@
     "@angular/router": "^14.3.0",
     "@angular/service-worker": "^14.3.0",
     "@awesome-cordova-plugins/core": "^6.8.0",
-    "@awesome-cordova-plugins/geolocation": "^6.8.0",
+    "@awesome-cordova-plugins/geolocation": "^6.11.0",
     "@awesome-cordova-plugins/in-app-purchase-2": "^6.8.0",
     "@capacitor-community/in-app-review": "^6.0.0",
     "@capacitor/android": "^6.0.0",
