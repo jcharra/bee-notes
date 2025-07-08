@@ -36,3 +36,6 @@ beetracker.code-workspace
 cypress.env.json
 .angular
 cypress/videos
+openweatherkey
+ios 
+android
