@@ -58,11 +58,11 @@
     "zone.js": "^0.11.8"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.2.11",
-    "@angular/cli": "^15.2.11",
-    "@angular/compiler": "^15.2.10",
-    "@angular/compiler-cli": "^15.2.10",
-    "@angular/language-service": "^15.2.10",
+    "@angular-devkit/build-angular": "^18.2.20",
+    "@angular/cli": "^18.2.20",
+    "@angular/compiler": "^18.2.13",
+    "@angular/compiler-cli": "^18.2.13",
+    "@angular/language-service": "^18.2.13",
     "@capacitor/cli": "^6.0.0",
     "@ionic/angular-toolkit": "^6.1.0",
     "@types/jasmine": "~3.6.0",
