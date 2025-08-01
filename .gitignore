@@ -39,3 +39,6 @@ cypress/videos
 openweatherkey
 ios 
 android
+serviceAccountKey.json
+fetchJournalEntries.js
+stats.json
