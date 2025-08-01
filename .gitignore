@@ -42,3 +42,4 @@ android
 serviceAccountKey.json
 fetchJournalEntries.js
 stats.json
+report.html
