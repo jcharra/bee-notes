@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { GroupActionBarComponent } from "./group-action-bar/group-action-bar.component";
 import { GroupHeaderComponent } from "./group-header-component/group-header.component";
 import { JournalEntryShortComponent } from "./journal-entry-short/journal-entry-short.component";
@@ -27,7 +27,7 @@ import { ReminderItemComponent } from "./reminder-item/reminder-item.component";
     StatusIndicatorComponent,
     ReminderItemComponent,
   ],
-  imports: [CommonModule, TranslateModule, RouterModule],
+  imports: [CommonModule, TranslatePipe, RouterModule],
   exports: [
     JournalEntryShortComponent,
     GroupHeaderComponent,

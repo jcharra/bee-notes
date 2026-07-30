@@ -11,10 +11,10 @@ interface Language {
 }
 
 @Component({
-    selector: "app-settings",
-    templateUrl: "./settings.page.html",
-    styleUrls: ["./settings.page.scss"],
-    standalone: false
+  selector: "app-settings",
+  templateUrl: "./settings.page.html",
+  styleUrls: ["./settings.page.scss"],
+  standalone: false,
 })
 export class SettingsPage implements OnInit {
   languages: Language[] = [
@@ -34,13 +34,13 @@ export class SettingsPage implements OnInit {
     private storage: Storage,
     private purchaseService: PurchaseService,
     private ref: ChangeDetectorRef,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
   ) {}
 
   ngOnInit() {
     let activeLanguage: Language;
     for (let lang of this.languages) {
-      if (lang.langCode === this.translate.currentLang) {
+      if (lang.langCode === this.translate.currentLang()) {
         activeLanguage = lang;
       }
     }

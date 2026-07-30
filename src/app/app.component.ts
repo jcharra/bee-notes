@@ -7,10 +7,10 @@ import { StorageService } from "./services/storage.service";
 import { SplashScreen } from "@capacitor/splash-screen";
 
 @Component({
-    selector: "app-root",
-    templateUrl: "app.component.html",
-    styleUrls: ["app.component.scss"],
-    standalone: false
+  selector: "app-root",
+  templateUrl: "app.component.html",
+  styleUrls: ["app.component.scss"],
+  standalone: false,
 })
 export class AppComponent {
   constructor(
@@ -19,7 +19,7 @@ export class AppComponent {
     private router: Router,
     private menu: MenuController,
     private translate: TranslateService,
-    private storageService: StorageService
+    private storageService: StorageService,
   ) {
     this.initializeApp();
   }
@@ -31,7 +31,7 @@ export class AppComponent {
 
     setTimeout(() => {
       this.storageService.get("language").then((lang) => {
-        this.translate.setDefaultLang(lang || "de");
+        this.translate.setFallbackLang(lang || "de");
         this.translate.use(lang || "de");
       });
     }, 200);

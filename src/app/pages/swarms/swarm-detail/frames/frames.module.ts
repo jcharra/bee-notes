@@ -7,16 +7,10 @@ import { IonicModule } from "@ionic/angular";
 import { FramesPageRoutingModule } from "./frames-routing.module";
 
 import { FramesPage } from "./frames.page";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    FramesPageRoutingModule,
-    TranslateModule,
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, FramesPageRoutingModule, TranslatePipe],
   declarations: [FramesPage],
 })
 export class FramesPageModule {}

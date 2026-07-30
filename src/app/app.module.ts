@@ -1,5 +1,5 @@
 import { registerLocaleData } from "@angular/common";
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import localeDe from "@angular/common/locales/de";
 import localeEn from "@angular/common/locales/en";
 import localeFr from "@angular/common/locales/fr";
@@ -22,15 +22,11 @@ import { InAppPurchase2 } from "@awesome-cordova-plugins/in-app-purchase-2/ngx";
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
 import { Drivers } from "@ionic/storage";
 import { IonicStorageModule } from "@ionic/storage-angular";
-import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { provideTranslateService, TranslatePipe } from "@ngx-translate/core";
+import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
-}
 
 registerLocaleData(localeDe);
 registerLocaleData(localeEn);
@@ -46,13 +42,7 @@ registerLocaleData(localeFr);
       driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
     }),
     AppRoutingModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
+    TranslatePipe,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
     }),
@@ -62,6 +52,9 @@ registerLocaleData(localeFr);
     Geolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideHttpClient(withInterceptorsFromDi()),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({ prefix: "./assets/i18n/", suffix: ".json" }),
+    }),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideDatabase(() => getDatabase(getApp())),
     provideAuth(() => {

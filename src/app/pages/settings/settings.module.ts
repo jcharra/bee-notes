@@ -7,17 +7,10 @@ import { IonicModule } from "@ionic/angular";
 import { SettingsPageRoutingModule } from "./settings-routing.module";
 
 import { SettingsPage } from "./settings.page";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    SettingsPageRoutingModule,
-    TranslateModule,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, SettingsPageRoutingModule, TranslatePipe],
   declarations: [SettingsPage],
 })
 export class SettingsPageModule {}

@@ -7,16 +7,10 @@ import { IonicModule } from "@ionic/angular";
 import { ExcoloniesPageRoutingModule } from "./excolonies-routing.module";
 
 import { ExcoloniesPage } from "./excolonies.page";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ExcoloniesPageRoutingModule,
-    TranslateModule,
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, ExcoloniesPageRoutingModule, TranslatePipe],
   declarations: [ExcoloniesPage],
 })
 export class ExcoloniesPageModule {}

@@ -1,4 +1,4 @@
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -16,7 +16,7 @@ import { JournalEditEntryPage } from "./journal-edit-entry.page";
     IonicModule,
     JournalEditEntryPageRoutingModule,
     ReactiveFormsModule,
-    TranslateModule,
+    TranslatePipe,
   ],
   declarations: [JournalEditEntryPage],
 })

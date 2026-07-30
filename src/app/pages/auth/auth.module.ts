@@ -7,16 +7,10 @@ import { IonicModule } from "@ionic/angular";
 import { AuthPageRoutingModule } from "./auth-routing.module";
 
 import { AuthPage } from "./auth.page";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    IonicModule,
-    AuthPageRoutingModule,
-    TranslateModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, IonicModule, AuthPageRoutingModule, TranslatePipe],
   declarations: [AuthPage],
 })
 export class AuthPageModule {}

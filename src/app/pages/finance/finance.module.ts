@@ -7,16 +7,10 @@ import { IonicModule } from "@ionic/angular";
 import { FinancePageRoutingModule } from "./finance-routing.module";
 
 import { FinancePage } from "./finance.page";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    FinancePageRoutingModule,
-    TranslateModule,
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, FinancePageRoutingModule, TranslatePipe],
   declarations: [FinancePage],
 })
 export class FinancePageModule {}

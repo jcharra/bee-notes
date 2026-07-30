@@ -7,7 +7,7 @@ import { IonicModule } from "@ionic/angular";
 import { SwarmEditPageRoutingModule } from "./swarm-edit-routing.module";
 
 import { SwarmEditPage } from "./swarm-edit.page";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
@@ -16,7 +16,7 @@ import { SharedModule } from "src/app/shared/shared.module";
     FormsModule,
     IonicModule,
     SwarmEditPageRoutingModule,
-    TranslateModule,
+    TranslatePipe,
     ReactiveFormsModule,
     SharedModule,
   ],
