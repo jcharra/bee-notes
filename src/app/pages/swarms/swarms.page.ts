@@ -125,7 +125,7 @@ export class SwarmsPage {
     return this.reminderService.getReminders().pipe(
       first(),
       tap((rs: Reminder[]) => {
-        for (let group of this.sortedSwarmGroups) {
+        for (const group of this.sortedSwarmGroups) {
           const rems = rs.filter((r) => r.groupId === group.id);
           rems.sort((r1, r2) => (r1.date < r2.date ? -1 : 1));
           group.reminders = rems;
@@ -135,8 +135,8 @@ export class SwarmsPage {
   }
 
   private loadJournalEntries(): Observable<unknown> {
-    let journalUpdates = [];
-    for (let group of this.sortedSwarmGroups) {
+    const journalUpdates = [];
+    for (const group of this.sortedSwarmGroups) {
       group.swarms.forEach((sw: Swarm) => {
         journalUpdates.push(
           this.journalService.getDigest(sw.id).pipe(
@@ -161,15 +161,15 @@ export class SwarmsPage {
   groupSwarms(swarms: Swarm[]): Observable<UISwarmGroup[]> {
     return this.swarmGroupService.getGroups().pipe(
       map((groups: SwarmGroup[]) => {
-        let swarmsById = new Map<string, Swarm>();
+        const swarmsById = new Map<string, Swarm>();
         swarms.forEach((s) => {
           swarmsById.set(s.id, s);
         });
 
-        let displayGroups: UISwarmGroup[] = [];
+        const displayGroups: UISwarmGroup[] = [];
 
         groups.forEach((g) => {
-          let displayGroup: UISwarmGroup = {
+          const displayGroup: UISwarmGroup = {
             id: g.id,
             name: g.name,
             swarms: [],
@@ -323,7 +323,7 @@ export class SwarmsPage {
 
   private _getNumberOfSwarms() {
     let num = 0;
-    for (let group of this.sortedSwarmGroups) {
+    for (const group of this.sortedSwarmGroups) {
       num += group.swarms.length;
     }
     return num;

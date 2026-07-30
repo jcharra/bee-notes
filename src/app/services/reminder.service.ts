@@ -43,7 +43,7 @@ export class ReminderService {
               }).pipe(
                 first(),
                 map((rs: any[]) => {
-                  let reminders: Reminder[] = [];
+                  const reminders: Reminder[] = [];
 
                   for (let i = 0; i < rs.length; i++) {
                     const item: any = rs[i];

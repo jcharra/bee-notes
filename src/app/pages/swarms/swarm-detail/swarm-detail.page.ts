@@ -159,7 +159,7 @@ export class SwarmDetailPage implements OnDestroy {
 
   moveToGroup(groups: SwarmGroup[], targetId: string) {
     let fromGroup, toGroup;
-    for (let group of groups) {
+    for (const group of groups) {
       if (group.swarmIds && group.swarmIds.indexOf(this.swarmId) > -1) {
         fromGroup = group;
       }

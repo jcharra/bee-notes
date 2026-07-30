@@ -144,7 +144,7 @@ export class SwarmGroupService {
   }
 
   private _entryFromFbValue(data: any) {
-    let entry: SwarmGroup = {
+    const entry: SwarmGroup = {
       ...data,
     };
 

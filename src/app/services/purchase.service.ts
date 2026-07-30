@@ -66,7 +66,7 @@ export class PurchaseService {
         p.finish();
       });
 
-    this.store.when(FULL_VERSION).owned((p: IAPProduct) => {
+    this.store.when(FULL_VERSION).owned(() => {
       this.hasFullVersion = true;
     });
   }

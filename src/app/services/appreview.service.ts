@@ -30,7 +30,7 @@ export class AppreviewService {
     } else {
       // The user has never been asked for a review => determine how long ago
       // the creation of the first colony has been
-      let createdDates = swarms.map((s) => s.created).filter(validDate);
+      const createdDates = swarms.map((s) => s.created).filter(validDate);
 
       if (createdDates.length === 0) {
         return;

@@ -174,7 +174,9 @@ export class SwarmService {
         let date = null;
         try {
           date = new Date(s.created).toISOString();
-        } catch {}
+        } catch {
+          // invalid date, keep null
+        }
 
         return { ...s, created: date };
       })

@@ -52,11 +52,11 @@ export class StatusIndicatorComponent implements OnInit {
 
   private _determineVarroaInfo(entries: JournalEntry[]): VarroaInfo {
     let varroaEnd;
-    for (let entry of entries) {
+    for (const entry of entries) {
       if (entry.type === EntryType.VARROA_CHECK_END) {
         varroaEnd = entry;
       } else if (entry.type === EntryType.VARROA_CHECK_START && varroaEnd) {
-        let varroaAvg = varroaEnd.amount
+        const varroaAvg = varroaEnd.amount
           ? +varroaEnd.amount / ((differenceInHours(varroaEnd.date, new Date(entry.date)) || 1) / 24)
           : 0;
         return {
@@ -68,11 +68,11 @@ export class StatusIndicatorComponent implements OnInit {
     return { average: 0, status: VarroaStatus.OK };
   }
 
-  private _determineQueenHealth(entries: JournalEntry[]): QueenHealth {
+  private _determineQueenHealth(_entries: JournalEntry[]): QueenHealth {
     return QueenHealth.EXCELLENT;
   }
 
-  private _determineAggression(entries: JournalEntry[]): ColonyAggression {
+  private _determineAggression(_entries: JournalEntry[]): ColonyAggression {
     return ColonyAggression.SUPER_AGGRESSIVE;
   }
 

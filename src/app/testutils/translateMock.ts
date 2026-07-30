@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 export class TranslateServiceMock {
-  setDefaultLang: (name: string) => {};
+  setDefaultLang: (name: string) => void;
 }
 
 @Pipe({

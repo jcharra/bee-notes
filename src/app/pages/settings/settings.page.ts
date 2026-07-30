@@ -39,7 +39,7 @@ export class SettingsPage implements OnInit {
 
   ngOnInit() {
     let activeLanguage: Language;
-    for (let lang of this.languages) {
+    for (const lang of this.languages) {
       if (lang.langCode === this.translate.currentLang()) {
         activeLanguage = lang;
       }

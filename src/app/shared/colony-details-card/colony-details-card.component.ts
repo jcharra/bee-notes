@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { getYear } from "date-fns";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import {

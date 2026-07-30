@@ -160,7 +160,7 @@ export class JournalService {
 
   private clearCacheForColony(colonyId: string) {
     const deletable = [];
-    for (let k of this.entryCacheForColony.keys()) {
+    for (const k of this.entryCacheForColony.keys()) {
       if (k.startsWith(colonyId)) {
         deletable.push(k);
       }

@@ -10,7 +10,7 @@ import { JournalEntry } from "../types/JournalEntry";
 export class StatusService {
   getColonyStatus(entries: JournalEntry[]): ColonyStatusInfo {
     let varroaEnd;
-    for (let entry of entries) {
+    for (const entry of entries) {
       if (entry.type === EntryType.VARROA_CHECK_END) {
         varroaEnd = entry;
       } else if (entry.type === EntryType.VARROA_CHECK_START && varroaEnd) {
