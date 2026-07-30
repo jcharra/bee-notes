@@ -11,9 +11,10 @@ import { JournalEntry } from "src/app/types/JournalEntry";
 import { Swarm } from "src/app/types/Swarm";
 
 @Component({
-  selector: "app-swarm-journal",
-  templateUrl: "./swarm-journal.page.html",
-  styleUrls: ["./swarm-journal.page.scss"],
+    selector: "app-swarm-journal",
+    templateUrl: "./swarm-journal.page.html",
+    styleUrls: ["./swarm-journal.page.scss"],
+    standalone: false
 })
 export class SwarmJournalPage implements OnInit {
   journalEntries: JournalEntry[];

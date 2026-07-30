@@ -4,9 +4,10 @@ import { TranslateService } from "@ngx-translate/core";
 import { Reminder, ReminderService } from "src/app/services/reminder.service";
 
 @Component({
-  selector: "app-reminder-item",
-  templateUrl: "./reminder-item.component.html",
-  styleUrls: ["./reminder-item.component.scss"],
+    selector: "app-reminder-item",
+    templateUrl: "./reminder-item.component.html",
+    styleUrls: ["./reminder-item.component.scss"],
+    standalone: false
 })
 export class ReminderItemComponent implements OnInit {
   @Input() reminder: Reminder;

@@ -10,9 +10,10 @@ import { SwarmService } from "src/app/services/swarm.service";
 import { Swarm } from "src/app/types/Swarm";
 
 @Component({
-  selector: "app-reminder",
-  templateUrl: "./reminder.page.html",
-  styleUrls: ["./reminder.page.scss"],
+    selector: "app-reminder",
+    templateUrl: "./reminder.page.html",
+    styleUrls: ["./reminder.page.scss"],
+    standalone: false
 })
 export class ReminderPage {
   swarmId: string;

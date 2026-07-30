@@ -19,9 +19,10 @@ enum AmountKey {
 const DAY_OF_YEAR = "yyyy-MM-dd";
 
 @Component({
-  selector: "app-frames",
-  templateUrl: "./frames.page.html",
-  styleUrls: ["./frames.page.scss"],
+    selector: "app-frames",
+    templateUrl: "./frames.page.html",
+    styleUrls: ["./frames.page.scss"],
+    standalone: false
 })
 export class FramesPage implements OnInit {
   colonyId: string;

@@ -9,9 +9,10 @@ import { actionsForType, EntryType } from "src/app/types/EntryType";
 import { JournalEntry } from "src/app/types/JournalEntry";
 
 @Component({
-  selector: "app-journal-edit-entry",
-  templateUrl: "./journal-edit-entry.page.html",
-  styleUrls: ["./journal-edit-entry.page.scss"],
+    selector: "app-journal-edit-entry",
+    templateUrl: "./journal-edit-entry.page.html",
+    styleUrls: ["./journal-edit-entry.page.scss"],
+    standalone: false
 })
 export class JournalEditEntryPage implements OnInit, AfterViewInit {
   swarmId: string;

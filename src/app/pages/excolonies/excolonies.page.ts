@@ -8,9 +8,10 @@ import { Swarm } from "src/app/types/Swarm";
 import { SwarmService } from "../../services/swarm.service";
 
 @Component({
-  selector: "app-excolonies",
-  templateUrl: "./excolonies.page.html",
-  styleUrls: ["./excolonies.page.scss"],
+    selector: "app-excolonies",
+    templateUrl: "./excolonies.page.html",
+    styleUrls: ["./excolonies.page.scss"],
+    standalone: false
 })
 export class ExcoloniesPage {
   colonies: Swarm[];

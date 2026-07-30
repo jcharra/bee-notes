@@ -7,9 +7,10 @@ import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "./auth.service";
 
 @Component({
-  selector: "app-auth",
-  templateUrl: "./auth.page.html",
-  styleUrls: ["./auth.page.scss"],
+    selector: "app-auth",
+    templateUrl: "./auth.page.html",
+    styleUrls: ["./auth.page.scss"],
+    standalone: false
 })
 export class AuthPage implements OnInit {
   isSignup = false;

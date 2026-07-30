@@ -14,9 +14,10 @@ import { Swarm } from "../../../types/Swarm";
 const JOURNAL_PLACEHOLDER = Array(3).fill({ text: "", date: new Date() });
 
 @Component({
-  selector: "app-swarm-detail",
-  templateUrl: "./swarm-detail.page.html",
-  styleUrls: ["./swarm-detail.page.scss"],
+    selector: "app-swarm-detail",
+    templateUrl: "./swarm-detail.page.html",
+    styleUrls: ["./swarm-detail.page.scss"],
+    standalone: false
 })
 export class SwarmDetailPage implements OnDestroy {
   swarmId: string;

@@ -4,9 +4,10 @@ import { AnimationService } from "src/app/services/animation.service";
 import { Forecast, WeatherService, WeatherType } from "src/app/services/weather.service";
 
 @Component({
-  selector: "app-weather-forecast",
-  templateUrl: "./weather-forecast.component.html",
-  styleUrls: ["./weather-forecast.component.scss"],
+    selector: "app-weather-forecast",
+    templateUrl: "./weather-forecast.component.html",
+    styleUrls: ["./weather-forecast.component.scss"],
+    standalone: false
 })
 export class WeatherForecastComponent implements OnInit {
   @Input() lat: number;

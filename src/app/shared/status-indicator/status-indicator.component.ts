@@ -13,9 +13,10 @@ interface VarroaInfo {
 }
 
 @Component({
-  selector: "status-indicator",
-  templateUrl: "./status-indicator.component.html",
-  styleUrls: ["./status-indicator.component.scss"],
+    selector: "status-indicator",
+    templateUrl: "./status-indicator.component.html",
+    styleUrls: ["./status-indicator.component.scss"],
+    standalone: false
 })
 export class StatusIndicatorComponent implements OnInit {
   @Input() colonyId: string;

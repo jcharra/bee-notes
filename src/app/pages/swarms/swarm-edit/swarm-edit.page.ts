@@ -10,9 +10,10 @@ import { SwarmService } from "src/app/services/swarm.service";
 import { Swarm } from "src/app/types/Swarm";
 
 @Component({
-  selector: "app-swarm-edit",
-  templateUrl: "./swarm-edit.page.html",
-  styleUrls: ["./swarm-edit.page.scss"],
+    selector: "app-swarm-edit",
+    templateUrl: "./swarm-edit.page.html",
+    styleUrls: ["./swarm-edit.page.scss"],
+    standalone: false
 })
 export class SwarmEditPage implements OnInit {
   swarmId: string;

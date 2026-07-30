@@ -28,9 +28,10 @@ export interface UISwarmGroup {
 }
 
 @Component({
-  selector: "app-swarms",
-  templateUrl: "./swarms.page.html",
-  styleUrls: ["./swarms.page.scss"],
+    selector: "app-swarms",
+    templateUrl: "./swarms.page.html",
+    styleUrls: ["./swarms.page.scss"],
+    standalone: false
 })
 export class SwarmsPage {
   sortedSwarmGroups: UISwarmGroup[] = null;

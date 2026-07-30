@@ -10,9 +10,10 @@ import { EntryType } from "src/app/types/EntryType";
 import { Swarm } from "src/app/types/Swarm";
 
 @Component({
-  selector: "app-group-action-bar",
-  templateUrl: "./group-action-bar.component.html",
-  styleUrls: ["./group-action-bar.component.scss"],
+    selector: "app-group-action-bar",
+    templateUrl: "./group-action-bar.component.html",
+    styleUrls: ["./group-action-bar.component.scss"],
+    standalone: false
 })
 export class GroupActionBarComponent implements OnInit {
   @Input() group: UISwarmGroup;

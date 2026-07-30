@@ -12,10 +12,10 @@ export enum MiteSize {
 }
 
 @Component({
-  selector: "mite",
-  template:
-    '<ion-img [ngClass]="[color, size]" src="assets/img/mite.png"></ion-img>',
-  styleUrls: ["./mite.component.scss"],
+    selector: "mite",
+    template: '<ion-img [ngClass]="[color, size]" src="assets/img/mite.png"></ion-img>',
+    styleUrls: ["./mite.component.scss"],
+    standalone: false
 })
 export class MiteComponent implements OnInit {
   @Input() color: MiteColor = MiteColor.WHITE;

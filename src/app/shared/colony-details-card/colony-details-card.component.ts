@@ -11,9 +11,10 @@ import {
 import { Swarm } from "src/app/types/Swarm";
 
 @Component({
-  selector: "colony-details-card",
-  templateUrl: "./colony-details-card.component.html",
-  styleUrls: ["./colony-details-card.component.scss"],
+    selector: "colony-details-card",
+    templateUrl: "./colony-details-card.component.html",
+    styleUrls: ["./colony-details-card.component.scss"],
+    standalone: false
 })
 export class ColonyDetailsCardComponent implements OnInit {
   @Input() swarm: Swarm;

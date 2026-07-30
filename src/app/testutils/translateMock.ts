@@ -4,7 +4,10 @@ export class TranslateServiceMock {
   setDefaultLang: (name: string) => {};
 }
 
-@Pipe({name: 'translate'})
+@Pipe({
+    name: 'translate',
+    standalone: false
+})
 export class MockTranslatePipe implements PipeTransform {
     transform(value: string): string {
         return value;

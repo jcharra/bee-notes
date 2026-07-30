@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: "crown",
-  template:
-    '<ion-img class="filterWhite" src="assets/img/crown.png"></ion-img>',
-  styleUrls: ["./crown.component.scss"],
+    selector: "crown",
+    template: '<ion-img class="filterWhite" src="assets/img/crown.png"></ion-img>',
+    styleUrls: ["./crown.component.scss"],
+    standalone: false
 })
 export class CrownComponent implements OnInit {
   constructor() {}

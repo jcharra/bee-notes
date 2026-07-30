@@ -4,9 +4,10 @@ import { CountableForEntryType } from "../../types/Countable";
 import { JournalEntry } from "../../types/JournalEntry";
 
 @Component({
-  selector: "app-journal-entry-short",
-  templateUrl: "./journal-entry-short.component.html",
-  styleUrls: ["./journal-entry-short.component.css"],
+    selector: "app-journal-entry-short",
+    templateUrl: "./journal-entry-short.component.html",
+    styleUrls: ["./journal-entry-short.component.css"],
+    standalone: false
 })
 export class JournalEntryShortComponent implements OnInit {
   @Input() entry: JournalEntry;
