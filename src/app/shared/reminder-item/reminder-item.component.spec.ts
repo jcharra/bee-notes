@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { ReminderItemComponent } from './reminder-item.component';
@@ -7,7 +7,7 @@ describe('ReminderItemComponent', () => {
   let component: ReminderItemComponent;
   let fixture: ComponentFixture<ReminderItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ReminderItemComponent ],
       imports: [IonicModule.forRoot()]

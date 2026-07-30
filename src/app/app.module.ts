@@ -1,5 +1,5 @@
 import { registerLocaleData } from "@angular/common";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import localeDe from "@angular/common/locales/de";
 import localeEn from "@angular/common/locales/en";
 import localeFr from "@angular/common/locales/fr";
@@ -37,24 +37,9 @@ registerLocaleData(localeEn);
 registerLocaleData(localeFr);
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideDatabase(() => getDatabase(getApp())),
-    provideAuth(() => {
-      if (Capacitor.isNativePlatform()) {
-        console.log("NATIVE auth");
-        return initializeAuth(getApp(), {
-          persistence: indexedDBLocalPersistence,
-        });
-      } else {
-        console.log("WEB auth");
-        const auth = getAuth();
-        auth.setPersistence(browserSessionPersistence);
-        return auth;
-      }
-    }),
     BrowserModule,
-    HttpClientModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot({
       name: "__mydb",
@@ -72,7 +57,26 @@ registerLocaleData(localeFr);
       enabled: environment.production,
     }),
   ],
-  providers: [InAppPurchase2, Geolocation, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+  providers: [
+    InAppPurchase2,
+    Geolocation,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideHttpClient(withInterceptorsFromDi()),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideDatabase(() => getDatabase(getApp())),
+    provideAuth(() => {
+      if (Capacitor.isNativePlatform()) {
+        console.log("NATIVE auth");
+        return initializeAuth(getApp(), {
+          persistence: indexedDBLocalPersistence,
+        });
+      } else {
+        console.log("WEB auth");
+        const auth = getAuth();
+        auth.setPersistence(browserSessionPersistence);
+        return auth;
+      }
+    }),
+  ],
 })
 export class AppModule {}

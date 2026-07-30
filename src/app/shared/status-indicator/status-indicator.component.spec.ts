@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { StatusIndicatorComponent } from './status-indicator.component';
@@ -7,7 +7,7 @@ describe('StatusIndicatorComponent', () => {
   let component: StatusIndicatorComponent;
   let fixture: ComponentFixture<StatusIndicatorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ StatusIndicatorComponent ],
       imports: [IonicModule.forRoot()]
