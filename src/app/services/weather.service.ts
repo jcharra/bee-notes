@@ -3,9 +3,7 @@ import { Injectable } from "@angular/core";
 import { isSameDay, startOfDay } from "date-fns";
 import { Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
-
-// insert your own key here to retrieve weather forecast information
-const API_KEY = "MY_OPENWEATHER_API_KEY";
+import { environment } from "src/environments/environment";
 
 export enum WeatherType {
   CLEAR = "Clear",
@@ -57,7 +55,7 @@ export class WeatherService {
 
     return this.http
       .get<Forecast>(
-        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&appid=${API_KEY}&units=metric&exclude=hourly,minutely,alerts`
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&appid=${environment.OPENWEATHER_API_KEY}&units=metric&exclude=hourly,minutely,alerts`
       )
       .pipe(
         map((fc: Forecast) => {

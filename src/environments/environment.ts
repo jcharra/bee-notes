@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  OPENWEATHER_API_KEY: "MY_OPENWEATHER_API_KEY",
   FIREBASE_API_KEY: 'AIzaSyAkR5GQNnOnd2KLkErMUyiMRXrKgYFHLj0',
   firebaseConfig: {
     apiKey: "AIzaSyAkR5GQNnOnd2KLkErMUyiMRXrKgYFHLj0",
