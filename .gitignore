@@ -37,8 +37,6 @@ cypress.env.json
 .angular
 cypress/videos
 openweatherkey
-ios 
-android
 serviceAccountKey.json
 fetchJournalEntries.js
 stats.json
